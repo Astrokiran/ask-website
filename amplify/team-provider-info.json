@@ -1,0 +1,32 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-askwebsite-dev-791eb-authRole",
+      "UnauthRoleArn": "arn:aws:iam::135808951138:role/amplify-askwebsite-dev-791eb-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::135808951138:role/amplify-askwebsite-dev-791eb-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-askwebsite-dev-791eb-deployment",
+      "UnauthRoleName": "amplify-askwebsite-dev-791eb-unauthRole",
+      "StackName": "amplify-askwebsite-dev-791eb",
+      "StackId": "arn:aws:cloudformation:ap-south-1:135808951138:stack/amplify-askwebsite-dev-791eb/bd0dfcc0-f121-11ef-83a8-0204d9ce8353",
+      "AmplifyAppId": "d201absgyue8ft"
+    },
+    "categories": {
+      "function": {
+        "FetchDailyHoroscopes": {
+          "deploymentBucketName": "amplify-askwebsite-dev-791eb-deployment",
+          "s3Key": "amplify-builds/FetchDailyHoroscopes-705134515a7a4c747842-build.zip"
+        }
+      },
+      "storage": {
+        "DailyHoroscope": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d201absgyue8ft",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}

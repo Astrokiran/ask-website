@@ -1,15 +1,45 @@
 {
   "pages": {
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+    "/_not-found/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-79fbc58e33f83781.js",
+      "static/chunks/117-36f2a66fa82c8c63.js",
+      "static/chunks/main-app-004f9ef8dab2af31.js",
+      "static/chunks/app/_not-found/page-52fde0d0e14140d3.js"
     ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-79fbc58e33f83781.js",
+      "static/chunks/117-36f2a66fa82c8c63.js",
+      "static/chunks/main-app-004f9ef8dab2af31.js",
+      "static/css/324820c36e0db78f.css",
+      "static/chunks/app/layout-b41df6701082f822.js"
+    ],
+    "/horoscopes/[zodiac]/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-79fbc58e33f83781.js",
+      "static/chunks/117-36f2a66fa82c8c63.js",
+      "static/chunks/main-app-004f9ef8dab2af31.js",
+      "static/chunks/531-99b947f7662a18d7.js",
+      "static/chunks/155-bfa68eff9785440c.js",
+      "static/chunks/app/horoscopes/[zodiac]/page-ca8cb3ca82d6ff83.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-79fbc58e33f83781.js",
+      "static/chunks/117-36f2a66fa82c8c63.js",
+      "static/chunks/main-app-004f9ef8dab2af31.js",
+      "static/chunks/531-99b947f7662a18d7.js",
+      "static/chunks/app/page-4a9c3b096a78370d.js"
+    ],
+    "/horoscopes/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-79fbc58e33f83781.js",
+      "static/chunks/117-36f2a66fa82c8c63.js",
+      "static/chunks/main-app-004f9ef8dab2af31.js",
+      "static/chunks/531-99b947f7662a18d7.js",
+      "static/chunks/155-bfa68eff9785440c.js",
+      "static/chunks/app/horoscopes/page-07331ba445690518.js"
     ]
   }
 }

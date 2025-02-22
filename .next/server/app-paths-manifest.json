@@ -1,3 +1,8 @@
 {
-  "/page": "app/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/horoscopes/[zodiac]/page": "app/horoscopes/[zodiac]/page.js",
+  "/api/daily-horoscopes/route": "app/api/daily-horoscopes/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/horoscopes/page": "app/horoscopes/page.js"
 }

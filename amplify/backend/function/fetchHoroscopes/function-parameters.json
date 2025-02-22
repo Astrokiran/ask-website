@@ -1,0 +1,14 @@
+{
+  "lambdaLayers": [],
+  "environmentVariables": {
+    "VEDIC_ASTRO_API_URL": "",
+    "VEDIC_ASTRO_API_KEY": "",
+    "DYNAMODB_TABLE_NAME": "horoscopes",
+    "AWS_REGION": "us-east-1"
+  },
+  "permissions": {
+    "storage": {
+      "horoscopesTable": ["create", "read", "update"]
+    }
+  }
+}

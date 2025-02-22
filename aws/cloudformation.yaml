@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for Horoscope System'
+
+Parameters:
+  VedicAstroApiKey:
+    Type: String
+    Description: API key for VedicAstroAPI
+    NoEcho: true
+  VedicAstroApiUrl:
+    Type: String
+    Description: Base URL for VedicAstroAPI
+
+Resources:
+  HoroscopesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: horoscopes
+      AttributeDefinitions:
+        - AttributeName: zodiac
+          AttributeType: S
+        - AttributeName: date
+          AttributeType: S
+      KeySchema:
+        - AttributeName: zodiac
+          KeyType: HASH
+        - AttributeName: date
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+
+  FetchHoroscopesFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: fetchHoroscopes
+      Handler: fetchHoroscopes.handler
+      Role: !GetAtt FetchHoroscopesRole.Arn
+      Code:
+        S3Bucket: !Ref 'AWS::NoValue'
+        S3Key: !Ref 'AWS::NoValue'
+      Runtime: nodejs18.x
+      Timeout: 300
+      MemorySize: 256
+      Environment:
+        Variables:
+          DYNAMODB_TABLE: !Ref HoroscopesTable
+          VEDIC_ASTRO_API_KEY: !Ref VedicAstroApiKey
+          VEDIC_ASTRO_API_URL: !Ref VedicAstroApiUrl
+          AWS_REGION: !Ref AWS::Region
+
+  FetchHoroscopesRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                Resource: !GetAtt HoroscopesTable.Arn
+
+  FetchHoroscopesSchedule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: FetchHoroscopesDaily
+      Description: Triggers fetchHoroscopes Lambda function every day at midnight
+      ScheduleExpression: cron(0 0 * * ? *)
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt FetchHoroscopesFunction.Arn
+          Id: FetchHoroscopesTarget
+
+  FetchHoroscopesPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref FetchHoroscopesFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt FetchHoroscopesSchedule.Arn
+
+Outputs:
+  HoroscopesTableName:
+    Description: Name of the DynamoDB table
+    Value: !Ref HoroscopesTable
+  FetchHoroscopesFunctionArn:
+    Description: ARN of the Lambda function
+    Value: !GetAtt FetchHoroscopesFunction.Arn

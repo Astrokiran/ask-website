@@ -1,0 +1,14 @@
+{
+  "resourceName": "horoscopesTable",
+  "tableName": "horoscopes",
+  "partitionKey": {
+    "fieldName": "zodiac",
+    "fieldType": "number"
+  },
+  "sortKey": {
+    "fieldName": "date",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

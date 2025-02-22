@@ -1,5 +1,6 @@
 import { Sparkles, Moon, Calculator, WalletCardsIcon as Cards, Gem, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const services = [
   {
@@ -45,9 +46,11 @@ export function ServicesSection() {
               <service.icon className="w-10 h-10 text-orange-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
-              <Button variant="link" className="text-orange-500 p-0">
-                Explore →
-              </Button>
+              <Link href={service.title === "Horoscope Reading" ? "/horoscopes" : "#"}>
+                <Button variant="link" className="text-orange-500 p-0">
+                  Explore →
+                </Button>
+              </Link>
             </div>
           ))}
         </div>
@@ -55,4 +58,3 @@ export function ServicesSection() {
     </div>
   )
 }
-

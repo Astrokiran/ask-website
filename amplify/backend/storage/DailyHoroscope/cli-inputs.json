@@ -1,0 +1,14 @@
+{
+  "resourceName": "DailyHoroscope",
+  "tableName": "DailyHoroscope",
+  "partitionKey": {
+    "fieldName": "zodiac",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "date",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

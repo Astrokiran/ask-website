@@ -1,16 +1,24 @@
 import { Button } from "@/components/ui/button"
 import { Star } from "lucide-react"
 
-export function HeroSection() {
+interface HeroSectionProps {
+  title?: string;
+  subtitle?: string;
+}
+
+export function HeroSection({ 
+  title = "Discover Your Cosmic Path",
+  subtitle = "Connect with expert astrologers for personalized guidance and unlock the mysteries of your destiny"
+}: HeroSectionProps) {
   return (
     <div className="min-h-[600px] bg-[#1a1b2e] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 py-12 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left side content */}
           <div className="relative z-20">
-            <h1 className="text-5xl font-bold text-white mb-4">Discover Your Cosmic Path</h1>
+            <h1 className="text-5xl font-bold text-white mb-4">{title}</h1>
             <p className="text-lg text-gray-300 mb-8">
-              Connect with expert astrologers for personalized guidance and unlock the mysteries of your destiny
+              {subtitle}
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-8">
@@ -40,4 +48,3 @@ export function HeroSection() {
     </div>
   )
 }
-
