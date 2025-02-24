@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useHoroscopeStore } from "@/store/horoscope";
 import { zodiacData } from "@/components/horoscope-card";
 import { HoroscopeDetails } from "@/components/horoscope-details";
+import { Newsletter } from "@/components/newsletter";
 
 interface HoroscopeDetails {
   zodiac: string;
@@ -49,6 +50,7 @@ export default function HoroscopeDetailsPage({
           </div>
         </section>
         <HoroscopeDetails zodiac={params.zodiac} />
+        <Newsletter />
       </main>
       <Footer />
     </div>
