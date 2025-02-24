@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { Star } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { Star } from "lucide-react";
+import Link from "next/link";
 
 export function ReportGeneration() {
   return (
@@ -9,10 +10,12 @@ export function ReportGeneration() {
 
       <div className="max-w-7xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-8 items-center relative z-10">
         <div>
-          <h2 className="text-4xl font-bold text-white mb-4">Generate Your Personal Astrology Report</h2>
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Generate Your Personal Astrology Report
+          </h2>
           <p className="text-gray-300 mb-8">
-            Unlock the secrets of your celestial blueprint with our AI-powered astrology report generator. Get detailed
-            insights about your:
+            Unlock the secrets of your celestial blueprint with our AI-powered
+            astrology report generator. Get detailed insights about your:
           </p>
           <ul className="space-y-4 mb-8">
             {[
@@ -28,9 +31,11 @@ export function ReportGeneration() {
               </li>
             ))}
           </ul>
-          <Button className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-6 h-auto">
-            Generate Your Report Now
-          </Button>
+          <Link href="/reports">
+            <Button className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-6 h-auto">
+              Generate Your Report Now
+            </Button>
+          </Link>
         </div>
         <div className="relative h-[400px]">
           <img
@@ -41,6 +46,5 @@ export function ReportGeneration() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

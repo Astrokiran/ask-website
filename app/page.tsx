@@ -15,7 +15,7 @@ export default function Home() {
       <NavBar />
       <main>
         <HeroSection />
-        <StatsSection />
+        {/* <StatsSection /> */}
         <ServicesSection />
         <ReportGeneration />
         <HowItWorks />
@@ -27,4 +27,3 @@ export default function Home() {
     </div>
   )
 }
-

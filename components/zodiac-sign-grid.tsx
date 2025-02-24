@@ -29,7 +29,7 @@ export interface ZodiacSignGridProps {
 export function ZodiacSignGrid( {horoscopes}: ZodiacSignGridProps) {
     console.log('horoscopes', horoscopes)
     return (
-        <section className="container mx-auto px-4 py-20">
+        <section className="container max-w-7xl mx-auto px-4 md:py-20">
         <h2 className="mb-12 text-center text-3xl font-bold">Daily Horoscope by Zodiac Sign</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {horoscopes.map((horoscope) => (

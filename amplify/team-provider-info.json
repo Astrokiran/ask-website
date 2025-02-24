@@ -15,17 +15,19 @@
       "function": {
         "FetchDailyHoroscopes": {
           "deploymentBucketName": "amplify-askwebsite-dev-791eb-deployment",
-          "s3Key": "amplify-builds/FetchDailyHoroscopes-705134515a7a4c747842-build.zip"
+          "s3Key": "amplify-builds/FetchDailyHoroscopes-5561704a5a5548592b62-build.zip"
         }
       },
       "storage": {
-        "DailyHoroscope": {}
+        "DailyHoroscope": {},
+        "Report": {}
       },
       "hosting": {
         "amplifyhosting": {
           "appId": "d201absgyue8ft",
           "type": "manual"
-        }
+        },
+        "S3AndCloudFront": {}
       }
     }
   }

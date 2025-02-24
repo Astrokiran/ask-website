@@ -9,8 +9,9 @@ const API_URL = process.env.VEDIC_ASTRO_API_URL || 'https://api.vedicastroapi.co
 
 exports.handler = async (event) => {
   try {
-    const date = moment().format('DD/MM/YYYY');
+    const date = moment().utcOffset("+05:30").format('DD/MM/YYYY');
     const timestamp = new Date().toISOString();
+    console.log("date", date);
     
     // Fetch and store horoscopes for all 12 zodiac signs
     for (let zodiac = 1; zodiac <= 12; zodiac++) {
@@ -19,30 +20,48 @@ exports.handler = async (event) => {
         date: date,
         show_same: true,
         lang: 'en',
-        split: true,
-        type: 'big'
+        api_key: API_KEY
       };
       
       // Call VedicAstroAPI
-      const response = await axios.get(API_URL, {
-        params,
-        headers: {
-          'x-api-key': API_KEY
-        }
+      let response = await axios.get(API_URL, {
+        params
       });
-      
       // Store prediction in DynamoDB
       const item = {
         zodiac: zodiac.toString(),
         date: date,
-        prediction: response.data.response.prediction,
+        prediction: response.data.response.bot_response,
         timestamp: timestamp
       };
+
+      // Get full prediction
+      params['split'] = true
+      params['big'] = true
+
       
+    response = await axios.get(API_URL, {
+        params
+      });
+
+    item['lucky_color'] = response.data.response.lucky_color;
+    item['lucky_number'] = response.data.response.lucky_number;
+    item['physique'] = response.data.response.bot_response.physique;
+    item['status'] = response.data.response.bot_response.status;
+    item['finances'] = response.data.response.bot_response.finances;
+    item['relationship'] = response.data.response.bot_response.relationship;
+    item['career'] = response.data.response.bot_response.career;
+    item['travel'] = response.data.response.bot_response.travel;
+    item['family'] = response.data.response.bot_response.family;
+    item['friends'] = response.data.response.bot_response.friends;
+    item['health'] = response.data.response.bot_response.health;
+    item['total_score'] =  response.data.response.total_score;
+
       await dynamoDB.put({
         TableName: TABLE_NAME,
         Item: item
       }).promise();
+
       
       // Add a small delay between API calls
       await new Promise(resolve => setTimeout(resolve, 1000));

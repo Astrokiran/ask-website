@@ -8,23 +8,17 @@ import { ZodiacSignGrid } from "@/components/zodiac-sign-grid";
 import { Button } from "@/components/ui/button";
 import { useHoroscopeStore } from "@/store/horoscope";
 
-interface Horoscope {
-  zodiac: string;
-  prediction: string;
-  date: string;
-  timestamp: string;
-}
-
 export default function HoroscopesPage() {
-  // const [horoscopes, setHoroscopes] = useState<Horoscope[]>([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState<string | null>(null);
-  const { horoscopes, loading, error, fetchHoroscopes } = useHoroscopeStore()
+  const { horoscopes, loading, error, fetchHoroscopes, lastFetchDate } = useHoroscopeStore()
 
   useEffect(() => {
-    fetchHoroscopes();
-  }, [fetchHoroscopes]);
+    const today = new Date().toISOString().split('T')[0];
 
+    // Fetch horoscopes only if it's a new day
+    if (lastFetchDate !== today) {
+      fetchHoroscopes();
+    }
+  }, [fetchHoroscopes, lastFetchDate]);
 
   const renderContent = () => {
     if (loading) {
@@ -43,7 +37,7 @@ export default function HoroscopesPage() {
       <main>
         <NavBar />
         <section className="relative py-20 bg-[#1a1b2e]">
-          <div className="container relative z-10 mx-auto px-4">
+          <div className="container relative z-10 max-w-7xl mx-auto px-4 md:py-20">
             <div className="max-w-2xl">
               <h1 className="mb-4 text-5xl font-bold text-white">
                 Daily Horoscope Readings

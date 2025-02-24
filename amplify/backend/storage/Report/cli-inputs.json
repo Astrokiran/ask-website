@@ -1,0 +1,10 @@
+{
+  "resourceName": "Report",
+  "tableName": "Report",
+  "partitionKey": {
+    "fieldName": "phonenumber",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

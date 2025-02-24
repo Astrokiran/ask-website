@@ -1,8 +1,17 @@
 export interface Horoscope {
   zodiac: string;
   prediction: string;
+  luckyNumber: string;
+  luckyColor: string;
+  subCategories: HoroscopeSubcategory[];
   date: string;
   timestamp: string;
+}
+
+interface HoroscopeSubcategory {
+  name: string;
+  prediction: string;
+  score: string;
 }
 
 export const zodiacSigns = [

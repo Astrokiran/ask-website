@@ -29,8 +29,6 @@ export async function GET() {
       parseInt(a.zodiac) - parseInt(b.zodiac)
     ) || [];
 
-    console.log('Horoscopes:', horoscopes);
-
     return NextResponse.json({ horoscopes });
   } catch (error) {
     console.error('Error fetching horoscopes:', error);
