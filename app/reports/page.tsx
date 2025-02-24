@@ -7,24 +7,29 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, ClockIcon, MapPinIcon, MailIcon, UserIcon, PhoneIcon } from "lucide-react";
 import LocationField from "@/components/ui/location-field";
+import { useRouter } from "next/navigation";
+
 
 export default function BirthDetailsForm() {
   const [loading, setLoading] = useState(false);
-  const [report, setReport] = useState(null);
+//   const [report, setReport] = useState(null);
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      dob: "",
-      time: "",
-      place: "",
-    },
+        fullName: "",
+        email: "",
+        phone: "",
+        dob: "",
+        time: "",
+        place: "",
+        lat: "",
+        long: "",
+      },
   });
 
   async function onSubmit(data: any) {
     setLoading(true);
-    setReport(null);
+    // setReport(null);
 
     try {
       const response = await fetch("/api/reports", {
@@ -36,7 +41,9 @@ export default function BirthDetailsForm() {
       if (!response.ok) throw new Error("Failed to fetch report");
 
       const reportData = await response.json();
-      setReport(reportData);
+    //   setReport(reportData);
+
+      router.push(`/reports/${data.phone}`);
     } catch (error) {
       console.error("Error fetching astrology report:", error);
     } finally {
@@ -79,6 +86,24 @@ export default function BirthDetailsForm() {
                   <FormMessage />
                 </FormItem>
               )} />
+
+                <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <PhoneIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                        <Input type="tel" {...field} placeholder="Phone Number" className="pl-10" />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
             </div>
 
             <div>
@@ -118,13 +143,6 @@ export default function BirthDetailsForm() {
             </Button>
           </form>
         </Form>
-
-        {report && (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold">Astrology Report</h3>
-            <pre className="bg-gray-100 p-4 rounded text-sm">{JSON.stringify(report, null, 2)}</pre>
-          </div>
-        )}
       </div>
     </div>
   );

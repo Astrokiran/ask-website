@@ -4,7 +4,16 @@ import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { MapPinIcon } from "lucide-react";
 
-export default function LocationField({ form }) {
+import { Control, UseFormSetValue } from "react-hook-form";
+
+interface LocationFieldProps {
+  form: {
+    control: Control;
+    setValue: UseFormSetValue<any>;
+  };
+}
+
+export default function LocationField({ form }: LocationFieldProps) {
   const [search, setSearch] = useState(""); // Store user input
   const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
 
@@ -18,11 +27,27 @@ export default function LocationField({ form }) {
     );
     const data = await response.json();
 
-    const newOptions = data
-      .filter((loc: any) => loc.display_name) // Ensure valid locations
-      .map((loc: any) => ({ value: loc.display_name, label: loc.display_name }));
+    // const newOptions = data
+    //   .filter((loc: any) => loc.display_name) // Ensure valid locations
+    //   .map((loc: any) => ({ value: loc.display_name, label: loc.display_name }));
+
+    const newOptions = data.map((loc: any) => ({
+        value: loc.display_name,
+        label: loc.display_name,
+        lat: loc.lat,
+        lon: loc.lon,
+      }));
 
     setOptions(newOptions);
+  };
+
+  const handleSelect = (selectedValue: string) => {
+    const selectedOption = options.find((opt) => opt.value === selectedValue);
+    if (selectedOption) {
+      form.setValue("place", selectedOption.value);
+      form.setValue("lat", selectedOption.lat);
+      form.setValue("long", selectedOption.lon);
+    }
   };
 
   return (
@@ -36,7 +61,7 @@ export default function LocationField({ form }) {
             <div className="relative">
               <MapPinIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
 
-              {/* Search Input for Location */}
+              {/* Input Field for Typing */}
               <Input
                 value={search}
                 onChange={(e) => fetchLocations(e.target.value)}
@@ -44,8 +69,8 @@ export default function LocationField({ form }) {
                 className="pl-10 mb-2"
               />
 
-              {/* Select Dropdown for Choosing Location */}
-              <Select onValueChange={(value) => form.setValue("place", value)}>
+              {/* Select Dropdown for Locations */}
+              <Select onValueChange={handleSelect}>
                 <SelectTrigger className="pl-10">
                   {field.value || "Select a location"}
                 </SelectTrigger>
