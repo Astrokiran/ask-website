@@ -1,7 +1,13 @@
 {
-  "/page": "app/page.js",
-  "/reports/page": "app/reports/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/daily-horoscopes/route": "app/api/daily-horoscopes/route.js",
+  "/api/health/route": "app/api/health/route.js",
   "/api/reports/route": "app/api/reports/route.js",
-  "/api/getReport/route": "app/api/getReport/route.js",
-  "/reports/[phonenumber]/page": "app/reports/[phonenumber]/page.js"
+  "/horoscopes/[zodiac]/page": "app/horoscopes/[zodiac]/page.js",
+  "/horoscopes/page": "app/horoscopes/page.js",
+  "/reports/[phonenumber]/page": "app/reports/[phonenumber]/page.js",
+  "/reports/page": "app/reports/page.js",
+  "/page": "app/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/getReport/route": "app/api/getReport/route.js"
 }
