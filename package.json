@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.5.1",
+    "@aws-amplify/api": "^6.3.1",
+    "@aws-amplify/auth": "^6.11.1",
     "@aws-sdk/client-dynamodb": "^3.751.0",
     "@aws-sdk/lib-dynamodb": "^3.751.0",
     "@hookform/resolvers": "^3.9.1",
@@ -40,6 +42,7 @@
     "@radix-ui/react-toggle": "^1.1.1",
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
+    "@sls-next/serverless-component": "^3.7.0",
     "@types/node-fetch": "^2.6.12",
     "autoprefixer": "^10.4.20",
     "aws-amplify": "^6.13.1",

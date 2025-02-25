@@ -27,7 +27,6 @@ export interface ZodiacSignGridProps {
 }
 
 export function ZodiacSignGrid( {horoscopes}: ZodiacSignGridProps) {
-    console.log('horoscopes', horoscopes)
     return (
         <section className="container max-w-7xl mx-auto px-4 md:py-20">
         <h2 className="mb-12 text-center text-3xl font-bold">Daily Horoscope by Zodiac Sign</h2>

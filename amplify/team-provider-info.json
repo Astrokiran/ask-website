@@ -16,6 +16,10 @@
         "FetchDailyHoroscopes": {
           "deploymentBucketName": "amplify-askwebsite-dev-791eb-deployment",
           "s3Key": "amplify-builds/FetchDailyHoroscopes-5561704a5a5548592b62-build.zip"
+        },
+        "FetchDailyHoroscope": {
+          "deploymentBucketName": "amplify-askwebsite-dev-791eb-deployment",
+          "s3Key": "amplify-builds/FetchDailyHoroscope-457239464774366a794c-build.zip"
         }
       },
       "storage": {
@@ -28,6 +32,9 @@
           "type": "manual"
         },
         "S3AndCloudFront": {}
+      },
+      "api": {
+        "DailyHoroscope": {}
       }
     }
   }

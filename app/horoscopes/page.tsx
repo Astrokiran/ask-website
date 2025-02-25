@@ -18,6 +18,7 @@ export default function HoroscopesPage() {
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
 
+
     // Fetch horoscopes only if it's a new day
     if (lastFetchDate !== today) {
       fetchHoroscopes();

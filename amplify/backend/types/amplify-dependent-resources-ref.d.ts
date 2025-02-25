@@ -1,5 +1,19 @@
 export type AmplifyDependentResourcesAttributes = {
+  "api": {
+    "DailyHoroscope": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    }
+  },
   "function": {
+    "FetchDailyHoroscope": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "FetchDailyHoroscopes": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

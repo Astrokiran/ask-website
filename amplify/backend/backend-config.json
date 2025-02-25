@@ -1,5 +1,40 @@
 {
+  "api": {
+    "DailyHoroscope": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "FetchDailyHoroscope"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "function": {
+    "FetchDailyHoroscope": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "DailyHoroscope"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "FetchDailyHoroscopes": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -18,6 +53,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_FetchDailyHoroscope_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchDailyHoroscope"
+        }
+      ]
+    },
+    "AMPLIFY_function_FetchDailyHoroscope_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchDailyHoroscope"
+        }
+      ]
+    },
     "AMPLIFY_function_FetchDailyHoroscopes_deploymentBucketName": {
       "usedBy": [
         {

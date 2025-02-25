@@ -27,7 +27,6 @@ export function HoroscopeDetails({zodiac}: {zodiac: string}) {
     const [horoscope, setHoroscope] = useState<Horoscope | null>(null)
 
     useEffect(() => {
-        console.log('zodiac', zodiac)
         const horoscope = getHoroscopeByZodiac(zodiac)
         if (horoscope) {
             setHoroscope(horoscope)

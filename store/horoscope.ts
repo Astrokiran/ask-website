@@ -43,6 +43,8 @@ const subCategories = [
   'total_score'
 ]
 
+const horoscopeAPI = "https://0u42e1jt5d.execute-api.ap-south-1.amazonaws.com/dev"
+
 export const useHoroscopeStore = create<HoroscopeState>((set, get) => ({
   horoscopes: [],
   loading: false,
@@ -59,14 +61,14 @@ export const useHoroscopeStore = create<HoroscopeState>((set, get) => ({
       }
 
       set({ loading: true, error: null })
-      const response = await fetch(`/api/daily-horoscopes`)
+      const response = await fetch(horoscopeAPI +`/daily-horoscope`)
       if (!response.ok) {
         throw new Error('Failed to fetch horoscopes')
       }
       const data = await response.json()
 
       const horoscopes:Horoscope[] = []
-      for (const rawHoroscope of data.horoscopes) {
+      for (const rawHoroscope of data) {
         const horoscope:Horoscope = {
           zodiac: rawHoroscope.zodiac,
           prediction: rawHoroscope.prediction,
