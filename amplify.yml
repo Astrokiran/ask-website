@@ -12,11 +12,6 @@ applications:
         baseDirectory: .next/standalone
         files:
           - '**/*'
-          - '../static/**/*'
-          - '../public/**/*'
-          - '../server.js'
-          - '../.next/server/**/*'
-          - '../.next/required-server-files.json'
       cache:
         paths:
           - node_modules/**/*
