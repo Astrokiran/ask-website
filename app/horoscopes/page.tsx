@@ -11,6 +11,10 @@ import { useHoroscopeStore } from "@/store/horoscope";
 export default function HoroscopesPage() {
   const { horoscopes, loading, error, fetchHoroscopes, lastFetchDate } = useHoroscopeStore()
 
+  const whatsappNumber = "+919353703571"; // Replace with your actual WhatsApp number
+  const message = "Hello, I would like to get an astrology consultation.";
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
 
@@ -50,9 +54,19 @@ export default function HoroscopesPage() {
                 guidance. Astrology helps us understand ourselves better and
                 navigate life's challenges with cosmic insight and wisdom.
               </p>
-              <Button className="bg-[#FF7B51] hover:bg-[#ff6b3c]">
-                Get Your Reading
-              </Button>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-8">
+                <Button
+                  className="bg-[#25D366] hover:bg-[#22c35e] text-white font-semibold px-8 py-6 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-200 text-xl"
+                  onClick={() => window.open(whatsappLink, '_blank')}
+                >
+                  Connect on Whatsapp
+                  <img
+                    src="/social.png"
+                    alt="WhatsApp"
+                    className="w-10 h-10"
+                  />
+                </Button>
+              </div>
             </div>
           </div>
         </section>
