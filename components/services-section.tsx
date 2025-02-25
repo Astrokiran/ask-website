@@ -7,32 +7,38 @@ const services = [
     title: "Horoscope Reading",
     description: "Daily, weekly & monthly predictions",
     icon: Moon,
+    href: "/horoscopes",
   },
   {
     title: "Kundli Analysis",
     description: "Detailed birth chart analysis",
     icon: Sparkles,
+    href: "/kundali"
   },
   {
     title: "Numerology",
     description: "Numbers & their influence",
     icon: Calculator,
+    href: "#"
   },
-  {
-    title: "Tarot Reading",
-    description: "Cards reveal your path",
-    icon: Cards,
-  },
-  {
-    title: "Gemstone Consultation",
-    description: "Find your lucky stone",
-    icon: Gem,
-  },
-  {
-    title: "Vastu Shastra",
-    description: "Harmonize your space",
-    icon: Home,
-  },
+  // {
+  //   title: "Tarot Reading",
+  //   description: "Cards reveal your path",
+  //   icon: Cards,
+  //   href: "#"
+  // },
+  // {
+  //   title: "Gemstone Consultation",
+  //   description: "Find your lucky stone",
+  //   icon: Gem,
+  //   href: "#"
+  // },
+  // {
+  //   title: "Vastu Shastra",
+  //   description: "Harmonize your space",
+  //   icon: Home,
+  //   href: "#"
+  // },
 ]
 
 export function ServicesSection() {
@@ -46,7 +52,7 @@ export function ServicesSection() {
               <service.icon className="w-10 h-10 text-orange-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
-              <Link href={service.title === "Horoscope Reading" ? "/horoscopes" : "#"}>
+              <Link href={service.href}>
                 <Button variant="link" className="text-orange-500 p-0">
                   Explore →
                 </Button>

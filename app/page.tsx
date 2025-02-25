@@ -17,7 +17,7 @@ export default function Home() {
         <HeroSection />
         {/* <StatsSection /> */}
         <ServicesSection />
-        <ReportGeneration />
+        {/* <ReportGeneration /> */}
         <HowItWorks />
         <FeaturedAstrologers />
         <Testimonials />

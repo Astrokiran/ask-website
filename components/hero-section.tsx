@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
+import { motion } from "framer-motion";
 
 interface HeroSectionProps {
   title?: string;
@@ -42,8 +43,8 @@ export function HeroSection({
   };
 
   return (
-    <div className="min-h-[600px] bg-[#1a1b2e] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 py-12 md:py-20">
+    <div className="min-h-[500px] bg-[#1a1b2e] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 py-10 md:py-15">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left side content */}
           <div className="relative z-20">
@@ -68,12 +69,16 @@ export function HeroSection({
           </div>
 
           {/* Right side carousel */}
-          <div className="relative h-[400px] md:h-[600px]">
+          <div className="relative h-[400px] md:h-[500px]">
             <div className="relative h-full w-full">
-              <img
+              <motion.img
+                key={currentImageIndex}
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 src={images[currentImageIndex]}
                 alt={`Slide ${currentImageIndex + 1}`}
-                className="h-full w-full object-cover object-center rounded-lg shadow-lg transition-opacity duration-500"
+                className="h-full w-full object-cover object-center rounded-lg shadow-lg"
               />
               <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#1a1b2e]/20 to-[#1a1b2e]/40 rounded-lg" />
 
@@ -92,7 +97,7 @@ export function HeroSection({
               </button> */}
 
               {/* Dots indicator */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+              {/* <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                 {images.map((_, index) => (
                   <button
                     key={index}
@@ -101,7 +106,7 @@ export function HeroSection({
                       }`}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

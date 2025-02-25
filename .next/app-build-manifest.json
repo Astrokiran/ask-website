@@ -1,67 +1,30 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-1b400f1de436fe28.js",
-      "static/chunks/fd9d1056-91aa9495991b9c80.js",
-      "static/chunks/117-40dc59db4e69dc82.js",
-      "static/chunks/main-app-004f9ef8dab2af31.js",
-      "static/chunks/app/_not-found/page-1094121d36a0541e.js"
+    "/kundali/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/kundali/page.js"
     ],
     "/layout": [
-      "static/chunks/webpack-1b400f1de436fe28.js",
-      "static/chunks/fd9d1056-91aa9495991b9c80.js",
-      "static/chunks/117-40dc59db4e69dc82.js",
-      "static/chunks/main-app-004f9ef8dab2af31.js",
-      "static/css/1861a22ef983064c.css",
-      "static/chunks/app/layout-b41df6701082f822.js"
-    ],
-    "/horoscopes/[zodiac]/page": [
-      "static/chunks/webpack-1b400f1de436fe28.js",
-      "static/chunks/fd9d1056-91aa9495991b9c80.js",
-      "static/chunks/117-40dc59db4e69dc82.js",
-      "static/chunks/main-app-004f9ef8dab2af31.js",
-      "static/chunks/569-e2066802b896ff5b.js",
-      "static/chunks/972-e0a124906fc5cdec.js",
-      "static/chunks/291-465252d5c4bd9f66.js",
-      "static/chunks/app/horoscopes/[zodiac]/page-051a98446cc46274.js"
-    ],
-    "/horoscopes/page": [
-      "static/chunks/webpack-1b400f1de436fe28.js",
-      "static/chunks/fd9d1056-91aa9495991b9c80.js",
-      "static/chunks/117-40dc59db4e69dc82.js",
-      "static/chunks/main-app-004f9ef8dab2af31.js",
-      "static/chunks/569-e2066802b896ff5b.js",
-      "static/chunks/972-e0a124906fc5cdec.js",
-      "static/chunks/291-465252d5c4bd9f66.js",
-      "static/chunks/app/horoscopes/page-6fdd80eb9544cf76.js"
-    ],
-    "/reports/[phonenumber]/page": [
-      "static/chunks/webpack-1b400f1de436fe28.js",
-      "static/chunks/fd9d1056-91aa9495991b9c80.js",
-      "static/chunks/117-40dc59db4e69dc82.js",
-      "static/chunks/main-app-004f9ef8dab2af31.js",
-      "static/chunks/569-e2066802b896ff5b.js",
-      "static/chunks/972-e0a124906fc5cdec.js",
-      "static/chunks/754-674d65089d4bf487.js",
-      "static/chunks/app/reports/[phonenumber]/page-b18b95af03021be4.js"
-    ],
-    "/reports/page": [
-      "static/chunks/webpack-1b400f1de436fe28.js",
-      "static/chunks/fd9d1056-91aa9495991b9c80.js",
-      "static/chunks/117-40dc59db4e69dc82.js",
-      "static/chunks/main-app-004f9ef8dab2af31.js",
-      "static/chunks/569-e2066802b896ff5b.js",
-      "static/chunks/406-84e6bd7a61391eb2.js",
-      "static/chunks/app/reports/page-329f30e3ea136322.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
     "/page": [
-      "static/chunks/webpack-1b400f1de436fe28.js",
-      "static/chunks/fd9d1056-91aa9495991b9c80.js",
-      "static/chunks/117-40dc59db4e69dc82.js",
-      "static/chunks/main-app-004f9ef8dab2af31.js",
-      "static/chunks/569-e2066802b896ff5b.js",
-      "static/chunks/972-e0a124906fc5cdec.js",
-      "static/chunks/app/page-eea0b01d6087b113.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/horoscopes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/horoscopes/page.js"
+    ],
+    "/horoscopes/[zodiac]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/horoscopes/[zodiac]/page.js"
     ]
   }
 }

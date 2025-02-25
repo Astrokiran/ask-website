@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="bg-[#1a1b2e] py-12">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-2xl font-bold text-yellow-500">⚛</span>
@@ -58,6 +58,24 @@ export function Footer() {
               <p>123 Spiritual Street, Mumbai</p>
               <p>contact@astrokiran.com</p>
               <p>+91 123 456 7890</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-white mb-4">Corporate Info</h3>
+            <div className="space-y-2">
+              <Link href="/terms" className="block text-sm text-gray-400 hover:text-white">
+                Terms & Conditions
+              </Link>
+              <Link href="/privacy" className="block text-sm text-gray-400 hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link href="/disclaimer" className="block text-sm text-gray-400 hover:text-white">
+                Disclaimer
+              </Link>
+              <Link href="/pricing-policy" className="block text-sm text-gray-400 hover:text-white">
+                Pricing Policy
+              </Link>
             </div>
           </div>
         </div>
