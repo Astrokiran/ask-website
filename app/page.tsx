@@ -11,19 +11,21 @@ import { ReportGeneration } from "@/components/report-generation"
 
 export default function Home() {
   return (
-    <div className="min-h-screen overflow-x-hidden">
-      <NavBar />
-      <main>
-        <HeroSection />
-        <StatsSection />
-        <ServicesSection />
-        {/* <ReportGeneration /> */}
-        <HowItWorks />
-        <FeaturedAstrologers />
-        <Testimonials />
-        {/* <Newsletter /> */}
-      </main>
-      <Footer />
-    </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <div className="min-h-screen overflow-x-hidden">
+        <NavBar />
+        <main>
+          <HeroSection />
+          <StatsSection />
+          <ServicesSection />
+          {/* <ReportGeneration /> */}
+          <HowItWorks />
+          <FeaturedAstrologers />
+          <Testimonials />
+          {/* <Newsletter /> */}
+        </main>
+        <Footer />
+      </div>
+    </meta>
   )
 }
