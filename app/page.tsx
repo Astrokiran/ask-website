@@ -11,7 +11,8 @@ import { ReportGeneration } from "@/components/report-generation"
 
 export default function Home() {
   return (
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <div>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <div className="min-h-screen overflow-x-hidden">
         <NavBar />
         <main>
@@ -26,6 +27,6 @@ export default function Home() {
         </main>
         <Footer />
       </div>
-    </meta>
+    </div>
   )
 }
