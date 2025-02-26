@@ -9,7 +9,7 @@ const testimonials = Array(3).fill({
 
 export function Testimonials() {
   return (
-    <div className="py-20 bg-[#1a1b2e]">
+    <div className="py-20 bg-[#1a1b2e]" id="testimonials">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-white mb-12">What Our Clients Say</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

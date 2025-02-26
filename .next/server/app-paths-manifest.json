@@ -1,6 +1,5 @@
 {
   "/page": "app/page.js",
-  "/horoscopes/[zodiac]/page": "app/horoscopes/[zodiac]/page.js",
-  "/horoscopes/page": "app/horoscopes/page.js",
-  "/kundali/page": "app/kundali/page.js"
+  "/pricing-policy/page": "app/pricing-policy/page.js",
+  "/pricing/page": "app/pricing/page.js"
 }
