@@ -74,25 +74,24 @@ export function FeaturedAstrologers() {
   }
 
   return (
-    <div className="py-20 bg-gray-50" id="astrologers">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="w-full bg-gray-50" id="astrologers">
+      <div className="py-10 md:py-20 max-w-7xl mx-auto px-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Astrologers</h2>
 
-        <h2 className="text-3xl font-bold text-center mb-12">Astrologers</h2>
-
-        <div className="flex gap-8">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {/* Main Featured Astrologer */}
-          <div className="flex-1 bg-white rounded-xl p-8 relative">
-            <div className="flex gap-8">
+          <div className="flex-1 bg-white rounded-xl p-4 md:p-8 relative">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
               {/* Left Content */}
               <div className="flex-1">
                 <div className="mb-4">
-                  <h3 className="text-4xl font-bold text-purple-900">{astrologers[currentIndex].name}</h3>
+                  <h3 className="text-2xl md:text-4xl font-bold text-purple-900">{astrologers[currentIndex].name}</h3>
                   <p className="text-sm bg-purple-100 text-purple-700 inline-block px-3 py-1 rounded-full mt-2">
                     {astrologers[currentIndex].title}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-4 gap-8 mb-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-6">
                   <div>
                     <div className="text-2xl font-bold">{astrologers[currentIndex].stats.matches}</div>
                     <div className="text-sm text-gray-600">MATCHES</div>
@@ -115,18 +114,18 @@ export function FeaturedAstrologers() {
               </div>
 
               {/* Right Image */}
-              <div className="w-96 relative">
+              <div className="w-full md:w-96 relative h-[300px] md:h-auto">
                 <button
                   onClick={handlePrev}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 z-10"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 z-10"
                 >
-                  <ChevronLeft className="w-6 h-6 text-white" />
+                  <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 z-10"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 z-10"
                 >
-                  <ChevronRight className="w-6 h-6 text-white" />
+                  <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </button>
                 <img
                   src={astrologers[currentIndex].image}
@@ -138,22 +137,22 @@ export function FeaturedAstrologers() {
           </div>
 
           {/* Vertical Scroll of Other Astrologers */}
-          <div className="w-72">
-            <div className="space-y-4 max-h-[600px] overflow-y-auto">
+          <div className="w-full md:w-72">
+            <div className="space-y-4 max-h-[400px] md:max-h-[600px] overflow-y-auto">
               {astrologers.map((astrologer, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
-                  className={`w-full text-left flex items-center gap-4 bg-white p-4 rounded-lg transition-all hover:shadow-md ${currentIndex === i ? 'ring-2 ring-yellow-400' : ''
+                  className={`w-full text-left flex items-center gap-4 bg-white p-3 md:p-4 rounded-lg transition-all hover:shadow-md ${currentIndex === i ? 'ring-2 ring-yellow-400' : ''
                     }`}
                 >
-                  <Avatar className="w-16 h-16">
+                  <Avatar className="w-12 h-12 md:w-16 md:h-16">
                     <AvatarImage src={astrologer.image} />
                     <AvatarFallback>PS</AvatarFallback>
                   </Avatar>
                   <div>
-                    <h4 className="font-semibold text-purple-900">{astrologer.name}</h4>
-                    <p className="text-sm text-gray-600">{astrologer.title}</p>
+                    <h4 className="font-semibold text-purple-900 text-sm md:text-base">{astrologer.name}</h4>
+                    <p className="text-xs md:text-sm text-gray-600">{astrologer.title}</p>
                   </div>
                 </button>
               ))}
