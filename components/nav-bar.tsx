@@ -19,9 +19,9 @@ export function NavBar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/#astrologers" className="text-sm hover:text-primary">
+            {/* <Link href="/#astrologers" className="text-sm hover:text-primary">
               Find Astrologers
-            </Link>
+            </Link> */}
             <Link href="/#services" className="text-sm hover:text-primary">
               Services
             </Link>
