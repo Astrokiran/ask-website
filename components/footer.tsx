@@ -20,7 +20,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-white mb-4">Quick Links</h3>
             <div className="space-y-2">
-              <Link href="#" className="block text-sm text-gray-400 hover:text-white">
+              <Link href="/about-us" className="block text-sm text-gray-400 hover:text-white">
                 About Us
               </Link>
               {/* <Link href="/#astrologers" className="block text-sm text-gray-400 hover:text-white">
