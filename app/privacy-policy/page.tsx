@@ -20,7 +20,8 @@ export default function PrivacyPolicyPage() {
             <div>
               <h3 className="text-xl font-semibold mb-2">Information We Collect</h3>
               <p>We may collect the following types of information:</p>
-              <ol type="a">
+              <div>
+              <ol className="p-2 pl-8 space-y-1 list-decimal">
                 <li>Information you provide: When you register on the Platform, you will be required to provide us with your name, location, email address, mobile number, display picture, date of birth, place of birth, time of birth, and other relevant profile information.</li>
                 <li>Transaction details initiated by you: If you initiate a cash transaction in relation to your AstroKiran service or account, we receive and store details pertaining to such transaction, including the payment method used, the amount paid, and the date and time of the transaction.</li>
                 <li>Interaction information: When you interact with our customer support over any medium, such interactions may be recorded and stored.</li>
@@ -29,6 +30,7 @@ export default function PrivacyPolicyPage() {
                 <li>Cookies: We use cookies, small text files that uniquely identify your browser and enable Us to recognize the information you have consented to give us, to store certain types of information each time you visit any page on our Platform. These cookies do not contain any personal information and you may choose what cookies you allow by managing your cookies settings on your browser. This will allow you to delete your browser cookies or disable them entirely, however, if you choose to disable all cookies, it will affect your overall experience with our Platform— it may make parts of our Platform non-functional or inaccessible to you in such cases. Therefore, we recommend that you enable cookies for our Platform. The cookies we collect are mainly used to serve advertising banners to you and in doing so we may use the services of third parties. Such third-party service providers do not know the name, phone number, address, email address, or any personal information about you, and no personal information is collected or used in this process.</li>
                 <li>Web beacons: We use web beacons, images that are part of the web pages, also called pixel tags or clear gifs, in combination with cookies to understand how you interact with our Platform and the content therein. When you disable cookies, web beacons are also likely to become ineffective. You can also add browser extensions to specifically block web beacons.</li>
               </ol>
+              </div>
               <p>Some of the information that we require you to provide on first accessing or registering on the Platform is mandatory and/or essential to the provision of our services to you, and hence if you do not provide such mandatory information, you may not be able to access some of the features of the Platform.It is clarified that in the event you make any payments through the Platform, we will not store any payment or card related information which you may provide in the course of making such payments, such as card number, account number, validity date, expiry date or CVV number.</p>
             </div>
 
@@ -46,11 +48,13 @@ export default function PrivacyPolicyPage() {
             <div>
               <h3 className="text-l font-semibold mb-2">How We Share Your Information</h3>
               <p>We do not share your personal information with any third parties except as follows:</p>
-              <ul>
+              <div>
+              <ul className="list-disc pl-5 p-2">
                 <li>We may share your information with our service providers who help us operate our platform.</li>
                 <li>We may share your information with law enforcement or other government officials if required by law.</li>
                 <li>We may share your information with other users of the platform if you consent to such sharing.</li>
               </ul>
+              </div>
             </div>
 
             <div>

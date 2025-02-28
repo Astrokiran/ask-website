@@ -74,6 +74,9 @@ export function Footer() {
               <Link href="/pricing-policy" className="block text-sm text-gray-400 hover:text-white">
                 Pricing Policy
               </Link>
+              <Link href="/privacy-policy" className="block text-sm text-gray-400 hover:text-white">
+                Privacy Policy
+              </Link>
             </div>
           </div>
         </div>
