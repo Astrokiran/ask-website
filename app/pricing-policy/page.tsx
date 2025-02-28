@@ -6,8 +6,8 @@ import { NavBar } from "@/components/nav-bar";
 export default function PricingPolicyPage() {
   return (
     <div>
-      <NavBar/>
-      
+      <NavBar />
+
       <section className="container mx-auto py-10 px-4">
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Pricing Policy</h2>
         <Card className="max-w-4xl mx-auto p-6 shadow-lg">
@@ -39,7 +39,7 @@ export default function PricingPolicyPage() {
 
             <div>
               <h3 className="text-xl font-semibold mb-2">Terms of Service</h3>
-              <p>Our service is offered for sale by Pixel Forge Tech PVT LTD for your personal needs. We reserve the right to refuse service to any person whom we believe may be misusing the service.</p>
+              <p>Our service is offered for sale by Pixelforge Tech PVT LTD for your personal needs. We reserve the right to refuse service to any person whom we believe may be misusing the service.</p>
               <p className="mt-4">For any support or inquiries, please reach out to us at <strong>support@astrokiran.com</strong>.</p>
             </div>
           </CardContent>

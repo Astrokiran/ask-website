@@ -17,7 +17,7 @@ export default function DisclaimerPage() {
                         </p>
 
                         <p>
-                            Moreover, AstroKiran is a product of Pixel Forge Tech PVT LTD. All transactions and gathered data are accessed and managed by AstroKiran in accordance with our privacy policy and terms of service.
+                            Moreover, AstroKiran is a product of Pixelforge Tech PVT LTD. All transactions and gathered data are accessed and managed by AstroKiran in accordance with our privacy policy and terms of service.
                         </p>
 
                         <p>

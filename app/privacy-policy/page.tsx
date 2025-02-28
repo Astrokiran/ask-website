@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
         <Card className="max-w-4xl mx-auto p-6 shadow-lg">
           <CardContent className="space-y-8">
             <div>
-              <p>Pixel Forge Tech Pvt Ltd (“PFTPL”, or “we” or “our” or “us”) operates the AstroKiran website, whatsapp business and mobile application (together “Platform”), which enables users in India (“Users”, or “you” and its grammatical variations) to access various astrological and related services.This policy (“Privacy Policy”) governs how AstroKiran collects, uses, shares, and protects the personal information disclosed to us by Users in the course of their usage of the Platform, and forms an integral part of the Terms of Service between AstroKiran and you. Accordingly, you are advised to read this Privacy Policy carefully before accessing the Platform.All words used but not defined herein shall have the meaning ascribed to them in the Terms of Service.</p>
+              <p>Pixelforge Tech Pvt Ltd (“PFTPL”, or “we” or “our” or “us”) operates the AstroKiran website, whatsapp business and mobile application (together “Platform”), which enables users in India (“Users”, or “you” and its grammatical variations) to access various astrological and related services.This policy (“Privacy Policy”) governs how AstroKiran collects, uses, shares, and protects the personal information disclosed to us by Users in the course of their usage of the Platform, and forms an integral part of the Terms of Service between AstroKiran and you. Accordingly, you are advised to read this Privacy Policy carefully before accessing the Platform.All words used but not defined herein shall have the meaning ascribed to them in the Terms of Service.</p>
             </div>
 
             <div>

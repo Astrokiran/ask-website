@@ -17,7 +17,7 @@ const TermsPage = () => {
 
                             <CardContent className="text-gray-700 space-y-6">
                                 <p>
-                                    AstroKiran is an online platform offered by Pixel Forge Tech Private Limited (hereinafter referred to as "AstroKiran", "We", "Us", or "Our") that enables users ("You") to use our astrology services over WhatsApp, website, and mobile applications.
+                                    AstroKiran is an online platform offered by Pixelforge Tech Private Limited (hereinafter referred to as "AstroKiran", "We", "Us", or "Our") that enables users ("You") to use our astrology services over WhatsApp, website, and mobile applications.
                                     These Terms of Service for AstroKiran ("Terms"), along with AstroKiran’s Privacy Policy ("Privacy Policy") (together, "Platform Policies"), govern the relationship between You and Us. The Terms and Privacy Policy form a binding legal agreement based on which You may visit, access, or use the AstroKiran product, website, mobile applications, and related services ("Services").
                                     Your use of the Services indicates Your acceptance of the Platform Policies. You are advised to read the Platform Policies carefully before using Our Services. If You do not accept any part of the Platform Policies or any subsequent modifications, You must stop accessing or using Our Services.
                                     We reserve the right to periodically review, update, or otherwise modify any part of the Platform Policies at Our sole discretion. You are advised to keep Yourself updated on the latest versions of the Platform Policies. We will provide You with notice of any material modifications, and Your continued use of the Services after such notification constitutes consent to the modified Platform Policies.
@@ -71,7 +71,7 @@ const TermsPage = () => {
                                 <p>
                                     You agree to pay applicable fees for accessing Our Services. Fees are subject to periodic review and revision. Your network provider may impose additional charges.
                                     All payments must be made in Indian Rupees (INR). Payments via credit/debit cards, net banking, and other methods are processed through third-party payment gateways. We are not responsible for payment delays or denials at their end.
-                                    Pixel Forge Tech Pvt Ltd will issue a GST-compliant invoice, which will be sent to Your WhatsApp number.
+                                    Pixelforge Tech Pvt Ltd will issue a GST-compliant invoice, which will be sent to Your WhatsApp number.
 
                                 </p>
 
