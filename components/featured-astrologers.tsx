@@ -6,61 +6,59 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const astrologers = [{
-  name: "Pandit Sharma",
-  title: "Vedic Astrologer",
+  name: "Dr. Ujjwal Agarwal",
+  title: "Jyotish",
   stats: {
-    matches: "10",
-    consultations: "163",
-    languages: "3",
-    rating: "155.23",
+    Experience: "20+",
+    languages: "Hindi, English",
   },
-  description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  image: "/astrologer-profile.png",
+  description: "Dr. Ujjwal Agarwal is an internationally renowned Vedic & Medical Astrologer; Expert in Vastu, Mantra & Yantra Shastra. He has a vast knowledge in Indian Astrology and Vastu Shastra. With over 20 years of experience practicing Vedic Astrology, his knowledge leads to positive results for each individual. He has knowledge of various fields of astrology such like Horoscope Reading, Muhurat Shastra, Vastu Shastra, Gemstones Recommendations, Remedies through Yantra and Mantra and many more astrology related fields.",
+  image: "/ujjawal-astrologer-bg-rm.png",
 }, {
-  name: "Aditya Pandey",
-  title: "Vedic Astrologer",
+  name: "Sheel Kumar Gupta",
+  title: "Senior Astrologer",
   stats: {
-    matches: "10",
-    consultations: "163",
-    languages: "3",
-    rating: "155.23",
+    Experience: "26+",
+    languages: "Hindi, English",
   },
   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  image: "/astrologer-profile.png",
-}, {
-  name: "Mohit Kumar",
-  title: "Vedic Astrologer",
-  stats: {
-    matches: "10",
-    consultations: "163",
-    languages: "3",
-    rating: "155.23",
-  },
-  description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  image: "/astrologer-profile.png",
-}, {
-  name: "OP Singh",
-  title: "Vedic Astrologer",
-  stats: {
-    matches: "10",
-    consultations: "163",
-    languages: "3",
-    rating: "155.23",
-  },
-  description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  image: "/astrologer-profile.png",
-}, {
-  name: "Abhishek Kumar",
-  title: "Vedic Astrologer",
-  stats: {
-    matches: "10",
-    consultations: "163",
-    languages: "3",
-    rating: "155.23",
-  },
-  description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  image: "/astrologer-profile.png",
-}]
+  image: "/sheel-astrologer.png",
+},
+  // {
+  //   name: "Mohit Kumar",
+  //   title: "Vedic Astrologer",
+  //   stats: {
+  //     matches: "10",
+  //     consultations: "163",
+  //     languages: "3",
+  //     rating: "155.23",
+  //   },
+  //   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
+  //   image: "/astrologer-profile.png",
+  // }, {
+  //   name: "OP Singh",
+  //   title: "Vedic Astrologer",
+  //   stats: {
+  //     matches: "10",
+  //     consultations: "163",
+  //     languages: "3",
+  //     rating: "155.23",
+  //   },
+  //   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
+  //   image: "/astrologer-profile.png",
+  // }, {
+  //   name: "Abhishek Kumar",
+  //   title: "Vedic Astrologer",
+  //   stats: {
+  //     matches: "10",
+  //     consultations: "163",
+  //     languages: "3",
+  //     rating: "155.23",
+  //   },
+  //   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
+  //   image: "/astrologer-profile.png",
+  // }
+]
 
 export function FeaturedAstrologers() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -93,24 +91,24 @@ export function FeaturedAstrologers() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-6">
                   <div>
-                    <div className="text-2xl font-bold">{astrologers[currentIndex].stats.matches}</div>
-                    <div className="text-sm text-gray-600">MATCHES</div>
+                    <div className="text-2xl font-bold">{astrologers[currentIndex].stats.Experience}</div>
+                    <div className="text-sm text-gray-600">Experience</div>
                   </div>
-                  <div>
+                  {/* <div>
                     <div className="text-2xl font-bold">{astrologers[currentIndex].stats.consultations}</div>
                     <div className="text-sm text-gray-600">CONSULTATIONS</div>
-                  </div>
+                  </div> */}
                   <div>
-                    <div className="text-2xl font-bold">{astrologers[currentIndex].stats.languages}</div>
+                    <div className="text-xl font-bold">{astrologers[currentIndex].stats.languages}</div>
                     <div className="text-sm text-gray-600">LANGUAGES</div>
                   </div>
-                  <div>
+                  {/* <div>
                     <div className="text-2xl font-bold">{astrologers[currentIndex].stats.rating}</div>
                     <div className="text-sm text-gray-600">RATING</div>
-                  </div>
+                  </div> */}
                 </div>
 
-                <p className="text-gray-600 mb-6">{astrologers[currentIndex].description}</p>
+                <p className="text-gray-600 mb-6 h-[200px] overflow-y-auto">{astrologers[currentIndex].description}</p>
               </div>
 
               {/* Right Image */}

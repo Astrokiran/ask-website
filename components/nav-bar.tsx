@@ -9,19 +9,19 @@ export function NavBar() {
 
   return (
     <>
-      <div className="fixed top-0 w-full bg-white border-b z-50">
+      <div className="fixed top-0 w-full bg-white border-b z-50 text-xl">
         <nav className="flex items-center justify-between p-4 max-w-7xl mx-auto">
           <Link href="/" >
             <div className="flex items-center gap-2">
-              <img src="/ask-logo.png" alt="AstroKiran Logo" className="w-8 h-8" />
-              <span className="font-semibold">AstroKiran</span>
+              <img src="/ask-logo.png" alt="AstroKiran Logo" className="w-12 h-12" />
+              <span className="font-bold">AstroKiran</span>
             </div>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
-            {/* <Link href="/#astrologers" className="text-sm hover:text-primary">
+          <div className="hidden md:flex items-center gap-8 ">
+            <Link href="/#astrologers" className="text-sm hover:text-primary">
               Find Astrologers
-            </Link> */}
+            </Link>
             <Link href="/#services" className="text-sm hover:text-primary">
               Services
             </Link>

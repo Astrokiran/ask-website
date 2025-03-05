@@ -21,7 +21,7 @@ export default function Home() {
           <ServicesSection />
           {/* <ReportGeneration /> */}
           <HowItWorks />
-          {/* <FeaturedAstrologers /> */}
+          <FeaturedAstrologers />
           {/* <Testimonials /> */}
           {/* <Newsletter /> */}
         </main>

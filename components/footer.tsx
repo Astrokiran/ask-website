@@ -23,9 +23,9 @@ export function Footer() {
               <Link href="/about-us" className="block text-sm text-gray-400 hover:text-white">
                 About Us
               </Link>
-              {/* <Link href="/#astrologers" className="block text-sm text-gray-400 hover:text-white">
+              <Link href="/#astrologers" className="block text-sm text-gray-400 hover:text-white">
                 Our Astrologers
-              </Link> */}
+              </Link>
               <Link href="/pricing" className="block text-sm text-gray-400 hover:text-white">
                 Pricing
               </Link>
