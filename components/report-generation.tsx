@@ -22,8 +22,7 @@ export function ReportGeneration() {
               "Planetary positions and aspects",
               "House placements and their meanings",
               "Current transits and predictions",
-              "Life path and purpose analysis",
-              "Relationship compatibility insights",
+              "Life path and purpose analysis"
             ].map((item) => (
               <li key={item} className="flex items-center gap-3 text-gray-300">
                 <Star className="w-4 h-4 text-orange-500" />

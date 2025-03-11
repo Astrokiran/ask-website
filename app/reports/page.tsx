@@ -12,6 +12,7 @@ import LocationField from "@/components/ui/location-field";
 import { useRouter } from "next/navigation";
 import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
+import { downloadPDF } from '@/lib/utils';
 
 // Define validation schema
 const formSchema = z.object({
@@ -76,7 +77,6 @@ export default function BirthDetailsForm() {
 
     try {
       // Format lat and long to have at most 6 decimal places
-      // Make sure to handle potential parsing errors
       const formattedLat = parseFloat(data.lat || "0").toFixed(6);
       const formattedLong = parseFloat(data.long || "0").toFixed(6);
 
@@ -107,16 +107,20 @@ export default function BirthDetailsForm() {
       const kundliData = await response.json();
 
       if (kundliData.pdf_url) {
-        // Create a hidden anchor element to download the PDF
-        const link = document.createElement('a');
-        link.href = kundliData.pdf_url;
-        link.setAttribute('download', 'kundli.pdf');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Navigate to home after download starts
-        router.push('/');
+        if (window.confirm("Your birth chart is ready. Do you want to download it now?")) {
+          try {
+            // Attempt to download using our utility
+            await downloadPDF(kundliData.pdf_url, `${data.fullName}-kundli.pdf`);
+            router.push('/');
+          } catch (error) {
+            // If download fails, fallback to opening in new tab
+            console.warn('Direct download failed, falling back to new tab');
+            window.open(kundliData.pdf_url, '_blank');
+            router.push('/');
+          }
+        } else {
+          router.push('/');
+        }
       } else {
         console.error('PDF URL not found in response');
       }
@@ -240,6 +244,7 @@ export default function BirthDetailsForm() {
                             {...field}
                             className="pl-10"
                             required
+                            max={new Date().toISOString().split('T')[0]}
                           />
                         </div>
                       </FormControl>

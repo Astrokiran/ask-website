@@ -19,7 +19,8 @@ const PLANETS = [
 
 export default function ReportPage() {
   const [report, setReport] = useState(null);
-  const { phonenumber } = useParams();
+  const params = useParams<{ phonenumber: string }>();
+  const phonenumber = params?.phonenumber;
   const [expanded, setExpanded] = useState<string | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
