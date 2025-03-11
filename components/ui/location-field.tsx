@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { MapPinIcon } from "lucide-react";
+import { MapPinIcon, AlertCircle } from "lucide-react";
 
 import { Control, UseFormSetValue } from "react-hook-form";
+import useGoogleMapsScript from '@/lib/hooks/useGoogleMapsScript';
+
+// Define the interface for location data
+interface PlaceOption {
+  value: string;
+  label: string;
+  lat: number;
+  lng: number;
+}
 
 interface LocationFieldProps {
   form: {
@@ -13,42 +21,62 @@ interface LocationFieldProps {
   };
 }
 
+// Add this to your next-env.d.ts or create a new declaration file
+declare global {
+  interface Window {
+    initGoogleMapsCallback?: () => void;
+    google: any;
+  }
+}
+
 export default function LocationField({ form }: LocationFieldProps) {
-  const [search, setSearch] = useState(""); // Store user input
-  const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { loaded, error } = useGoogleMapsScript();
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Fetch locations from OpenStreetMap API based on user input
-  const fetchLocations = async (input: string) => {
-    setSearch(input); // Update search input value
-    if (input.length < 3) return; // Avoid too many requests on short inputs
+  // Initialize Google Places Autocomplete
+  useEffect(() => {
+    if (!loaded || !inputRef.current || isInitialized) return;
 
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${input}`
-    );
-    const data = await response.json();
+    try {
+      // Initialize the autocomplete
+      autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current, {
+        types: ['geocode'],
+      });
 
-    // const newOptions = data
-    //   .filter((loc: any) => loc.display_name) // Ensure valid locations
-    //   .map((loc: any) => ({ value: loc.display_name, label: loc.display_name }));
+      // Add listener for place selection
+      autocompleteRef.current.addListener('place_changed', () => {
+        const place = autocompleteRef.current?.getPlace();
 
-    const newOptions = data.map((loc: any) => ({
-        value: loc.display_name,
-        label: loc.display_name,
-        lat: loc.lat,
-        lon: loc.lon,
-      }));
+        if (place && place.formatted_address) {
+          // Update form values
+          form.setValue("place", place.formatted_address);
 
-    setOptions(newOptions);
-  };
+          if (place.geometry?.location) {
+            form.setValue("lat", place.geometry.location.lat());
+            form.setValue("long", place.geometry.location.lng());
+          }
 
-  const handleSelect = (selectedValue: string) => {
-    const selectedOption = options.find((opt) => opt.value === selectedValue);
-    if (selectedOption) {
-      form.setValue("place", selectedOption.value);
-      form.setValue("lat", selectedOption.lat);
-      form.setValue("long", selectedOption.lon);
+          // Update input value
+          setInputValue(place.formatted_address);
+        }
+      });
+
+      setIsInitialized(true);
+      console.log("Google Places Autocomplete initialized successfully");
+    } catch (err) {
+      console.error("Error initializing Google Places Autocomplete:", err);
     }
-  };
+
+    // Cleanup
+    return () => {
+      if (autocompleteRef.current && window.google) {
+        google.maps.event.clearInstanceListeners(autocompleteRef.current);
+      }
+    };
+  }, [loaded, form, isInitialized]);
 
   return (
     <FormField
@@ -60,34 +88,21 @@ export default function LocationField({ form }: LocationFieldProps) {
           <FormControl>
             <div className="relative">
               <MapPinIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-
-              {/* Input Field for Typing */}
               <Input
-                value={search}
-                onChange={(e) => fetchLocations(e.target.value)}
-                placeholder="Type to search..."
-                className="pl-10 mb-2"
+                {...field}
+                ref={inputRef}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder={error ? "Google Maps API failed to load" : "Search for a location..."}
+                className="pl-10"
+                disabled={!!error}
               />
-
-              {/* Select Dropdown for Locations */}
-              <Select onValueChange={handleSelect}>
-                <SelectTrigger className="pl-10">
-                  {field.value || "Select a location"}
-                </SelectTrigger>
-                <SelectContent>
-                  {options.length === 0 ? (
-                    <SelectItem value="loading" disabled>
-                      No results found
-                    </SelectItem>
-                  ) : (
-                    options.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
+              {error && (
+                <div className="text-red-500 text-sm mt-1 flex items-center">
+                  <AlertCircle className="h-4 w-4 mr-1" />
+                  {error}
+                </div>
+              )}
             </div>
           </FormControl>
           <FormMessage />

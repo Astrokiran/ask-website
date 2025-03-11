@@ -65,3 +65,12 @@ amplifytools.xcconfig
 #env
 .env
 .env.local
+
+
+.next/*
+.next/cache/*
+.next/static/*
+.next/trace/*
+.next/trace-caching/*
+.next/trace-caching-cache/*
+.next/trace-caching-cache-cache/*
