@@ -5,47 +5,77 @@ import { useForm } from "react-hook-form";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, ClockIcon, MapPinIcon, MailIcon, UserIcon, PhoneIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, MapPinIcon, MailIcon, UserIcon, PhoneIcon, Loader } from "lucide-react";
 import LocationField from "@/components/ui/location-field";
 import { useRouter } from "next/navigation";
 
 
 export default function BirthDetailsForm() {
   const [loading, setLoading] = useState(false);
-//   const [report, setReport] = useState(null);
   const router = useRouter();
   const form = useForm({
     defaultValues: {
-        fullName: "",
-        email: "",
-        phone: "",
-        dob: "",
-        time: "",
-        place: "",
-        lat: "",
-        long: "",
-      },
+      fullName: "",
+      email: "",
+      phone: "",
+      dob: "",
+      time: "",
+      place: "",
+      lat: "",
+      long: "",
+    },
   });
 
   async function onSubmit(data: any) {
     setLoading(true);
-    // setReport(null);
 
     try {
-      const response = await fetch("/api/reports", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      // Format lat and long to have at most 6 decimal places
+      const formattedLat = parseFloat(data.lat).toFixed(6);
+      const formattedLong = parseFloat(data.long).toFixed(6);
+
+      // Use our proxy API route
+      const response = await fetch('/api/kundli', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "name": data.fullName,
+          "phone_number": data.phone,
+          "area": data.place,
+          "lat": formattedLat,
+          "long": formattedLong,
+          "date_of_birth": data.dob,
+          "time_of_birth": data.time,
+          "gender": "male"
+        }),
       });
 
-      if (!response.ok) throw new Error("Failed to fetch report");
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Error:", errorData);
+        throw new Error("Failed to generate kundli");
+      }
 
-      const reportData = await response.json();
-    //   setReport(reportData);
+      const kundliData = await response.json();
 
-      router.push(`/reports/${data.phone}`);
+      if (kundliData.pdf_url) {
+        // Create a hidden anchor element to download the PDF
+        const link = document.createElement('a');
+        link.href = kundliData.pdf_url;
+        link.setAttribute('download', 'kundli.pdf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Navigate to home after download starts
+        router.push('/');
+      } else {
+        console.error('PDF URL not found in response');
+      }
     } catch (error) {
-      console.error("Error fetching astrology report:", error);
+      console.error("Error generating kundli:", error);
     } finally {
       setLoading(false);
     }
@@ -87,7 +117,7 @@ export default function BirthDetailsForm() {
                 </FormItem>
               )} />
 
-                <FormField
+              <FormField
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
@@ -138,8 +168,15 @@ export default function BirthDetailsForm() {
               <LocationField form={form} />
             </div>
 
-            <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600">
-              {loading ? "Generating Report..." : "Generate Birth Chart"}
+            <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader className="w-4 h-4 mr-2 animate-spin" />
+                  Generating Report...
+                </>
+              ) : (
+                "Generate Birth Chart"
+              )}
             </Button>
           </form>
         </Form>

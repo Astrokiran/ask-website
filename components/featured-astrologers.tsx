@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { motion } from "framer-motion"
 
 const astrologers = [{
   name: "Dr. Ujjwal Agarwal",
@@ -23,42 +24,16 @@ const astrologers = [{
   },
   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
   image: "/sheel-astrologer.png",
-},
-  // {
-  //   name: "Mohit Kumar",
-  //   title: "Vedic Astrologer",
-  //   stats: {
-  //     matches: "10",
-  //     consultations: "163",
-  //     languages: "3",
-  //     rating: "155.23",
-  //   },
-  //   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  //   image: "/astrologer-profile.png",
-  // }, {
-  //   name: "OP Singh",
-  //   title: "Vedic Astrologer",
-  //   stats: {
-  //     matches: "10",
-  //     consultations: "163",
-  //     languages: "3",
-  //     rating: "155.23",
-  //   },
-  //   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  //   image: "/astrologer-profile.png",
-  // }, {
-  //   name: "Abhishek Kumar",
-  //   title: "Vedic Astrologer",
-  //   stats: {
-  //     matches: "10",
-  //     consultations: "163",
-  //     languages: "3",
-  //     rating: "155.23",
-  //   },
-  //   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  //   image: "/astrologer-profile.png",
-  // }
-]
+}, {
+  name: "Mohit Nigam",
+  title: "Senior Astrologer",
+  stats: {
+    Experience: "10+",
+    languages: "Hindi, English",
+  },
+  description: "Astrologer & Vastu Consultant with 10+ years of working experience. Have on-field work experience includes: 10K+ Astro Consultations; 800+ Vastu Consultations; 600+ Numero Consultations. Scientific thinking and philosophically bent Astrologer & Vastu Consultant since last decade, with a strong liking for Astrology and all its allied branches. Coming from a family of Astrologers and from childhood learnt Astrology traditionally. Highly skilled in translation of Astrological and other texts from Hindi, Sanskrit to English and vice versa.",
+  image: "/mohit-nigam.png",
+}]
 
 export function FeaturedAstrologers() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -81,7 +56,14 @@ export function FeaturedAstrologers() {
           <div className="flex-1 bg-white rounded-xl p-4 md:p-8 relative">
             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
               {/* Left Content */}
-              <div className="flex-1">
+              <motion.div
+                className="flex-1"
+                key={currentIndex}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.3 }}
+              >
                 <div className="mb-4">
                   <h3 className="text-2xl md:text-4xl font-bold text-purple-900">{astrologers[currentIndex].name}</h3>
                   <p className="text-sm bg-purple-100 text-purple-700 inline-block px-3 py-1 rounded-full mt-2">
@@ -94,22 +76,14 @@ export function FeaturedAstrologers() {
                     <div className="text-2xl font-bold">{astrologers[currentIndex].stats.Experience}</div>
                     <div className="text-sm text-gray-600">Experience</div>
                   </div>
-                  {/* <div>
-                    <div className="text-2xl font-bold">{astrologers[currentIndex].stats.consultations}</div>
-                    <div className="text-sm text-gray-600">CONSULTATIONS</div>
-                  </div> */}
                   <div>
                     <div className="text-xl font-bold">{astrologers[currentIndex].stats.languages}</div>
                     <div className="text-sm text-gray-600">LANGUAGES</div>
                   </div>
-                  {/* <div>
-                    <div className="text-2xl font-bold">{astrologers[currentIndex].stats.rating}</div>
-                    <div className="text-sm text-gray-600">RATING</div>
-                  </div> */}
                 </div>
 
                 <p className="text-gray-600 mb-6 h-[200px] overflow-y-auto">{astrologers[currentIndex].description}</p>
-              </div>
+              </motion.div>
 
               {/* Right Image */}
               <div className="w-full md:w-96 relative h-[300px] md:h-auto">
@@ -125,10 +99,15 @@ export function FeaturedAstrologers() {
                 >
                   <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </button>
-                <img
+                <motion.img
+                  key={currentIndex}
                   src={astrologers[currentIndex].image}
                   alt={astrologers[currentIndex].name}
                   className="w-full h-full object-cover rounded-lg"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 1 }}
                 />
               </div>
             </div>
