@@ -263,11 +263,11 @@ export default function BirthDetailsForm() {
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <ClockIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                          <ClockIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
                           <Input
                             type="time"
                             {...field}
-                            className="pl-10"
+                            className="pl-10 appearance-none"
                             required
                           />
                         </div>
