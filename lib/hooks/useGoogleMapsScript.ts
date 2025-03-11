@@ -1,55 +1,66 @@
 import { useEffect, useState } from 'react';
 
-export default function useGoogleMapsScript() {
-    const [loaded, setLoaded] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+// Create a variable to track if the script is already loading or loaded
+let isScriptLoading = false;
+let isScriptLoaded = false;
+
+export function useGoogleMapsScript(libraries: string[] = ['places']) {
+    const [isLoaded, setIsLoaded] = useState(isScriptLoaded);
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-        if (typeof window === 'undefined') return;
-
-        // Check if script is already loaded
-        if (window.google && window.google.maps) {
-            setLoaded(true);
+        // If the script is already loaded, just update the state
+        if (isScriptLoaded) {
+            setIsLoaded(true);
             return;
         }
 
-        // Define callback for when API is loaded
-        window.initGoogleMapsCallback = () => {
-            setLoaded(true);
-        };
+        // If the script is already loading, wait for it
+        if (isScriptLoading) {
+            const checkIfLoaded = setInterval(() => {
+                if (isScriptLoaded) {
+                    setIsLoaded(true);
+                    clearInterval(checkIfLoaded);
+                }
+            }, 100);
 
-        // Create script element
+            return () => clearInterval(checkIfLoaded);
+        }
+
+        // Start loading the script
+        isScriptLoading = true;
+
         const script = document.createElement('script');
         const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-        if (!apiKey) {
-            setError('Google Maps API key is missing');
-            console.error('Google Maps API key is missing');
-            return;
-        }
-
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMapsCallback`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=${libraries.join(',')}`;
         script.async = true;
         script.defer = true;
-        script.onerror = () => {
-            setError('Failed to load Google Maps API');
-            console.error('Failed to load Google Maps API');
+
+        script.onload = () => {
+            isScriptLoaded = true;
+            isScriptLoading = false;
+            setIsLoaded(true);
         };
 
-        // Append to document
+        script.onerror = (e) => {
+            isScriptLoading = false;
+            setError(e instanceof Error ? e : new Error('Failed to load Google Maps script'));
+        };
+
         document.head.appendChild(script);
 
         return () => {
-            // Clean up
-            if (script.parentNode) {
-                script.parentNode.removeChild(script);
-            }
-            // Remove callback
-            if (window.initGoogleMapsCallback) {
-                delete window.initGoogleMapsCallback;
-            }
+            // We don't remove the script on component unmount
+            // as it should be available globally
         };
-    }, []);
+    }, [libraries.join(',')]);
 
-    return { loaded, error };
+    return { isLoaded, error };
+}
+
+// Add this to your global types
+declare global {
+    interface Window {
+        [key: string]: any;
+    }
 } 

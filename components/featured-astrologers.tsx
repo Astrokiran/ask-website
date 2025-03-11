@@ -8,31 +8,31 @@ import { motion } from "framer-motion"
 
 const astrologers = [{
   name: "Dr. Ujjwal Agarwal",
-  title: "Jyotish",
+  title: "Senior Astrologer",
   stats: {
     Experience: "20+",
     languages: "Hindi, English",
   },
-  description: "Dr. Ujjwal Agarwal is an internationally renowned Vedic & Medical Astrologer; Expert in Vastu, Mantra & Yantra Shastra. He has a vast knowledge in Indian Astrology and Vastu Shastra. With over 20 years of experience practicing Vedic Astrology, his knowledge leads to positive results for each individual. He has knowledge of various fields of astrology such like Horoscope Reading, Muhurat Shastra, Vastu Shastra, Gemstones Recommendations, Remedies through Yantra and Mantra and many more astrology related fields.",
-  image: "/ujjawal-astrologer-bg-rm.png",
+  description: "Dr. Ujjwal Agarwal is a renowned Vedic & Medical Astrologer with 20+ years of experience. An expert in Vastu, Mantra, and Yantra Shastra, he specializes in horoscope reading, Muhurat Shastra, gemstones, and remedies. His deep knowledge of Indian astrology ensures positive results for individuals.",
+  image: "/ujjawal-astrologer.jpg",
 }, {
-  name: "Sheel Kumar Gupta",
+  name: "Shri Sheel Kumar Gupta",
   title: "Senior Astrologer",
   stats: {
     Experience: "26+",
     languages: "Hindi, English",
   },
   description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  image: "/sheel-astrologer.png",
+  image: "/sheel-astrologer.jpg",
 }, {
-  name: "Mohit Nigam",
+  name: "Shri Mohit Nigam",
   title: "Senior Astrologer",
   stats: {
     Experience: "10+",
     languages: "Hindi, English",
   },
-  description: "Astrologer & Vastu Consultant with 10+ years of working experience. Have on-field work experience includes: 10K+ Astro Consultations; 800+ Vastu Consultations; 600+ Numero Consultations. Scientific thinking and philosophically bent Astrologer & Vastu Consultant since last decade, with a strong liking for Astrology and all its allied branches. Coming from a family of Astrologers and from childhood learnt Astrology traditionally. Highly skilled in translation of Astrological and other texts from Hindi, Sanskrit to English and vice versa.",
-  image: "/mohit-nigam.png",
+  description: "An Astrologer & Vastu Consultant with 10+ years of experience, having conducted 10,000+ astrology consultations. Raised in a family of astrologers, he blend scientific thinking with a philosophical approach. Skilled in Vastu, numerology, and translation of astrological texts between Hindi, Sanskrit, and English.",
+  image: "/mohit-nigam.jpg",
 }]
 
 export function FeaturedAstrologers() {
@@ -71,14 +71,14 @@ export function FeaturedAstrologers() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-6">
+                <div className="grid md:grid-cols-4 gap-4 md:gap-8 mb-6">
                   <div>
                     <div className="text-2xl font-bold">{astrologers[currentIndex].stats.Experience}</div>
                     <div className="text-sm text-gray-600">Experience</div>
                   </div>
-                  <div>
-                    <div className="text-xl font-bold">{astrologers[currentIndex].stats.languages}</div>
-                    <div className="text-sm text-gray-600">LANGUAGES</div>
+                  <div className="col-span-3 mt-1">
+                    <div className="text-xl font-bold whitespace-nowrap overflow-hidden text-ellipsis">{astrologers[currentIndex].stats.languages}</div>
+                    <div className="text-sm text-gray-600">Languages</div>
                   </div>
                 </div>
 

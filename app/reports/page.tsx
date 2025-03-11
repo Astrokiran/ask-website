@@ -1,19 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, ClockIcon, MapPinIcon, MailIcon, UserIcon, PhoneIcon, Loader } from "lucide-react";
 import LocationField from "@/components/ui/location-field";
 import { useRouter } from "next/navigation";
+import { NavBar } from "@/components/nav-bar";
+import { Footer } from "@/components/footer";
 
+// Define validation schema
+const formSchema = z.object({
+  fullName: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string()
+    .min(10, "Please enter a valid phone number")
+    .regex(/^[6-9]\d{9}$/, "Phone number must be valid indian number"),
+  dob: z.string().min(1, "Date of birth is required"),
+  time: z.string().min(1, "Time of birth is required"),
+  place: z.string().min(1, "Place of birth is required"),
+  lat: z.string().min(1, "Latitude is required"),
+  long: z.string().min(1, "Longitude is required"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export default function BirthDetailsForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const form = useForm({
+  const [formComplete, setFormComplete] = useState(false);
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
       email: "",
@@ -24,15 +46,39 @@ export default function BirthDetailsForm() {
       lat: "",
       long: "",
     },
+    mode: "onChange",
   });
 
-  async function onSubmit(data: any) {
+  // Monitor form state to enable/disable submit button
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      const { fullName, email, phone, dob, time, place, lat, long } = form.getValues();
+
+      // Check if all required fields are filled
+      const isComplete =
+        fullName &&
+        email &&
+        phone &&
+        dob &&
+        time &&
+        place &&
+        lat &&
+        long;
+
+      setFormComplete(!!isComplete);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form]);
+
+  async function onSubmit(data: FormValues) {
     setLoading(true);
 
     try {
       // Format lat and long to have at most 6 decimal places
-      const formattedLat = parseFloat(data.lat).toFixed(6);
-      const formattedLong = parseFloat(data.long).toFixed(6);
+      // Make sure to handle potential parsing errors
+      const formattedLat = parseFloat(data.lat || "0").toFixed(6);
+      const formattedLong = parseFloat(data.long || "0").toFixed(6);
 
       // Use our proxy API route
       const response = await fetch('/api/kundli', {
@@ -82,105 +128,171 @@ export default function BirthDetailsForm() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-semibold text-center mb-4">Enter Your Birth Details</h2>
+    <div>
+      <NavBar />
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-2">Personal Information</h3>
+      <div className="flex justify-center items-center min-h-screen bg-gray-900">
+        <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-center mb-4">Enter Your Birth Details</h2>
+          <p className="text-sm text-gray-500 text-center mb-6">
+            All fields are required <span className="text-red-500">*</span>
+          </p>
 
-              <FormField control={form.control} name="fullName" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <UserIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                      <Input {...field} placeholder="Full Name" className="pl-10" />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Personal Information</h3>
 
-              <FormField control={form.control} name="email" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email Address</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <MailIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                      <Input type="email" {...field} placeholder="Email Address" className="pl-10" />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Full Name
+                        <span className="text-red-500 ml-1">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <UserIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                          <Input
+                            {...field}
+                            placeholder="Full Name"
+                            className="pl-10"
+                            required
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
 
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <PhoneIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                        <Input type="tel" {...field} placeholder="Phone Number" className="pl-10" />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Email Address
+                        <span className="text-red-500 ml-1">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <MailIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                          <Input
+                            type="email"
+                            {...field}
+                            placeholder="Email Address"
+                            className="pl-10"
+                            required
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Phone Number
+                        <span className="text-red-500 ml-1">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <PhoneIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                          <Input
+                            type="tel"
+                            {...field}
+                            placeholder="Phone Number"
+                            className="pl-10"
+                            required
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Birth Details</h3>
+
+                <FormField
+                  control={form.control}
+                  name="dob"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Date of Birth
+                        <span className="text-red-500 ml-1">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                          <Input
+                            type="date"
+                            {...field}
+                            className="pl-10"
+                            required
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+
+                <FormField
+                  control={form.control}
+                  name="time"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Time of Birth
+                        <span className="text-red-500 ml-1">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <ClockIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                          <Input
+                            type="time"
+                            {...field}
+                            className="pl-10"
+                            required
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+
+                <LocationField form={form} required={true} />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-orange-500 hover:bg-orange-600"
+                disabled={loading || !formComplete}
+              >
+                {loading ? (
+                  <>
+                    <Loader className="w-4 h-4 mr-2 animate-spin" />
+                    Generating Report...
+                  </>
+                ) : (
+                  "Generate Birth Chart"
                 )}
-              />
-
-            </div>
-
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-2">Birth Details</h3>
-
-              <FormField control={form.control} name="dob" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                      <Input type="date" {...field} className="pl-10" />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
-
-              <FormField control={form.control} name="time" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Time of Birth</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <ClockIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-                      <Input type="time" {...field} className="pl-10" />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
-
-              <LocationField form={form} />
-            </div>
-
-            <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader className="w-4 h-4 mr-2 animate-spin" />
-                  Generating Report...
-                </>
-              ) : (
-                "Generate Birth Chart"
-              )}
-            </Button>
-          </form>
-        </Form>
+              </Button>
+            </form>
+          </Form>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }
