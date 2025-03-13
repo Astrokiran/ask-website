@@ -2,7 +2,12 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu, X, MessageCircle } from "lucide-react"
+
+const whatsappNumber = "+919353703571";
+const message = "Hello, I would like to get an astrology consultation.";
+const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -18,24 +23,53 @@ export function NavBar() {
             </div>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8 ">
-            <Link href="/#astrologers" className="text-sm hover:text-primary">
-              Find Astrologers
+          <div className="hidden md:flex items-center gap-4">
+            <Link href="/#report" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
+              Generate Birth Chart
             </Link>
-            <Link href="/#services" className="text-sm hover:text-primary">
+            <Link href="/#astrologers" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
+              Our Astrologers
+            </Link>
+            <Link href="/#services" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
               Services
             </Link>
-            <Link href="/pricing" className="text-sm hover:text-primary">
+            <Link href="/pricing" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
               Pricing
             </Link>
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 bg-[#25D366] text-white px-3 py-1 rounded-md hover:bg-[#22c55e] transition-all duration-200"
+            >
+              <img
+                src="/social.png"
+                alt="WhatsApp"
+                className="w-8 h-8"
+              />
+              <span className="text-sm">Book Now</span>
+            </a>
           </div>
 
-          <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center gap-3">
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center bg-[#25D366] text-white p-2 rounded-full hover:bg-[#22c55e] transition-all duration-200"
+            >
+              <img
+                src="/social.png"
+                alt="WhatsApp"
+                className="w-8 h-8"
+              />
+            </a>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </nav>
 
         {/* Mobile Menu */}
@@ -63,6 +97,20 @@ export function NavBar() {
               >
                 Pricing
               </Link>
+              <a
+                href="https://wa.me/+1234567890"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-[#25D366] hover:text-[#22c55e]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <img
+                  src="/social.png"
+                  alt="WhatsApp"
+                  className="w-5 h-5"
+                />
+                <span>Consult on WhatsApp</span>
+              </a>
             </div>
           </div>
         )}

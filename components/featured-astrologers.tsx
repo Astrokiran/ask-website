@@ -47,9 +47,9 @@ export function FeaturedAstrologers() {
   }
 
   return (
-    <div className="w-full bg-gray-50" id="astrologers">
+    <div className="w-full" id="astrologers">
       <div className="py-10 md:py-20 max-w-7xl mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Astrologers</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Our Astrologers</h2>
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {/* Main Featured Astrologer */}

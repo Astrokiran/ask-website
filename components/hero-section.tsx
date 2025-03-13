@@ -58,7 +58,7 @@ export function HeroSection({
                 className="bg-[#25D366] hover:bg-[#22c35e] text-white font-semibold px-8 py-6 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-200 text-xl"
                 onClick={() => window.open(whatsappLink, '_blank')}
               >
-                Connect on Whatsapp
+                Consult on Whatsapp
                 <img
                   src="/social.png"
                   alt="WhatsApp"

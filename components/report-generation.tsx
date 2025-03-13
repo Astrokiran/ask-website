@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function ReportGeneration() {
   return (
-    <div className="relative min-h-[600px] bg-[#1a1b2e] overflow-hidden">
+    <div className="relative min-h-[600px] bg-[#1a1b2e] overflow-hidden" id="report">
       {/* Decorative gradient arc */}
       <div className="absolute top-0 right-0 w-[600px] h-[300px] bg-gradient-to-r from-red-500 via-orange-400 to-yellow-300 blur-3xl opacity-20 rounded-full transform translate-x-1/2 -translate-y-1/2" />
 
@@ -32,7 +32,7 @@ export function ReportGeneration() {
           </ul>
           <Link href="/reports">
             <Button className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-6 h-auto">
-              Generate Your Report Now
+              Generate Your Birth Chart Now
             </Button>
           </Link>
         </div>
