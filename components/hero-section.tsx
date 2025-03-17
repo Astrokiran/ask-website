@@ -21,7 +21,7 @@ export function HeroSection({
   subtitle = "Connect with expert astrologers for personalized guidance and unlock the mysteries of your destiny"
 }: HeroSectionProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const whatsappNumber = "+919353703571";
+  const whatsappNumber = "+918088860818";
   const message = "Hello, I would like to get an astrology consultation.";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
