@@ -6,34 +6,45 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { motion } from "framer-motion"
 
-const astrologers = [{
-  name: "Dr. Ujjwal Agarwal",
-  title: "Senior Astrologer",
-  stats: {
-    Experience: "20+",
-    languages: "Hindi, English",
+const astrologers = [
+  {
+    name: "Palmistry Expert Kalpana Tripathi",
+    title: "Palmistry Expert",
+    stats: {
+      Experience: "20+",
+      languages: "Hindi, English",
+    },
+    description: "With over 20 years of expertise in palm reading, Kalpana Tripathi has helped thousands of individuals gain clarity about their life path. She combines traditional Indian palmistry to provide accurate readings about career, relationships, and life decisions. Her compassionate approach and deep understanding of hand analysis make her a sought-after consultant.",
+    image: "/Kalpana-tripathi.png",
   },
-  description: "Dr. Ujjwal Agarwal is a renowned Vedic & Medical Astrologer with 20+ years of experience. An expert in Vastu, Mantra, and Yantra Shastra, he specializes in horoscope reading, Muhurat Shastra, gemstones, and remedies. His deep knowledge of Indian astrology ensures positive results for individuals.",
-  image: "/ujjawal-astrologer.jpg",
-}, {
-  name: "Shri Sheel Kumar Gupta",
-  title: "Senior Astrologer",
-  stats: {
-    Experience: "26+",
-    languages: "Hindi, English",
-  },
-  description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-  image: "/sheel-astrologer.jpg",
-}, {
-  name: "Shri Mohit Nigam",
-  title: "Senior Astrologer",
-  stats: {
-    Experience: "10+",
-    languages: "Hindi, English",
-  },
-  description: "An Astrologer & Vastu Consultant with 10+ years of experience, having conducted 10,000+ astrology consultations. Raised in a family of astrologers, he blend scientific thinking with a philosophical approach. Skilled in Vastu, numerology, and translation of astrological texts between Hindi, Sanskrit, and English.",
-  image: "/mohit-nigam.jpg",
-}]
+  {
+    name: "Dr. Ujjwal Agarwal",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "20+",
+      languages: "Hindi, English",
+    },
+    description: "Dr. Ujjwal Agarwal is a renowned Vedic & Medical Astrologer with 20+ years of experience. An expert in Vastu, Mantra, and Yantra Shastra, he specializes in horoscope reading, Muhurat Shastra, gemstones, and remedies. His deep knowledge of Indian astrology ensures positive results for individuals.",
+    image: "/ujjawal-astrologer.jpg",
+  }, {
+    name: "Acharya Sheel Kumar Gupta",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "26+",
+      languages: "Hindi, English",
+    },
+    description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
+    image: "/sheel-astrologer.jpg",
+  }, {
+    name: "Acharya Mohit Nigam",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "10+",
+      languages: "Hindi, English",
+    },
+    description: "An Astrologer & Vastu Consultant with 10+ years of experience, having conducted 10,000+ astrology consultations. Raised in a family of astrologers, he blend scientific thinking with a philosophical approach. Skilled in Vastu, numerology, and translation of astrological texts between Hindi, Sanskrit, and English.",
+    image: "/mohit-nigam.jpg",
+  }]
 
 export function FeaturedAstrologers() {
   const [currentIndex, setCurrentIndex] = useState(0)
