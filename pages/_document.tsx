@@ -4,21 +4,7 @@ export default function Document() {
     return (
         <Html>
             <Head>
-                {/* Google tag (gtag.js) */}
-                <script
-                    async
-                    src="https://www.googletagmanager.com/gtag/js?id=G-97R5TTNY4G"
-                />
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-97R5TTNY4G');
-            `,
-                    }}
-                />
+                {/* Google Analytics is now implemented in app/layout.tsx using @next/third-parties */}
             </Head>
             <body>
                 <Main />
