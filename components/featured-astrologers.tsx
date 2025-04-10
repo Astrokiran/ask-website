@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 
 const astrologers = [
   {
-    name: "Palmistry Expert Kalpana Tripathi",
+    name: "Palmistry Expert Maa Kalpana Tripathi",
     title: "Palmistry Expert",
     stats: {
       Experience: "20+",
