@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Menu, X, MessageCircle } from "lucide-react"
 
-const whatsappNumber = "+919663342303";
+const whatsappNumber = "+919663316909";
 const message = "Hello, I would like to get an astrology consultation.";
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
