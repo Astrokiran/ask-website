@@ -18,24 +18,6 @@ const astrologers = [
     image: "/Kalpana-tripathi.png",
   },
   {
-    name: "Dr. Ujjwal Agarwal",
-    title: "Senior Astrologer",
-    stats: {
-      Experience: "20+",
-      languages: "Hindi, English",
-    },
-    description: "Dr. Ujjwal Agarwal is a renowned Vedic & Medical Astrologer with 20+ years of experience. An expert in Vastu, Mantra, and Yantra Shastra, he specializes in horoscope reading, Muhurat Shastra, gemstones, and remedies. His deep knowledge of Indian astrology ensures positive results for individuals.",
-    image: "/ujjawal-astrologer.jpg",
-  }, {
-    name: "Acharya Sheel Kumar Gupta",
-    title: "Senior Astrologer",
-    stats: {
-      Experience: "26+",
-      languages: "Hindi, English",
-    },
-    description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-    image: "/sheel-astrologer.jpg",
-  }, {
     name: "Acharya Mohit Nigam",
     title: "Senior Astrologer",
     stats: {
@@ -44,7 +26,37 @@ const astrologers = [
     },
     description: "An Astrologer & Vastu Consultant with 10+ years of experience, having conducted 10,000+ astrology consultations. Raised in a family of astrologers, he blend scientific thinking with a philosophical approach. Skilled in Vastu, numerology, and translation of astrological texts between Hindi, Sanskrit, and English.",
     image: "/mohit-nigam.jpg",
-  }]
+  },
+  {
+    name: "Acharya Sheel Kumar Gupta",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "26+",
+      languages: "Hindi, English",
+    },
+    description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
+    image: "/sheel-astrologer.jpg",
+  },
+  {
+    name: "Tarot Expert Radhika",
+    title: "Tarot Expert",
+    stats: {
+      Experience: "12+",
+      languages: "Hindi, English",
+    },
+    description: "Over 12+ years of expertise in tarot reading, Radhika has helped thousands of individuals gain clarity about their life path. She combines traditional Indian tarot to provide accurate readings about career, relationships, and life decisions. Her compassionate approach and deep understanding of tarot make her a sought-after consultant.",
+    image: "/tarot-reader.png",
+  }, {
+    name: "Dr. Ujjwal Agarwal",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "20+",
+      languages: "Hindi, English",
+    },
+    description: "Dr. Ujjwal Agarwal is a renowned Vedic & Medical Astrologer with 20+ years of experience. An expert in Vastu, Mantra, and Yantra Shastra, he specializes in horoscope reading, Muhurat Shastra, gemstones, and remedies. His deep knowledge of Indian astrology ensures positive results for individuals.",
+    image: "/ujjawal-astrologer.jpg",
+  }
+]
 
 export function FeaturedAstrologers() {
   const [currentIndex, setCurrentIndex] = useState(0)
