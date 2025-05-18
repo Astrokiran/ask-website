@@ -83,7 +83,7 @@ const faqs = [
   }
 ]
 
-const whatsappNumber = "+919663316909";
+const whatsappNumber = "+918197503574";
 const message = "Hello, I would like to get an astrology consultation.";
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
