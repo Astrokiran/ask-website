@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { motion } from "framer-motion"
+import { title } from "process"
+import { stat } from "fs"
 
 const astrologers = [
   {
@@ -44,7 +46,40 @@ const astrologers = [
     },
     description: "An Astrologer & Vastu Consultant with 10+ years of experience, having conducted 10,000+ astrology consultations. Raised in a family of astrologers, he blend scientific thinking with a philosophical approach. Skilled in Vastu, numerology, and translation of astrological texts between Hindi, Sanskrit, and English.",
     image: "/mohit-nigam.jpg",
-  }]
+  },
+  {
+    name:"Jyotirvid Ashutosh Pradhan",
+    title:"Senior Astrologer",
+    stats: {
+      Experience: "12",
+      languages: "Hindi, English",
+    },
+    description: "Astrologer with 12 years of experience in Vedic astrology, specializing in horoscope analysis, gemstone recommendations, and personalized remedies. Known for his accurate predictions and deep understanding of astrological principles.",
+    image: "/Jyotirvid-Asutosh-Pradhan.png",
+
+  },
+  {
+    name: "Pandit Sharad Tripathi ",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "35+",
+      languages: "Hindi, English",
+    },
+    description: "Chapter Chairman - Kanpur & Governor - UP ALL INDIA FEDERATION OF ASTROLOGERS SOCIETY (DELHI). Astrologer with 35+ years of experience in Vedic astrology, specializing in horoscope analysis, gemstone recommendations, and personalized remedies. Known for his accurate predictions and deep understanding of astrological principles.",
+    image: "/Sharadh-tripathi.png",
+  },
+  {
+    name:"Anjali",
+    title:"Astrologer and Prashna Kundali Expert",
+    stats:{
+      Experience: "10+",
+      languages: "Hindi, English",
+    },
+    description: "Anjali is a renowned astrologer with over 10 years of experience in Vedic astrology. She specializes in Prashna Kundali, providing insights into specific questions and life events. Her expertise extends to horoscope analysis, gemstone recommendations, and personalized remedies.",
+    image: "/Anjali.png",
+
+  }
+]
 
 export function FeaturedAstrologers() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -151,4 +186,3 @@ export function FeaturedAstrologers() {
     </div>
   )
 }
-

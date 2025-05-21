@@ -37,7 +37,7 @@ DYNAMODB_TABLE_NAME=horoscopes
 ## Installation
 
 1. Install dependencies:
-   ```bash
+   ```bash  
    npm install
    ```
 
@@ -51,7 +51,7 @@ DYNAMODB_TABLE_NAME=horoscopes
    ```
 
 3. Run the development server:
-   ```bash
+   ```bash  
    npm run dev
    ```
 
