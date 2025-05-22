@@ -11,7 +11,7 @@ import { useHoroscopeStore } from "@/store/horoscope";
 export default function HoroscopesPage() {
   const { horoscopes, loading, error, fetchHoroscopes, lastFetchDate } = useHoroscopeStore()
 
-  const whatsappNumber = "+919663316909"; // Replace with your actual WhatsApp number
+  const whatsappNumber = "+918197503574"; // Replace with your actual WhatsApp number
   const message = "Hello, I would like to get an astrology consultation.";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 

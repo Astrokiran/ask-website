@@ -55,7 +55,7 @@ export function Footer() {
             <div className="space-y-2 text-sm text-gray-400">
               <p>235 13th Cross, Hoysala Nagar 2nd Stage, Indiranagar, Bangalore North, Karnataka, India, 560038</p>
               <p>contact@astrokiran.com</p>
-              <p>+919663316909</p>
+              <p>+918197503574</p>
             </div>
           </div>
 
