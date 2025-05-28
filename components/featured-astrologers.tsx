@@ -5,10 +5,19 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { motion } from "framer-motion"
-import { title } from "process"
-import { stat } from "fs"
 
 const astrologers = [
+
+  {
+    name: "Pandit Sharad Tripathi ",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "35+",
+      languages: "Hindi, English",
+    },
+    description: "Chapter Chairman - Kanpur & Governor - UP ALL INDIA FEDERATION OF ASTROLOGERS SOCIETY (DELHI). Astrologer with 35+ years of experience in Vedic astrology, specializing in horoscope analysis, gemstone recommendations, and personalized remedies. Known for his accurate predictions and deep understanding of astrological principles.",
+    image: "/Sharadh-tripathi.png",
+  },
   {
     name: "Palmistry Expert Maa Kalpana Tripathi",
     title: "Palmistry Expert",
@@ -18,6 +27,27 @@ const astrologers = [
     },
     description: "With over 20 years of expertise in palm reading, Kalpana Tripathi has helped thousands of individuals gain clarity about their life path. She combines traditional Indian palmistry to provide accurate readings about career, relationships, and life decisions. Her compassionate approach and deep understanding of hand analysis make her a sought-after consultant.",
     image: "/Kalpana-tripathi.png",
+  },
+  {
+
+    name: "Acharya Sheel Kumar Gupta",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "26+",
+      languages: "Hindi, English",
+    },
+    description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
+    image: "/sheel-astrologer.jpg",
+  },
+  {
+    name: "Dr. Ujjwal Agarwal",
+    title: "Senior Astrologer",
+    stats: {
+      Experience: "20+",
+      languages: "Hindi, English",
+    },
+    description: "Dr. Ujjwal Agarwal is a renowned Vedic & Medical Astrologer with 20+ years of experience. An expert in Vastu, Mantra, and Yantra Shastra, he specializes in horoscope reading, Muhurat Shastra, gemstones, and remedies. His deep knowledge of Indian astrology ensures positive results for individuals.",
+    image: "/ujjawal-astrologer.jpg",
   },
   {
     name: "Acharya Mohit Nigam",
@@ -37,20 +67,11 @@ const astrologers = [
       languages: "Hindi, English",
     },
     description: "Astrologer with 12 years of experience in Vedic astrology, specializing in horoscope analysis, gemstone recommendations, and personalized remedies. Known for his accurate predictions and deep understanding of astrological principles.",
-    image: "/Jyotirvid-Asutosh-Pradhan.png",
+    image: "/Ashutosh-Pradhan.png",
 
   },
-  {
-    name: "Pandit Sharad Tripathi ",
-    title: "Senior Astrologer",
-    stats: {
-      Experience: "35+",
-      languages: "Hindi, English",
-    },
-    description: "Chapter Chairman - Kanpur & Governor - UP ALL INDIA FEDERATION OF ASTROLOGERS SOCIETY (DELHI). Astrologer with 35+ years of experience in Vedic astrology, specializing in horoscope analysis, gemstone recommendations, and personalized remedies. Known for his accurate predictions and deep understanding of astrological principles.",
-    image: "/Sharadh-tripathi.png",
-  },
-  {
+  
+  { 
     name:"Anjali",
     title:"Astrologer and Prashna Kundali Expert",
     stats:{
@@ -60,17 +81,7 @@ const astrologers = [
     description: "Anjali is a renowned astrologer with over 10 years of experience in Vedic astrology. She specializes in Prashna Kundali, providing insights into specific questions and life events. Her expertise extends to horoscope analysis, gemstone recommendations, and personalized remedies.",
     image: "/Anjali.png",
   },
-  {
-
-    name: "Acharya Sheel Kumar Gupta",
-    title: "Senior Astrologer",
-    stats: {
-      Experience: "26+",
-      languages: "Hindi, English",
-    },
-    description: "Expert in Vedic astrology with deep knowledge of planetary movements and their effects. Specializes in career guidance, relationship counseling, and life path analysis.",
-    image: "/sheel-astrologer.jpg",
-  },
+  
   {
     name: "Tarot Expert Radhika",
     title: "Tarot Expert",
@@ -79,17 +90,20 @@ const astrologers = [
       languages: "Hindi, English",
     },
     description: "Over 12+ years of expertise in tarot reading, Radhika has helped thousands of individuals gain clarity about their life path. She combines traditional Indian tarot to provide accurate readings about career, relationships, and life decisions. Her compassionate approach and deep understanding of tarot make her a sought-after consultant.",
-    image: "/tarot-reader.png",
-  }, {
-    name: "Dr. Ujjwal Agarwal",
-    title: "Senior Astrologer",
+    image: "/radhika.png",
+  }, 
+
+  {
+    name:"Tarot Expert Smita Sinha",
+    title:"Tarot Expert",
     stats: {
-      Experience: "20+",
+      Experience: "15+",
       languages: "Hindi, English",
     },
-    description: "Dr. Ujjwal Agarwal is a renowned Vedic & Medical Astrologer with 20+ years of experience. An expert in Vastu, Mantra, and Yantra Shastra, he specializes in horoscope reading, Muhurat Shastra, gemstones, and remedies. His deep knowledge of Indian astrology ensures positive results for individuals.",
-    image: "/ujjawal-astrologer.jpg",
+    description: "Smita Sinha is a renowned Tarot Expert with over 15 years of experience. She specializes in tarot reading, providing insights into career, relationships, and personal growth. Her intuitive approach and deep understanding of tarot cards help clients navigate life's challenges with clarity and confidence.",
+    image: "/Smitha.png",
   }
+  
 ]
 
 export function FeaturedAstrologers() {
@@ -143,7 +157,7 @@ export function FeaturedAstrologers() {
               </motion.div>
 
               {/* Right Image */}
-              <div className="w-full md:w-96 relative h-[300px] md:h-auto">
+              <div className="w-full md:w-96 relative h-[300px] md:h-[432px]">
                 <button
                   onClick={handlePrev}
                   className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 z-10"
@@ -180,7 +194,7 @@ export function FeaturedAstrologers() {
                   className={`w-full text-left flex items-center gap-4 bg-white p-3 md:p-4 rounded-lg transition-all hover:shadow-md ${currentIndex === i ? 'ring-2 ring-yellow-400' : ''
                     }`}
                 >
-                  <Avatar className="w-12 h-12 md:w-16 md:h-16">
+                  <Avatar className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
                     <AvatarImage src={astrologer.image} />
                     <AvatarFallback>PS</AvatarFallback>
                   </Avatar>
