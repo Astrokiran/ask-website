@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { motion } from "framer-motion"
+import { title } from "process"
 
 const astrologers = [
 
@@ -102,7 +103,19 @@ const astrologers = [
     },
     description: "Smita Sinha is a renowned Tarot Expert with over 15 years of experience. She specializes in tarot reading, providing insights into career, relationships, and personal growth. Her intuitive approach and deep understanding of tarot cards help clients navigate life's challenges with clarity and confidence.",
     image: "/Smitha.png",
+  },
+
+  {
+    name:"Priyanka",
+    title:"Tarot and Palmistry Expert",
+    stats: {
+      Experience: "11+",
+      languages: "Hindi, English",
+    },
+    description: "Priyanka is a skilled Tarot and Palmistry Expert with over 11 years of experience. She combines the art of tarot reading with palmistry to provide comprehensive insights into her clients' lives. Her unique approach helps individuals understand their past, present, and future, guiding them towards better decisions. She offers expert consultations and instruction in astrology, tarot, palmistry, and numerology, driven by a passion that extends beyond her profession. Her experience includes writing for Saamna and IGR, and a Tarot event on the Royal Caribbean cruise (2018). She is certified in Tarot Reading (2009) and Jyotish (2019).",
+    image: "/Priyanka.png",
   }
+
   
 ]
 
