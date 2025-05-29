@@ -66,7 +66,7 @@ export default function AstrologerSchedulingPage() {
         setIsLoading(true);
         try {
             // Remove the date parameter to get all slots
-            const response = await fetch(`/api/astrologers/availability?astrologerId=${astrologerId}`);
+            const response = await fetch(`//guides/slots/bulk-create?astrologerId=${astrologerId}`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch availability');
@@ -250,7 +250,7 @@ export default function AstrologerSchedulingPage() {
                 console.log('Delete request body:', requestBody);
 
                 try {
-                    const response = await fetch("/api/astrologers/availability", {
+                    const response = await fetch("//guides/slots/bulk-create", {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",
@@ -287,7 +287,7 @@ export default function AstrologerSchedulingPage() {
                 if (timeSlots.length === 0) continue;
 
                 try {
-                    const response = await fetch("/api/astrologers/availability", {
+                    const response = await fetch("//guides/slots/bulk-create/", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

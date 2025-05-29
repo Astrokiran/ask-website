@@ -75,8 +75,8 @@ export function ScheduleGrid({
     // Generate time slots from 6:00 AM to 9:30 PM in 30-minute increments
     const timeSlots = [];
     for (let hour = 6; hour <= 21; hour++) {
-        for (let minute = 0; minute < 60; minute += 30) {
-            if (hour === 21 && minute === 30) break; // Stop at 9:30 PM
+        for (let minute = 0; minute < 60; minute += 60) {
+            if (hour === 21 && minute === 0) break; // Stop at 9:30 PM
             const formattedHour = hour % 12 || 12;
             const period = hour < 12 ? "AM" : "PM";
             timeSlots.push(`${formattedHour}:${minute === 0 ? "00" : minute} ${period}`);

@@ -16,15 +16,14 @@ interface Guide {
     languages: string;
     years_of_experience: number;
 }
-
 interface AvailabilitySlot {
-    id: number;
-    date: string;
-    start_time: string;
-    end_time: string;
-    status: string;
-    created_at: string;
-    updated_at: string;
+  id: number;
+  date: string;
+  start_time: string;
+  end_time: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
 }
 
 interface RegisterSlotsFormProps {
@@ -38,6 +37,19 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
     const [endTime, setEndTime] = useState<string>("17:00");
     const [interval, setInterval] = useState<string>("30");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    // Helper to get current time in HH:MM format
+    const getCurrentTimeHHMM = () => {
+        const now = new Date();
+        return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    };
+
+    // Helper to format a Date object to HH:MM string for time input
+    const formatTimeForInput = (dateObj: Date): string => {
+        return `${dateObj.getHours().toString().padStart(2, '0')}:${dateObj.getMinutes().toString().padStart(2, '0')}`;
+    };
+
+    const todayDateString = new Date().toISOString().split('T')[0];
 
     const generateTimeSlots = (start: string, end: string, intervalMinutes: number): string[] => {
         const slots: string[] = [];
@@ -69,6 +81,28 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
             return;
         }
 
+        // Validate start and end times
+        if (date === todayDateString) {
+            const currentTime = getCurrentTimeHHMM();
+            if (startTime < currentTime) {
+                toast({
+                    title: "Error",
+                    description: "Start time cannot be in the past for today.",
+                    variant: "destructive",
+                });
+                return;
+            }
+        }
+
+        if (endTime <= startTime) {
+            toast({
+                title: "Error",
+                description: "End time must be after start time.",
+                variant: "destructive",
+            });
+            return;
+        }
+
         const intervalMinutes = parseInt(interval);
         const timeSlots = generateTimeSlots(startTime, endTime, intervalMinutes);
 
@@ -83,32 +117,60 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
 
         setIsLoading(true);
 
+        // Prepare slots for the backend
+        const guidePk = parseInt(astrologerId);
+        
+        if (isNaN(guidePk)) {
+            toast({
+                title: "Error",
+                description: "Invalid Astrologer ID.",
+                variant: "destructive",
+            });
+            setIsLoading(false);
+            return;
+        }
+
+        const slotsToSubmit = timeSlots.map(slotStartTime => {
+            const startDateTime = new Date(`${date}T${slotStartTime}:00`);
+            const endDateTime = new Date(startDateTime);
+            endDateTime.setMinutes(endDateTime.getMinutes() + intervalMinutes);
+
+            return {
+                guide: guidePk,
+                start_time: startDateTime.toISOString(),
+                end_time: endDateTime.toISOString(),
+            };
+        });
+
         try {
-            const response = await fetch("/api/astrologers/availability", {
+            // TODO: Retrieve your actual auth token (e.g., from context or local storage)
+            const authToken = "YOUR_AUTH_TOKEN_HERE"; 
+
+            // Use the environment variable for the Django API URL
+            const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000/api";
+            const response = await fetch(`${djangoApiUrl}/guides/slots/bulk-create/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authToken}`,
                 },
-                body: JSON.stringify({
-                    guide_id: astrologerId,
-                    date,
-                    time_slots: timeSlots,
-                }),
+                body: JSON.stringify(slotsToSubmit),
             });
 
             if (!response.ok) {
-                throw new Error("Failed to register slots");
+                const errorData = await response.json().catch(() => ({ message: "Failed to register slots" }));
+                throw new Error(errorData.message || `Failed to register slots. Status: ${response.status}`);
             }
 
-            const data = await response.json();
+            const createdSlots: AvailabilitySlot[] = await response.json();
 
             toast({
                 title: "Success",
-                description: data.message || `${timeSlots.length} slots registered successfully`,
+                description: `${createdSlots.length} slots registered successfully`,
             });
-
-            if (onSuccess && data.slots) {
-                onSuccess(data.slots);
+            
+            if (onSuccess) {
+                onSuccess(createdSlots);
             }
 
             // Reset form
@@ -119,7 +181,7 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
             console.error("Error registering slots:", error);
             toast({
                 title: "Error",
-                description: "Failed to register availability slots",
+                description: (error instanceof Error && error.message) || "Failed to register availability slots",
                 variant: "destructive",
             });
         } finally {
@@ -141,7 +203,7 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            min={new Date().toISOString().split('T')[0]}
+                            min={todayDateString}
                             required
                         />
                     </div>
@@ -153,7 +215,29 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
                                 id="startTime"
                                 type="time"
                                 value={startTime}
-                                onChange={(e) => setStartTime(e.target.value)}
+                                onChange={(e) => {
+                                    const newStartTime = e.target.value;
+                                    setStartTime(newStartTime);
+
+                                    // Adjust endTime if newStartTime makes it invalid
+                                    if (newStartTime && endTime <= newStartTime) {
+                                        const [hours, minutes] = newStartTime.split(':').map(Number);
+                                        if (!isNaN(hours) && !isNaN(minutes)) {
+                                            const currentIntervalNum = parseInt(interval, 10) || 30;
+                                            const startTimeDate = new Date(2000, 0, 1, hours, minutes);
+                                            
+                                            const proposedEndTimeDate = new Date(startTimeDate);
+                                            proposedEndTimeDate.setMinutes(startTimeDate.getMinutes() + currentIntervalNum);
+
+                                            if (proposedEndTimeDate.getDate() > 1) { // Crossed midnight
+                                                setEndTime("23:59");
+                                            } else {
+                                                setEndTime(formatTimeForInput(proposedEndTimeDate));
+                                            }
+                                        }
+                                    }
+                                }}
+                                min={date === todayDateString ? getCurrentTimeHHMM() : "00:00"}
                                 required
                             />
                         </div>
@@ -165,6 +249,7 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
                                 type="time"
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
+                                min={startTime} // End time cannot be before start time
                                 required
                             />
                         </div>
