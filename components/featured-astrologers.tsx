@@ -107,16 +107,27 @@ const astrologers = [
 
   {
     name:"Priyanka",
-    title:"Tarot and Palmistry Expert",
+    title:"Tarot,Astrology and Palmistry Expert",
     stats: {
       Experience: "11+",
       languages: "Hindi, English",
     },
     description: "Priyanka is a skilled Tarot and Palmistry Expert with over 11 years of experience. She combines the art of tarot reading with palmistry to provide comprehensive insights into her clients' lives. Her unique approach helps individuals understand their past, present, and future, guiding them towards better decisions. She offers expert consultations and instruction in astrology, tarot, palmistry, and numerology, driven by a passion that extends beyond her profession. Her experience includes writing for Saamna and IGR, and a Tarot event on the Royal Caribbean cruise (2018). She is certified in Tarot Reading (2009) and Jyotish (2019).",
-    image: "/Priyanka.png",
+    image: "/priyanka2.png",
+  },
+
+  {
+    name:"Jitendra Sharma",
+    title:"Vedic Astrolger and Prashna Kundali Expert",
+    stats: {
+      Experience: "8+",
+      languages: "Hindi, English",
+    },
+    description: "Jitendra Sharma is a renowned astrologer with over 8 years of experience in Vedic astrology. He specializes in Prashna Kundali, providing insights into specific questions and life events. His expertise extends to horoscope analysis, gemstone recommendations, and personalized remedies. Known for his accurate predictions and deep understanding of astrological principles.",
+    image: "/Jitendra_sharma.png",
   }
 
-  
+   
 ]
 
 export function FeaturedAstrologers() {
@@ -166,11 +177,11 @@ export function FeaturedAstrologers() {
                   </div>
                 </div>
 
-                <p className="text-gray-600 mb-6 h-[200px] overflow-y-auto">{astrologers[currentIndex].description}</p>
+                <p className="text-gray-600 mb-6 h-[240px] overflow-y-auto">{astrologers[currentIndex].description}</p>
               </motion.div>
 
               {/* Right Image */}
-              <div className="w-full md:w-96 relative h-[300px] md:h-[432px]">
+              <div className="w-full md:w-96 relative h-[350px] md:h-[480px]">
                 <button
                   onClick={handlePrev}
                   className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-500 z-10"
