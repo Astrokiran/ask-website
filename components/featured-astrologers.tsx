@@ -108,11 +108,15 @@ const astrologers = [
   {
     name:"Priyanka",
     title:"Tarot,Astrology and Palmistry Expert",
+
+    title:"Tarot and Palmistry Expert",
+
     stats: {
       Experience: "11+",
       languages: "Hindi, English",
     },
     description: "Priyanka is a skilled Tarot and Palmistry Expert with over 11 years of experience. She combines the art of tarot reading with palmistry to provide comprehensive insights into her clients' lives. Her unique approach helps individuals understand their past, present, and future, guiding them towards better decisions. She offers expert consultations and instruction in astrology, tarot, palmistry, and numerology, driven by a passion that extends beyond her profession. Her experience includes writing for Saamna and IGR, and a Tarot event on the Royal Caribbean cruise (2018). She is certified in Tarot Reading (2009) and Jyotish (2019).",
+
     image: "/priyanka2.png",
   },
 
@@ -127,7 +131,8 @@ const astrologers = [
     image: "/Jitendra_sharma.png",
   }
 
-   
+  
+
 ]
 
 export function FeaturedAstrologers() {
