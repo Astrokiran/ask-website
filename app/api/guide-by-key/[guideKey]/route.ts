@@ -1,34 +1,54 @@
+// /home/chay/Web/ask-website/app/api/guide-by-key/[guideKey]/route.ts
 import { NextResponse } from 'next/server';
 
-interface Params {
-  guideKey: string;
-}
-
-export async function GET(request: Request, { params }: { params: Params }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { guideKey: string } }
+) {
   const { guideKey } = params;
 
   if (!guideKey) {
-    return NextResponse.json({ error: 'Guide key is required' }, { status: 400 });
+    return NextResponse.json({ error: 'Guide key is required in path' }, { status: 400 });
   }
 
-  const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
-  const fetchUrl = `${djangoApiUrl}/api/guides/validate-booking-key/${guideKey}/`;
+  const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL;
+  if (!djangoApiUrl) {
+    console.error("CRITICAL: NEXT_PUBLIC_DJANGO_API_URL environment variable is not set.");
+    return NextResponse.json({ error: 'API configuration error on server' }, { status: 500 });
+  }
 
   try {
-    const response = await fetch(fetchUrl, {
+    const backendUrl = `${djangoApiUrl}/api/guides/validate-key/${guideKey}/`;
+    console.log(`Proxying to Django: ${backendUrl}`);
+
+    const backendResponse = await fetch(backendUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-store',
     });
 
-    const data = await response.json();
-    return NextResponse.json(data, { status: response.status });
+    const data = await backendResponse.json();
+
+    if (!backendResponse.ok) {
+      console.error(`Django backend error: ${backendResponse.status}`, data);
+      return NextResponse.json(
+        { error: data.error || data.detail || 'Failed to validate guide key (from backend)' },
+        { status: backendResponse.status }
+      );
+    }
+
+    return NextResponse.json(data, { status: backendResponse.status });
 
   } catch (error) {
-    console.error(`Error fetching guide details for key ${guideKey}:`, error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    return NextResponse.json({ error: 'Failed to validate guide key', details: errorMessage }, { status: 500 });
+    let errorMessage = 'Internal server error while contacting backend API';
+    if (error instanceof Error) {
+      console.error('Error proxying to Django API:', error.message, error.stack);
+      errorMessage = `Failed to connect to backend: ${error.message}`; // More specific
+    } else {
+      console.error('Unknown error proxying to Django API:', error);
+    }
+    // Return the more specific error message if available
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
