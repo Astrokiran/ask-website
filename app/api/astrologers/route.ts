@@ -17,41 +17,44 @@ export async function GET() {
         );
 
         if (!response.ok) {
-            throw new Error(`Backend API error: ${response.status}`);
+            // Try to parse backend error message if available
+            const errorData = await response.json().catch(() => ({ detail: `Backend API error: ${response.status}` }));
+            throw new Error(errorData.detail || `Backend API error: ${response.status}`);
         }
 
         const data = await response.json();
-        return NextResponse.json(data);
+        if (!Array.isArray(data)) {
+            throw new Error('Invalid data format from backend: Expected an array.');
+        }
+        return NextResponse.json({ data });
     } catch (error) {
         console.error('Error fetching astrologers:', error);
 
         // Return mock data for development if the API is not available
         if (process.env.NODE_ENV === 'development') {
-            return NextResponse.json([
-                {
-                    id: "ABC123",
-                    name: "John Doe",
-                    specialties: ["Vedic Astrology", "Tarot Reading"],
-                    rating: 4.8
-                },
-                {
-                    id: "DEF456",
-                    name: "Jane Smith",
-                    specialties: ["Western Astrology", "Numerology"],
-                    rating: 4.6
-                },
-                {
-                    id: "GHI789",
-                    name: "Robert Johnson",
-                    specialties: ["Chinese Astrology", "Palm Reading"],
-                    rating: 4.9
-                }
-            ]);
+            return NextResponse.json({ data: [ // Wrap mock data
+                    {
+                        id: "mock_ABC123",
+                        name: "John Doe (Mock)",
+                        specialties: ["Vedic Astrology", "Tarot Reading"],
+                        rating: 4.8
+                    },
+                    {
+                        id: "mock_DEF456",
+                        name: "Jane Smith (Mock)",
+                        specialties: ["Western Astrology", "Numerology"],
+                        rating: 4.6
+                    },
+                    {
+                        id: "mock_GHI789",
+                        name: "Robert Johnson (Mock)",
+                        specialties: ["Chinese Astrology", "Palm Reading"],
+                        rating: 4.9
+                    }
+                ]
+            });
         }
-
-        return NextResponse.json(
-            { error: 'Failed to fetch astrologers' },
-            { status: 500 }
-        );
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 } 

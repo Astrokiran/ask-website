@@ -143,7 +143,7 @@ export function ScheduleSidebar({
                             <span className="text-sm">Unavailable</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 bg-blue-500 rounded-sm"></div>
+                            <div className="w-4 h-4 bg-red-500 rounded-sm"></div> {/* Changed from blue to red */}
                             <span className="text-sm">Booked</span>
                         </div>
                     </div>

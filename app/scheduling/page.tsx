@@ -27,8 +27,12 @@ export default function SchedulingPage() {
                     throw new Error('Failed to fetch astrologers');
                 }
 
-                const data = await response.json();
-                setAstrologers(data);
+                const result = await response.json();
+                if (result && Array.isArray(result.data)) {
+                    setAstrologers(result.data);
+                } else {
+                    throw new Error('Invalid data format received from API');
+                }
             } catch (error) {
                 console.error('Error fetching astrologers:', error);
             } finally {

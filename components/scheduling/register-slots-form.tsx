@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Input, InputProps } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
+
 
 interface Guide {
     id: number;
@@ -27,16 +29,30 @@ interface AvailabilitySlot {
 }
 
 interface RegisterSlotsFormProps {
-    astrologerId: string;
+    guideId: string; // Changed from astrologerId
     onSuccess?: (slots: AvailabilitySlot[]) => void;
+    initialDate?: string; // YYYY-MM-DD
+    initialStartTime?: string; // HH:MM (24-hour format)
 }
 
-export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsFormProps) {
-    const [date, setDate] = useState<string>("");
-    const [startTime, setStartTime] = useState<string>("09:00");
+export function RegisterSlotsForm({ guideId, onSuccess, initialDate, initialStartTime }: RegisterSlotsFormProps) {
+    const [date, setDate] = useState<string>(initialDate || "");
+    const [startTime, setStartTime] = useState<string>(initialStartTime || "09:00");
     const [endTime, setEndTime] = useState<string>("17:00");
     const [interval, setInterval] = useState<string>("30");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (initialDate) {
+            setDate(initialDate);
+        }
+    }, [initialDate]);
+
+    useEffect(() => {
+        if (initialStartTime) {
+            setStartTime(initialStartTime);
+        }
+    }, [initialStartTime]);
 
     // Helper to get current time in HH:MM format
     const getCurrentTimeHHMM = () => {
@@ -71,6 +87,21 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        // console.log("handleSubmit triggered"); 
+        // console.log("Initial guideId:", guideId);
+        // console.log("Initial date state:", date);
+        // console.log("Initial startTime state:", startTime);
+        // console.log("Initial endTime state:", endTime);
+        // console.log("Initial interval state:", interval);
+
+        if (!guideId || typeof guideId !== 'string' || guideId.trim() === "") {
+            toast({
+                title: "Configuration Error",
+                description: "Guide ID (Booking Key) is missing or invalid. Please ensure it's correctly provided.",
+                variant: "destructive",
+            });
+            return;
+        }
 
         if (!date) {
             toast({
@@ -118,25 +149,13 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
         setIsLoading(true);
 
         // Prepare slots for the backend
-        const guidePk = parseInt(astrologerId);
-        
-        if (isNaN(guidePk)) {
-            toast({
-                title: "Error",
-                description: "Invalid Astrologer ID.",
-                variant: "destructive",
-            });
-            setIsLoading(false);
-            return;
-        }
+        // The guideId prop should be the guide's static_booking_key (UUID string)
 
         const slotsToSubmit = timeSlots.map(slotStartTime => {
             const startDateTime = new Date(`${date}T${slotStartTime}:00`);
             const endDateTime = new Date(startDateTime);
             endDateTime.setMinutes(endDateTime.getMinutes() + intervalMinutes);
-
             return {
-                guide: guidePk,
                 start_time: startDateTime.toISOString(),
                 end_time: endDateTime.toISOString(),
             };
@@ -144,15 +163,16 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
 
         try {
             // TODO: Retrieve your actual auth token (e.g., from context or local storage)
-            const authToken = "YOUR_AUTH_TOKEN_HERE"; 
+            // const authToken = "YOUR_AUTH_TOKEN_HERE"; 
 
             // Use the environment variable for the Django API URL
-            const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000/api";
-            const response = await fetch(`${djangoApiUrl}/guides/slots/bulk-create/`, {
+            const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
+            // console.log("Sending X-Booking-Key:", guideId); 
+            const response = await fetch(`${baseApiUrl}/api/guides/slots/bulk-create/`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${authToken}`,
+                    'Content-Type': 'application/json',
+                    'X-Booking-Key': guideId, // Send the static_booking_key as a header
                 },
                 body: JSON.stringify(slotsToSubmit),
             });
@@ -267,7 +287,7 @@ export function RegisterSlotsForm({ astrologerId, onSuccess }: RegisterSlotsForm
                             <option value="15">15 minutes</option>
                             <option value="30">30 minutes</option>
                             <option value="45">45 minutes</option>
-                            <option value="60">60 minutes</option>
+                            <option value="60">60 minutes</option>  
                         </select>
                     </div>
 
