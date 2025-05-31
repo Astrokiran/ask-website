@@ -13,13 +13,15 @@ interface ScheduleGridProps {
     timezone: string; // For future timezone-aware calculations
     // onSlotInteract is replaced by onToggleSlotSelection for a different interaction model
     onToggleSlotSelection: (
-        day: Date, 
-        timeSlot24H: string
+        day: Date,
+        timeSlot24H: string, // HH:MM
+        slotId?: number,      // Provided if it's an existing slot
+        isCurrentlyBooked?: boolean // Current booked status of an existing slot
     ) => void;
-    onAttemptDeleteSlot: (slotId: number) => void; // New prop for handling deletion attempts
     viewMode: "day" | "week";
     availabilityData?: GridAvailabilitySlot[]; // Existing slots from backend
     selectedSlotsToRegister?: Set<string>; // Keys of slots selected for registration
+    selectedSlotsToUnregister?: Set<number>; // IDs of existing slots selected for unregistration
     processingSlotKey?: string | null; // Key of the slot currently being processed
 }
 
@@ -27,10 +29,10 @@ export function ScheduleGrid({
     selectedDate,
     timezone,
     onToggleSlotSelection,
-    onAttemptDeleteSlot,
     viewMode,
     availabilityData = [],
     selectedSlotsToRegister = new Set(),
+    selectedSlotsToUnregister = new Set(),
     processingSlotKey,
 }: ScheduleGridProps) {
     const gridRef = useRef<HTMLDivElement>(null);
@@ -180,6 +182,7 @@ export function ScheduleGrid({
                                 const isCurrentlyAvailable = !!existingSlot;
                                 const isBooked = existingSlot?.is_booked || false;
                                 const slotIsInPast = isSlotInPast(timeSlot, day);
+                                const isSelectedForUnregistration = existingSlot && selectedSlotsToUnregister.has(existingSlot.id);
                                 
                                 // Determine if this cell is the one being processed
                                 const slotDateTimeForCell = parseSlotDateTime(timeSlot, day);
@@ -220,12 +223,14 @@ export function ScheduleGrid({
 
                                 if (isProcessingThisCell) {
                                     slotClasses += "bg-yellow-300 opacity-70 cursor-wait"; // Style for processing slot
+                                } else if (isSelectedForUnregistration) {
+                                    slotClasses += "bg-purple-400 line-through text-white cursor-pointer hover:bg-purple-500"; // Selected for unregistration
                                 } else if (isBooked) {
                                     slotClasses += "bg-red-500 text-white cursor-pointer hover:bg-red-600"; // Booked slot, now clickable
                                 } else if (slotIsInPast) {
                                     slotClasses += "bg-gray-400 text-gray-600 !cursor-not-allowed"; // Darker gray for past
                                 } else if (isCurrentlyAvailable && !isBooked) { // Explicitly check not booked for orange
-                                    slotClasses += "bg-[#FF7F4F] hover:bg-[#FF9F70] text-white cursor-pointer";
+                                    slotClasses += "bg-[#FF7F4F] hover:bg-[#FF9F70] text-white cursor-pointer"; // Guide's available slot (Orange)
                                 } else if (isSelectedForRegistration) {
                                     slotClasses += "bg-blue-400 hover:bg-blue-500 text-white cursor-pointer"; // Selected for new registration
                                 } else {
@@ -238,25 +243,26 @@ export function ScheduleGrid({
                                         className={slotClasses}
                                         title={
                                             isProcessingThisCell ? "Processing..." :
-                                            isBooked && existingSlot ? `Booked. Click to unregister this slot (ID: ${existingSlot.id})` :
+                                            isSelectedForUnregistration && existingSlot ? `Marked for unregistration. Click to deselect (ID: ${existingSlot.id})` :
+                                            isBooked && existingSlot ? `Booked by customer. Click to mark for unregistration (ID: ${existingSlot.id})` :
                                             slotIsInPast ? "Time slot is in the past" :
-                                            isCurrentlyAvailable && !isBooked ? `Registered. (ID: ${existingSlot?.id})` : // Orange slots
+                                            isCurrentlyAvailable && !isBooked && existingSlot ? `Your available slot. Click to mark for unregistration (ID: ${existingSlot.id})` : // Orange slots
                                             isSelectedForRegistration ? "Selected for registration. Click to deselect." :
                                             "Click to select for registration"}
                                         onClick={() => {
                                             if (isProcessingThisCell || slotIsInPast) {
                                                 return; // Always prevent action if processing or in past
                                             }
-
-                                            if (isBooked && existingSlot) { // RED slot (guide registered it)
-                                                onAttemptDeleteSlot(existingSlot.id); // Call new prop
-                                            } else if (isCurrentlyAvailable && !isBooked && existingSlot) { // ORANGE slot (guide registered, not booked by customer)
-                                                onAttemptDeleteSlot(existingSlot.id); // Allow guide to delete their own available (orange) slots
-                                            } else if (isSelectedForRegistration || (!isCurrentlyAvailable && !isBooked)) {
-                                                // BLUE slot (selected by guide for new registration) OR GRAY slot (not yet registered by guide)
-                                                const slotDateTime = parseSlotDateTime(timeSlot, day);
-                                                const timeSlot24H = `${slotDateTime.getHours().toString().padStart(2, '0')}:${slotDateTime.getMinutes().toString().padStart(2, '0')}`;
-                                                onToggleSlotSelection(day, timeSlot24H); // Existing prop for toggling selection
+                                            
+                                            // Use the cellKey's timeSlot24HForCell for consistency with selection logic
+                                            if (existingSlot) {
+                                                // This is an existing slot (could be red or orange initially, or purple if selected for unreg)
+                                                // Toggle its selection for unregistration
+                                                onToggleSlotSelection(day, timeSlot24HForCell, existingSlot.id, existingSlot.is_booked);
+                                            } else {
+                                                // This is a new slot (gray) or one already selected for registration (blue)
+                                                // Toggle its selection for registration
+                                                onToggleSlotSelection(day, timeSlot24HForCell);
                                             }
                                         }}
                                     />

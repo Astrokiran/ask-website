@@ -46,6 +46,7 @@ export default function GuideSlotRegistrationPage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'day' | 'week'>('day');
   const [slotsToRegister, setSlotsToRegister] = useState<Set<string>>(new Set());
+  const [slotsToUnregister, setSlotsToUnregister] = useState<Set<number>>(new Set()); // For existing slot IDs
   const [isRegistering, setIsRegistering] = useState<boolean>(false); // For the "Register" button
   const [processingSlotKey, setProcessingSlotKey] = useState<string | null>(null); // State for the currently processing slot
 
@@ -119,49 +120,81 @@ export default function GuideSlotRegistrationPage() {
   };
 
   const handleToggleSlotSelection = (
-    day: Date, 
-    timeSlot24H: string // HH:MM
+    day: Date,
+    timeSlot24H: string, // HH:MM
+    slotId?: number, // Provided if it's an existing slot from availabilityData
+    isCurrentlyBooked?: boolean // From the grid, indicates if the slot is visually "booked"
   ) => {
-    // Use local date components to ensure the key matches the user's perceived date
     const localYear = day.getFullYear();
-    const localMonth = (day.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is 0-indexed
+    const localMonth = (day.getMonth() + 1).toString().padStart(2, '0');
     const localDayOfMonth = day.getDate().toString().padStart(2, '0');
     const localDateString = `${localYear}-${localMonth}-${localDayOfMonth}`;
-    // Format for display in toast
+    const slotKeyForNew = `${localDateString}-${timeSlot24H}`;
+
     const displayDate = day.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
     const [hourStr, minuteStr] = timeSlot24H.split(':');
     const displayHour = parseInt(hourStr, 10);
     const displayMinute = minuteStr;
     const displayPeriod = displayHour >= 12 ? 'PM' : 'AM';
     const displayTime12H = `${displayHour % 12 || 12}:${displayMinute} ${displayPeriod}`;
-
-    const slotKey = `${localDateString}-${timeSlot24H}`;
     
-    setSlotsToRegister(prev => {
-        const newSet = new Set(prev);
-        if (newSet.has(slotKey)) {
-            newSet.delete(slotKey);
-            toast({
-                title: "Slot Deselected",
-                description: `Slot on ${displayDate} at ${displayTime12H} removed from registration list.`,
-            });
+    if (slotId !== undefined) { // Interacting with an existing slot
+      setSlotsToUnregister(prevUnreg => {
+        const newUnregSet = new Set(prevUnreg);
+        if (newUnregSet.has(slotId)) {
+          newUnregSet.delete(slotId);
+          toast({
+            title: "Slot Deselected for Unregistration",
+            description: `Slot on ${displayDate} at ${displayTime12H} removed from unregistration.`,
+          });
         } else {
-            newSet.add(slotKey);
-            toast({
-                title: "Slot Selected",
-                description: `Slot on ${displayDate} at ${displayTime12H} added for registration.`,
-            });
+          newUnregSet.add(slotId);
+          toast({
+            title: "Slot Selected for Unregistration",
+            description: `Slot on ${displayDate} at ${displayTime12H} marked for unregistration.`,
+          });
         }
-        return newSet;
-    });
+        return newUnregSet;
+      });
+      // If an existing slot is selected for unregistration, it cannot be selected for new registration
+      setSlotsToRegister(prevReg => {
+        const newRegSet = new Set(prevReg);
+        if (newRegSet.has(slotKeyForNew)) { // Should ideally not happen if UI is clear
+          newRegSet.delete(slotKeyForNew);
+        }
+        return newRegSet;
+      });
+    } else { // Interacting with a potential new slot
+      setSlotsToRegister(prevReg => {
+        const newRegSet = new Set(prevReg);
+        if (newRegSet.has(slotKeyForNew)) {
+          newRegSet.delete(slotKeyForNew);
+          toast({
+            title: "Slot Deselected for Registration",
+            description: `New slot on ${displayDate} at ${displayTime12H} removed from registration.`,
+          });
+        } else {
+          newRegSet.add(slotKeyForNew);
+          toast({
+            title: "Slot Selected for Registration",
+            description: `New slot on ${displayDate} at ${displayTime12H} added for registration.`,
+          });
+        }
+        return newRegSet;
+      });
+    }
   };
   
 
-  const handleRegisterSelectedSlots = async () => {
-    if (!guideDetails || slotsToRegister.size === 0) {
+  const handleUpdateAvailability = async () => {
+    if (!guideDetails) {
+        toast({ title: "Error", description: "Guide details not loaded.", variant: "destructive" });
+        return;
+    }
+    if (slotsToRegister.size === 0 && slotsToUnregister.size === 0) {
         toast({
-            title: "No Slots Selected",
-            description: "Please select one or more new time slots to register.",
+            title: "No Changes",
+            description: "No slots selected for registration or unregistration.",
             variant: "default",
         });
         return;
@@ -170,7 +203,7 @@ export default function GuideSlotRegistrationPage() {
     setIsRegistering(true);
     const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
 
-    const slotsPayload = Array.from(slotsToRegister).map(slotKey => {
+    const slotsToCreatePayload = Array.from(slotsToRegister).map(slotKey => {
         const parts = slotKey.split('-');
         if (parts.length !== 4) {
             console.error(`Malformed slotKey encountered: ${slotKey}. Skipping this slot.`);
@@ -199,65 +232,65 @@ export default function GuideSlotRegistrationPage() {
         };
     }).filter(Boolean) as { start_time: string; end_time: string; }[]; // Filter out nulls and assert type
 
-    if (slotsPayload.length === 0 && slotsToRegister.size > 0) {
-        toast({ title: "Error", description: "Could not process any selected slots due to malformed data. Please try again.", variant: "destructive"});
+    const slotIdsToDeletePayload = Array.from(slotsToUnregister);
+
+    if (slotsToCreatePayload.length === 0 && slotsToRegister.size > 0) { // Check if any new slots were malformed
+        toast({ title: "Error", description: "Could not process any new slots due to malformed data. Please try again.", variant: "destructive" });
         setIsRegistering(false);
         return;
     }
 
+    const payload = {
+        slots_to_create: slotsToCreatePayload,
+        slot_ids_to_delete: slotIdsToDeletePayload,
+    };
+
     try {
-        const response = await fetch(`${baseApiUrl}/api/guides/slots/bulk-create/`, {
+        const response = await fetch(`${baseApiUrl}/api/guides/slots/bulk-update/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'X-Booking-Key': guideDetails.static_booking_key,
             },
-            body: JSON.stringify(slotsPayload),
+            body: JSON.stringify(payload),
         });
 
+        const responseData = await response.json().catch(() => ({ detail: "Failed to process request. Invalid JSON response." }));
+
         if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ detail: "Failed to create slot." }));
-          let extractedMessage = "An unknown error occurred during slot registration.";
-
-          // Handle DRF's non_field_errors structure which can be an array of objects
-          if (Array.isArray(errorData) && errorData.length > 0) {
-            if (errorData[0].non_field_errors && Array.isArray(errorData[0].non_field_errors) && errorData[0].non_field_errors.length > 0) {
-              extractedMessage = errorData[0].non_field_errors[0];
-            } else if (typeof errorData[0] === 'string') { // Sometimes it might be an array of strings
-              extractedMessage = errorData[0];
+            let errorMessage = responseData.detail || "An unknown error occurred during the update.";
+            if (responseData.slots_to_create_validation) {
+                const createErrors = Array.isArray(responseData.slots_to_create_validation) ?
+                    responseData.slots_to_create_validation.map((e: any) => e.non_field_errors || JSON.stringify(e)).join(', ') :
+                    JSON.stringify(responseData.slots_to_create_validation);
+                errorMessage = `Slot creation error: ${createErrors}`;
+            } else if (typeof responseData === 'string') {
+                errorMessage = responseData;
             }
-          } else if (errorData.detail) { // Standard DRF detail error
-            extractedMessage = errorData.detail;
-          } else if (errorData.message) { // Generic message property
-            extractedMessage = errorData.message;
-          } else if (typeof errorData === 'string') { // Plain string error
-            extractedMessage = errorData;
-          }
-          const errorMessageString = extractedMessage;
+            
+            const isConflictError = errorMessage.includes("must make a unique set") ||
+                                  errorMessage.includes("violates unique constraint") ||
+                                  errorMessage.includes("already exists");
 
-          // Check for common phrases indicating a unique constraint violation
-          const isUniqueConstraintError = 
-            errorMessageString.includes("must make a unique set") || 
-            errorMessageString.includes("violates unique constraint") ||
-            errorMessageString.includes("already exists");
-
-          if (isUniqueConstraintError) {
-            console.warn("Attempted to create a slot that already exists or would conflict. Backend message:", errorMessageString);
-            toast({
-                title: "Slot Information",
-                description: "One or more selected slots already exist or conflicted. Refreshing availability.",
-                variant: "default", 
-            });
-          } else {
-            throw new Error(errorMessageString || `Error creating slots: ${response.status}`);
-          }
+            if (isConflictError) {
+                toast({
+                    title: "Slot Conflict",
+                    description: "One or more new slots conflicted with existing ones. Refreshing availability.",
+                    variant: "default",
+                });
+            } else {
+                throw new Error(errorMessage);
+            }
         } else {
-          // Successful creation
-          toast({ title: "Success", description: `${slotsPayload.length} slot(s) request processed.` });
+            let successMessage = "Availability updated.";
+            if (responseData.created_count > 0 || responseData.deleted_count > 0) {
+                successMessage = `Registered ${responseData.created_count || 0}, Unregistered ${responseData.deleted_count || 0} slot(s).`;
+            }
+            toast({ title: "Success", description: successMessage });
         }
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Could not register selected slots.";
-        console.error("Error registering selected slots:", errorMessage);
+        const errorMessage = err instanceof Error ? err.message : "Could not update availability.";
+        console.error("Error updating availability:", errorMessage);
         toast({ title: "Error", description: errorMessage, variant: "destructive" });
       } finally {
         fetchGuideSlots(guideDetails.static_booking_key); // Always refresh
@@ -265,53 +298,6 @@ export default function GuideSlotRegistrationPage() {
         setIsRegistering(false);
       }
   };
-
-
-  const handleAttemptDeleteSlot = async (slotId: number) => {
-        const currentGuideKey = guideDetails?.static_booking_key;
-        if (!currentGuideKey) {
-            toast({ title: "Error", description: "Guide key not available.", variant: "destructive" });
-            return;
-        }
-
-        const confirmed = window.confirm("Are you sure you want to unregister this time slot?");
-        if (!confirmed) {
-            return;
-        }
-
-        setIsLoading(true); // Use a general loading state or a specific one for deletion
-        setProcessingSlotKey(`delete-${slotId}`); // Optional: indicate which slot is being processed
-
-        const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
-        try {
-            // The DELETE request to /api/guides/slots/{id}/ should be authenticated.
-            // The backend's perform_destroy checks request.user against the slot's guide.
-            // No X-Booking-Key is strictly needed here if authentication is handled (e.g., JWT).
-            const response = await fetch(`${baseApiUrl}/api/guides/slots/${slotId}/`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Booking-Key': currentGuideKey, // Ensure this is sent
-                    // 'Authorization': `Bearer ${getAuthToken()}`, // If you use standard token auth
-                },
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ detail: "Failed to delete slot." }));
-                throw new Error(errorData.detail || `Error: ${response.status}`);
-            }
-
-            toast({ title: "Success", description: "Slot unregistered successfully." });
-            // Update local state to reflect deletion
-            setAvailabilityData(prev => prev.filter(slot => slot.id !== slotId));
-
-        } catch (error) {
-            toast({ title: "Error", description: (error instanceof Error ? error.message : "Could not unregister slot."), variant: "destructive" });
-        } finally {
-            setIsLoading(false);
-            setProcessingSlotKey(null);
-        }
-    };
 
     if (error) {
         return <div className="container mx-auto p-4 text-red-500">{error}</div>;
@@ -327,6 +313,21 @@ export default function GuideSlotRegistrationPage() {
 
   if (!guideDetails) {
     return <div className="min-h-screen flex justify-center items-center"><p>Guide not found or key is invalid.</p></div>;
+  }
+
+  // Button text logic
+  let buttonText = "Update Availability";
+  const regCount = slotsToRegister.size;
+  const unregCount = slotsToUnregister.size;
+
+  if (isRegistering) {
+      buttonText = "Updating...";
+  } else if (regCount > 0 && unregCount > 0) {
+      buttonText = `Register ${regCount}, Unregister ${unregCount} Slot(s)`;
+  } else if (regCount > 0) {
+      buttonText = `Register ${regCount} New Slot(s)`;
+  } else if (unregCount > 0) {
+      buttonText = `Unregister ${unregCount} Slot(s)`;
   }
 
   return (
@@ -356,14 +357,17 @@ export default function GuideSlotRegistrationPage() {
                   viewMode={viewMode}
                   availabilityData={availabilityData}
                   selectedSlotsToRegister={slotsToRegister}
-                  // processingSlotKey={isRegistering ? "all" : null} // Or handle global processing differently
-                  onAttemptDeleteSlot={handleAttemptDeleteSlot} // Pass the handler function
+                  selectedSlotsToUnregister={slotsToUnregister} // Pass the new set
                   processingSlotKey={processingSlotKey} // Pass the processingSlotKey
                 />
             </div>
-            {slotsToRegister.size > 0 && (
-                <Button onClick={handleRegisterSelectedSlots} disabled={isRegistering} className="w-full md:w-auto bg-[#FF7F50] hover:bg-[#FF6A3D]">
-                    {isRegistering ? "Registering..." : `Register ${slotsToRegister.size} Selected Slot(s)`}
+            {(slotsToRegister.size > 0 || slotsToUnregister.size > 0) && (
+                <Button 
+                  onClick={handleUpdateAvailability} 
+                  disabled={isRegistering || (slotsToRegister.size === 0 && slotsToUnregister.size === 0) } 
+                  className="w-full md:w-auto bg-[#FF7F50] hover:bg-[#FF6A3D]"
+                >
+                    {buttonText}
                 </Button>
             )}
           </div>
