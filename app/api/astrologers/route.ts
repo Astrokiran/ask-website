@@ -11,7 +11,6 @@ export async function GET() {
                     'Content-Type': 'application/json',
                     // Add any authentication headers if needed
                 },
-                cache: 'no-store',
                 next: { revalidate: 3600 }, // Revalidate every hour
             }
         );

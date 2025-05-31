@@ -40,7 +40,7 @@ export default function SchedulingPage() {
             }
         };
 
-        fetchAstrologers();
+        // fetchAstrologers();
     }, []);
 
     return (

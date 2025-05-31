@@ -1,4 +1,3 @@
-// /home/chay/Web/ask-website/app/api/guide-by-key/[guideKey]/route.ts
 import { NextResponse } from 'next/server';
 
 export async function GET(
@@ -11,9 +10,9 @@ export async function GET(
     return NextResponse.json({ error: 'Guide key is required in path' }, { status: 400 });
   }
 
-  const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL;
+  const djangoApiUrl = process.env.BACKEND_API_URL; // Use the server-side variable
   if (!djangoApiUrl) {
-    console.error("CRITICAL: NEXT_PUBLIC_DJANGO_API_URL environment variable is not set.");
+    console.error("CRITICAL: BACKEND_API_URL environment variable is not set for the server runtime.");
     return NextResponse.json({ error: 'API configuration error on server' }, { status: 500 });
   }
 
