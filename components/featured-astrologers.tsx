@@ -7,6 +7,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { motion } from "framer-motion"
 import { title } from "process"
 
+
+
 const astrologers = [
 
   {
