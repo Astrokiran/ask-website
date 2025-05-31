@@ -291,8 +291,8 @@ export default function GuideSlotRegistrationPage() {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Add Authorization header if your API requires JWT or other token
-                    // 'Authorization': `Bearer ${yourAuthToken}`, 
+                    'X-Booking-Key': currentGuideKey, // Ensure this is sent
+                    // 'Authorization': `Bearer ${getAuthToken()}`, // If you use standard token auth
                 },
             });
 
