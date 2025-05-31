@@ -37,8 +37,8 @@ export function ScheduleGrid({
 }: ScheduleGridProps) {
     const gridRef = useRef<HTMLDivElement>(null);
     // Constants for responsive design
-    const TIME_COLUMN_WIDTH = "60px"; // For "9:00 AM"
-    const DAY_COLUMN_MIN_WIDTH = "70px"; // For "Wed" & "23"
+    const TIME_COLUMN_WIDTH = "50px"; // For "9:00 AM"
+    const DAY_COLUMN_MIN_WIDTH = "60px"; // For "Wed" & "23"
 
     const now = new Date();
 
@@ -159,11 +159,11 @@ export function ScheduleGrid({
             >
                 {/* Header Row */}
                 <div className="grid gap-1 mb-2 sticky top-0 bg-white z-20" style={{ gridTemplateColumns: gridTemplateColumnsStyle }}>
-                    <div className="p-1 sm:p-2 font-medium text-[11px] sm:text-xs text-gray-500 sticky left-0 bg-white z-10">Time</div>
+                    <div className="p-1 sm:p-2 font-medium text-[10px] sm:text-xs text-gray-500 sticky left-0 bg-white z-10 flex items-center">Time</div>
                     {daysToDisplay.map((day, index) => (
-                        <div key={index} className="p-2 font-medium text-sm text-center">
-                            <div>{day.toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                            <div>{day.getDate()}</div>
+                        <div key={index} className="p-1 text-center sm:p-2">
+                            <div className="font-medium text-[10px] sm:text-xs md:text-sm">{day.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                            <div className="text-[10px] sm:text-xs md:text-sm">{day.getDate()}</div>
                         </div>
                     ))}
                 </div>
@@ -176,7 +176,7 @@ export function ScheduleGrid({
                             className="grid gap-1"
                             style={{ gridTemplateColumns: gridTemplateColumnsStyle }}
                         >
-                            <div className="p-1 sm:p-2 text-[10px] sm:text-xs text-gray-500 sticky left-0 bg-white z-10 flex items-center">{timeSlot}</div>
+                            <div className="p-1 text-[9px] sm:text-[10px] md:text-xs text-gray-500 sticky left-0 bg-white z-10 flex items-center">{timeSlot}</div>
                             {daysToDisplay.map((day, dayIndex) => {
                                 const existingSlot = getExistingSlotDetails(day, timeSlot);
                                 const isCurrentlyAvailable = !!existingSlot;
@@ -219,22 +219,23 @@ export function ScheduleGrid({
                                 //     });
                                 // }
 
-                                let slotClasses = "p-1.5 h-9 sm:p-2 sm:h-10 rounded transition-colors flex items-center justify-center "; // Added flex for potential content centering
+                                let slotClasses = "p-1 h-8 sm:p-1.5 sm:h-9 md:p-2 md:h-10 rounded transition-colors flex items-center justify-center "; 
 
                                 if (isProcessingThisCell) {
                                     slotClasses += "bg-yellow-300 opacity-70 cursor-wait"; // Style for processing slot
                                 } else if (isSelectedForUnregistration) {
                                     slotClasses += "bg-purple-400 line-through text-white cursor-pointer hover:bg-purple-500"; // Selected for unregistration
                                 } else if (isBooked) {
-                                    slotClasses += "bg-red-500 text-white cursor-pointer hover:bg-red-600"; // Booked slot, now clickable
+                                    slotClasses += "bg-red-500 text-white cursor-pointer hover:bg-red-600"; // Booked slot
                                 } else if (slotIsInPast) {
-                                    slotClasses += "bg-gray-400 text-gray-600 !cursor-not-allowed"; // Darker gray for past
+                                    slotClasses += "bg-gray-300 text-gray-500 !cursor-not-allowed"; // Past slot - styled as unavailable
                                 } else if (isCurrentlyAvailable && !isBooked) { // Explicitly check not booked for orange
-                                    slotClasses += "bg-[#FF7F4F] hover:bg-[#FF9F70] text-white cursor-pointer"; // Guide's available slot (Orange)
+                                    slotClasses += "bg-green-500 hover:bg-green-600 text-white cursor-pointer"; // Guide's available slot (Green)
                                 } else if (isSelectedForRegistration) {
                                     slotClasses += "bg-blue-400 hover:bg-blue-500 text-white cursor-pointer"; // Selected for new registration
                                 } else {
-                                    slotClasses += "bg-gray-200 hover:bg-gray-300 cursor-pointer"; // Matched legend for unavailable
+                                    // Default for future, unselected, non-existing slots: make them green
+                                    slotClasses += "bg-green-500 hover:bg-green-600 text-white cursor-pointer";
                                 }
 
                                 return (
@@ -246,7 +247,7 @@ export function ScheduleGrid({
                                             isSelectedForUnregistration && existingSlot ? `Marked for unregistration. Click to deselect (ID: ${existingSlot.id})` :
                                             isBooked && existingSlot ? `Booked by customer. Click to mark for unregistration (ID: ${existingSlot.id})` :
                                             slotIsInPast ? "Time slot is in the past" :
-                                            isCurrentlyAvailable && !isBooked && existingSlot ? `Your available slot. Click to mark for unregistration (ID: ${existingSlot.id})` : // Orange slots
+                                            isCurrentlyAvailable && !isBooked && existingSlot ? `Your available slot. Click to mark for unregistration (ID: ${existingSlot.id})` : // Green slots
                                             isSelectedForRegistration ? "Selected for registration. Click to deselect." :
                                             "Click to select for registration"}
                                         onClick={() => {

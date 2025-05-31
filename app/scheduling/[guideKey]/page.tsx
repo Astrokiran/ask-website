@@ -15,6 +15,12 @@ interface GuideDetails {
   static_booking_key: string; 
 } 
 
+interface GuideSlotsApiResponse {
+  guide_details: GuideDetails;
+  slots: AvailabilitySlotBE[];
+}
+
+
 interface AvailabilitySlotBE { // From backend
   id: number;
   guide: number;
@@ -53,25 +59,17 @@ export default function GuideSlotRegistrationPage() {
   useEffect(() => {
     if (guideKey) {
       const fetchGuideDetails = async () => {
-        // setIsLoading(true); // Loading will be for slots, if fetchable
+        setIsLoading(true);
         setError(null);
-        // The backend endpoint for validating guide key and getting details was removed.
-        // We'll use the guideKey from the URL as the static_booking_key
-        // and a placeholder for the name.
-        setGuideDetails({
-          id: 0, // Placeholder ID
-          name: "Guide", // Placeholder name, actual name can't be fetched anymore
-          static_booking_key: guideKey,
-        });
-
-        // Attempt to fetch existing slots.
-        // NOTE: This will likely fail as the backend GET endpoint for slots was removed.
-        // The 'bulk_update_guide_slots' is POST-only.
-        // A separate GET endpoint for slots is needed on the backend to display existing availability.
-        await fetchGuideSlots(guideKey);
-        setIsLoading(false); // Done with initial setup/fetch attempt
+        try {
+          await fetchGuideSlots(guideKey);
+        } catch (err) {
+          // Error handling is done within fetchGuideSlots, which calls setError and toast
+        } finally {
+          setIsLoading(false); 
+        }
       };
-      fetchGuideDetails();
+      fetchGuideDetails(); // Corrected function call
     } else {
       setIsLoading(false);
       setError("Guide key not found in URL.");
@@ -86,15 +84,17 @@ export default function GuideSlotRegistrationPage() {
   const fetchGuideSlots = async (static_booking_key: string) => {
     try {
       const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
-      // IMPORTANT: The backend's GET endpoint for listing slots was removed.
-      // The '/api/guides/slots/' endpoint is now POST-only for bulk updates.
-      // This fetch will fail unless a GET handler is re-added to the backend.
-      // Assuming the API path is /api/guides/slots/ for listing if it existed.
       const response = await fetch(`${baseApiUrl}/api/guides/slots/?static_booking_key=${static_booking_key}`); 
       if (!response.ok) {
-        throw new Error("Failed to fetch guide slots");
+        const errorData = await response.json().catch(() => ({ detail: "Failed to fetch guide information." }));
+        throw new Error(errorData.detail || "Failed to fetch guide information.");
       }
-      const slots: AvailabilitySlotBE[] = await response.json();
+      const apiResponse: GuideSlotsApiResponse = await response.json();
+      
+      setGuideDetails(apiResponse.guide_details); // Set guide details from the response
+
+      const slots = apiResponse.slots;
+
       const gridSlots: GridAvailabilitySlot[] = slots.map(slot => {
         const startDate = new Date(slot.start_time);
         // Use local date components for consistency with selection keying
@@ -111,11 +111,13 @@ export default function GuideSlotRegistrationPage() {
       });
       setAvailabilityData(gridSlots);
     } catch (err) {
-      console.error("Error fetching guide slots:", err);
+      const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
+      console.error("Error fetching guide slots:", errorMessage);
+      setError(errorMessage);
       toast({
-        title: "Could Not Load Existing Slots",
-        description: "Failed to fetch existing availability. The backend endpoint might be missing or has changed. You can still register new slots.",
-        variant: "default", // Use 'default' or 'warning' as it's not a critical error for new registrations
+        title: "Error Loading Guide Data",
+        description: errorMessage,
+        variant: "destructive",
       });
     }
   };
