@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Build the URL with only the astrologer ID parameter
-        const url = new URL(`${process.env.BACKEND_API_URL}/guides/slots/bulk-create/`);
+        const url = new URL(`${process.env.NEXT_PUBLIC_DJANGO_URL}/guides/slots/bulk-create/`);
         url.searchParams.append('guide_id', astrologerId);
         // Remove the date parameter to get all slots
 
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
 
         // Call your backend API to register availability slots
         const response = await fetch(
-            `${process.env.BACKEND_API_URL}/guides/slots/bulk-create/`,
+            `${process.env.NEXT_PUBLIC_DJANGO_URL}/guides/slots/bulk-create/`,
             {
                 method: 'POST',
                 headers: {
@@ -172,7 +172,7 @@ export async function DELETE(request: NextRequest) {
 
         // Call your backend API to delete availability slots
         const response = await fetch(
-            `${process.env.BACKEND_API_URL}/guides/slots/bulk-delete/`,
+            `${process.env.NEXT_PUBLIC_DJANGO_URL}/guides/slots/bulk-delete/`,
             {
                 method: 'DELETE',
                 headers: {

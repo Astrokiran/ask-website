@@ -4,7 +4,7 @@ export async function GET() {
     try {
         // Call your backend API to get the list of astrologers
         const response = await fetch(
-            `${process.env.BACKEND_API_URL}/api/guides/`,
+            `${process.env.NEXT_PUBLIC_DJANGO_URL}/api/guides/`,
             {
                 method: 'GET',
                 headers: {

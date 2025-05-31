@@ -90,7 +90,7 @@ export default function GuideSlotRegistrationPage() {
 
   const fetchGuideSlots = async (static_booking_key: string) => {
     try {
-      const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
+      const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
       // Assuming backend filters by 'guide_key' for the static_booking_key
       const response = await fetch(`${baseApiUrl}/api/guides/slots/?guide_key=${static_booking_key}`); 
       if (!response.ok) {
@@ -168,7 +168,7 @@ export default function GuideSlotRegistrationPage() {
     }
 
     setIsRegistering(true);
-    const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
+    const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
 
     const slotsPayload = Array.from(slotsToRegister).map(slotKey => {
         const parts = slotKey.split('-');
@@ -282,7 +282,7 @@ export default function GuideSlotRegistrationPage() {
         setIsLoading(true); // Use a general loading state or a specific one for deletion
         setProcessingSlotKey(`delete-${slotId}`); // Optional: indicate which slot is being processed
 
-        const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
+        const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
         try {
             // The DELETE request to /api/guides/slots/{id}/ should be authenticated.
             // The backend's perform_destroy checks request.user against the slot's guide.

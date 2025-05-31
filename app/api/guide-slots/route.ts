@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     const endDate = searchParams.get('end_date');     // YYYY-MM-DD
     const isBooked = searchParams.get('is_booked');   // true/false
 
-    const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
+    const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
     
     const query = new URLSearchParams();
     if (guideId) query.append('guide_id', guideId);
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
+    const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
     const fetchUrl = `${djangoApiUrl}/api/guides/slots/bulk-create/`;
 
     try {

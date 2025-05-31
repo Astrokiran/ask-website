@@ -10,17 +10,17 @@ export async function GET(
     return NextResponse.json({ error: 'Guide key is required in path' }, { status: 400 });
   }
 
-  const djangoApiUrl = process.env.BACKEND_API_URL; // Use the server-side variable
+  const djangoApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL; // Use the server-side variable
   if (!djangoApiUrl) {
-    console.error("BACKEND_API_URL is not set. Value:", djangoApiUrl); // Log if not set
-    console.error("CRITICAL: BACKEND_API_URL environment variable is not set for the server runtime.");
+    console.error("NEXT_PUBLIC_DJANGO_URL is not set. Value:", djangoApiUrl); // Log if not set
+    console.error("CRITICAL: NEXT_PUBLIC_DJANGO_URL environment variable is not set for the server runtime.");
     return NextResponse.json({ error: 'API configuration error on server' }, { status: 500 });
   }
 
   try {
     const backendUrl = `${djangoApiUrl}/api/guides/validate-key/${guideKey}/`;
     console.log(`Proxying to Django: ${backendUrl}`);
-    console.log(`Value of BACKEND_API_URL: ${djangoApiUrl}`); // Log the value
+    console.log(`Value of NEXT_PUBLIC_DJANGO_URL: ${djangoApiUrl}`); // Log the value
 
     const backendResponse = await fetch(backendUrl, {
       method: 'GET',

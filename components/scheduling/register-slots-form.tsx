@@ -166,7 +166,7 @@ export function RegisterSlotsForm({ guideId, onSuccess, initialDate, initialStar
             // const authToken = "YOUR_AUTH_TOKEN_HERE"; 
 
             // Use the environment variable for the Django API URL
-            const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://localhost:8000";
+            const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
             // console.log("Sending X-Booking-Key:", guideId); 
             const response = await fetch(`${baseApiUrl}/api/guides/slots/bulk-create/`, {
                 method: "POST",
