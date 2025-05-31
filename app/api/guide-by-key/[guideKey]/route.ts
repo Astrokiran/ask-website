@@ -12,6 +12,7 @@ export async function GET(
 
   const djangoApiUrl = process.env.BACKEND_API_URL; // Use the server-side variable
   if (!djangoApiUrl) {
+    console.error("BACKEND_API_URL is not set. Value:", djangoApiUrl); // Log if not set
     console.error("CRITICAL: BACKEND_API_URL environment variable is not set for the server runtime.");
     return NextResponse.json({ error: 'API configuration error on server' }, { status: 500 });
   }
@@ -19,6 +20,7 @@ export async function GET(
   try {
     const backendUrl = `${djangoApiUrl}/api/guides/validate-key/${guideKey}/`;
     console.log(`Proxying to Django: ${backendUrl}`);
+    console.log(`Value of BACKEND_API_URL: ${djangoApiUrl}`); // Log the value
 
     const backendResponse = await fetch(backendUrl, {
       method: 'GET',
