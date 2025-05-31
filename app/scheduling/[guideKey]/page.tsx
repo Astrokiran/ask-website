@@ -53,47 +53,44 @@ export default function GuideSlotRegistrationPage() {
   useEffect(() => {
     if (guideKey) {
       const fetchGuideDetails = async () => {
-        setIsLoading(true);
+        // setIsLoading(true); // Loading will be for slots, if fetchable
         setError(null);
-        try {
-          const response = await fetch(`/api/guide-by-key/${guideKey}`);
-          const data = await response.json();
+        // The backend endpoint for validating guide key and getting details was removed.
+        // We'll use the guideKey from the URL as the static_booking_key
+        // and a placeholder for the name.
+        setGuideDetails({
+          id: 0, // Placeholder ID
+          name: "Guide", // Placeholder name, actual name can't be fetched anymore
+          static_booking_key: guideKey,
+        });
 
-          if (!response.ok) {
-            throw new Error(data.error || data.details || "Failed to validate guide key");
-          }
-
-          if (data.message === "Key is valid." && data.guide) {
-            setGuideDetails(data.guide);
-            fetchGuideSlots(data.guide.static_booking_key); // Fetch slots using static_booking_key
-          } else {
-            throw new Error("Invalid guide key or data format.");
-          }
-        } catch (err) {
-          const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
-          console.error("Error fetching guide details:", errorMessage);
-          setError(errorMessage);
-          toast({
-            title: "Error",
-            description: `Could not load guide information: ${errorMessage}`,
-            variant: "destructive",
-          });
-        } finally {
-          setIsLoading(false);
-        }
+        // Attempt to fetch existing slots.
+        // NOTE: This will likely fail as the backend GET endpoint for slots was removed.
+        // The 'bulk_update_guide_slots' is POST-only.
+        // A separate GET endpoint for slots is needed on the backend to display existing availability.
+        await fetchGuideSlots(guideKey);
+        setIsLoading(false); // Done with initial setup/fetch attempt
       };
       fetchGuideDetails();
     } else {
       setIsLoading(false);
       setError("Guide key not found in URL.");
+      toast({
+        title: "Error",
+        description: "Guide key not found in URL.",
+        variant: "destructive",
+      });
     }
   }, [guideKey]);
 
   const fetchGuideSlots = async (static_booking_key: string) => {
     try {
       const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
-      // Assuming backend filters by 'guide_key' for the static_booking_key
-      const response = await fetch(`${baseApiUrl}/api/guides/slots/?guide_key=${static_booking_key}`); 
+      // IMPORTANT: The backend's GET endpoint for listing slots was removed.
+      // The '/api/guides/slots/' endpoint is now POST-only for bulk updates.
+      // This fetch will fail unless a GET handler is re-added to the backend.
+      // Assuming the API path is /api/guides/slots/ for listing if it existed.
+      const response = await fetch(`${baseApiUrl}/api/guides/slots/?static_booking_key=${static_booking_key}`); 
       if (!response.ok) {
         throw new Error("Failed to fetch guide slots");
       }
@@ -115,7 +112,11 @@ export default function GuideSlotRegistrationPage() {
       setAvailabilityData(gridSlots);
     } catch (err) {
       console.error("Error fetching guide slots:", err);
-      // Optionally show a toast or set an error state specific to slots
+      toast({
+        title: "Could Not Load Existing Slots",
+        description: "Failed to fetch existing availability. The backend endpoint might be missing or has changed. You can still register new slots.",
+        variant: "default", // Use 'default' or 'warning' as it's not a critical error for new registrations
+      });
     }
   };
 
@@ -241,16 +242,17 @@ export default function GuideSlotRegistrationPage() {
     }
 
     const payload = {
+        static_booking_key: guideDetails.static_booking_key, // Add key to payload
         slots_to_create: slotsToCreatePayload,
         slot_ids_to_delete: slotIdsToDeletePayload,
     };
 
     try {
-        const response = await fetch(`${baseApiUrl}/api/guides/slots/bulk-update/`, {
+        // Corrected endpoint: /api/guides/slots/
+        const response = await fetch(`${baseApiUrl}/api/guides/slots/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'X-Booking-Key': guideDetails.static_booking_key,
             },
             body: JSON.stringify(payload),
         });
@@ -293,7 +295,10 @@ export default function GuideSlotRegistrationPage() {
         console.error("Error updating availability:", errorMessage);
         toast({ title: "Error", description: errorMessage, variant: "destructive" });
       } finally {
-        fetchGuideSlots(guideDetails.static_booking_key); // Always refresh
+        // Attempt to refresh slots. This will only work if a GET endpoint is available.
+        if (guideDetails?.static_booking_key) {
+          fetchGuideSlots(guideDetails.static_booking_key);
+        }
         setSlotsToRegister(new Set()); // Clear selection
         setIsRegistering(false);
       }
@@ -312,7 +317,7 @@ export default function GuideSlotRegistrationPage() {
   }
 
   if (!guideDetails) {
-    return <div className="min-h-screen flex justify-center items-center"><p>Guide not found or key is invalid.</p></div>;
+    return <div className="min-h-screen flex justify-center items-center"><p>Guide information not available.</p></div>;
   }
 
   // Button text logic
