@@ -55,7 +55,7 @@ export default function GuideSlotRegistrationPage() {
         setIsLoading(true);
         setError(null);
         try {
-          const response = await fetch(`/api/guides/validate-key/${guideKey}`);
+          const response = await fetch(`/api/guide-by-key/${guideKey}`);
           const data = await response.json();
 
           if (!response.ok) {
