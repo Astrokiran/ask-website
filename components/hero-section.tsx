@@ -35,10 +35,13 @@ export function HeroSection({
   }, []);
 
   const nextImage = () => {
+    console.log('Next image');
+    console.log('process.env', process.env);
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
   };
 
   const previousImage = () => {
+    console.log('Previous image');
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
