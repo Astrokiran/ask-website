@@ -97,14 +97,22 @@ export default function GuideSlotRegistrationPage() {
 
       const gridSlots: GridAvailabilitySlot[] = slots.map(slot => {
         const startDate = new Date(slot.start_time);
-        // Use local date components for consistency with selection keying
-        const localYear = startDate.getFullYear();
-        const localMonth = (startDate.getMonth() + 1).toString().padStart(2, '0');
-        const localDayOfMonth = startDate.getDate().toString().padStart(2, '0');
-        const localDateString = `${localYear}-${localMonth}-${localDayOfMonth}`;
+        // When USE_TZ=False, backend sends naive datetime strings.
+        // new Date("YYYY-MM-DDTHH:MM:SS") interprets this as local time in the browser.
+        // This matches the requirement if the user's browser is in the intended timezone (e.g., Asia/Kolkata)
+        // or if the times are always meant to be displayed as per Asia/Kolkata values.
+
+        const year = startDate.getFullYear();
+        const month = (startDate.getMonth() + 1).toString().padStart(2, '0');
+        const dayOfMonth = startDate.getDate().toString().padStart(2, '0');
+        const dateString = `${year}-${month}-${dayOfMonth}`;
+
+        const hours = startDate.getHours().toString().padStart(2, '0');
+        const minutes = startDate.getMinutes().toString().padStart(2, '0');
+        const seconds = startDate.getSeconds().toString().padStart(2, '0');
         return {
-          date: localDateString, // YYYY-MM-DD from local interpretation
-          start_time: startDate.toTimeString().split(' ')[0], // HH:MM:SS
+          date: dateString, // YYYY-MM-DD
+          start_time: `${hours}:${minutes}:${seconds}`, // HH:MM:SS
           id: slot.id, 
           is_booked: slot.is_booked, // Map the is_booked status
         };
@@ -229,9 +237,22 @@ export default function GuideSlotRegistrationPage() {
         }
 
         const endDateTime = new Date(startDateTime.getTime() + 30 * 60000); // Add 30 minutes
+
+        // Format as naive datetime string "YYYY-MM-DDTHH:MM:SS"
+        const formatToNaiveDateTimeString = (date: Date) => {
+          const year = date.getFullYear();
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const day = date.getDate().toString().padStart(2, '0');
+          const hours = date.getHours().toString().padStart(2, '0');
+          const minutes = date.getMinutes().toString().padStart(2, '0');
+          const seconds = date.getSeconds().toString().padStart(2, '0');
+          return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+        };
+
         return {
-            start_time: startDateTime.toISOString(),
-            end_time: endDateTime.toISOString(),
+            start_time: formatToNaiveDateTimeString(startDateTime),
+            end_time: formatToNaiveDateTimeString(endDateTime),
+            is_booked: true, // Explicitly set new slots created by the guide as booked
         };
     }).filter(Boolean) as { start_time: string; end_time: string; }[]; // Filter out nulls and assert type
 
