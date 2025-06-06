@@ -79,7 +79,7 @@ export function ScheduleGrid({
     const timeSlots = [];
     // Generate time slots from 6:00 AM to 9:30 PM in 30-minute increments
     for (let hour = 6; hour <= 21; hour++) { // 6 AM up to 9 PM hour
-        for (let minute = 0; minute < 60; minute += 30) {
+        for (let minute = 0; minute < 60; minute += 60) {
             if (hour === 21 && minute > 30) break; // Ensures 9:30 PM is the last slot from 9 PM hour
 
             const formattedHour = hour % 12 || 12;
