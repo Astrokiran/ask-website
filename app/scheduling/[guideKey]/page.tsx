@@ -27,6 +27,7 @@ interface AvailabilitySlotBE { // From backend
   start_time: string; // ISO DateTime string
   end_time: string; // ISO DateTime string
   is_booked: boolean;
+  made_available_after_booking?: boolean; // New field from backend
   created_at: string;
   updated_at: string;
 }
@@ -37,6 +38,7 @@ interface GridAvailabilitySlot {
     start_time: string; // HH:MM:SS
     id: number; 
     is_booked?: boolean; // To indicate if the slot is booked by a customer
+    made_available_after_booking?: boolean; // New field
 }
 
 export default function GuideSlotRegistrationPage() {
@@ -51,8 +53,9 @@ export default function GuideSlotRegistrationPage() {
   // State for sidebar and grid
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'day' | 'week'>('day');
-  const [slotsToRegister, setSlotsToRegister] = useState<Set<string>>(new Set());
-  const [slotsToUnregister, setSlotsToUnregister] = useState<Set<number>>(new Set()); // For existing slot IDs
+  const [slotsToRegisterNew, setSlotsToRegisterNew] = useState<Set<string>>(new Set()); // For brand new slots
+  const [slotsToMarkAsUnbooked, setSlotsToMarkAsUnbooked] = useState<Set<number>>(new Set()); // Existing slots to set is_booked = false
+  const [slotsToMarkAsBookedByGuide, setSlotsToMarkAsBookedByGuide] = useState<Set<number>>(new Set()); // Existing slots to set is_booked = true
   const [isRegistering, setIsRegistering] = useState<boolean>(false); // For the "Register" button
   const [processingSlotKey, setProcessingSlotKey] = useState<string | null>(null); // State for the currently processing slot
 
@@ -102,13 +105,22 @@ export default function GuideSlotRegistrationPage() {
         const localMonth = (startDate.getMonth() + 1).toString().padStart(2, '0');
         const localDayOfMonth = startDate.getDate().toString().padStart(2, '0');
         const localDateString = `${localYear}-${localMonth}-${localDayOfMonth}`;
+
+        // Ensure slot.id is a number
+        const numericId = Number(slot.id);
+        if (isNaN(numericId)) {
+            console.error(`Slot with non-numeric ID received from backend and skipped:`, slot);
+            return null; // Skip this slot if its ID is not a valid number
+        }
+
         return {
           date: localDateString, // YYYY-MM-DD from local interpretation
           start_time: startDate.toTimeString().split(' ')[0], // HH:MM:SS
-          id: slot.id, 
+          id: numericId, // Use the validated numeric ID
           is_booked: slot.is_booked, // Map the is_booked status
+          made_available_after_booking: slot.made_available_after_booking, // Map the new field
         };
-      });
+      }).filter(Boolean) as GridAvailabilitySlot[]; // Filter out any nulls from skipped slots
       setAvailabilityData(gridSlots);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
@@ -125,8 +137,7 @@ export default function GuideSlotRegistrationPage() {
   const handleToggleSlotSelection = (
     day: Date,
     timeSlot24H: string, // HH:MM
-    slotId?: number, // Provided if it's an existing slot from availabilityData
-    isCurrentlyBooked?: boolean // From the grid, indicates if the slot is visually "booked"
+    existingSlotData?: GridAvailabilitySlot // Full existing slot data if available
   ) => {
     const localYear = day.getFullYear();
     const localMonth = (day.getMonth() + 1).toString().padStart(2, '0');
@@ -141,34 +152,46 @@ export default function GuideSlotRegistrationPage() {
     const displayPeriod = displayHour >= 12 ? 'PM' : 'AM';
     const displayTime12H = `${displayHour % 12 || 12}:${displayMinute} ${displayPeriod}`;
     
-    if (slotId !== undefined) { // Interacting with an existing slot
-      setSlotsToUnregister(prevUnreg => {
-        const newUnregSet = new Set(prevUnreg);
-        if (newUnregSet.has(slotId)) {
-          newUnregSet.delete(slotId);
-          toast({
-            title: "Slot Deselected for Unregistration",
-            description: `Slot on ${displayDate} at ${displayTime12H} removed from unregistration.`,
-          });
-        } else {
-          newUnregSet.add(slotId);
-          toast({
-            title: "Slot Selected for Unregistration",
-            description: `Slot on ${displayDate} at ${displayTime12H} marked for unregistration.`,
-          });
-        }
-        return newUnregSet;
+    if (existingSlotData) { // Interacting with an existing slot
+      const slotId = existingSlotData.id;
+      // Clear from new registration if it was somehow selected
+      setSlotsToRegisterNew(prevReg => {
+        const newSet = new Set(prevReg);
+        newSet.delete(slotKeyForNew);
+        return newSet;
       });
-      // If an existing slot is selected for unregistration, it cannot be selected for new registration
-      setSlotsToRegister(prevReg => {
-        const newRegSet = new Set(prevReg);
-        if (newRegSet.has(slotKeyForNew)) { // Should ideally not happen if UI is clear
-          newRegSet.delete(slotKeyForNew);
-        }
-        return newRegSet;
-      });
-    } else { // Interacting with a potential new slot
-      setSlotsToRegister(prevReg => {
+
+      if (existingSlotData.is_booked) { // Red slot: toggle for unbooking (make available)
+        setSlotsToMarkAsUnbooked(prevUnreg => {
+          const newSet = new Set(prevUnreg);
+          if (newSet.has(slotId)) {
+            newSet.delete(slotId);
+            toast({ title: "Deselected", description: `Booked slot on ${displayDate} at ${displayTime12H} will remain booked.` });
+          } else {
+            newSet.add(slotId);
+            toast({ title: "Selected to Unbook", description: `Slot on ${displayDate} at ${displayTime12H} will be marked as unbooked.` });
+          }
+          return newSet;
+        });
+        // If selected to be unbooked, it cannot be selected to be booked by guide
+        setSlotsToMarkAsBookedByGuide(prevBook => { const newSet = new Set(prevBook); newSet.delete(slotId); return newSet; });
+      } else { // Green slot (is_booked === false): toggle for booking by guide
+        setSlotsToMarkAsBookedByGuide(prevBook => {
+          const newSet = new Set(prevBook);
+          if (newSet.has(slotId)) {
+            newSet.delete(slotId);
+            toast({ title: "Deselected for Booking", description: `Slot on ${displayDate} at ${displayTime12H} will remain unbooked.` });
+          } else {
+            newSet.add(slotId);
+            toast({ title: "Selected for Booking", description: `Slot on ${displayDate} at ${displayTime12H} will be marked as booked.` });
+          }
+          return newSet;
+        });
+        // If selected to be booked by guide, it cannot be selected to be unbooked
+        setSlotsToMarkAsUnbooked(prevUnreg => { const newSet = new Set(prevUnreg); newSet.delete(slotId); return newSet; });
+      }
+    } else { // Interacting with a potential new slot (no existingSlotData)
+      setSlotsToRegisterNew(prevReg => {
         const newRegSet = new Set(prevReg);
         if (newRegSet.has(slotKeyForNew)) {
           newRegSet.delete(slotKeyForNew);
@@ -185,6 +208,8 @@ export default function GuideSlotRegistrationPage() {
         }
         return newRegSet;
       });
+      // If a new slot is selected, clear any existing slot selections for this cell (should not happen with current UI)
+      // This part is more of a safeguard if the UI allowed clicking an existing slot then a new one in same cell.
     }
   };
   
@@ -194,7 +219,7 @@ export default function GuideSlotRegistrationPage() {
         toast({ title: "Error", description: "Guide details not loaded.", variant: "destructive" });
         return;
     }
-    if (slotsToRegister.size === 0 && slotsToUnregister.size === 0) {
+    if (slotsToRegisterNew.size === 0 && slotsToMarkAsUnbooked.size === 0 && slotsToMarkAsBookedByGuide.size === 0) {
         toast({
             title: "No Changes",
             description: "No slots selected for registration or unregistration.",
@@ -206,7 +231,7 @@ export default function GuideSlotRegistrationPage() {
     setIsRegistering(true);
     const baseApiUrl = process.env.NEXT_PUBLIC_DJANGO_URL;
 
-    const slotsToCreatePayload = Array.from(slotsToRegister).map(slotKey => {
+    const slotsToCreatePayload = Array.from(slotsToRegisterNew).map(slotKey => {
         const parts = slotKey.split('-');
         if (parts.length !== 4) {
             console.error(`Malformed slotKey encountered: ${slotKey}. Skipping this slot.`);
@@ -235,9 +260,10 @@ export default function GuideSlotRegistrationPage() {
         };
     }).filter(Boolean) as { start_time: string; end_time: string; }[]; // Filter out nulls and assert type
 
-    const slotIdsToDeletePayload = Array.from(slotsToUnregister);
+    // Note: The logic to populate slotsToMarkAsUnbooked and slotsToMarkAsBookedByGuide
+    // is already handled by handleToggleSlotSelection. We just convert the Sets to Arrays here.
 
-    if (slotsToCreatePayload.length === 0 && slotsToRegister.size > 0) { // Check if any new slots were malformed
+    if (slotsToCreatePayload.length === 0 && slotsToRegisterNew.size > 0) { // Check if any new slots were malformed
         toast({ title: "Error", description: "Could not process any new slots due to malformed data. Please try again.", variant: "destructive" });
         setIsRegistering(false);
         return;
@@ -246,7 +272,8 @@ export default function GuideSlotRegistrationPage() {
     const payload = {
         static_booking_key: guideDetails.static_booking_key, // Add key to payload
         slots_to_create: slotsToCreatePayload,
-        slot_ids_to_delete: slotIdsToDeletePayload,
+        slot_ids_to_mark_as_unbooked: Array.from(slotsToMarkAsUnbooked),
+        slot_ids_to_mark_as_booked_by_guide: Array.from(slotsToMarkAsBookedByGuide),
     };
 
     try {
@@ -287,8 +314,11 @@ export default function GuideSlotRegistrationPage() {
             }
         } else {
             let successMessage = "Availability updated.";
-            if (responseData.created_count > 0 || responseData.deleted_count > 0) {
-                successMessage = `Registered ${responseData.created_count || 0}, Unregistered ${responseData.deleted_count || 0} slot(s).`;
+            const created = responseData.created_count || 0;
+            const markedUnbooked = responseData.marked_unbooked_count || 0; // Expect from backend
+            const markedBooked = responseData.marked_booked_count || 0;   // Expect from backend
+            if (created > 0 || markedUnbooked > 0 || markedBooked > 0) {
+                successMessage = `Registered: ${created}, Marked Unbooked: ${markedUnbooked}, Marked Booked: ${markedBooked}.`;
             }
             toast({ title: "Success", description: successMessage });
         }
@@ -301,7 +331,9 @@ export default function GuideSlotRegistrationPage() {
         if (guideDetails?.static_booking_key) {
           fetchGuideSlots(guideDetails.static_booking_key);
         }
-        setSlotsToRegister(new Set()); // Clear selection
+        setSlotsToMarkAsUnbooked(new Set());
+        setSlotsToMarkAsBookedByGuide(new Set());
+        setSlotsToRegisterNew(new Set());
         setIsRegistering(false);
       }
   };
@@ -324,17 +356,23 @@ export default function GuideSlotRegistrationPage() {
 
   // Button text logic
   let buttonText = "Update Availability";
-  const regCount = slotsToRegister.size;
-  const unregCount = slotsToUnregister.size;
+  const newSlotsCount = slotsToRegisterNew.size;
+  const markUnbookedCount = slotsToMarkAsUnbooked.size;
+  const markBookedCount = slotsToMarkAsBookedByGuide.size;
+  const totalActions = newSlotsCount + markUnbookedCount + markBookedCount;
 
   if (isRegistering) {
       buttonText = "Updating...";
-  } else if (regCount > 0 && unregCount > 0) {
-      buttonText = `Register ${regCount}, Unregister ${unregCount} Slot(s)`;
-  } else if (regCount > 0) {
-      buttonText = `Register ${regCount} New Slot(s)`;
-  } else if (unregCount > 0) {
-      buttonText = `Unregister ${unregCount} Slot(s)`;
+  } else if (totalActions > 0) {
+      const parts = [];
+      if (newSlotsCount > 0) parts.push(`Register ${newSlotsCount}`);
+      if (markUnbookedCount > 0) parts.push(`Mark Unbooked ${markUnbookedCount}`);
+      if (markBookedCount > 0) parts.push(`Mark Booked ${markBookedCount}`);
+      buttonText = parts.join(', ') + (totalActions === 1 && newSlotsCount === 1 && parts[0].includes("Register") ? " New Slot" : " Slot(s)");
+      if (parts.length > 1) {
+        const lastPart = parts.pop();
+        buttonText = parts.join(', ') + ` & ${lastPart}` + (totalActions === 1 && regCount === 1 && parts.length === 0 && lastPart?.includes("Register") ? " New Slot" : " Slot(s)");
+      }
   }
 
   return (
@@ -363,15 +401,16 @@ export default function GuideSlotRegistrationPage() {
                   onToggleSlotSelection={handleToggleSlotSelection}
                   viewMode={viewMode}
                   availabilityData={availabilityData}
-                  selectedSlotsToRegister={slotsToRegister}
-                  selectedSlotsToUnregister={slotsToUnregister} // Pass the new set
+                  selectedSlotsToRegister={slotsToRegisterNew}
+                  selectedSlotsToMarkAsUnbooked={slotsToMarkAsUnbooked}
+                  selectedSlotsToMarkAsBookedByGuide={slotsToMarkAsBookedByGuide}
                   processingSlotKey={processingSlotKey} // Pass the processingSlotKey
                 />
             </div>
-            {(slotsToRegister.size > 0 || slotsToUnregister.size > 0) && (
+            {totalActions > 0 && (
                 <Button 
                   onClick={handleUpdateAvailability} 
-                  disabled={isRegistering || (slotsToRegister.size === 0 && slotsToUnregister.size === 0) } 
+                  disabled={isRegistering || totalActions === 0}
                   className="w-full md:w-auto bg-[#FF7F50] hover:bg-[#FF6A3D]"
                 >
                     {buttonText}

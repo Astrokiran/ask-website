@@ -6,6 +6,7 @@ interface GridAvailabilitySlot { // Renamed to match parent and for clarity
     start_time: string; // e.g., "09:00:00"
     id: number; 
     is_booked?: boolean; // To indicate if the slot is booked by a customer
+    made_available_after_booking?: boolean; // New field
 }
 
 interface ScheduleGridProps {
@@ -15,13 +16,13 @@ interface ScheduleGridProps {
     onToggleSlotSelection: (
         day: Date,
         timeSlot24H: string, // HH:MM
-        slotId?: number,      // Provided if it's an existing slot
-        isCurrentlyBooked?: boolean // Current booked status of an existing slot
+        existingSlotData?: GridAvailabilitySlot // Pass the whole existing slot if available
     ) => void;
     viewMode: "day" | "week";
     availabilityData?: GridAvailabilitySlot[]; // Existing slots from backend
-    selectedSlotsToRegister?: Set<string>; // Keys of slots selected for registration
-    selectedSlotsToUnregister?: Set<number>; // IDs of existing slots selected for unregistration
+    selectedSlotsToRegister?: Set<string>; // Keys of new slots selected for registration
+    selectedSlotsToMarkAsUnbooked?: Set<number>; // IDs of existing slots to mark is_booked = false
+    selectedSlotsToMarkAsBookedByGuide?: Set<number>; // IDs of existing slots to mark is_booked = true
     processingSlotKey?: string | null; // Key of the slot currently being processed
 }
 
@@ -31,8 +32,9 @@ export function ScheduleGrid({
     onToggleSlotSelection,
     viewMode,
     availabilityData = [],
-    selectedSlotsToRegister = new Set(),
-    selectedSlotsToUnregister = new Set(),
+    selectedSlotsToRegister: selectedSlotsToRegisterNew = new Set(), // Renamed for clarity
+    selectedSlotsToMarkAsUnbooked = new Set(),
+    selectedSlotsToMarkAsBookedByGuide = new Set(),
     processingSlotKey,
 }: ScheduleGridProps) {
     const gridRef = useRef<HTMLDivElement>(null);
@@ -40,8 +42,15 @@ export function ScheduleGrid({
     const TIME_COLUMN_WIDTH = "50px"; // For "9:00 AM"
     const DAY_COLUMN_MIN_WIDTH = "60px"; // For "Wed" & "23"
 
-    const now = new Date();
+    const [currentTimeForGrid, setCurrentTimeForGrid] = useState(new Date());
+    useEffect(() => {
+        const timeId = setInterval(() => {
+            setCurrentTimeForGrid(new Date());
+        }, 60000); // Update every minute
+        return () => clearInterval(timeId);
+    }, []);
 
+    const now = currentTimeForGrid;
     // Use a Map for efficient lookup of existing slots
     const [existingSlotsMap, setExistingSlotsMap] = useState<Map<string, GridAvailabilitySlot>>(new Map());
 
@@ -66,36 +75,52 @@ export function ScheduleGrid({
         setExistingSlotsMap(newMap);
     }, [availabilityData]);
 
+    const todayForViewColumns = new Date(); // Use a consistent "today" for generating day columns
+    todayForViewColumns.setHours(0, 0, 0, 0); // Normalize to the start of today for consistent day columns
+
     const daysToDisplay = viewMode === "day"
-        ? [selectedDate]
+        ? [selectedDate] // Day view still respects the date selected in the sidebar
         : Array.from({ length: 7 }, (_, i) => {
-            const date = new Date(selectedDate);
-            // Ensure the week starts correctly based on your locale or preference
-            const dayOfWeek = date.getDay(); // 0 (Sun) - 6 (Sat)
-            date.setDate(date.getDate() - dayOfWeek + i);
+            // For week view, always start from the current date and show the next 6 days
+            const date = new Date(todayForViewColumns);
+            date.setDate(todayForViewColumns.getDate() + i);
             return date;
         });
 
     // Generate time slots dynamically, starting from the current hour
     const [timeSlots, setTimeSlots] = useState<string[]>([]);
     useEffect(() => {
-        const generateTimeSlots = () => {
-            const now = new Date();
-            const selectedDateIsToday = daysToDisplay.some(day => 
-                day.getFullYear() === now.getFullYear() &&
-                day.getMonth() === now.getMonth() &&
-                day.getDate() === now.getDate()
-            );
 
-            let startHour = 0;  // Default start time for future dates
-            if (selectedDateIsToday) {
-                startHour = now.getHours() + 1;  // Start from the next full hour
+        const generateSlots = () => {
+            const nowForSlotGeneration = currentTimeForGrid;
+            const slots = [];
+            let startHourConfig = 0;
+            const endHourConfig = 23; // 24-hour format, so we include 0-23
+            if (viewMode === "day") {
+                const selectedYear = selectedDate.getFullYear();    
+                const selectedMonth = selectedDate.getMonth();
+                const selectedDay = selectedDate.getDate();
+                const todayYear = nowForSlotGeneration.getFullYear();
+                const todayMonth = nowForSlotGeneration.getMonth();
+                const todayDay = nowForSlotGeneration.getDate();    
+
+
+                if (selectedYear === todayYear && selectedMonth === todayMonth && selectedDay === todayDay) {
+                    let currentActualHour = nowForSlotGeneration.getHours();
+                    let currentActualMinutes = nowForSlotGeneration.getMinutes();
+
+                    if (currentActualMinutes > 0) {
+                        // If current minutes are not zero, we start from the next hour
+                        startHourConfig = currentActualHour + 1;
+                    } else {
+                        // If current minutes are zero, we start from the current hour
+                        startHourConfig = currentActualHour;
+                    }
+                }
             }
 
-            const slots = [];
-            const endHour = 23;  // Always end at 11 PM
 
-            for (let hour = startHour; hour <= endHour; hour++) {
+            for (let hour = startHourConfig; hour <= endHourConfig; hour++) {
                 for (let minute = 0; minute < 60; minute += 60) {  // Assuming 60-minute slots
 
                     let formattedHour = hour % 12;
@@ -103,21 +128,18 @@ export function ScheduleGrid({
 
                     let period = hour < 12 ? "AM" : "PM";
 
-                    if (hour === 24) {  // Midnight adjustment
-                        formattedHour = 12;
-                        period = "AM";
-                    }
+                   
                     slots.push(`${formattedHour}:${minute === 0 ? "00" : minute} ${period}`);
                 }
             }
             return slots;
         };
 
-         const generatedSlots = generateTimeSlots();
+         const generatedSlots = generateSlots();
          if (JSON.stringify(generatedSlots) !== JSON.stringify(timeSlots)) {
              setTimeSlots(generatedSlots);
          }
-    }, [daysToDisplay]);  // Recalculate when daysToDisplay changes
+    }, [viewMode, selectedDate, currentTimeForGrid]);  // Recalculate when daysToDisplay changes
     const gridCols = daysToDisplay.length + 1;
 
     // Calculate the grid template columns style
@@ -208,12 +230,12 @@ export function ScheduleGrid({
                                 const slotIsInPast = isSlotInPast(timeSlot, day);
 
                                 // Render nothing if the slot is in the past
-                                if (slotIsInPast) {
-                                    return null;
+                                if (viewMode === "day" && slotIsInPast) {
+                                     return null;
                                 }
                                 else {
                                     const isBooked = existingSlot?.is_booked || false;
-                                    const isSelectedForUnregistration = existingSlot && selectedSlotsToUnregister.has(existingSlot.id);
+                                    // const isSelectedForUnregistration = existingSlot && selectedSlotsToMarkAsUnbooked.has(existingSlot.id); // Not directly used for styling like this anymore
 
                                     // Determine if this cell is the one being processed
                                     const slotDateTimeForCell = parseSlotDateTime(timeSlot, day);
@@ -225,7 +247,7 @@ export function ScheduleGrid({
                                     const localDateStringCell = `${localYearCell}-${localMonthCell}-${localDayOfMonthCell}`;
 
                                     const cellKey = `${localDateStringCell}-${timeSlot24HForCell}`;
-                                    const isSelectedForRegistration = selectedSlotsToRegister.has(cellKey);
+                                    const isSelectedForNewRegistration = selectedSlotsToRegisterNew.has(cellKey);
 
                                     let isProcessingThisCell = false;
                                     if (processingSlotKey) {
@@ -239,15 +261,24 @@ export function ScheduleGrid({
 
                                     let slotClasses = "p-1 h-8 sm:p-1.5 sm:h-9 md:p-2 md:h-10 rounded transition-colors flex items-center justify-center ";
 
-                                    if (isProcessingThisCell) {
-                                        slotClasses += "bg-yellow-300 opacity-70 cursor-wait"; // Style for processing slot
-                                    } else if (isSelectedForUnregistration) {
-                                        slotClasses += "bg-purple-400 line-through text-white cursor-pointer hover:bg-purple-500"; // Selected for unregistration
+                                    if (slotIsInPast) {
+                                        slotClasses += "bg-gray-300 text-gray-500 !cursor-not-allowed"; // Past slots are gray and disabled
+                                    } else if (isProcessingThisCell) {
+                                        slotClasses += "bg-yellow-300 opacity-70 cursor-wait"; // Processing slot
+                                    } else if (existingSlot && selectedSlotsToMarkAsBookedByGuide.has(existingSlot.id)) {
+                                        // Currently unbooked (green), selected to be booked by guide
+                                        slotClasses += "bg-blue-500 text-white cursor-pointer hover:bg-blue-600"; // Blue for "mark as booked"
+                                    } else if (existingSlot && selectedSlotsToMarkAsUnbooked.has(existingSlot.id)) {
+                                        // Currently booked (red), selected to be unbooked by guide
+                                        slotClasses += "bg-purple-400 text-white cursor-pointer hover:bg-purple-500"; // Purple for "mark as unbooked"
                                     } else if (isBooked) {
+                                        // Default state for a booked slot (not selected for any action)
                                         slotClasses += "bg-red-500 text-white cursor-pointer hover:bg-red-600"; // Booked slot
-                                    } else if (isCurrentlyAvailable && !isBooked) { // Explicitly check not booked for orange
+                                    } else if (isCurrentlyAvailable && !isBooked) { 
+                                        // Default state for an available slot (not selected for any action)
                                         slotClasses += "bg-green-500 hover:bg-green-600 text-white cursor-pointer"; // Guide's available slot (Green)
-                                    } else if (isSelectedForRegistration) {
+                                    } else if (isSelectedForNewRegistration) {
+                                        // New slot selected for registration
                                         slotClasses += "bg-blue-400 hover:bg-blue-500 text-white cursor-pointer"; // Selected for new registration
                                     } else {
                                         // Default for future, unselected, non-existing slots: make them green
@@ -259,22 +290,24 @@ export function ScheduleGrid({
                                             key={dayIndex}
                                             className={slotClasses}
                                             title={
+                                                slotIsInPast ? "This slot is in the past and cannot be selected." :
                                                 isProcessingThisCell ? "Processing..." :
-                                                    isSelectedForUnregistration && existingSlot ? `Marked for unregistration. Click to deselect (ID: ${existingSlot.id})` :
+                                                    (existingSlot && selectedSlotsToMarkAsBookedByGuide.has(existingSlot.id)) ? `Slot marked to be booked. Click to deselect. (ID: ${existingSlot.id})` :
+                                                    (existingSlot && selectedSlotsToMarkAsUnbooked.has(existingSlot.id)) ? `Slot marked to be unbooked. Click to deselect. (ID: ${existingSlot.id})` :
                                                         isBooked && existingSlot ? `Booked by customer. Click to mark for unregistration (ID: ${existingSlot.id})` :
-                                                            isCurrentlyAvailable && !isBooked && existingSlot ? `Your available slot. Click to mark for unregistration (ID: ${existingSlot.id})` : // Green slots
-                                                                isSelectedForRegistration ? "Selected for registration. Click to deselect." :
+                                                            isCurrentlyAvailable && !isBooked && existingSlot ? `Your available slot. Click to mark for unregistration (ID: ${existingSlot.id})` :
+                                                                isSelectedForNewRegistration ? "Selected for registration. Click to deselect." :
                                                                     "Click to select for registration"}
                                             onClick={() => {
-                                                if (isProcessingThisCell) {
-                                                    return; // Always prevent action if processing
-                                                }
+                                               if (slotIsInPast || isProcessingThisCell) {
+                                                   return;
+                                               }
 
                                                 // Use the cellKey's timeSlot24HForCell for consistency with selection logic
                                                 if (existingSlot) {
                                                     // This is an existing slot (could be red or orange initially, or purple if selected for unreg)
                                                     // Toggle its selection for unregistration
-                                                    onToggleSlotSelection(day, timeSlot24HForCell, existingSlot.id, existingSlot.is_booked);
+                                                    onToggleSlotSelection(day, timeSlot24HForCell, existingSlot);
                                                 } else {
                                                     // This is a new slot (gray) or one already selected for registration (blue)
                                                     // Toggle its selection for registration

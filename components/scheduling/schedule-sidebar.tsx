@@ -117,7 +117,7 @@ export function ScheduleSidebar({
                                 month={currentMonth}
                                 onMonthChange={setCurrentMonth}
                                 className="w-auto calendar-custom"
-                                showOutsideDays={false}
+                                showOutsideDays={true}
                                 disabled={{ before: new Date() }}
                                 classNames={{
                                     nav: "!hidden",
@@ -146,18 +146,26 @@ export function ScheduleSidebar({
                     <h3 className="text-sm font-medium">Availability Legend</h3>
                 </CardHeader>
                 <CardContent>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5 text-xs">
                         <div className="flex items-center gap-2">
                             <div className="w-4 h-4 bg-green-500 rounded-sm"></div>
-                            <span className="text-sm">Available</span>
+                            <span>Available (Click to select for booking)</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 bg-gray-200 rounded-sm"></div>
-                            <span className="text-sm">Unavailable</span>
+                            <div className="w-4 h-4 bg-red-500 rounded-sm"></div>
+                            <span>Booked (Click to select for unbooking)</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 bg-red-500 rounded-sm"></div> {/* Changed from blue to red */}
-                            <span className="text-sm">Booked</span>
+                            <div className="w-4 h-4 bg-blue-400 rounded-sm"></div>
+                            <span>Selected for New Registration / Selected for Booking</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-purple-400 rounded-sm"></div>
+                            <span>Selected for Unbooking</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-gray-300 rounded-sm"></div>
+                            <span>Past Slot / Non-Interactive</span>
                         </div>
                     </div>
                 </CardContent>
