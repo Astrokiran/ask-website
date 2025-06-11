@@ -155,17 +155,11 @@ export function ScheduleSidebar({
                             <div className="w-4 h-4 bg-red-500 rounded-sm"></div>
                             <span>Booked (Click to select for unbooking)</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 bg-blue-400 rounded-sm"></div>
-                            <span>Selected for New Registration / Selected for Booking</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 bg-purple-400 rounded-sm"></div>
-                            <span>Selected for Unbooking</span>
-                        </div>
+                        
+                        
                         <div className="flex items-center gap-2">
                             <div className="w-4 h-4 bg-gray-300 rounded-sm"></div>
-                            <span>Past Slot / Non-Interactive</span>
+                            <span>Unavailable</span>
                         </div>
                     </div>
                 </CardContent>
