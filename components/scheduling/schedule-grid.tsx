@@ -76,18 +76,67 @@ export function ScheduleGrid({
             return date;
         });
 
-    const timeSlots = [];
-    // Generate time slots from 6:00 AM to 9:30 PM in 30-minute increments
-    for (let hour = 6; hour <= 21; hour++) { // 6 AM up to 9 PM hour
-        for (let minute = 0; minute < 60; minute += 60) {
-            if (hour === 21 && minute > 30) break; // Ensures 9:30 PM is the last slot from 9 PM hour
+    // Generate time slots dynamically, starting from the current hour
+    const [timeSlots, setTimeSlots] = useState<string[]>([]);
+    useEffect(() => {
+        const generateTimeSlots = () => {
+            const now = new Date();
+            const selectedDateIsToday = daysToDisplay.some(day => 
+                day.getFullYear() === now.getFullYear() &&
+                day.getMonth() === now.getMonth() &&
+                day.getDate() === now.getDate()
+            );
 
-            const formattedHour = hour % 12 || 12;
-            const period = hour < 12 || hour === 24 ? "AM" : "PM";
-            timeSlots.push(`${formattedHour}:${minute === 0 ? "00" : minute} ${period}`);
-        }
-    }
+            let startHour = 0;  // Default start time for future dates
+            if (selectedDateIsToday) {
+                startHour = now.getHours() + 1;  // Start from the next full hour
+            }
 
+            const slots = [];
+            const endHour = 23;  // Always end at 11 PM
+
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (let minute = 0; minute < 60; minute += 60) {  // Assuming 60-minute slots
+
+                    let formattedHour = hour % 12;
+                    formattedHour = formattedHour === 0 ? 12 : formattedHour; // Convert 0 to 12 for AM/PM format
+
+                    let period = hour < 12 ? "AM" : "PM";
+
+                    if (hour === 24) {  // Midnight adjustment
+                        formattedHour = 12;
+                        period = "AM";
+                    }
+                    slots.push(`${formattedHour}:${minute === 0 ? "00" : minute} ${period}`);
+                }
+            }
+            return slots;
+        };
+
+         const generatedSlots = generateTimeSlots();
+         if (JSON.stringify(generatedSlots) !== JSON.stringify(timeSlots)) {
+             setTimeSlots(generatedSlots);
+         }
+    }, [daysToDisplay]);  // Recalculate when daysToDisplay changes
+    const gridCols = daysToDisplay.length + 1;
+
+    // Calculate the grid template columns style
+    const gridTemplateColumnsStyle = `${TIME_COLUMN_WIDTH} repeat(${daysToDisplay.length}, minmax(${DAY_COLUMN_MIN_WIDTH}, 1fr))`;
+
+    // Calculate minimum width for the scrollable grid area
+    const calculatedMinWidth = parseInt(TIME_COLUMN_WIDTH) + daysToDisplay.length * parseInt(DAY_COLUMN_MIN_WIDTH);
+    const minWidthStyle = `${calculatedMinWidth}px`;
+
+    const getExistingSlotDetails = (day: Date, timeSlot12H: string): GridAvailabilitySlot | undefined => {
+        const slotDateTime = parseSlotDateTime(timeSlot12H, day);
+        // Use local date components for the key
+        const localYear = day.getFullYear();
+        const localMonth = (day.getMonth() + 1).toString().padStart(2, '0');
+        const localDayOfMonth = day.getDate().toString().padStart(2, '0');
+        const localDateString = `${localYear}-${localMonth}-${localDayOfMonth}`; // YYYY-MM-DD
+        const timeSlot24H = `${slotDateTime.getHours().toString().padStart(2, '0')}:${slotDateTime.getMinutes().toString().padStart(2, '0')}`;
+        return existingSlotsMap.get(`${localDateString}-${timeSlot24H}`);
+    };
 
     // Helper to parse slot string and day into a Date object
     const parseSlotDateTime = (timeSlot: string, day: Date): Date => {
@@ -116,34 +165,10 @@ export function ScheduleGrid({
         );
         return slotDateTime;
     };
-
     const isSlotInPast = (timeSlot: string, day: Date): boolean => {
         const slotDateTime = parseSlotDateTime(timeSlot, day);
-        const isPast = slotDateTime < now;
-        // console.log(`Slot: ${day.toDateString()} ${timeSlot} (${slotDateTime.toString()}) | Now: ${now.toString()} | IsPast: ${isPast}`); // DEBUG
-        return isPast;
+        return slotDateTime < now;
     };
-
-    const gridCols = daysToDisplay.length + 1;
-
-    // Calculate the grid template columns style
-    const gridTemplateColumnsStyle = `${TIME_COLUMN_WIDTH} repeat(${daysToDisplay.length}, minmax(${DAY_COLUMN_MIN_WIDTH}, 1fr))`;
-
-    // Calculate minimum width for the scrollable grid area
-    const calculatedMinWidth = parseInt(TIME_COLUMN_WIDTH) + daysToDisplay.length * parseInt(DAY_COLUMN_MIN_WIDTH);
-    const minWidthStyle = `${calculatedMinWidth}px`;
-
-    const getExistingSlotDetails = (day: Date, timeSlot12H: string): GridAvailabilitySlot | undefined => {
-        const slotDateTime = parseSlotDateTime(timeSlot12H, day);
-        // Use local date components for the key
-        const localYear = day.getFullYear();
-        const localMonth = (day.getMonth() + 1).toString().padStart(2, '0');
-        const localDayOfMonth = day.getDate().toString().padStart(2, '0');
-        const localDateString = `${localYear}-${localMonth}-${localDayOfMonth}`; // YYYY-MM-DD
-        const timeSlot24H = `${slotDateTime.getHours().toString().padStart(2, '0')}:${slotDateTime.getMinutes().toString().padStart(2, '0')}`;
-        return existingSlotsMap.get(`${localDateString}-${timeSlot24H}`);
-    };
-
     const handleGridMouseUp = () => {
         // Placeholder if needed in future for drag-release logic
     };
@@ -180,99 +205,90 @@ export function ScheduleGrid({
                             {daysToDisplay.map((day, dayIndex) => {
                                 const existingSlot = getExistingSlotDetails(day, timeSlot);
                                 const isCurrentlyAvailable = !!existingSlot;
-                                const isBooked = existingSlot?.is_booked || false;
                                 const slotIsInPast = isSlotInPast(timeSlot, day);
-                                const isSelectedForUnregistration = existingSlot && selectedSlotsToUnregister.has(existingSlot.id);
-                                
-                                // Determine if this cell is the one being processed
-                                const slotDateTimeForCell = parseSlotDateTime(timeSlot, day);
-                                const timeSlot24HForCell = `${slotDateTimeForCell.getHours().toString().padStart(2, '0')}:${slotDateTimeForCell.getMinutes().toString().padStart(2, '0')}`;
-                                // Use local date components for cellKey, consistent with how slotsToRegister keys are generated
-                                const localYearCell = day.getFullYear();
-                                const localMonthCell = (day.getMonth() + 1).toString().padStart(2, '0');
-                                const localDayOfMonthCell = day.getDate().toString().padStart(2, '0');
-                                const localDateStringCell = `${localYearCell}-${localMonthCell}-${localDayOfMonthCell}`;
 
-                                const cellKey = `${localDateStringCell}-${timeSlot24HForCell}`;
-                                const isSelectedForRegistration = selectedSlotsToRegister.has(cellKey);
+                                // Render nothing if the slot is in the past
+                                if (slotIsInPast) {
+                                    return null;
+                                }
+                                else {
+                                    const isBooked = existingSlot?.is_booked || false;
+                                    const isSelectedForUnregistration = existingSlot && selectedSlotsToUnregister.has(existingSlot.id);
 
-                                let isProcessingThisCell = false;
-                                if (processingSlotKey) {
-                                    if (isBooked && existingSlot && processingSlotKey === `delete-${existingSlot.id}`) {
-                                        isProcessingThisCell = true; // This slot is being deleted
-                                    } else if (!isBooked && cellKey === processingSlotKey) {
-                                        // This branch handles if registration sets processingSlotKey to a cellKey
-                                        isProcessingThisCell = true;
+                                    // Determine if this cell is the one being processed
+                                    const slotDateTimeForCell = parseSlotDateTime(timeSlot, day);
+                                    const timeSlot24HForCell = `${slotDateTimeForCell.getHours().toString().padStart(2, '0')}:${slotDateTimeForCell.getMinutes().toString().padStart(2, '0')}`;
+                                    // Use local date components for cellKey, consistent with how slotsToRegister keys are generated
+                                    const localYearCell = day.getFullYear();
+                                    const localMonthCell = (day.getMonth() + 1).toString().padStart(2, '0');
+                                    const localDayOfMonthCell = day.getDate().toString().padStart(2, '0');
+                                    const localDateStringCell = `${localYearCell}-${localMonthCell}-${localDayOfMonthCell}`;
+
+                                    const cellKey = `${localDateStringCell}-${timeSlot24HForCell}`;
+                                    const isSelectedForRegistration = selectedSlotsToRegister.has(cellKey);
+
+                                    let isProcessingThisCell = false;
+                                    if (processingSlotKey) {
+                                        if (isBooked && existingSlot && processingSlotKey === `delete-${existingSlot.id}`) {
+                                            isProcessingThisCell = true; // This slot is being deleted
+                                        } else if (!isBooked && cellKey === processingSlotKey) {
+                                            // This branch handles if registration sets processingSlotKey to a cellKey
+                                            isProcessingThisCell = true;
+                                        }
                                     }
+
+                                    let slotClasses = "p-1 h-8 sm:p-1.5 sm:h-9 md:p-2 md:h-10 rounded transition-colors flex items-center justify-center ";
+
+                                    if (isProcessingThisCell) {
+                                        slotClasses += "bg-yellow-300 opacity-70 cursor-wait"; // Style for processing slot
+                                    } else if (isSelectedForUnregistration) {
+                                        slotClasses += "bg-purple-400 line-through text-white cursor-pointer hover:bg-purple-500"; // Selected for unregistration
+                                    } else if (isBooked) {
+                                        slotClasses += "bg-red-500 text-white cursor-pointer hover:bg-red-600"; // Booked slot
+                                    } else if (isCurrentlyAvailable && !isBooked) { // Explicitly check not booked for orange
+                                        slotClasses += "bg-green-500 hover:bg-green-600 text-white cursor-pointer"; // Guide's available slot (Green)
+                                    } else if (isSelectedForRegistration) {
+                                        slotClasses += "bg-blue-400 hover:bg-blue-500 text-white cursor-pointer"; // Selected for new registration
+                                    } else {
+                                        // Default for future, unselected, non-existing slots: make them green
+                                        slotClasses += "bg-green-500 hover:bg-green-600 text-white cursor-pointer";
+                                    }
+
+                                    return (
+                                        <div
+                                            key={dayIndex}
+                                            className={slotClasses}
+                                            title={
+                                                isProcessingThisCell ? "Processing..." :
+                                                    isSelectedForUnregistration && existingSlot ? `Marked for unregistration. Click to deselect (ID: ${existingSlot.id})` :
+                                                        isBooked && existingSlot ? `Booked by customer. Click to mark for unregistration (ID: ${existingSlot.id})` :
+                                                            isCurrentlyAvailable && !isBooked && existingSlot ? `Your available slot. Click to mark for unregistration (ID: ${existingSlot.id})` : // Green slots
+                                                                isSelectedForRegistration ? "Selected for registration. Click to deselect." :
+                                                                    "Click to select for registration"}
+                                            onClick={() => {
+                                                if (isProcessingThisCell) {
+                                                    return; // Always prevent action if processing
+                                                }
+
+                                                // Use the cellKey's timeSlot24HForCell for consistency with selection logic
+                                                if (existingSlot) {
+                                                    // This is an existing slot (could be red or orange initially, or purple if selected for unreg)
+                                                    // Toggle its selection for unregistration
+                                                    onToggleSlotSelection(day, timeSlot24HForCell, existingSlot.id, existingSlot.is_booked);
+                                                } else {
+                                                    // This is a new slot (gray) or one already selected for registration (blue)
+                                                    // Toggle its selection for registration
+                                                    onToggleSlotSelection(day, timeSlot24HForCell);
+                                                }
+                                            }}
+                                        />
+                                    );
                                 }
-
-                                // DEBUGGING: Log details for a specific known booked slot
-                                // Replace "YYYY-MM-DD-HH:MM" with an actual key of a slot you know is booked
-                                // For example, if a slot on 2024-06-15 at 10:00 is booked, use "2024-06-15-10:00"
-                                // if (cellKey === "REPLACE_WITH_KNOWN_BOOKED_SLOT_KEY") {
-                                //     console.log(`[DEBUG] Slot Cell: ${cellKey}`, {
-                                //         existingSlot, // What object was retrieved from the map?
-                                //         isBooked,     // Is this true as expected?
-                                //         isCurrentlyAvailable,
-                                //         slotIsInPast,
-                                //         isSelectedForRegistration
-                                //     });
-                                // }
-
-                                let slotClasses = "p-1 h-8 sm:p-1.5 sm:h-9 md:p-2 md:h-10 rounded transition-colors flex items-center justify-center "; 
-
-                                if (isProcessingThisCell) {
-                                    slotClasses += "bg-yellow-300 opacity-70 cursor-wait"; // Style for processing slot
-                                } else if (isSelectedForUnregistration) {
-                                    slotClasses += "bg-purple-400 line-through text-white cursor-pointer hover:bg-purple-500"; // Selected for unregistration
-                                } else if (isBooked) {
-                                    slotClasses += "bg-red-500 text-white cursor-pointer hover:bg-red-600"; // Booked slot
-                                } else if (slotIsInPast) {
-                                    slotClasses += "bg-gray-300 text-gray-500 !cursor-not-allowed"; // Past slot - styled as unavailable
-                                } else if (isCurrentlyAvailable && !isBooked) { // Explicitly check not booked for orange
-                                    slotClasses += "bg-green-500 hover:bg-green-600 text-white cursor-pointer"; // Guide's available slot (Green)
-                                } else if (isSelectedForRegistration) {
-                                    slotClasses += "bg-blue-400 hover:bg-blue-500 text-white cursor-pointer"; // Selected for new registration
-                                } else {
-                                    // Default for future, unselected, non-existing slots: make them green
-                                    slotClasses += "bg-green-500 hover:bg-green-600 text-white cursor-pointer";
-                                }
-
-                                return (
-                                    <div
-                                        key={dayIndex}
-                                        className={slotClasses}
-                                        title={
-                                            isProcessingThisCell ? "Processing..." :
-                                            isSelectedForUnregistration && existingSlot ? `Marked for unregistration. Click to deselect (ID: ${existingSlot.id})` :
-                                            isBooked && existingSlot ? `Booked by customer. Click to mark for unregistration (ID: ${existingSlot.id})` :
-                                            slotIsInPast ? "Time slot is in the past" :
-                                            isCurrentlyAvailable && !isBooked && existingSlot ? `Your available slot. Click to mark for unregistration (ID: ${existingSlot.id})` : // Green slots
-                                            isSelectedForRegistration ? "Selected for registration. Click to deselect." :
-                                            "Click to select for registration"}
-                                        onClick={() => {
-                                            if (isProcessingThisCell || slotIsInPast) {
-                                                return; // Always prevent action if processing or in past
-                                            }
-                                            
-                                            // Use the cellKey's timeSlot24HForCell for consistency with selection logic
-                                            if (existingSlot) {
-                                                // This is an existing slot (could be red or orange initially, or purple if selected for unreg)
-                                                // Toggle its selection for unregistration
-                                                onToggleSlotSelection(day, timeSlot24HForCell, existingSlot.id, existingSlot.is_booked);
-                                            } else {
-                                                // This is a new slot (gray) or one already selected for registration (blue)
-                                                // Toggle its selection for registration
-                                                onToggleSlotSelection(day, timeSlot24HForCell);
-                                            }
-                                        }}
-                                    />
-                                );
                             })}
                         </div>
                     ))}
                 </div>
             </div>
         </Card>
-    );
+    )
 }

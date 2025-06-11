@@ -128,14 +128,12 @@ export function ScheduleSidebar({
                                     day_disabled: "!text-gray-300 !line-through !bg-gray-50 !opacity-100",
                                 }}
                                 modifiers={{
-                                    available: (date) => {
-                                        const today = new Date();
-                                        today.setHours(0, 0, 0, 0);
-                                        return date >= today;
-                                    }
+                                    selected: selectedDate,
+                                    today: new Date(),  // Correctly set today's date
                                 }}
                                 modifiersClassNames={{
-                                    available: "!text-black"
+                                    selected: "!bg-orange-600 !text-white hover:!bg-orange-400",
+                                    today: "!bg-blue-500 !text-white",
                                 }}
                             />
                         </div>

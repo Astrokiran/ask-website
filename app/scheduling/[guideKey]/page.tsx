@@ -228,7 +228,7 @@ export default function GuideSlotRegistrationPage() {
             return null;
         }
 
-        const endDateTime = new Date(startDateTime.getTime() + 30 * 60000); // Add 30 minutes
+        const endDateTime = new Date(startDateTime.getTime() + 60 * 60000); // Add 30 minutes
         return {
             start_time: startDateTime.toISOString(),
             end_time: endDateTime.toISOString(),
