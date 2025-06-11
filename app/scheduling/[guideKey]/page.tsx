@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { ScheduleGrid } from "@/components/scheduling/schedule-grid";
 import { ScheduleSidebar } from "@/components/scheduling/schedule-sidebar"; // Import Sidebar
-import { NavBar } from "@/components/nav-bar"; // Assuming you have these components
-import { Button } from "@/components/ui/button"; // Import Button
-import { Footer } from "@/components/footer";   // Assuming you have these components
+import { NavBar } from "@/components/nav-bar";
+import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/footer";  
 import { toast } from "@/components/ui/use-toast";
 
 interface GuideDetails {
@@ -21,13 +21,13 @@ interface GuideSlotsApiResponse {
 }
 
 
-interface AvailabilitySlotBE { // From backend
+interface AvailabilitySlotBE { 
   id: number;
   guide: number;
   start_time: string; // ISO DateTime string
   end_time: string; // ISO DateTime string
   is_booked: boolean;
-  made_available_after_booking?: boolean; // New field from backend
+  made_available_after_booking?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -53,11 +53,11 @@ export default function GuideSlotRegistrationPage() {
   // State for sidebar and grid
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'day' | 'week'>('day');
-  const [slotsToRegisterNew, setSlotsToRegisterNew] = useState<Set<string>>(new Set()); // For brand new slots
-  const [slotsToMarkAsUnbooked, setSlotsToMarkAsUnbooked] = useState<Set<number>>(new Set()); // Existing slots to set is_booked = false
-  const [slotsToMarkAsBookedByGuide, setSlotsToMarkAsBookedByGuide] = useState<Set<number>>(new Set()); // Existing slots to set is_booked = true
-  const [isRegistering, setIsRegistering] = useState<boolean>(false); // For the "Register" button
-  const [processingSlotKey, setProcessingSlotKey] = useState<string | null>(null); // State for the currently processing slot
+  const [slotsToRegisterNew, setSlotsToRegisterNew] = useState<Set<string>>(new Set());
+  const [slotsToMarkAsUnbooked, setSlotsToMarkAsUnbooked] = useState<Set<number>>(new Set()); 
+  const [slotsToMarkAsBookedByGuide, setSlotsToMarkAsBookedByGuide] = useState<Set<number>>(new Set()); 
+  const [isRegistering, setIsRegistering] = useState<boolean>(false);
+  const [processingSlotKey, setProcessingSlotKey] = useState<string | null>(null); 
 
   useEffect(() => {
     if (guideKey) {
@@ -67,12 +67,11 @@ export default function GuideSlotRegistrationPage() {
         try {
           await fetchGuideSlots(guideKey);
         } catch (err) {
-          // Error handling is done within fetchGuideSlots, which calls setError and toast
         } finally {
           setIsLoading(false); 
         }
       };
-      fetchGuideDetails(); // Corrected function call
+      fetchGuideDetails(); 
     } else {
       setIsLoading(false);
       setError("Guide key not found in URL.");
@@ -94,13 +93,12 @@ export default function GuideSlotRegistrationPage() {
       }
       const apiResponse: GuideSlotsApiResponse = await response.json();
       
-      setGuideDetails(apiResponse.guide_details); // Set guide details from the response
+      setGuideDetails(apiResponse.guide_details); 
 
       const slots = apiResponse.slots;
 
       const gridSlots: GridAvailabilitySlot[] = slots.map(slot => {
         const startDate = new Date(slot.start_time);
-        // Use local date components for consistency with selection keying
         const localYear = startDate.getFullYear();
         const localMonth = (startDate.getMonth() + 1).toString().padStart(2, '0');
         const localDayOfMonth = startDate.getDate().toString().padStart(2, '0');
@@ -110,17 +108,17 @@ export default function GuideSlotRegistrationPage() {
         const numericId = Number(slot.id);
         if (isNaN(numericId)) {
             console.error(`Slot with non-numeric ID received from backend and skipped:`, slot);
-            return null; // Skip this slot if its ID is not a valid number
+            return null;
         }
 
         return {
-          date: localDateString, // YYYY-MM-DD from local interpretation
+          date: localDateString, 
           start_time: startDate.toTimeString().split(' ')[0], // HH:MM:SS
           id: numericId, // Use the validated numeric ID
           is_booked: slot.is_booked, // Map the is_booked status
           made_available_after_booking: slot.made_available_after_booking, // Map the new field
         };
-      }).filter(Boolean) as GridAvailabilitySlot[]; // Filter out any nulls from skipped slots
+      }).filter(Boolean) as GridAvailabilitySlot[];
       setAvailabilityData(gridSlots);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
@@ -152,7 +150,7 @@ export default function GuideSlotRegistrationPage() {
     const displayPeriod = displayHour >= 12 ? 'PM' : 'AM';
     const displayTime12H = `${displayHour % 12 || 12}:${displayMinute} ${displayPeriod}`;
     
-    if (existingSlotData) { // Interacting with an existing slot
+    if (existingSlotData) { 
       const slotId = existingSlotData.id;
       // Clear from new registration if it was somehow selected
       setSlotsToRegisterNew(prevReg => {
@@ -161,7 +159,7 @@ export default function GuideSlotRegistrationPage() {
         return newSet;
       });
 
-      if (existingSlotData.is_booked) { // Red slot: toggle for unbooking (make available)
+      if (existingSlotData.is_booked) { 
         setSlotsToMarkAsUnbooked(prevUnreg => {
           const newSet = new Set(prevUnreg);
           if (newSet.has(slotId)) {
@@ -173,9 +171,8 @@ export default function GuideSlotRegistrationPage() {
           }
           return newSet;
         });
-        // If selected to be unbooked, it cannot be selected to be booked by guide
         setSlotsToMarkAsBookedByGuide(prevBook => { const newSet = new Set(prevBook); newSet.delete(slotId); return newSet; });
-      } else { // Green slot (is_booked === false): toggle for booking by guide
+      } else {
         setSlotsToMarkAsBookedByGuide(prevBook => {
           const newSet = new Set(prevBook);
           if (newSet.has(slotId)) {
@@ -187,10 +184,9 @@ export default function GuideSlotRegistrationPage() {
           }
           return newSet;
         });
-        // If selected to be booked by guide, it cannot be selected to be unbooked
         setSlotsToMarkAsUnbooked(prevUnreg => { const newSet = new Set(prevUnreg); newSet.delete(slotId); return newSet; });
       }
-    } else { // Interacting with a potential new slot (no existingSlotData)
+    } else { 
       setSlotsToRegisterNew(prevReg => {
         const newRegSet = new Set(prevReg);
         if (newRegSet.has(slotKeyForNew)) {
@@ -208,8 +204,6 @@ export default function GuideSlotRegistrationPage() {
         }
         return newRegSet;
       });
-      // If a new slot is selected, clear any existing slot selections for this cell (should not happen with current UI)
-      // This part is more of a safeguard if the UI allowed clicking an existing slot then a new one in same cell.
     }
   };
   
@@ -237,7 +231,7 @@ export default function GuideSlotRegistrationPage() {
             console.error(`Malformed slotKey encountered: ${slotKey}. Skipping this slot.`);
             return null; 
         }
-        const dateString = `${parts[0]}-${parts[1]}-${parts[2]}`; // Reconstruct YYYY-MM-DD
+        const dateString = `${parts[0]}-${parts[1]}-${parts[2]}`; 
         const timeSlot24H = parts[3]; // HH:MM
 
         // Validate HH:MM format for timeSlot24H (simple check)
@@ -260,8 +254,6 @@ export default function GuideSlotRegistrationPage() {
         };
     }).filter(Boolean) as { start_time: string; end_time: string; }[]; // Filter out nulls and assert type
 
-    // Note: The logic to populate slotsToMarkAsUnbooked and slotsToMarkAsBookedByGuide
-    // is already handled by handleToggleSlotSelection. We just convert the Sets to Arrays here.
 
     if (slotsToCreatePayload.length === 0 && slotsToRegisterNew.size > 0) { // Check if any new slots were malformed
         toast({ title: "Error", description: "Could not process any new slots due to malformed data. Please try again.", variant: "destructive" });
@@ -327,7 +319,6 @@ export default function GuideSlotRegistrationPage() {
         console.error("Error updating availability:", errorMessage);
         toast({ title: "Error", description: errorMessage, variant: "destructive" });
       } finally {
-        // Attempt to refresh slots. This will only work if a GET endpoint is available.
         if (guideDetails?.static_booking_key) {
           fetchGuideSlots(guideDetails.static_booking_key);
         }

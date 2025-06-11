@@ -1,18 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card"; // Assuming this path is correct
 
-interface GridAvailabilitySlot { // Renamed to match parent and for clarity
-    date: string; // e.g., "2025-04-01" (YYYY-MM-DD format is best for new Date())
-    start_time: string; // e.g., "09:00:00"
+interface GridAvailabilitySlot { 
+    date: string; 
+    start_time: string; 
     id: number; 
-    is_booked?: boolean; // To indicate if the slot is booked by a customer
+    is_booked?: boolean; 
     made_available_after_booking?: boolean; // New field
 }
 
 interface ScheduleGridProps {
-    selectedDate: Date; // Used to determine the initial view range
-    timezone: string; // For future timezone-aware calculations
-    // onSlotInteract is replaced by onToggleSlotSelection for a different interaction model
+    selectedDate: Date; 
+    timezone: string; 
     onToggleSlotSelection: (
         day: Date,
         timeSlot24H: string, // HH:MM
@@ -32,15 +31,15 @@ export function ScheduleGrid({
     onToggleSlotSelection,
     viewMode,
     availabilityData = [],
-    selectedSlotsToRegister: selectedSlotsToRegisterNew = new Set(), // Renamed for clarity
+    selectedSlotsToRegister: selectedSlotsToRegisterNew = new Set(), 
     selectedSlotsToMarkAsUnbooked = new Set(),
     selectedSlotsToMarkAsBookedByGuide = new Set(),
     processingSlotKey,
 }: ScheduleGridProps) {
     const gridRef = useRef<HTMLDivElement>(null);
     // Constants for responsive design
-    const TIME_COLUMN_WIDTH = "50px"; // For "9:00 AM"
-    const DAY_COLUMN_MIN_WIDTH = "60px"; // For "Wed" & "23"
+    const TIME_COLUMN_WIDTH = "50px"; 
+    const DAY_COLUMN_MIN_WIDTH = "60px"; 
 
     const [currentTimeForGrid, setCurrentTimeForGrid] = useState(new Date());
     useEffect(() => {
@@ -55,8 +54,6 @@ export function ScheduleGrid({
     const [existingSlotsMap, setExistingSlotsMap] = useState<Map<string, GridAvailabilitySlot>>(new Map());
 
     useEffect(() => {
-        // This effect can be used to process availabilityData if needed for complex styling
-        // For now, we'll directly check availabilityData in the render
     }, [availabilityData]);
 
     useEffect(() => {
@@ -64,8 +61,7 @@ export function ScheduleGrid({
         availabilityData.forEach(slot => {
             // Key: "YYYY-MM-DD-HH:MM" (24-hour format for start_time, using the local date from slot.date)
             // slot.date is already in local YYYY-MM-DD format from page.tsx
-            const startTime24H = slot.start_time.substring(0, 5); // Extracts HH:MM
-            // Ensure slot.date is used directly as it's already the local date string
+            const startTime24H = slot.start_time.substring(0, 5); 
             if (!slot.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
                 console.warn("ScheduleGrid: Encountered slot with malformed date:", slot);
             }
@@ -75,13 +71,12 @@ export function ScheduleGrid({
         setExistingSlotsMap(newMap);
     }, [availabilityData]);
 
-    const todayForViewColumns = new Date(); // Use a consistent "today" for generating day columns
-    todayForViewColumns.setHours(0, 0, 0, 0); // Normalize to the start of today for consistent day columns
+    const todayForViewColumns = new Date();
+    todayForViewColumns.setHours(0, 0, 0, 0); 
 
     const daysToDisplay = viewMode === "day"
-        ? [selectedDate] // Day view still respects the date selected in the sidebar
+        ? [selectedDate]
         : Array.from({ length: 7 }, (_, i) => {
-            // For week view, always start from the current date and show the next 6 days
             const date = new Date(todayForViewColumns);
             date.setDate(todayForViewColumns.getDate() + i);
             return date;
@@ -142,10 +137,8 @@ export function ScheduleGrid({
     }, [viewMode, selectedDate, currentTimeForGrid]);  // Recalculate when daysToDisplay changes
     const gridCols = daysToDisplay.length + 1;
 
-    // Calculate the grid template columns style
     const gridTemplateColumnsStyle = `${TIME_COLUMN_WIDTH} repeat(${daysToDisplay.length}, minmax(${DAY_COLUMN_MIN_WIDTH}, 1fr))`;
 
-    // Calculate minimum width for the scrollable grid area
     const calculatedMinWidth = parseInt(TIME_COLUMN_WIDTH) + daysToDisplay.length * parseInt(DAY_COLUMN_MIN_WIDTH);
     const minWidthStyle = `${calculatedMinWidth}px`;
 
@@ -162,7 +155,7 @@ export function ScheduleGrid({
 
     // Helper to parse slot string and day into a Date object
     const parseSlotDateTime = (timeSlot: string, day: Date): Date => {
-        const referenceDate = new Date(day); // Copy of the day part
+        const referenceDate = new Date(day);
 
         const [time, period] = timeSlot.split(" ");
         const [hoursStr, minutesStr] = time.split(":");
@@ -171,7 +164,7 @@ export function ScheduleGrid({
 
         if (period.toUpperCase() === "PM" && hours !== 12) {
             hours += 12;
-        } else if (period.toUpperCase() === "AM" && hours === 12) { // 12 AM is 00 hours
+        } else if (period.toUpperCase() === "AM" && hours === 12) { 
             hours = 0;
         }
 
@@ -198,7 +191,7 @@ export function ScheduleGrid({
     return (
         <Card className="p-2 sm:p-4 overflow-auto">
             <div
-                className="grid-container" // More semantic class name
+                className="grid-container" 
                 ref={gridRef}
                 onMouseUp={handleGridMouseUp} // If complex drag interactions are re-added
                 onMouseLeave={handleGridMouseUp} // If complex drag interactions are re-added
@@ -252,7 +245,7 @@ export function ScheduleGrid({
                                     let isProcessingThisCell = false;
                                     if (processingSlotKey) {
                                         if (isBooked && existingSlot && processingSlotKey === `delete-${existingSlot.id}`) {
-                                            isProcessingThisCell = true; // This slot is being deleted
+                                            isProcessingThisCell = true;
                                         } else if (!isBooked && cellKey === processingSlotKey) {
                                             // This branch handles if registration sets processingSlotKey to a cellKey
                                             isProcessingThisCell = true;
@@ -303,14 +296,10 @@ export function ScheduleGrid({
                                                    return;
                                                }
 
-                                                // Use the cellKey's timeSlot24HForCell for consistency with selection logic
                                                 if (existingSlot) {
-                                                    // This is an existing slot (could be red or orange initially, or purple if selected for unreg)
                                                     // Toggle its selection for unregistration
                                                     onToggleSlotSelection(day, timeSlot24HForCell, existingSlot);
                                                 } else {
-                                                    // This is a new slot (gray) or one already selected for registration (blue)
-                                                    // Toggle its selection for registration
                                                     onToggleSlotSelection(day, timeSlot24HForCell);
                                                 }
                                             }}
