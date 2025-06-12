@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-// import { Button } from "@/components/ui/button"; // Button seems unused, can remove
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { createClient } from "contentful";
@@ -20,8 +19,8 @@ interface Astrologer {
 }
 
 const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!, // Use non-null assertion if confident
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!, // Use non-null assertion if confident
+  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
+  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
 });
 
 
@@ -47,7 +46,7 @@ export function FeaturedAstrologers() {
             description: item.fields.description || "No description available.",
             image: item.fields.astrologerImage?.fields?.file?.url
               ? `https:${item.fields.astrologerImage.fields.file.url}`
-              : "/default-avatar.png", // Fallback image
+              : "/ask-logo.png", 
           }));
           setAstrologersData(fetchedAstrologers);
           setCurrentIndex(0); // Reset index to 0 when new data is loaded
@@ -77,7 +76,6 @@ export function FeaturedAstrologers() {
     );
   };
 
-  // --- Conditional Rendering based on state ---
 
   if (isLoading) {
     return (
