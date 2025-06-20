@@ -1,6 +1,10 @@
 import { Sparkles, Moon, Calculator, WalletCardsIcon as Cards, Gem, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+// import { WhatsAppCtaBanner } from "@components./banners/Whatsapp-banner";
+
+
+
 
 const services = [
   {
@@ -59,6 +63,9 @@ export function ServicesSection() {
               </Link>
             </div>
           ))}
+          {/* <div>
+            <WhatsAppCtaBanner phoneNumber="918197503574" />
+          </div> */}
         </div>
       </div>
     </div>

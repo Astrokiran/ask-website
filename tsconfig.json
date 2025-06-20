@@ -19,6 +19,8 @@
       }
     ],
     "paths": {
+
+      "@public/*": ["src/asset_for_pdf/*"],
       "@/*": ["./*"]
     }
   },

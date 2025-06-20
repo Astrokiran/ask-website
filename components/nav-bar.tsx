@@ -24,8 +24,8 @@ export function NavBar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-4">
-            <Link href="/#report" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
-              Generate Birth Chart
+            <Link href="/free-kundli" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
+              Free Kundli
             </Link>
             <Link href="/#astrologers" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
               Our Astrologers
@@ -76,6 +76,13 @@ export function NavBar() {
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t">
             <div className="flex flex-col p-4 space-y-4">
+               <Link
+                href="/free-kundli"
+                className="text-sm hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Free Kundli
+              </Link>
               <Link
                 href="/#astrologers"
                 className="text-sm hover:text-primary"
