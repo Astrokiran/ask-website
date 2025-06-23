@@ -722,7 +722,7 @@ const handleVerifyOtp = async () => {
                 id="phoneNumber"
                 type="tel"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value.replace(/[^6-9]/g, ''))} // Allow only numbers
+                onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))} // Allow only numbers
                 placeholder="Enter mobile number"
                 className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ease-in-out mb-2 ${loginError && !/^\d{10}$/.test(phoneNumber) ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-orange-500'}`}
               />
