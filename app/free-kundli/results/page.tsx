@@ -8,7 +8,6 @@ import { ServicesSection } from "@/components/services-section"
 import { LoadingScreen } from "@/components/banners/LoadingScreen";
 import Link from 'next/link';
 
-// --- INTERFACES START ---
 
 interface KundliApiInputParams {
   name: string;
@@ -101,7 +100,6 @@ interface ApiDoshaData {
   };
 }
 
-// FIX: This is the wrapper for the Dosha API response
 interface DoshaApiResponse {
     status: "success" | "error";
     code: number;
@@ -109,17 +107,15 @@ interface DoshaApiResponse {
     data?: ApiDoshaData;
 }
 
-// FIX: The main state object with corrected doshaResponse type
 interface ReportPageData {
   birthDetailsResponse: BirthDetailsApiResponse | null;
   planetsResponse?: ApiPlanetDataItem[] | null;
   svgChartResponse?: string | null;
   svgChartResponse2?: string | null;
   dashaResponse?: ApiDashaData[] | null;
-  doshaResponse?: ApiDoshaData | null; // FIX: Should be an object, not an array
+  doshaResponse?: ApiDoshaData | null; 
 }
 
-// --- INTERFACES END ---
 
 export default function ReportDisplayPage() {
   const [reportData, setReportData] = useState<ReportPageData | null>(null);
@@ -147,7 +143,6 @@ export default function ReportDisplayPage() {
 
         const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
 
-        // --- Fetch All Data in Parallel ---
         const [
           birthDetailsRes, 
           planetsRes, 
@@ -158,14 +153,12 @@ export default function ReportDisplayPage() {
         ] = await Promise.all([
           fetch(`${apiBaseUrl}/horoscope/birth-details`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(birthDetailsRequestBody) }),
           fetch(`${apiBaseUrl}/horoscope/planets`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(birthDetailsRequestBody) }),
-          // FIX: Corrected typo 'applcation' to 'application'
           fetch(`${apiBaseUrl}/horoscope/vimshottari-dasha`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(birthDetailsRequestBody) }),
           fetch(`${apiBaseUrl}/horoscope/dosha`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(birthDetailsRequestBody) }),
           fetch(`${apiBaseUrl}/horoscope/chart`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(birthDetailsRequestBody) }),
           fetch(`${apiBaseUrl}/horoscope/chart?chartType=navamsa`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(birthDetailsRequestBody) })
         ]);
 
-        // --- Process Responses ---
         if (!birthDetailsRes.ok) throw new Error('Failed to fetch birth details');
         const birthDetailsResponse: BirthDetailsApiResponse = await birthDetailsRes.json();
         if (birthDetailsResponse.status !== 'success' || !birthDetailsResponse.data) throw new Error(birthDetailsResponse.message || 'Invalid birth details data');
@@ -177,10 +170,9 @@ export default function ReportDisplayPage() {
         const dashaResponse: ApiDashaData[] = await dashaRes.json();
 
         if (!doshaRes.ok) throw new Error('Failed to fetch Dosha data');
-        // FIX: Handle the Dosha API response as an object
         const doshaApiResponse: DoshaApiResponse = await doshaRes.json();
         if (doshaApiResponse.status !== 'success') throw new Error(doshaApiResponse.message || 'Invalid dosha data');
-        const doshaResponseData = doshaApiResponse.data; // This is the object to be passed
+        const doshaResponseData = doshaApiResponse.data; 
 
         if (!svgChartRes.ok) throw new Error('Failed to fetch birth chart');
         const svgChartResponse = await svgChartRes.text();
@@ -192,7 +184,7 @@ export default function ReportDisplayPage() {
           birthDetailsResponse: birthDetailsResponse,
           planetsResponse: planetsResponse,
           dashaResponse: dashaResponse,
-          doshaResponse: doshaResponseData, // FIX: Pass the extracted object
+          doshaResponse: doshaResponseData, 
           svgChartResponse: svgChartResponse,
           svgChartResponse2: svgChartResponse2
         });
@@ -209,7 +201,7 @@ export default function ReportDisplayPage() {
   }, []);
 
     if (isLoading) {
-        return <LoadingScreen />; // Use the new LoadingScreen component
+        return <LoadingScreen />; 
     }
 
     if (error) {

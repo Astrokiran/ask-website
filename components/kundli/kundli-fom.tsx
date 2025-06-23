@@ -6,7 +6,6 @@ import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { ServicesSection } from "@/components/services-section"
 import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner'; // Import the new banner
 
-// Define a basic structure for Kundli data for type safety
 interface BirthDetails {
   name: string;
   gender: string;
@@ -30,7 +29,6 @@ const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualiz
 
 export default function KundliPage() { // Remove onKundliGenerated prop
   const router = useRouter(); // Initialize router
-  // State to store form input values
   const [formData, setFormData] = useState({
     name: '',
     gender: '',
@@ -66,24 +64,20 @@ export default function KundliPage() { // Remove onKundliGenerated prop
   const [loginError, setLoginError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for authentication status
 
-  // A simplified list of country codes for the dropdown
   const countryCodes = [
     { code: '+91', name: 'India', flag: '🇮🇳' },
     { code: '+1', name: 'USA', flag: '🇺🇸' },
     { code: '+44', name: 'UK', flag: '🇬🇧' },
     { code: '+61', name: 'Australia', flag: '🇦🇺' },
-    { code: '+1', name: 'Canada', flag: '🇨🇦' }, // Note: Canada also uses +1
-    // Add more countries as needed
+    { code: '+1', name: 'Canada', flag: '🇨🇦' },
   ];
 
-  // Handle input changes in the form
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    // Clear error for the current field as user types
     if (errors[name]) {
       setErrors((prevErrors: Record<string, string>) => ({
         ...prevErrors,
@@ -141,10 +135,8 @@ export default function KundliPage() { // Remove onKundliGenerated prop
       ) {
         newErrors.dob = 'Invalid date (e.g., Feb 30 is not a valid date).';
       }
-      // Check constructed formData.dob format if needed, though useEffect handles construction
       const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
       if (!dateRegex.test(formData.dob)) {
-        // This might indicate an issue with useEffect logic if it fires
         newErrors.dob = 'Internal error: DOB format incorrect.';
       }
     }
@@ -153,7 +145,6 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     if (!selectedHour || !selectedMinute) { // Seconds can be optional
       newErrors.tob = 'Time of Birth (Hour and Minute) is required.';
     } else {
-      // Basic time format validation (HH:MM)
       const timeRegex = /^\d{2}:\d{2}(:\d{2})?$/; // Allows for optional seconds
       if (!timeRegex.test(formData.tob)) {
         newErrors.tob = 'Internal error: TOB format incorrect.';
@@ -166,28 +157,23 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     return Object.keys(newErrors).length === 0; // Return true if no errors
   };
 
-  // useEffect to construct formData.dob from selectedDay, selectedMonth, selectedYear
   useEffect(() => {
     if (selectedDay && selectedMonth && selectedYear) {
       const formattedMonth = selectedMonth.padStart(2, '0');
       const formattedDay = selectedDay.padStart(2, '0');
       setFormData(prev => ({ ...prev, dob: `${selectedYear}-${formattedMonth}-${formattedDay}` }));
-      // Clear DOB error if parts are now selected and valid (validation will confirm validity)
       if (errors.dob) {
         setErrors(prevErrors => ({ ...prevErrors, dob: '' }));
       }
     } else {
-      // If any part is missing, clear the formData.dob
-      // This ensures that an incomplete date isn't accidentally submitted
-      if (formData.dob) { // only update if it was previously set
+      if (formData.dob) {
         setFormData(prev => ({ ...prev, dob: '' }));
       }
     }
   }, [selectedDay, selectedMonth, selectedYear, errors.dob, formData.dob]);
 
-  // useEffect to construct formData.tob from selectedHour, selectedMinute, selectedSecond
   useEffect(() => {
-    if (selectedHour && selectedMinute) { // Seconds are optional for constructing the base HH:MM
+    if (selectedHour && selectedMinute) { 
       const formattedHour = selectedHour.padStart(2, '0');
       const formattedMinute = selectedMinute.padStart(2, '0');
       let tobString = `${formattedHour}:${formattedMinute}`;
@@ -205,17 +191,13 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   }, [selectedHour, selectedMinute, selectedSecond, errors.tob, formData.tob]);
 
-  // Simulate API call for Kundli generation
   const generateKundli = async () => {
     setLoading(true);
 
-    // Prepare parameters for the API call
-    // Format date_of_birth from YYYY-MM-DD to DD/MM/YYYY
     const [year, month, day] = formData.dob.split('-');
     const formattedDobForApi = `${day}/${month}/${year}`;
 
-    // Format time_of_birth from HH:MM (24-hour) to HH:MM AM/PM
-    const [hourStr, minuteStr] = formData.tob.split(':'); // formData.tob is HH:MM or HH:MM:SS
+    const [hourStr, minuteStr] = formData.tob.split(':');
     let hour = parseInt(hourStr, 10);
     const minute = parseInt(minuteStr, 10); // Ensure minute is a number
     const ampm = hour >= 12 ? 'PM' : 'AM';
@@ -237,12 +219,10 @@ export default function KundliPage() { // Remove onKundliGenerated prop
       router.push('/free-kundli/results'); // Navigate to the result page
     } catch (error) {
       console.error("Error storing Kundli data or navigating:", error);
-      // Handle error, e.g., show a message to the user
     }
     setLoading(false);
   };
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -254,13 +234,11 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   };
 
-  // Handle changes for DOB dropdowns
   const handleDatePartChange = (part: 'day' | 'month' | 'year', value: string) => {
     if (part === 'day') setSelectedDay(value);
     if (part === 'month') setSelectedMonth(value);
     if (part === 'year') setSelectedYear(value);
 
-    // Clear general DOB error as user interacts, validateForm will re-check
     if (errors.dob) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -269,13 +247,11 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   };
 
-  // Handle changes for TOB dropdowns
   const handleTimePartChange = (part: 'hour' | 'minute' | 'second', value: string) => {
     if (part === 'hour') setSelectedHour(value);
     if (part === 'minute') setSelectedMinute(value);
     if (part === 'second') setSelectedSecond(value);
 
-    // Clear general TOB error as user interacts
     if (errors.tob) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -284,7 +260,6 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   };
 
-  // Login Modal Handlers
   const handleOpenLoginModal = () => {
     setShowLoginModal(true);
     setPhoneNumber(''); // Reset fields when opening
@@ -292,9 +267,7 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     setLoginError('');
   };
 
-  // Check login status on component mount
   useEffect(() => {
-    // In a real app, you might want to verify the token with the backend here.
     const token = localStorage.getItem('accessToken');
     if (token) {
       setIsLoggedIn(true);
@@ -336,21 +309,20 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     setShowLoginModal(false);
     setShowOtpModal(true);
   } catch (error) {
-    console.error('Send OTP error:', error); // This is where your error originates
+    console.error('Send OTP error:', error); 
     setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
   } finally {
     setLoading(false);
   }
 };
 const handleVerifyOtp = async () => {
-  if (!/^\d{4,6}$/.test(otp)) { // Basic validation for OTP format
+  if (!/^\d{4,6}$/.test(otp)) { 
       setLoginError('Please enter a valid OTP.');
       return;
   }
   setLoginError('');
   setLoading(true);
 
-  // Combine country code and phone number, removing the leading '+' from the country code
   const fullPhoneNumber = (selectedCountryCode + phoneNumber).replace('+', '');
 
   try {
@@ -369,21 +341,17 @@ const handleVerifyOtp = async () => {
         const data = await response.json();
 
         if (!response.ok || !data.success) {
-            // Use the specific error message from the API
             throw new Error(data.error || 'OTP verification failed. Please try again.');
         }
 
-        // OTP Verified, tokens received in the 'data' object
         if (data.data && data.data.access && data.data.refresh) {
             localStorage.setItem('accessToken', data.data.access);
             localStorage.setItem('refreshToken', data.data.refresh);
-            // Store the phone number for the logout functionality
             localStorage.setItem('userPhoneNumber', fullPhoneNumber);
 
             setIsLoggedIn(true);
             setShowOtpModal(false);
         } else {
-            // Handle cases where the success response is malformed
             throw new Error('Received an invalid response from the server.');
         }
 
@@ -399,11 +367,11 @@ const handleVerifyOtp = async () => {
   const handleCloseModals = () => {
     setShowLoginModal(false);
     setShowOtpModal(false);
-    setLoginError(''); // Clear errors when closing
+    setLoginError(''); 
   };
 
   const handleLogout = async () => {
-    setLoading(true); // Disable button while logging out
+    setLoading(true); 
     const accessToken = localStorage.getItem('accessToken');
     const phoneNumber = localStorage.getItem('userPhoneNumber');
   
@@ -419,14 +387,11 @@ const handleVerifyOtp = async () => {
           },
           body: JSON.stringify({ phone_number: phoneNumber }),
         });
-        // The API call is fire-and-forget; we log out the client regardless.
       } catch (error) {
-        // Log the error but don't block the client-side logout process
         console.error('Failed to logout on server:', error);
       }
     }
   
-    // Always clear local storage and update UI state
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('userPhoneNumber');
@@ -435,7 +400,6 @@ const handleVerifyOtp = async () => {
     alert("You have been logged out.");
   };
   
-  // Generate year options
   const currentYear = new Date().getFullYear();
   const yearOptions = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
@@ -457,19 +421,16 @@ const handleVerifyOtp = async () => {
 
   if (loadError) {
     console.error("Google Maps API load error:", loadError);
-    // Optionally, render an error message or fallback input for POB
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 font-sans"> {/* Consistent page background and structure */}
+    <div className="min-h-screen flex flex-col bg-gray-50 font-sans"> 
       <NavBar />
 
-      {/* Main content area, allowing the card to be centered */}
       
-      <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center"> {/* This line is for context, the change is below */}
+      <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
         <div className="w-full max-w-6xl bg-white rounded-xl shadow-2xl overflow-hidden md:flex">
-          {/* Kundli Generation Form Section */}
-          <div className="p-6 sm:p-8 md:w-3/5 flex flex-col justify-center border-r border-gray-200"> {/* Adjusted width and added border */}
+          <div className="p-6 sm:p-8 md:w-3/5 flex flex-col justify-center border-r border-gray-200">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500 mb-6 text-center">
               Free Kundli Generation
             </h1>
@@ -478,7 +439,6 @@ const handleVerifyOtp = async () => {
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Full Name */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name
@@ -497,7 +457,6 @@ const handleVerifyOtp = async () => {
                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
               </div>
 
-              {/* Gender */}
               <div>
                 <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">
                   Gender
@@ -518,13 +477,11 @@ const handleVerifyOtp = async () => {
                 {errors['gender'] && <p className="text-red-500 text-xs mt-1">{errors['gender']}</p>}
               </div>
 
-              {/* Date of Birth */}
               <div>
                 <label htmlFor="dob" className="block text-sm font-medium text-gray-700 mb-1">
                   Date of Birth
                 </label>
                 <div className="grid grid-cols-3 gap-3">
-                  {/* Day Dropdown */}
                   <select
                     id="dob_day"
                     name="dob_day"
@@ -539,7 +496,6 @@ const handleVerifyOtp = async () => {
                       <option key={day} value={day}>{day}</option>
                     ))}
                   </select>
-                  {/* Month Dropdown */}
                   <select
                     id="dob_month"
                     name="dob_month"
@@ -554,7 +510,6 @@ const handleVerifyOtp = async () => {
                       <option key={month.value} value={month.value}>{month.label}</option>
                     ))}
                   </select>
-                  {/* Year Dropdown */}
                   <select
                     id="dob_year"
                     name="dob_year"
@@ -573,7 +528,6 @@ const handleVerifyOtp = async () => {
                 {errors['dob'] && <p className="text-red-500 text-xs mt-1 col-span-3">{errors['dob']}</p>}
               </div>
 
-              {/* Time of Birth */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Time of Birth
@@ -607,13 +561,13 @@ const handleVerifyOtp = async () => {
                       <option key={minute} value={minute}>{minute}</option>
                     ))}
                   </select>
-                  <select // Optional: Seconds dropdown
+                  <select
                     id="tob_second"
                     name="tob_second"
                     value={selectedSecond}
                     onChange={(e) => handleTimePartChange('second', e.target.value)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      errors.tob ? 'border-red-500' : 'border-gray-300' // Apply error styling if general TOB error exists
+                      errors.tob ? 'border-red-500' : 'border-gray-300' 
                     }`}
                   >
                     <option value="">Second (Optional)</option>
@@ -625,7 +579,6 @@ const handleVerifyOtp = async () => {
                 {errors['tob'] && <p className="text-red-500 text-xs mt-1 col-span-3">{errors['tob']}</p>}
               </div>
 
-              {/* Place of Birth */}
               <div className="relative" ref={pobSuggestionsRef}>
                 <label htmlFor="pob" className="block text-sm font-medium text-gray-700 mb-1">
                   Place of Birth
@@ -635,13 +588,13 @@ const handleVerifyOtp = async () => {
                     onLoad={onLoadAutocomplete}
                     onPlaceChanged={onPlaceChanged}
                     options={{
-                      types: ['(cities)'], // Suggest only cities
+                      types: ['(cities)'], 
                     }}
                   >
                     <input
                       type="text"
                       id="pob"
-                      name="pob" // Keep name for handleChange if needed, though Autocomplete handles value
+                      name="pob" 
                       value={formData.pob} // Controlled component
                       onChange={handleChange} // Update formData.pob as user types
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out ${
@@ -694,10 +647,8 @@ const handleVerifyOtp = async () => {
             </form>
           </div>
 
-          {/* Login Prompt Section - New Column */}
           <div className="p-6 sm:p-8 md:w-2/5 flex flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-yellow-100 rounded-r-xl">
             {isLoggedIn ? (
-              // Content to show when user is logged in
               <>
                 <img src="/ask-logo.png" alt="User avatar or site logo" className="w-20 h-20 mb-4 rounded-full shadow-md opacity-90" />
                 <h2 className="text-2xl font-bold text-gray-700 mb-3 text-center">
@@ -706,12 +657,11 @@ const handleVerifyOtp = async () => {
                 <p className="text-gray-600 text-center mb-6">
                   View your previously generated Kundli reports or manage your account.
                 </p>
-                {/* Placeholder for previous Kundli list - you'd fetch and display these */}
                 <div className="w-full max-w-xs text-center mb-6 p-4 bg-white/50 rounded-lg shadow">
                     <p className="text-gray-700 text-sm">Your previous Kundlis will appear here.</p>
                 </div>
                 <button
-                  onClick={() => router.push('/free-kundli')} // Example: Navigate to a page for previous kundlis
+                  onClick={() => router.push('/free-kundli')} 
                   className="w-full max-w-xs bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 mb-3 shadow-lg transform hover:scale-105"
                 >
                   View My Kundlis
@@ -725,7 +675,6 @@ const handleVerifyOtp = async () => {
                 </button>
               </>
             ) : (
-              // Content to show when user is NOT logged in (original login prompt)
               <>
                 <img src="/ask-logo.png" alt="Login illustration or site logo" className="w-24 h-24 mb-6 opacity-80" />
                 <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">Welcome to Astrokiran</h2>
@@ -743,7 +692,6 @@ const handleVerifyOtp = async () => {
       <Footer />
 
 
-      {/* Phone Number Login Modal */}
       {showLoginModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 transition-opacity duration-300 ease-in-out">
           <div className="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 ease-in-out scale-100">
@@ -751,7 +699,7 @@ const handleVerifyOtp = async () => {
               <h2 className="text-2xl font-semibold text-gray-800">Sign In</h2>
               <button onClick={handleCloseModals} className="text-gray-400 hover:text-gray-600 text-3xl font-light">&times;</button>
             </div>
-            <p className="text-gray-600 mb-5 text-sm">Enter your mobile number. We'll send you an OTP to verify.</p>
+            <p className="text-gray-600 mb-5 text-sm">Enter your Whatsapp number. We'll send you an OTP to verify.</p>
             <div className="flex gap-2">
               <div className="w-1/3">
                 <label htmlFor="countryCode" className="block text-sm font-medium text-gray-700 mb-1">Code</label>
@@ -794,7 +742,6 @@ const handleVerifyOtp = async () => {
         </div>
       )}
 
-      {/* OTP Verification Modal */}
       {showOtpModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 transition-opacity duration-300 ease-in-out">
           <div className="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 ease-in-out scale-100">
