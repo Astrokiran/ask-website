@@ -26,9 +26,9 @@ const TEMPLATE_NAME = process.env.NEXT_PUBLIC_TEMPLATE_NAME || "kundli_pdf";
 
 interface SendReportRequestBody {
     phoneNumber: string; 
-    s3Key: string;         // This is the full S3 object key (e.g., "kundli-reports/phone/file.pdf")
-    userName: string;      // Used for body {{1}}
-    pdfFileName: string;   // Not directly used in template, but good for context/future
+    s3Key: string;         
+    userName: string;      
+    pdfFileName: string;   
 }
 
 export async function POST(req: NextRequest) {
@@ -68,8 +68,6 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // --- RE-GENERATED signedPdfUrl HERE ---
-        // We now need the FULL signed URL to pass to the WhatsApp client.
         let signedPdfUrl: string;
         try {
             const command = new GetObjectCommand({
@@ -78,7 +76,7 @@ export async function POST(req: NextRequest) {
             });
             // Generate a pre-signed URL for GET operation
             signedPdfUrl = await getSignedUrl(s3Client, command, { expiresIn: 86400 }); // URL valid for 50 minutes
-            // console.log(`[SERVER] Generated Signed URL for PDF: ${signedPdfUrl}`);
+            // console.log(`[SERVER] Generated Signed URL for PDF: ${signeddfUrl}`);
         } catch (s3Error) {
             console.error(`Error generating signed URL for S3 key '${s3Key}':`, s3Error);
             return NextResponse.json(
@@ -88,15 +86,13 @@ export async function POST(req: NextRequest) {
         }
 
         try {
-            // Pass the FULL signed URL to the WhatsApp client
             const result = await whatsappClient.sendTemplateMessage( 
                 phoneNumber, 
                 userName, 
-                signedPdfUrl, // <--- CRITICAL CHANGE: Pass the FULL signed URL here
-                TEMPLATE_ID_ENV // Pass the raw string from env, the service function will parse
+                signedPdfUrl, 
+                TEMPLATE_ID_ENV
             );
             
-            // console.log("WhatsApp API Template Response:", result);
 
             return NextResponse.json(
                 { success: true, message: 'Kundli report template sent via WhatsApp successfully. NOTE: PDF link may have the base URL duplicated if template is not adjusted.', whatsappResponse: result }, 
