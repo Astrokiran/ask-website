@@ -711,7 +711,7 @@ const handleVerifyOtp = async () => {
                     <p className="text-gray-700 text-sm">Your previous Kundlis will appear here.</p>
                 </div>
                 <button
-                  onClick={() => router.push('/my-kundlis')} // Example: Navigate to a page for previous kundlis
+                  onClick={() => router.push('/free-kundli')} // Example: Navigate to a page for previous kundlis
                   className="w-full max-w-xs bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 mb-3 shadow-lg transform hover:scale-105"
                 >
                   View My Kundlis
@@ -728,8 +728,8 @@ const handleVerifyOtp = async () => {
               // Content to show when user is NOT logged in (original login prompt)
               <>
                 <img src="/ask-logo.png" alt="Login illustration or site logo" className="w-24 h-24 mb-6 opacity-80" />
-                <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">Access Your History</h2>
-                <p className="text-gray-600 text-center mb-8">Login to view your previously generated Kundli details and manage your profile.</p>
+                <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">Welcome to Astrokiran</h2>
+                <p className="text-gray-600 text-center mb-8">Login to Create and Download your Kundli details for free and manage your profile.</p>
                 <button onClick={handleOpenLoginModal} className="w-full max-w-xs bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 ease-in-out shadow-lg transform hover:scale-105">Login Here</button>
               </>
             )}
@@ -817,7 +817,7 @@ const handleVerifyOtp = async () => {
                 pattern="\d*"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))} // Allow only numbers
-                placeholder="Enter 4 or 6 digit OTP"
+                placeholder="Enter 6 digit OTP"
                 className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ease-in-out mb-2 tracking-widest text-center text-lg ${loginError && !/^\d{4,6}$/.test(otp) ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-orange-500'}`}
                 maxLength={6}
               />

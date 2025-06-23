@@ -1,457 +1,449 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-// --- Interfaces (Corrected and Expanded) ---
+// --- INTERFACES (Defined and Exported for external use) ---
 
-// This defines the specific structure of the Dosha data
-interface ApiDoshaData {
-    manglik: {
-        manglik_present_rule: {
-            based_on_aspect: string[];
-            based_on_house: string[];
-        };
-        manglik_cancel_rule: string[];
-        is_mars_manglik_cancelled: boolean;
-        manglik_status: string;
-        percentage_manglik_present: number;
-        percentage_manglik_after_cancellation: number;
-        manglik_report: string;
-        is_present: boolean;
-    };
-    kalsarpa: {
-        present: boolean;
-        type: string;
-        one_line: string;
-        name: string;
-        report: {
-            house_id: number;
-            report: string; // This can contain HTML
-        };
-    };
+export interface ApiDoshaData {
+    manglik: {
+        manglik_present_rule: {
+            based_on_aspect: string[];
+            based_on_house: string[];
+        };
+        manglik_cancel_rule: string[];
+        is_mars_manglik_cancelled: boolean;
+        manglik_status: string;
+        percentage_manglik_present: number;
+        percentage_manglik_after_cancellation: number;
+        manglik_report: string;
+        is_present: boolean;
+    };
+    kalsarpa: {
+        present: boolean;
+        type: string;
+        one_line: string;
+        name: string;
+        report: {
+            house_id: number;
+            report: string;
+        };
+    };
 }
 
-// This is the main data structure passed to the PDF generation function
-interface KundliData {
-    data: {
-        name?: string;
-        date_of_birth?: string;
-        time_of_birth?: string;
-        place_of_birth?: string;
-        latitude?: number;
-        longitude?: number;
-        timezone?: string;
-        sunrise?: string;
-        sunset?: string;
-        ayanamsha?: number;
-        panchang?: {
-            day?: string;
-            tithi?: string;
-            nakshatra?: string;
-            yog?: string;
-            karan?: string;
-            vedic_sunrise?: string;
-            vedic_sunset?: string;
-            sunrise?: string;
-            sunset?: string;
-        };
-    };
-    planets?: Array<{
-        name: string;
-        sign: string;
-        signLord: string;
-        nakshatra: string;
-        nakshatraLord: string;
-        normDegree?: number;
-        isRetro?: string;
-        is_planet_set?: boolean;
-        house?: number;
-    }>;
-    svgChart?: string;
-    svgChart2?: string;
-    dasha?: Array<{ planet?: string; start?: string; end?: string }>;
-    dosha?: ApiDoshaData; // Correctly typed dosha property
+export interface ApiPlanetDataItem {
+    name: string;
+    sign: string;
+    signLord: string;
+    nakshatra: string;
+    nakshatraLord: string;
+    normDegree?: number;
+    isRetro?: string;
+    is_planet_set?: boolean;
+    house?: number;
+    planet_awastha?: string;
+    state?: string;
+}
+
+export interface ApiResponse<T> {
+    data: T;
+}
+
+export interface KundliData {
+    data: {
+        name?: string;
+        date_of_birth?: string;
+        time_of_birth?: string;
+        place_of_birth?: string;
+        latitude?: number;
+        longitude?: number;
+        timezone?: string;
+        sunrise?: string;
+        sunset?: string;
+        ayanamsha?: number;
+        panchang?: {
+            day?: string;
+            tithi?: string;
+            nakshatra?: string;
+            yog?: string;
+            karan?: string;
+            sunrise?: string;
+            sunset?: string;
+        };
+    };
+    planets?: ApiResponse<ApiPlanetDataItem[]>;
+    svgChart?: string;
+    svgChart2?: string;
+    dasha?: ApiResponse<Array<{ planet?: string; start?: string; end?: string }>>;
+    dosha?: ApiDoshaData;
+    s3_key?: string;
 }
 
 
-export const generateKundliPdf = async (kundliData: KundliData): Promise<void> => {
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pageHeight = pdf.internal.pageSize.getHeight();
+// --- Constants ---
+const MARGIN = 10;
+const COLOR_PRIMARY = '#C53030';
+const COLOR_ACCENT = '#FBBF24';
+const COLOR_BG_LIGHT = '#F3F4F6';
+const COLOR_TEXT_DARK = '#1F2937';
+const COLOR_TEXT_LIGHT = '#FFFFFF';
+const COLOR_TEXT_MUTED = '#6B7280';
+const TABLE_HEADER_BG = '#374151';
+
+
+// --- DRAWING HELPERS (STATELESS) ---
+
+const drawPageHeader = (pdf: jsPDF) => {
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    pdf.setFillColor(COLOR_PRIMARY);
+    pdf.rect(0, 0, pageWidth, 35, 'F');
+    const logoX = MARGIN;
+    const logoY = 5;
+    const logoWidth = 25;
+    const logoHeight = 25;
+    const padding = 1.5;
+    pdf.setFillColor(COLOR_TEXT_LIGHT);
+    pdf.roundedRect(logoX - padding, logoY - padding, logoWidth + (2 * padding), logoHeight + (2 * padding), 2, 2, 'F');
+    pdf.addImage('/ask-logo.png', 'PNG', logoX, logoY, logoWidth, logoHeight);
+    pdf.setFontSize(26).setFont("helvetica", "bold").setTextColor(COLOR_ACCENT);
+    pdf.text('AstroKiran', pageWidth - MARGIN, 18, { align: 'right' });
+    pdf.setFontSize(12).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_LIGHT);
+    pdf.text('Vedic Astrology Kundli Report', pageWidth - MARGIN, 26, { align: 'right' });
+};
+
+const drawPageFooter = (pdf: jsPDF, kundliData: KundliData) => {
+    const totalPages = pdf.internal.getNumberOfPages();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        const footerY = pageHeight - 12;
+        pdf.setLineWidth(0.2).setDrawColor(COLOR_PRIMARY);
+        pdf.line(MARGIN, footerY, pdf.internal.pageSize.getWidth() - MARGIN, footerY);
+        pdf.setFontSize(8).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_MUTED);
+        pdf.text(`Page ${i} of ${totalPages}`, pdf.internal.pageSize.getWidth() - MARGIN, footerY + 5, { align: 'right' });
+        pdf.text(`Generated by AstroKiran for ${kundliData.data.name || 'User'}`, MARGIN, footerY + 5);
+    }
+};
+
+const drawSectionTitle = (pdf: jsPDF, title: string, y: number) => {
+    pdf.setFontSize(18).setFont("helvetica", "bold").setTextColor(COLOR_PRIMARY);
+    pdf.text(title, MARGIN, y);
+    y += 8;
+    pdf.setLineWidth(0.5).setDrawColor(COLOR_ACCENT);
+    pdf.line(MARGIN, y, MARGIN + 40, y);
+    return y + 8;
+};
+
+// --- CONTENT DRAWING FUNCTIONS ---
+
+const drawBasicAndPanchangDetails = (pdf: jsPDF, kundliData: KundliData, y: number) => {
     const pageWidth = pdf.internal.pageSize.getWidth();
-    const margin = 15;
-    const contentWidth = pageWidth - 2 * margin;
-    let yPosition = 0; // Start at the top
-
-    // --- Color Palette ---
-    const COLOR_PRIMARY = '#C53030'; // Deep Red
-    const COLOR_ACCENT = '#FBBF24';  // Gold/Amber
-    const COLOR_BG_LIGHT = '#F3F4F6'; // Light Gray Background
-    const COLOR_TEXT_DARK = '#1F2937'; // Dark Gray Text
-    const COLOR_TEXT_LIGHT = '#FFFFFF'; // White Text
-    const COLOR_TEXT_MUTED = '#6B7280'; // Muted Gray
-    const TABLE_HEADER_BG = '#374151'; // Darker Gray for table headers
-
-    // --- Helper to add a new page if content overflows ---
-    const addNewPageIfNecessary = (neededHeight: number): void => {
-        if (yPosition + neededHeight > pageHeight - margin) {
-            pdf.addPage();
-            yPosition = margin;
-            drawPageHeader(); // Redraw header on new page
-        }
+    const contentWidth = pageWidth - 2 * MARGIN;
+    const startY = y;
+    const colWidth = contentWidth / 2 - 5;
+    const basicDetails = {
+        title: 'Basic Details',
+        data: [
+            { label: 'Name', value: kundliData.data.name },
+            { label: 'Date of Birth', value: kundliData.data.date_of_birth },
+            { label: 'Time of Birth', value: kundliData.data.time_of_birth },
+            { label: 'Place of Birth', value: kundliData.data.place_of_birth },
+            { label: 'Latitude', value: kundliData.data.latitude?.toFixed(4) },
+            { label: 'Longitude', value: kundliData.data.longitude?.toFixed(4) },
+            { label: 'Timezone', value: kundliData.data.timezone },
+            { label: 'Ayanamsha', value: kundliData.data.ayanamsha?.toFixed(4) },
+        ]
+    };
+    const panchang = kundliData.data.panchang;
+    const panchangDetails = {
+        title: 'Panchang Details',
+        data: panchang ? [
+            { label: 'Day', value: panchang.day }, { label: 'Sunrise', value: panchang.sunrise },
+            { label: 'Sunset', value: panchang.sunset }, { label: 'Tithi', value: panchang.tithi },
+            { label: 'Nakshatra', value: panchang.nakshatra }, { label: 'Yog', value: panchang.yog },
+            { label: 'Karan', value: panchang.karan },
+        ] : []
     };
 
-    // --- Reusable Drawing Functions ---
-
-    const drawPageHeader = () => {
-        pdf.setFillColor(COLOR_PRIMARY);    
-        pdf.rect(0, 0, pageWidth, 35, 'F');
-        const logoX = margin;
-        const logoY = 5;
-        const logoWidth = 25;
-        const logoHeight = 25;
-        const padding = 1.5;
-        pdf.setFillColor(COLOR_TEXT_LIGHT);
-        pdf.roundedRect(logoX - padding, logoY - padding, logoWidth + (2 * padding), logoHeight + (2 * padding), 2, 2, 'F');
-        pdf.addImage('/ask-logo.png', 'PNG', logoX, logoY, logoWidth, logoHeight);
-        pdf.setFontSize(26);
-        pdf.setFont("helvetica", "bold");
-        pdf.setTextColor(COLOR_ACCENT);
-        pdf.text('AstroKiran', pageWidth - margin, 18, { align: 'right' });
-        pdf.setFontSize(12);
-        pdf.setTextColor(COLOR_TEXT_LIGHT);
-        pdf.text('Vedic Astrology Kundli Report', pageWidth - margin, 26, { align: 'right' });
-    };
-
-    const drawPageFooter = () => {
-        const totalPages = pdf.internal.getNumberOfPages();
-        for (let i = 1; i <= totalPages; i++) {
-            pdf.setPage(i);
-            const footerY = pageHeight - 15;
-            pdf.setLineWidth(0.2);
-            pdf.setDrawColor(COLOR_PRIMARY);
-            pdf.line(margin, footerY, pageWidth - margin, footerY);
-            pdf.setFontSize(8);
-            pdf.setFont("helvetica", "normal");
-            pdf.setTextColor(COLOR_TEXT_MUTED);
-            pdf.text(`Page ${i} of ${totalPages}`, pageWidth - margin, footerY + 5, { align: 'right' });
-            pdf.text(`Generated by AstroKiran for ${kundliData.data.name || 'User'}`, margin, footerY + 5);
-        }
-    };
-
-    const drawSectionTitle = (title: string) => {
-        addNewPageIfNecessary(20);
-        pdf.setFontSize(18);
-        pdf.setFont("helvetica", "bold");
-        pdf.setTextColor(COLOR_PRIMARY);
-        pdf.text(title, margin, yPosition);
-        yPosition += 8;
-        pdf.setLineWidth(0.5);
-        pdf.setDrawColor(COLOR_ACCENT);
-        pdf.line(margin, yPosition, margin + 40, yPosition);
-        yPosition += 8;
-    };
-
-    const drawBasicAndPanchangDetails = () => {
-        addNewPageIfNecessary(80);
-        const startY = yPosition;
-        const colWidth = contentWidth / 2 - 5;
-
-        const basicDetailsEl = {
-            title: 'Basic Details',
-            data: [
-                { label: 'Date of Birth', value: kundliData.data.date_of_birth },
-                { label: 'Time of Birth', value: kundliData.data.time_of_birth },
-                { label: 'Place of Birth', value: kundliData.data.place_of_birth },
-                { label: 'Latitude', value: kundliData.data.latitude?.toFixed(4) },
-                { label: 'Longitude', value: kundliData.data.longitude?.toFixed(4) },
-                { label: 'Timezone', value: kundliData.data.timezone },
-                { label: 'Ayanamsha', value: kundliData.data.ayanamsha?.toFixed(4) },
-            ]
-        };
-
-        const panchang = kundliData.data.panchang;
-        const panchangDetailsEl = {
-            title: 'Panchang Details',
-            data: panchang ? [
-                { label: 'Day', value: panchang.day },
-                { label: 'Sunrise', value: panchang.sunrise },
-                { label: 'Sunset', value: panchang.sunset },
-                { label: 'Tithi', value: panchang.tithi },
-                { label: 'Nakshatra', value: panchang.nakshatra },
-                { label: 'Yog', value: panchang.yog },
-                { label: 'Karan', value: panchang.karan },
-            ] : []
-        };
-        
-        let finalY = yPosition;
-        [basicDetailsEl, panchangDetailsEl].forEach((section, index) => {
-            let currentY = startY;
-            const currentX = margin + index * (colWidth + 10);
-
-            pdf.setFontSize(14);
-            pdf.setFont("helvetica", "bold");
-            pdf.setTextColor(COLOR_PRIMARY);
-            pdf.text(section.title, currentX, currentY);
-            currentY += 6;
-
-            pdf.setLineWidth(0.2);
-            pdf.setDrawColor(COLOR_ACCENT);
-            pdf.line(currentX, currentY, currentX + 30, currentY);
-            currentY += 6;
-
-            pdf.setFontSize(9);
-            pdf.setTextColor(COLOR_TEXT_DARK);
-            const lineHeight = 6;
-            
-            if (section.data.length === 0) {
-                 pdf.setFont("helvetica", "italic");
-                 pdf.setTextColor(COLOR_TEXT_MUTED);
-                 pdf.text("Data not available.", currentX, currentY);
-                 currentY += lineHeight;
-            } else {
-                section.data.forEach(detail => {
-                    if (detail.value) {
-                        pdf.setFont("helvetica", "bold");
-                        pdf.text(detail.label + ':', currentX, currentY);
-                        pdf.setFont("helvetica", "normal");
-                        pdf.text(detail.value.toString(), currentX + 35, currentY, { maxWidth: colWidth - 35 });
-                        currentY += lineHeight;
-                    }
-                });
-            }
-             if (currentY > finalY) finalY = currentY;
-        });
-
-        yPosition = finalY + 10;
-    };
-
-    const drawTable = (headers: string[], dataRows: (string | undefined)[][], colWidthsConfig: number[], title: string) => {
-        drawSectionTitle(title);
-        addNewPageIfNecessary(20 + dataRows.length * 8);
-
-        const startY = yPosition;
+    let finalY = y;
+    [basicDetails, panchangDetails].forEach((section, index) => {
         let currentY = startY;
-        const headerLineHeight = 8;
-        const rowLineHeight = 7;
-        const cellPadding = 2;
-
-        pdf.setFontSize(9);
-        pdf.setFont("helvetica", "bold");
-        pdf.setTextColor(COLOR_TEXT_LIGHT);
-        pdf.setFillColor(TABLE_HEADER_BG);
-        pdf.roundedRect(margin, currentY, contentWidth, headerLineHeight, 2, 2, 'F');
+        const currentX = MARGIN + index * (colWidth + 10);
+        pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_PRIMARY);
+        pdf.text(section.title, currentX, currentY);
+        currentY += 6;
+        pdf.setLineWidth(0.2).setDrawColor(COLOR_ACCENT);
+        pdf.line(currentX, currentY, currentX + 30, currentY);
         
-        let currentX = margin;
-        headers.forEach((header, i) => {
-            pdf.text(header, currentX + cellPadding, currentY + headerLineHeight / 2 + 2, {
-                maxWidth: colWidthsConfig[i] - 2 * cellPadding
+        // CHANGE: Increased space after title from 6 to 8
+        currentY += 8;
+        
+        // CHANGE: Increased font size for details from 9 to 10
+        pdf.setFontSize(10).setTextColor(COLOR_TEXT_DARK);
+
+        if (section.data.length === 0) {
+            pdf.setFont("helvetica", "italic").setTextColor(COLOR_TEXT_MUTED).text("Data not available.", currentX, currentY);
+        } else {
+            section.data.forEach(detail => {
+                if (detail.value) {
+                    pdf.setFont("helvetica", "bold").text(detail.label + ':', currentX, currentY);
+                    pdf.setFont("helvetica", "normal").text(detail.value.toString(), currentX + 40, currentY, { maxWidth: colWidth - 40 });
+                    
+                    // CHANGE: Increased line height from 7 to 9
+                    currentY += 9;
+                }
             });
+        }
+        if (currentY > finalY) finalY = currentY;
+    });
+    return finalY + 10;
+};
+
+const drawGenericTable = (pdf: jsPDF, headers: string[], dataRows: (string | undefined)[][], colWidthsConfig: number[], y: number) => {
+    let currentY = y;
+    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
+
+    pdf.setFontSize(8).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_LIGHT).setFillColor(TABLE_HEADER_BG);
+    pdf.roundedRect(MARGIN, currentY, contentWidth, 8, 2, 2, 'F');
+    let currentX = MARGIN;
+    headers.forEach((header, i) => {
+        pdf.text(header, currentX + colWidthsConfig[i] / 2, currentY + 5.5, { align: 'center' });
+        currentX += colWidthsConfig[i];
+    });
+    currentY += 8;
+
+    pdf.setFontSize(8).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_DARK);
+    dataRows.forEach((row, rowIndex) => {
+        if (rowIndex % 2 !== 0) pdf.setFillColor(COLOR_BG_LIGHT).rect(MARGIN, currentY, contentWidth, 7, 'F');
+        currentX = MARGIN;
+        row.forEach((cell, i) => {
+            pdf.text(cell || '-', currentX + 2, currentY + 4.5, { maxWidth: colWidthsConfig[i] - 4 });
             currentX += colWidthsConfig[i];
         });
-        currentY += headerLineHeight;
+        currentY += 7;
+    });
+    return currentY + 10;
+};
 
-        pdf.setFontSize(8);
-        pdf.setFont("helvetica", "normal");
-        pdf.setTextColor(COLOR_TEXT_DARK);
-
-        dataRows.forEach((row, rowIndex) => {
-             addNewPageIfNecessary(rowLineHeight);
-            if (rowIndex % 2 !== 0) {
-                pdf.setFillColor(COLOR_BG_LIGHT);
-                pdf.rect(margin, currentY, contentWidth, rowLineHeight, 'F');
-            }
-
-            currentX = margin;
-            row.forEach((cell, i) => {
-                pdf.text(cell || '-', currentX + cellPadding, currentY + rowLineHeight / 2 + 1.5, {
-                    maxWidth: colWidthsConfig[i] - 2 * cellPadding
-                });
-                currentX += colWidthsConfig[i];
-            });
-            currentY += rowLineHeight;
-        });
-        
-        yPosition = currentY + 10;
-    };
-
-    const drawDoshaDetails = (dosha: ApiDoshaData) => {
-        if (!dosha) return;
-        
-        pdf.addPage();
-        yPosition = margin;
-        drawPageHeader();
-        yPosition = 45;
-
-        drawSectionTitle("Dosha Analysis");
-
-        if (dosha.manglik) {
-            addNewPageIfNecessary(15);
-            pdf.setFontSize(14);
-            pdf.setFont("helvetica", "bold");
-            pdf.setTextColor(COLOR_TEXT_DARK);
-            pdf.text("Manglik Dosha", margin, yPosition);
-            yPosition += 7;
-
-            pdf.setFontSize(10);
-            pdf.setFont("helvetica", "normal");
-            pdf.setTextColor(COLOR_TEXT_DARK);
-            
-            pdf.setFont("helvetica", "bold");
-            pdf.text("Status:", margin, yPosition);
-            pdf.setFont("helvetica", "normal");
-            pdf.text(dosha.manglik.is_present ? `Present (${dosha.manglik.manglik_status})` : "Not Present", margin + 15, yPosition);
-            yPosition += 7;
-
-            pdf.setFont("helvetica", "bold");
-            pdf.text("Report:", margin, yPosition);
-            yPosition += 5;
-            pdf.setFont("helvetica", "normal");
-            const reportLines = pdf.splitTextToSize(dosha.manglik.manglik_report, contentWidth);
-            addNewPageIfNecessary(reportLines.length * 5);
-            pdf.text(reportLines, margin, yPosition);
-            yPosition += reportLines.length * 5 + 5;
-        }
-
-        if (dosha.kalsarpa) {
-            addNewPageIfNecessary(30);
-            pdf.setFontSize(14);
-            pdf.setFont("helvetica", "bold");
-            pdf.setTextColor(COLOR_TEXT_DARK);
-            pdf.text("Kalsarpa Dosha", margin, yPosition);
-            yPosition += 7;
-            
-            pdf.setFontSize(10);
-            pdf.setFont("helvetica", "normal");
-            pdf.setTextColor(COLOR_TEXT_DARK);
-            
-            pdf.setFont("helvetica", "bold");
-            pdf.text("Status:", margin, yPosition);
-            pdf.setFont("helvetica", "normal");
-            pdf.text(dosha.kalsarpa.present ? `Present (${dosha.kalsarpa.name} - ${dosha.kalsarpa.type})` : "Not Present", margin + 15, yPosition);
-            yPosition += 7;
-
-            if(dosha.kalsarpa.present) {
-                pdf.setFont("helvetica", "bold");
-                pdf.text("Summary:", margin, yPosition);
-                yPosition += 5;
-                pdf.setFont("helvetica", "normal");
-                const oneLine = pdf.splitTextToSize(dosha.kalsarpa.one_line, contentWidth);
-                addNewPageIfNecessary(oneLine.length * 5);
-                pdf.text(oneLine, margin, yPosition);
-                yPosition += oneLine.length * 5 + 5;
-                
-                pdf.setFont("helvetica", "bold");
-                pdf.text("Detailed Report:", margin, yPosition);
-                yPosition += 5;
-
-                const cleanReport = dosha.kalsarpa.report.report.replace(/<[^>]*>?/gm, '');
-                const reportLines = pdf.splitTextToSize(cleanReport, contentWidth);
-
-                addNewPageIfNecessary(reportLines.length * 5);
-                pdf.setFont("helvetica", "normal");
-                pdf.text(reportLines, margin, yPosition);
-                yPosition += reportLines.length * 5;
-            }
-        }
-    };
+const drawPlanetsTable = (pdf: jsPDF, kundliData: KundliData, y: number) => {
+    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
+    let currentY = drawSectionTitle(pdf, 'Planetary Positions', y);
     
-    const addChartToPdf = async (elementId: string, chartTitle: string) => {
-        const chartElement = document.getElementById(elementId);
-        if (!chartElement) {
-            console.warn(`Chart element ${elementId} not found.`);
-            return;
-        }
-        
-        pdf.addPage();
-        yPosition = margin;
-        drawPageHeader();
-        yPosition = 45;
-
-        drawSectionTitle(chartTitle);
-
-        try {
-            const canvas = await html2canvas(chartElement, {
-                scale: 3,
-                backgroundColor: null,
-                useCORS: true,
-                logging: false,
-            });
-            const imgData = canvas.toDataURL('image/png');
-            const imgProps = pdf.getImageProperties(imgData);
-            
-            const chartSize = contentWidth * 0.75;
-            const pdfImgHeight = chartSize * (imgProps.height / imgProps.width);
-            const xOffset = (pageWidth - chartSize) / 2;
-
-            addNewPageIfNecessary(pdfImgHeight + 10);
-            pdf.addImage(imgData, 'PNG', xOffset, yPosition, chartSize, pdfImgHeight);
-            yPosition += pdfImgHeight + 15;
-
-        } catch (error) {
-            console.error(`Error capturing chart ${elementId}:`, error);
-            pdf.text(`Error rendering ${chartTitle}.`, margin, yPosition);
-            yPosition += 10;
-        }
-    };
-
-    // --- PDF Generation Flow ---
-
-    // 1. Initial Page Header & Name
-    drawPageHeader();
-    yPosition = 45;
-    if (kundliData.data.name) {
-        pdf.setFontSize(14);
-        pdf.setFont("helvetica", "bold");
-        pdf.setTextColor(COLOR_TEXT_DARK);
-        pdf.text(`Report For: ${kundliData.data.name}`, pageWidth / 2, yPosition, { align: 'center' });
-        yPosition += 10;
-    }
-
-    // 2. Basic and Panchang Details
-    drawBasicAndPanchangDetails();
-
-    // 3. Planetary Positions Table
-    const planets = kundliData.planets || [];
+    const planets = kundliData.planets?.data || [];
     if (planets.length > 0) {
-        const headers = ['Planet', 'Sign', 'S.Lord', 'Naksh', 'N.Lord', 'Degree', 'Retro', 'Combust', 'House'];
-        const rows = planets.map(p => [
+        const headers = ['Planet', 'Sign', 'S.Lord', 'Naksh', 'N.Lord', 'Degree', 'Retro', 'Combust', 'Awastha', 'House', 'State'];
+        const colWidths = [0.11, 0.09, 0.09, 0.12, 0.10, 0.08, 0.08, 0.08, 0.10, 0.07, 0.08].map(w => contentWidth * w);
+        const data = planets.map(p => [
             p.name, p.sign, p.signLord, p.nakshatra, p.nakshatraLord,
-            p.normDegree?.toFixed(2) + '°', p.isRetro === "true" ? 'Yes' : 'No',
-            p.is_planet_set ? 'Yes' : 'No', p.house?.toString()
+            p.normDegree?.toFixed(2) + '°',
+            p.isRetro === "true" ? 'Retro' : 'Direct',
+            p.is_planet_set ? 'Yes' : 'No',
+            p.planet_awastha,
+            p.house?.toString(),
+            p.state
         ]);
-        const colWidths = [0.14, 0.11, 0.11, 0.14, 0.11, 0.11, 0.08, 0.08, 0.12].map(w => contentWidth * w);
-        drawTable(headers, rows, colWidths, 'Planetary Positions');
+        return drawGenericTable(pdf, headers, data, colWidths, currentY);
     }
-    
-    // 4. Maha Dasha Table
-    pdf.addPage();
-    yPosition = margin;
-    drawPageHeader();
-    yPosition = 45;
-    
-    const dashaData = kundliData.dasha || [];
+    pdf.text("Planetary data not available.", MARGIN, currentY);
+    return currentY + 10;
+};
+
+const drawDashaTable = (pdf: jsPDF, kundliData: KundliData, y: number) => {
+    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
+    let currentY = drawSectionTitle(pdf, 'Maha Dasha (Major Periods)', y);
+
+    const dashaData = kundliData.dasha?.data || [];
     if (dashaData.length > 0) {
         const headers = ['Planet', 'Start Date', 'End Date'];
-        const rows = dashaData.map(d => [ d.planet, d.start, d.end]);
         const colWidths = [0.34, 0.33, 0.33].map(w => contentWidth * w);
-        drawTable(headers, rows as (string | undefined)[][], colWidths, 'Maha Dasha (Major Periods)');
+        const data = dashaData.map(d => [d.planet, d.start, d.end]);
+        return drawGenericTable(pdf, headers, data, colWidths, currentY);
+    }
+    pdf.text("Dasha data not available.", MARGIN, currentY);
+    return currentY + 10;
+};
+
+const drawDoshaDetails = (pdf: jsPDF, dosha: ApiDoshaData, y: number) => {
+    let currentY = drawSectionTitle(pdf, "Dosha Analysis", y);
+    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
+
+    if (dosha.manglik) {
+        pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
+        pdf.text("Manglik Dosha", MARGIN, currentY);
+        currentY += 8;
+        pdf.setFontSize(10);
+        pdf.setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
+        pdf.setFont("helvetica", "normal").text(dosha.manglik.is_present ? `Present (${dosha.manglik.manglik_status})` : "Not Present", MARGIN + 25, currentY);
+        currentY += 7;
+
+        pdf.setFont("helvetica", "bold").text("Report:", MARGIN, currentY);
+        currentY += 5;
+        const reportLines = pdf.splitTextToSize(dosha.manglik.manglik_report, contentWidth);
+        pdf.setFont("helvetica", "normal").text(reportLines, MARGIN, currentY);
+        currentY += reportLines.length * 5 + 5;
+
+        // --- ADDED SECTION START: Reasons based on House and Aspect ---
+        const { based_on_house, based_on_aspect } = dosha.manglik.manglik_present_rule;
+
+        if (based_on_house?.length > 0) {
+            pdf.setFont("helvetica", "bold").text("Reasons (Based on House):", MARGIN, currentY);
+            currentY += 5;
+            based_on_house.forEach(rule => {
+                pdf.setFont("helvetica", "normal").text(`• ${rule}`, MARGIN + 2, currentY, { maxWidth: contentWidth - 2 });
+                currentY += 5;
+            });
+            currentY += 3;
+        }
+
+        if (based_on_aspect?.length > 0) {
+            pdf.setFont("helvetica", "bold").text("Reasons (Based on Aspect):", MARGIN, currentY);
+            currentY += 5;
+            based_on_aspect.forEach(rule => {
+                pdf.setFont("helvetica", "normal").text(`• ${rule}`, MARGIN + 2, currentY, { maxWidth: contentWidth - 2 });
+                currentY += 5;
+            });
+            currentY += 3;
+        }
+        // --- ADDED SECTION END: Reasons ---
+
+        // --- ADDED SECTION START: Cancellation Rules and Percentages ---
+        const cancelRules = dosha.manglik.manglik_cancel_rule;
+        if (cancelRules?.length > 0) {
+            pdf.setFont("helvetica", "bold").text("Cancellation Rules:", MARGIN, currentY);
+            currentY += 5;
+            cancelRules.forEach(rule => {
+                pdf.setFont("helvetica", "normal").text(`• ${rule}`, MARGIN + 2, currentY, { maxWidth: contentWidth - 2 });
+                currentY += 5;
+            });
+            currentY += 3;
+        }
+
+        pdf.setFont("helvetica", "bold").text("Original Manglik Presence:", MARGIN, currentY);
+        pdf.setFont("helvetica", "normal").text(`${dosha.manglik.percentage_manglik_present}%`, MARGIN + 55, currentY);
+        currentY += 7;
+
+        pdf.setFont("helvetica", "bold").text("Presence After Cancellation:", MARGIN, currentY);
+        pdf.setFont("helvetica", "normal").text(`${dosha.manglik.percentage_manglik_after_cancellation}%`, MARGIN + 55, currentY);
+        currentY += 7;
+        // --- ADDED SECTION END: Cancellation ---
+    }
+    
+    currentY += 5; // Space between doshas
+
+    if (dosha.kalsarpa) {
+        // (The Kalsarpa section remains unchanged)
+        pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
+        pdf.text("Kalsarpa Dosha", MARGIN, currentY);
+        currentY += 8;
+        pdf.setFontSize(10);
+        pdf.setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
+        pdf.setFont("helvetica", "normal").text(dosha.kalsarpa.present ? `Present (${dosha.kalsarpa.name} - ${dosha.kalsarpa.type})` : "Not Present", MARGIN + 20, currentY);
+        currentY += 7;
+        if (dosha.kalsarpa.present) {
+            pdf.setFont("helvetica", "bold").text("Detailed Report:", MARGIN, currentY);
+            currentY += 5;
+            const cleanReport = dosha.kalsarpa.report.report.replace(/<[^>]*>?/gm, '');
+            const reportLines = pdf.splitTextToSize(cleanReport, contentWidth);
+            pdf.setFont("helvetica", "normal").text(reportLines, MARGIN, currentY);
+            currentY += reportLines.length * 5 + 5;
+        }
+    }
+    return currentY;
+};
+
+const drawChartsOnPage = async (pdf: jsPDF, y: number) => {
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const contentWidth = pageWidth - 2 * MARGIN;
+    let currentY = drawSectionTitle(pdf, 'Natal Charts', y);
+
+    // Add a delay to ensure React has rendered the hidden charts
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const chartElement1 = document.getElementById('pdf-birth-chart-container');
+    const chartElement2 = document.getElementById('pdf-moon-chart-container');
+
+    if (!chartElement1 || !chartElement2) {
+        pdf.text("Chart elements not found in the DOM. Cannot render charts.", MARGIN, currentY);
+        console.error("Could not find #pdf-birth-chart-container or #pdf-moon-chart-container");
+        return currentY + 10;
     }
 
-    // 5. Dosha Details
-    if (kundliData.dosha) {
-        drawDoshaDetails(kundliData.dosha);
+    const chartWidth = (contentWidth / 2) - 5; // Two charts side-by-side with a 10mm gap
+
+    try {
+        const canvasOptions = { scale: 3, useCORS: true, backgroundColor: '#FFFFFF' };
+        
+        // Capture both canvases first
+        const canvas1 = await html2canvas(chartElement1, canvasOptions);
+        const canvas2 = await html2canvas(chartElement2, canvasOptions);
+
+        const imgData1 = canvas1.toDataURL('image/png');
+        const imgProps1 = pdf.getImageProperties(imgData1);
+        const pdfImgHeight1 = chartWidth * (imgProps1.height / imgProps1.width);
+
+        const imgData2 = canvas2.toDataURL('image/png');
+        const imgProps2 = pdf.getImageProperties(imgData2);
+        const pdfImgHeight2 = chartWidth * (imgProps2.height / imgProps2.width);
+        
+        const maxHeight = Math.max(pdfImgHeight1, pdfImgHeight2);
+
+        // Add images to PDF
+        pdf.addImage(imgData1, 'PNG', MARGIN, currentY, chartWidth, pdfImgHeight1);
+        pdf.addImage(imgData2, 'PNG', MARGIN + chartWidth + 10, currentY, chartWidth, pdfImgHeight2);
+
+        currentY += maxHeight + 15;
+    } catch (error) {
+        console.error("Error capturing charts for PDF:", error);
+        pdf.text("An error occurred while rendering the charts.", MARGIN, currentY);
+        currentY += 10;
     }
+    return currentY;
+};
 
-    // 6. Astrological Charts
-    if (kundliData.svgChart) {
-        await addChartToPdf('pdf-birth-chart-container', 'Birth Chart (Lagna)');
+
+// --- MAIN PDF GENERATION FUNCTION ---
+export const generateKundliPdf = async (
+    kundliData: KundliData, 
+    options: { outputType?: 'save' | 'blob' } = { outputType: 'save' }
+): Promise<void | Blob> => { // Return type is now void OR Blob
+    try {
+        const pdf = new jsPDF('p', 'mm', 'a4');
+
+        await drawPageHeader(pdf);
+        let yPosition = 45;
+        if (kundliData.data.name) {
+            pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
+            pdf.text(`Report For: ${kundliData.data.name}`, pdf.internal.pageSize.getWidth() / 2, yPosition, { align: 'center' });
+            yPosition += 10;
+        }
+        drawBasicAndPanchangDetails(pdf, kundliData, yPosition);
+
+        pdf.addPage();
+        await drawPageHeader(pdf);
+        await drawChartsOnPage(pdf, 45);
+        
+        pdf.addPage();
+        await drawPageHeader(pdf);
+        yPosition = 45;
+        const yAfterPlanets = drawPlanetsTable(pdf, kundliData, yPosition);
+        drawDashaTable(pdf, kundliData, yAfterPlanets);
+
+        if (kundliData.dosha) {
+            pdf.addPage();
+            await drawPageHeader(pdf);
+            yPosition = 45;
+            drawDoshaDetails(pdf, kundliData.dosha, yPosition);
+        }
+        
+        drawPageFooter(pdf, kundliData);
+
+        // Conditional output based on options
+        if (options.outputType === 'blob') {
+            return pdf.output('blob');
+        } else {
+            // Default behavior is to save the file
+            pdf.save(`AstroKiran-Kundli-${kundliData.data.name || 'User'}.pdf`);
+        }
+    } catch (error) {
+        console.error("A critical error occurred during PDF generation:", error);
+        alert("Sorry, the PDF could not be created due to an unexpected error.");
     }
-    if (kundliData.svgChart2) {
-        await addChartToPdf('pdf-moon-chart-container', 'Moon Chart');
-    }   
-
-    // 7. Finalize with Footer
-    drawPageFooter();
-
-    // 8. Save the PDF
-    pdf.save(`AstroKiran-Kundli-${kundliData.data.name || 'Report'}.pdf`);
 };

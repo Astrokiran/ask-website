@@ -5,6 +5,7 @@ import KundliReportPage from '@/components/kundli/result-kundli';
 import { NavBar } from '@/components/nav-bar';
 import { Footer } from '@/components/footer';
 import { ServicesSection } from "@/components/services-section"
+import { LoadingScreen } from "@/components/banners/LoadingScreen";
 import Link from 'next/link';
 
 // --- INTERFACES START ---
@@ -208,7 +209,7 @@ export default function ReportDisplayPage() {
   }, []);
 
     if (isLoading) {
-        return <div className="min-h-screen flex items-center justify-center text-orange-500"><p>Astrokiran is Preparing your Kundli</p></div>;
+        return <LoadingScreen />; // Use the new LoadingScreen component
     }
 
     if (error) {
@@ -225,7 +226,6 @@ export default function ReportDisplayPage() {
             </div>
         );
     }
-
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
             <NavBar />
