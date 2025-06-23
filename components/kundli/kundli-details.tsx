@@ -1,23 +1,22 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
 
-// Interface for individual planet data from API
 interface ApiPlanetDataItem {
     id: number;
     name: string;
     fullDegree: number;
     normDegree: number;
     speed: number;
-    isRetro: string; // "true" or "false"
+    isRetro: string; 
     sign: string;
     signLord: string;
     nakshatra: string;
     nakshatraLord: string;
     nakshatra_pad: number;
     house: number;
-    is_planet_set: boolean; // API uses is_planet_set for combust status
+    is_planet_set: boolean;
     planet_awastha: string;
-    state: string; // API uses 'state' for status (Friendly, Enemy, etc.)
+    state: string; 
 }
 
 interface ApiMahadashaDataItem {
@@ -33,7 +32,6 @@ const KundliTabContent = ({ kundliData }) => {
     const svgChartString1: string | undefined = kundliData?.svgChart;
     const svgChartString2: string | undefined = kundliData?.svgChart2;
 
-    // --- CHANGE: This function now also adds an orange fill color ---
     const processSvg = (svgString: string | undefined) => {
         if (!svgString) {
             return '';
@@ -41,7 +39,6 @@ const KundliTabContent = ({ kundliData }) => {
 
         let processedSvg = svgString;
 
-        // Step 1: Ensure the SVG has a viewBox for proper scaling
         if (!processedSvg.includes('viewBox')) {
             const svgTagMatch = processedSvg.match(/<svg([^>]*)>/);
             if (svgTagMatch) {
@@ -61,9 +58,6 @@ const KundliTabContent = ({ kundliData }) => {
             }
         }
 
-        // Step 2: Add an orange fill to the main shapes of the chart
-        // This regex finds all <path> elements and adds a fill attribute.
-        // It's designed to not override an existing fill color.
         processedSvg = processedSvg.replace(/<path\s/g, '<path fill="#FDBA54" ');
 
         return processedSvg;

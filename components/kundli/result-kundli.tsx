@@ -9,7 +9,6 @@ import DoshaDetails from './dosha-details';
 import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
 import { uploadPdfToS3 } from './report-pdf';
 
-// --- Interfaces and Components (No changes) ---
 
 interface KundliReportPageProps {
     kundliData: KundliData;
@@ -58,10 +57,8 @@ const UserStatus: React.FC<UserStatusProps> = ({ isLoggedIn, userName, onLogout 
     );
 };
 
-// --- FIX: A type to define the kind of PDF task to perform ---
 type PdfTask = 'download' | 'upload' | null;
 
-// --- Main Page Component ---
 export default function KundliReportPage({ kundliData }: KundliReportPageProps) {
     const [activeTab, setActiveTab] = useState('Basic');
     const [isProcessingPdf, setIsProcessingPdf] = useState(false);
@@ -71,10 +68,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     const router = useRouter();
     const uploadAttempted = useRef(false);
 
-    // --- FIX: State to manage the PDF generation task ---
     const [pdfTask, setPdfTask] = useState<PdfTask>(null);
     
-    // This ref holds a stable reference to kundliData to avoid useEffect dependency issues.
     const kundliDataRef = useRef(kundliData);
     useEffect(() => {
         kundliDataRef.current = kundliData;
@@ -85,35 +80,25 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
         if (token) setIsLoggedIn(true);
     }, []);
     
-    // --- FIX: This new useEffect reliably handles PDF generation ---
-    // --- FIX: This new useEffect reliably handles PDF generation ---
     useEffect(() => {
-        // Only run if there is a task in the queue
         if (!pdfTask) return;
         function formatPhoneNumberTo10DigitsClient(phone: string): string {
-    // Remove all non-digit characters
     const digitsOnly = phone.replace(/\D/g, '');
 
-    // If the number starts with '91' and is 12 digits long (91 + 10 digits),
-    // then remove the '91'.
     if (digitsOnly.startsWith('91') && digitsOnly.length === 12) {
-        return digitsOnly.slice(2); // Remove the first two characters ('91')
+        return digitsOnly.slice(2);
     }
 
-    // If the number is longer than 10 digits (and didn't match the '91' case),
-    // or is exactly 10 digits, return the last 10 digits.
     if (digitsOnly.length >= 10) {
         return digitsOnly.slice(-10);
     }
 
-    // If the number is less than 10 digits, return it as is.
     return digitsOnly;
 }
 
         const processPdfTask = async () => {
             setIsProcessingPdf(true);
             
-            // A minimal timeout allows the browser to paint the rendered components before capture.
             await new Promise(resolve => setTimeout(resolve, 100));
             
             const currentKundliData = kundliDataRef.current;
@@ -136,28 +121,22 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     const pdfBlob = await generateKundliPdf(currentKundliData, { outputType: 'blob' });
 
                     if (pdfBlob) {
-                        // **CHANGE 3: Construct the S3 Object Key**
-                        // This `pdfBaseName` is just the file name (e.g., Kundli-John_Doe-167888888.pdf)
                         const pdfBaseName = `Kundli-${currentKundliData.data.name?.replace(/\s+/g, '_') || 'Report'}-${Date.now()}.pdf`;
                         
-                        // **CRITICAL: Construct the full S3 key (path within your bucket)**
-                        // This must match where `uploadPdfToS3` actually places the file,
-                        // and what `/api/sent-report` will expect to find.
-                        // Example: `kundli-reports/{normalized_phone}/{pdfBaseName}`
                         const s3ObjectKey = `kundli-reports/${phone_number}/${pdfBaseName}`; 
-                        await uploadPdfToS3(pdfBlob, s3ObjectKey, phone_number);                         // -> REVIEW AND ADJUST `kundli-reports/` if your S3 bucket structure is different.
+                        await uploadPdfToS3(pdfBlob, s3ObjectKey, phone_number);                        
 
 
-                        const sendReportResponse = await fetch('/api/send-report', { // Verify this API endpoint path
+                        const sendReportResponse = await fetch('/api/send-report', { 
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                                phoneNumber: userPhoneNumber, // The normalized phone number for the WhatsApp API
-                                s3Key: s3ObjectKey,           // Send the S3 Key to the backend for signed URL generation
+                                phoneNumber: userPhoneNumber, 
+                                s3Key: s3ObjectKey,           
                                 userName: currentKundliData.data.name || 'User',
-                                pdfFileName: pdfBaseName      // The filename for the WhatsApp attachment
+                                pdfFileName: pdfBaseName      
                             }),
                         });
         
@@ -174,22 +153,19 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     alert("An error occurred while generating the PDF. Please try again.");
                 }
             } finally {
-                // Reset the task and processing state, which hides the rendering div
                 setIsProcessingPdf(false);
                 setPdfTask(null);
             }
         };
 
         processPdfTask();
-    }, [pdfTask]); // This effect now ONLY runs when `pdfTask` changes.
-
+    }, [pdfTask]); 
 
     useEffect(() => {
         if (kundliData && !uploadAttempted.current) {
             const userPhoneNumber = localStorage.getItem('userPhoneNumber');
             if (userPhoneNumber) {
                 uploadAttempted.current = true;
-                // Set the task to 'upload' to kick off the generation and upload process
                 setPdfTask('upload');
             } else {
                 console.warn("S3 auto-upload skipped: phone number not found in local storage.");
@@ -202,8 +178,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     const fetchSignedUrlForDownload = async (s3Key: string) => {
         setDownloadingSignedUrl(true);
         try {
-            const response = await fetch('/api/generate-signed-url', { // Ensure this API route exists and is correct
-                method: 'POST',
+            const response = await fetch('/api/generate-signed-url', { 
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -240,11 +215,9 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
             alert("No Kundli data available to download.");
             return;
         }
-        // Set the task to 'download', which triggers the main useEffect
         setPdfTask('download');
     };
 
-    // Other functions and UI components remain the same
     const tabs = ['Basic', 'Kundli', 'Dosha'];
     const handleLogout = async () => {
         setLoadingLogout(true);
@@ -316,7 +289,6 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     {renderContent()}
                 </div>
 
-                {/* --- FIX: This hidden div is now reliably controlled by the pdfTask state --- */}
                 {pdfTask && (
                     <div style={{ position: 'absolute', left: '-9999px', width: '1024px', zIndex: -1 }}>
                        <KundliTabContent kundliData={kundliData} />

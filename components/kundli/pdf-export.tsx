@@ -1,7 +1,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-// --- INTERFACES (Defined and Exported for external use) ---
 
 export interface ApiDoshaData {
     manglik: {
@@ -89,7 +88,6 @@ const COLOR_TEXT_MUTED = '#6B7280';
 const TABLE_HEADER_BG = '#374151';
 
 
-// --- DRAWING HELPERS (STATELESS) ---
 
 const drawPageHeader = (pdf: jsPDF) => {
     const pageWidth = pdf.internal.pageSize.getWidth();
@@ -132,7 +130,6 @@ const drawSectionTitle = (pdf: jsPDF, title: string, y: number) => {
     return y + 8;
 };
 
-// --- CONTENT DRAWING FUNCTIONS ---
 
 const drawBasicAndPanchangDetails = (pdf: jsPDF, kundliData: KundliData, y: number) => {
     const pageWidth = pdf.internal.pageSize.getWidth();

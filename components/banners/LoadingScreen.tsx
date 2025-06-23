@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// Changed to a named export
 export const LoadingScreen = () => {
-    // Array of engaging messages to cycle through
     const messages = [
         "Astrokiran is diligently preparing your Kundli...",
         "Unveiling cosmic insights, just for you...",
@@ -17,17 +15,14 @@ export const LoadingScreen = () => {
     const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
     useEffect(() => {
-        // Set up an interval to change messages every 3 seconds
         const interval = setInterval(() => {
             setCurrentMessageIndex(prevIndex => (prevIndex + 1) % messages.length);
         }, 3000); // Change message every 3 seconds
 
-        // Cleanup the interval when the component unmounts
         return () => clearInterval(interval);
     }, [messages.length]); // Re-run effect if messages array length changes
 
     return (
-        // Changed background from gradient to white and adjusted text color for contrast
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-800 p-4">
             {/* Main loading container */}
             <div className="flex flex-col items-center space-y-8 p-8 bg-white rounded-3xl shadow-2xl transform transition-all duration-500 ease-in-out hover:scale-105">
@@ -43,7 +38,6 @@ export const LoadingScreen = () => {
                     {messages[currentMessageIndex]}
                 </p>
 
-                {/* Optional: Add a simple progress bar or dots */}
                 <div className="flex space-x-2">
                     {[...Array(3)].map((_, i) => (
                         <div
@@ -54,7 +48,6 @@ export const LoadingScreen = () => {
                     ))}
                 </div>
             </div>
-            {/* Add custom keyframes for a slower spin if 'animate-spin' is too fast */}
             <style jsx>{`
                 @keyframes spin-slow {
                     from {

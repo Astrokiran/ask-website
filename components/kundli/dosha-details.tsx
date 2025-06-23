@@ -1,7 +1,5 @@
 import React from 'react';
 
-// --- TypeScript Interface for the component's props ---
-// This defines the structure of the data this component expects to receive.
 interface ApiDoshaData {
   manglik: {
     manglik_present_rule: {
@@ -23,7 +21,7 @@ interface ApiDoshaData {
     name: string;
     report: {
       house_id: number;
-      report: string; // This can contain HTML
+      report: string; 
     };
   };
 }
@@ -33,7 +31,6 @@ interface DoshaDetailsProps {
 }
 
 
-// --- SVG Icons (self-contained within the component) ---
 
 const CheckCircleIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,7 +44,6 @@ const ExclamationCircleIcon = () => (
   </svg>
 );
 
-// --- Reusable Sub-Component for Displaying Rules ---
 
 interface DoshaRuleListProps {
   title: string;
@@ -71,7 +67,6 @@ const DoshaRuleList: React.FC<DoshaRuleListProps> = ({ title, rules }) => {
 };
 
 
-// --- Main Dosha Details Component ---
 
 const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
     if (!dosha) {
@@ -95,7 +90,6 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
     return (
         <div className="p-4 md:p-6 bg-gray-50 space-y-8">
             
-            {/* Manglik Dosha Card */}
             {manglik && (
                 <div className="bg-white p-6 rounded-lg shadow-lg">
                     <div className="flex items-center border-b pb-3 mb-4">
@@ -105,9 +99,7 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
                         </h2>
                     </div>
 
-                    {/* FIX: Main content area now a grid for image and text */}
                     <div className="mt-6 grid md:grid-cols-3 gap-8 items-start">
-                        {/* Image Column */}
                         <div className="md:col-span-1">
                             <img 
                                 src="/manglik.png" 
@@ -116,7 +108,6 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
                             />
                         </div>
 
-                        {/* Text Details Column */}
                         <div className="md:col-span-2">
                              <div className="bg-gray-100 p-4 rounded-lg">
                                 <p className="text-lg font-semibold text-gray-800">
@@ -156,7 +147,6 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
                 </div>
             )}
 
-            {/* Kalsarpa Dosha Card */}
             {kalsarpa && (
                 <div className="bg-white p-6 rounded-lg shadow-lg">
                     <div className="flex items-center border-b pb-3 mb-4">
@@ -166,9 +156,7 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
                         </h2>
                     </div>
                      
-                    {/* FIX: Main content area now a grid for image and text */}
                      <div className="mt-6 grid md:grid-cols-3 gap-8 items-start">
-                        {/* Image Column */}
                         <div className="md:col-span-1">
                              <img 
                                 src="/kalasarp.png" 
@@ -177,7 +165,6 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
                             />
                         </div>
 
-                         {/* Text Details Column */}
                         <div className="md:col-span-2">
                              <div className="bg-gray-100 p-4 rounded-lg">
                                 <p className="text-lg font-semibold text-gray-800">
