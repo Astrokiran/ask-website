@@ -207,7 +207,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ s3Key, expiresInSeconds: 3000 }), 
+                body: JSON.stringify({ s3Key, expiresInSeconds: 86400 }), 
             });
 
             if (!response.ok) {

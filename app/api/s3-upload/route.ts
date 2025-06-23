@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Parse request body for the S3 key and content type
-    const { s3Key, contentType, expiresInSeconds = 6000 } = await request.json(); // Default to 10 minutes
+    const { s3Key, contentType, expiresInSeconds = 86400 } = await request.json(); // Default to 10 minutes
 
     if (!s3Key || !contentType) {
       return NextResponse.json({ message: 'S3 key and contentType are required.' }, { status: 400 });

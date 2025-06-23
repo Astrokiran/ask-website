@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
                 Key: s3Key,
             });
             // Generate a pre-signed URL for GET operation
-            signedPdfUrl = await getSignedUrl(s3Client, command, { expiresIn: 3000 }); // URL valid for 50 minutes
+            signedPdfUrl = await getSignedUrl(s3Client, command, { expiresIn: 86400 }); // URL valid for 50 minutes
             // console.log(`[SERVER] Generated Signed URL for PDF: ${signedPdfUrl}`);
         } catch (s3Error) {
             console.error(`Error generating signed URL for S3 key '${s3Key}':`, s3Error);
