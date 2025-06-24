@@ -8,7 +8,6 @@ import { generateKundliPdf, KundliData } from './pdf-export';
 import DoshaDetails from './dosha-details';
 import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
 import { uploadPdfToS3 } from './report-pdf';
-import { getValidAccessToken } from '../../lib/auth/tokenutils'; // <--- Import the new utility
 
 
 
