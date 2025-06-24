@@ -5,29 +5,25 @@ import type { NextRequest } from 'next/server';
 
 // --- Environment Variables ---
 const S3_BUCKET_NAME = 'astrokiran-public-bucket';
-const AWS_REGION = process.env.WEBSITE_CLOUD_REGION;
-// const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
-// const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;
+const AWS_REGION = process.env.WEBSITE_CLOUD_REGION || 'ap-south-1';
 
 function createS3Client() {
-    // if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
-    //     console.error("FATAL SERVER ERROR: S3 client environment variables are not configured.");
-    //     console.error("Please ensure WEBSITE_CLOUD_REGION, WEBSITE_CLOUD_ACCESS_KEY_ID, and WEBSITE_CLOUD_SECRET_ACCESS_KEY are set.");
-    //     throw new Error("S3 Configuration is incomplete. The server cannot start.");
-    // }
+    if (!AWS_REGION) {
+        console.error("FATAL SERVER ERROR: AWS_REGION is not configured.");
+        console.error("Please ensure WEBSITE_CLOUD_REGION environment variable is set.");
+        throw new Error("AWS region configuration is incomplete. The server cannot start.");
+    }
 
-    // Because the check above throws an error, TypeScript knows these
-    // variables must be strings at this point.
+    // Use default credential provider chain
+    // This will automatically use IAM roles, environment variables, or other AWS credential sources
+    // Perfect for Amplify projects with service roles
     return new S3Client({
         region: AWS_REGION,
-        // credentials: {
-        //     accessKeyId: AWS_ACCESS_KEY_ID,
-        //     secretAccessKey: AWS_SECRET_ACCESS_KEY,
-        // },
+        // No explicit credentials - let AWS SDK use default credential provider chain
     });
 }
 
-// Initialize the client. This will throw an error on startup if vars are missing.
+// Initialize the client. This will throw an error on startup if region is missing.
 const s3Client = createS3Client();
 
 /**
@@ -64,7 +60,7 @@ export async function POST(request: NextRequest) {
         });
 
         console.log(`Generated presigned upload URL for S3 key: ${s3Key}`);
-        
+
         // 5. Return the URL to the client
         return NextResponse.json({ presignedUrl });
 
