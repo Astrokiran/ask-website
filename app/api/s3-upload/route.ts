@@ -14,6 +14,17 @@ function createS3Client() {
         throw new Error("AWS region configuration is incomplete. The server cannot start.");
     }
 
+    console.log(`Initializing S3 client for region: ${AWS_REGION}`);
+    console.log(`Target bucket: ${S3_BUCKET_NAME}`);
+
+    // Log available environment variables for debugging
+    console.log('Available AWS environment variables:');
+    console.log('- AWS_REGION:', process.env.AWS_REGION);
+    console.log('- AWS_DEFAULT_REGION:', process.env.AWS_DEFAULT_REGION);
+    console.log('- AWS_ACCESS_KEY_ID:', process.env.AWS_ACCESS_KEY_ID ? 'SET' : 'NOT SET');
+    console.log('- AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY ? 'SET' : 'NOT SET');
+    console.log('- AWS_SESSION_TOKEN:', process.env.AWS_SESSION_TOKEN ? 'SET' : 'NOT SET');
+
     // Use default credential provider chain
     // This will automatically use IAM roles, environment variables, or other AWS credential sources
     // Perfect for Amplify projects with service roles
@@ -47,6 +58,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: 's3Key and contentType are required in the request body.' }, { status: 400 });
         }
 
+        console.log(`Attempting to generate presigned URL for: ${s3Key} in bucket: ${S3_BUCKET_NAME}`);
+
         // 3. Create the command for a presigned PUT URL
         const command = new PutObjectCommand({
             Bucket: S3_BUCKET_NAME,
@@ -59,13 +72,21 @@ export async function POST(request: NextRequest) {
             expiresIn: expiresInSeconds,
         });
 
-        console.log(`Generated presigned upload URL for S3 key: ${s3Key}`);
+        console.log(`Successfully generated presigned upload URL for S3 key: ${s3Key}`);
 
         // 5. Return the URL to the client
         return NextResponse.json({ presignedUrl });
 
     } catch (error) {
         console.error('Error generating presigned upload URL:', error);
+
+        // Enhanced error logging for debugging
+        if (error instanceof Error) {
+            console.error('Error name:', error.name);
+            console.error('Error message:', error.message);
+            console.error('Error stack:', error.stack);
+        }
+
         return NextResponse.json(
             { message: 'Failed to generate presigned URL.', error: (error as Error).message },
             { status: 500 }
