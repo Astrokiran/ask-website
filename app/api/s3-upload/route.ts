@@ -1,5 +1,6 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { EnvironmentCredentials } from "@aws-sdk/credential-providers";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -30,26 +31,27 @@ function createS3Client() {
     console.log('- AMPLIFY_*:', Object.keys(process.env).filter(key => key.startsWith('AMPLIFY_')));
     console.log('- _AMPLIFY_*:', Object.keys(process.env).filter(key => key.startsWith('_AMPLIFY_')));
 
-    // Check if we have any credentials available
-    const hasCredentials = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY;
-    const hasSessionToken = process.env.AWS_SESSION_TOKEN;
+    try {
+        // Use EnvironmentCredentials to explicitly get credentials from environment variables
+        const credentials = new EnvironmentCredentials('AWS');
+        console.log(credentials);
 
-    console.log(`Credentials status: ${hasCredentials ? 'Available' : 'Missing'}`);
-    console.log(`Session token: ${hasSessionToken ? 'Available' : 'Missing'}`);
+        console.log('Using EnvironmentCredentials provider for AWS authentication');
 
-    // Use default credential provider chain
-    // This will automatically use IAM roles, environment variables, or other AWS credential sources
-    return new S3Client({
-        region: AWS_REGION,
-        // Let AWS SDK handle credential discovery
-        ...(hasCredentials && {
-            credentials: {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-                ...(hasSessionToken && { sessionToken: process.env.AWS_SESSION_TOKEN! })
-            }
-        })
-    });
+        return new S3Client({
+            region: AWS_REGION,
+            credentials: credentials,
+        });
+    } catch (error) {
+        console.error('Failed to create S3 client with EnvironmentCredentials:', error);
+
+        // Fallback to default credential provider chain
+        console.log('Falling back to default credential provider chain...');
+        return new S3Client({
+            region: AWS_REGION,
+            // Let AWS SDK use default credential provider chain as fallback
+        });
+    }
 }
 
 // Initialize the client. This will throw an error on startup if region is missing.
