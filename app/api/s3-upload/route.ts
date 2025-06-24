@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // --- Environment Variables ---
-const S3_BUCKET_NAME = process.env.WEBSITE_S3_BUCKET_NAME;
+const S3_BUCKET_NAME = 'astrokiran-public-bucket';
 const AWS_REGION = process.env.WEBSITE_CLOUD_REGION;
 // const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
 // const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;

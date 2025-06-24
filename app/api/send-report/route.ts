@@ -7,7 +7,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 // --- Environment Variables ---
 // These are sourced from your hosting environment (e.g., AWS Amplify).
-const S3_BUCKET_NAME = process.env.WEBSITE_S3_BUCKET_NAME;
+const S3_BUCKET_NAME = 'astrokiran-public-bucket';
 const AWS_REGION = process.env.WEBSITE_CLOUD_REGION;
 // const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
 // const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;
@@ -27,7 +27,7 @@ function createS3Client() {
     //     throw new Error("S3 Configuration is incomplete. The server cannot start.");
     // }
 
-    // Because of the check above, TypeScript knows these are strings.
+    // Because of the check above, TypeScript knows these are strings
     return new S3Client({
         region: AWS_REGION,
         // credentials: {
