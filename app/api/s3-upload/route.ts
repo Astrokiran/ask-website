@@ -1,6 +1,6 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { EnvironmentCredentials } from "@aws-sdk/credential-providers";
+import { fromEnv } from "@aws-sdk/credential-providers";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -32,18 +32,17 @@ function createS3Client() {
     console.log('- _AMPLIFY_*:', Object.keys(process.env).filter(key => key.startsWith('_AMPLIFY_')));
 
     try {
-        // Use EnvironmentCredentials to explicitly get credentials from environment variables
-        const credentials = new EnvironmentCredentials('AWS');
+        // Use fromEnv to explicitly get credentials from environment variables
+        const credentials = fromEnv();
         console.log(credentials);
-
-        console.log('Using EnvironmentCredentials provider for AWS authentication');
+        console.log('Using fromEnv credential provider for AWS authentication');
 
         return new S3Client({
             region: AWS_REGION,
             credentials: credentials,
         });
     } catch (error) {
-        console.error('Failed to create S3 client with EnvironmentCredentials:', error);
+        console.error('Failed to create S3 client with fromEnv credentials:', error);
 
         // Fallback to default credential provider chain
         console.log('Falling back to default credential provider chain...');
