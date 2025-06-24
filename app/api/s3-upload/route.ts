@@ -5,28 +5,25 @@ import type { NextRequest } from 'next/server';
 
 // --- Environment Variables ---
 const S3_BUCKET_NAME = process.env.WEBSITE_S3_BUCKET_NAME;
-const AWS_REGION = process.env.WEBISTE_CLOUD_REGION;
-const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
-const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;
+const AWS_REGION = process.env.WEBSITE_CLOUD_REGION;
+// const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
+// const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;
 
-// --- AWS S3 Client Initialization with Validation ---
-// A function to create and validate the S3 client. This ensures the server
-// will not start if essential configuration is missing.
 function createS3Client() {
-    if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
-        console.error("FATAL SERVER ERROR: S3 client environment variables are not configured.");
-        console.error("Please ensure WEBSITE_CLOUD_REGION, WEBSITE_CLOUD_ACCESS_KEY_ID, and WEBSITE_CLOUD_SECRET_ACCESS_KEY are set.");
-        throw new Error("S3 Configuration is incomplete. The server cannot start.");
-    }
+    // if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
+    //     console.error("FATAL SERVER ERROR: S3 client environment variables are not configured.");
+    //     console.error("Please ensure WEBSITE_CLOUD_REGION, WEBSITE_CLOUD_ACCESS_KEY_ID, and WEBSITE_CLOUD_SECRET_ACCESS_KEY are set.");
+    //     throw new Error("S3 Configuration is incomplete. The server cannot start.");
+    // }
 
     // Because the check above throws an error, TypeScript knows these
     // variables must be strings at this point.
     return new S3Client({
         region: AWS_REGION,
-        credentials: {
-            accessKeyId: AWS_ACCESS_KEY_ID,
-            secretAccessKey: AWS_SECRET_ACCESS_KEY,
-        },
+        // credentials: {
+        //     accessKeyId: AWS_ACCESS_KEY_ID,
+        //     secretAccessKey: AWS_SECRET_ACCESS_KEY,
+        // },
     });
 }
 

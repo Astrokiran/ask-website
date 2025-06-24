@@ -8,9 +8,9 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 // --- Environment Variables ---
 // These are sourced from your hosting environment (e.g., AWS Amplify).
 const S3_BUCKET_NAME = process.env.WEBSITE_S3_BUCKET_NAME;
-const AWS_REGION = process.env.WEBISTE_CLOUD_REGION;
-const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
-const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;
+const AWS_REGION = process.env.WEBSITE_CLOUD_REGION;
+// const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
+// const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;
 
 // Base URL for the external service that sends the WhatsApp message.
 const EXTERNAL_BACKEND_BASE_URL = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
@@ -20,20 +20,20 @@ const EXTERNAL_BACKEND_TEMPLATE_ENDPOINT = "/horoscope/internal/wa/send-media-te
 // A function to create and validate the S3 client. This keeps the global scope clean
 // and allows for a single point of failure if configuration is missing.
 function createS3Client() {
-    if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
-        console.error("FATAL SERVER ERROR: S3 environment variables are not configured.");
-        // This error will be thrown when the server starts, preventing it from running
-        // in a misconfigured state.
-        throw new Error("S3 Configuration is incomplete. The server cannot start.");
-    }
+    // if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
+    //     console.error("FATAL SERVER ERROR: S3 environment variables are not configured.");
+    //     // This error will be thrown when the server starts, preventing it from running
+    //     // in a misconfigured state.
+    //     throw new Error("S3 Configuration is incomplete. The server cannot start.");
+    // }
 
     // Because of the check above, TypeScript knows these are strings.
     return new S3Client({
         region: AWS_REGION,
-        credentials: {
-            accessKeyId: AWS_ACCESS_KEY_ID,
-            secretAccessKey: AWS_SECRET_ACCESS_KEY,
-        },
+        // credentials: {
+        //     accessKeyId: AWS_ACCESS_KEY_ID,
+        //     secretAccessKey: AWS_SECRET_ACCESS_KEY,
+        // },
     });
 }
 
