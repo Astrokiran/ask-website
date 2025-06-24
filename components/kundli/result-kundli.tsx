@@ -8,6 +8,8 @@ import { generateKundliPdf, KundliData } from './pdf-export';
 import DoshaDetails from './dosha-details';
 import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
 import { uploadPdfToS3 } from './report-pdf';
+import { getValidAccessToken } from '../../lib/auth/tokenutils'; // <--- Import the new utility
+
 
 
 interface KundliReportPageProps {
@@ -116,6 +118,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     const userPhoneNumber = localStorage.getItem('userPhoneNumber');
                     if (!userPhoneNumber) throw new Error("Phone number not found for S3 upload.");
                     const phone_number = formatPhoneNumberTo10DigitsClient(userPhoneNumber)
+
+                    
                     
                     setAutoUploadStatus('uploading');
                     const pdfBlob = await generateKundliPdf(currentKundliData, { outputType: 'blob' });
@@ -124,14 +128,16 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                         const pdfBaseName = `Kundli-${currentKundliData.data.name?.replace(/\s+/g, '_') || 'Report'}-${Date.now()}.pdf`;
                         
                         const s3ObjectKey = `kundli-reports/${phone_number}/${pdfBaseName}`; 
-                        await uploadPdfToS3(pdfBlob, s3ObjectKey, phone_number);                        
+                        await uploadPdfToS3(pdfBlob, s3ObjectKey, phone_number);
+                        const accessToken = localStorage.getItem('accessToken');
+                        
 
 
                         const sendReportResponse = await fetch('/api/send-report', { 
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                            },
+                                'Authorization': `Bearer ${accessToken}`                            },
                             body: JSON.stringify({
                                 phoneNumber: userPhoneNumber, 
                                 s3Key: s3ObjectKey,           

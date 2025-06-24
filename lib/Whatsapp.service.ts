@@ -40,8 +40,8 @@ class WhatsAppAuthService {
   private password: string;
 
   constructor() {
-    this.email = process.env.NEXT_PUBLIC_WHATSAPP_API_EMAIL || '';
-    this.password = process.env.NEXT_PUBLIC_WHATSAPP_API_PASSWORD || '';
+    this.email = process.env.WHATSAPP_API_EMAIL || '';
+    this.password = process.env.WHATSAPP_API_PASSWORD || '';
     if (!this.email || !this.password) {
       console.error("[WhatsAppAuthService] WhatsApp API credentials (NEXT_PUBLIC_WHATSAPP_API_EMAIL, NEXT_PUBLIC_WHATSAPP_API_PASSWORD) are not set in environment variables. This will prevent authentication.");
     }
@@ -114,7 +114,7 @@ class WhatsAppClient {
     this.textMessageUrl = `${WHATSAPP_API_BASE_URL}${SEND_TEXT_MESSAGE_ENDPOINT}`;
     this.templateMessageUrl = `${WHATSAPP_API_BASE_URL}${TEMPLATE_SEND_ENDPOINT}`; 
 
-    const rawTenantIdEnv = process.env.NEXT_PUBLIC_WHATSAPP_TENANT_ID;
+    const rawTenantIdEnv = process.env.WHATSAPP_TENANT_ID;
     let tempTenantId: number;
     if (rawTenantIdEnv) {
         const parsed = parseInt(rawTenantIdEnv, 10);
@@ -123,13 +123,10 @@ class WhatsAppClient {
     this.tenantId = tempTenantId;
     console.log(`[WhatsAppClient Init] Final tenantId set to: ${this.tenantId} (Type: ${typeof this.tenantId})`);
 
-    // UPDATED: Set default template ID to the new 'kundli_pdf' template ID (assuming it's 15336)
-    // Make sure this matches your actual template_id for "kundli_pdf"
     this.defaultTemplateId = 15336; 
     console.log(`[WhatsAppClient Init] Default Template ID set to: ${this.defaultTemplateId} (Hardcoded for 'kundli_pdf')`);
 
-    // UPDATED: Set default template name to 'kundli_pdf'
-    this.defaultTemplateName = process.env.NEXT_PUBLIC_TEMPLATE_NAME || "kundli_pdf"; 
+    this.defaultTemplateName = process.env.TEMPLATE_NAME || "kundli_pdf"; 
     console.log(`[WhatsAppClient Init] Default Template Name set to: ${this.defaultTemplateName}`);
   }
 
@@ -232,7 +229,6 @@ class WhatsAppClient {
     return responseData;
   }
 
-  // --- sendTemplateMessage (COMPLETE FUNCTION WITH FIXES) ---
   /**
    * Sends a template message via the WhatsApp API.
    *
@@ -250,7 +246,6 @@ class WhatsAppClient {
     fullSignedPdfUrl: string, // This is the FULL signed URL received from /api/send-report
     overrideTemplateId?: string | number,
   ): Promise<any> {
-    // FIX: Initialize numericTemplateIdToUse with a default value to prevent TS2454
     let numericTemplateIdToUse: number = this.defaultTemplateId; 
 
     // Logic to determine the numeric template ID to use (override or default)
@@ -266,7 +261,6 @@ class WhatsAppClient {
         console.log(`[WhatsAppClient] No overrideTemplateId provided. Using default ID: ${this.defaultTemplateId}`);
     }
 
-    // This check remains important in case defaultTemplateId itself is misconfigured to 0
     if (numericTemplateIdToUse === 0) { 
         throw new Error("Template ID is 0, which is an invalid ID. Please set NEXT_PUBLIC_TEMPLATE_ID (in .env) or provide a valid override.");
     }
@@ -276,8 +270,6 @@ class WhatsAppClient {
     let token = await this.authService.getAuthToken();
     const formattedPhone = this.formatPhoneNumberForApi(phone);
 
-    // Define the exact base URL prefix from your template that needs to be removed
-    // IMPORTANT: Include the leading space from your template JSON if it's there
     const templateBaseUrlPrefix = ' https://astrokiran-public-bucket.s3.ap-south-1.amazonaws.com/'; // Note the leading space!
 
     let trimmedSignedUrl: string = fullSignedPdfUrl;
@@ -286,20 +278,12 @@ class WhatsAppClient {
     } else if (fullSignedPdfUrl.startsWith(templateBaseUrlPrefix)) { // Check with space too if startsWith requires exact match
          trimmedSignedUrl = fullSignedPdfUrl.substring(templateBaseUrlPrefix.length);
     }
-    // As a fallback, use replace just in case startsWith doesn't catch it
     trimmedSignedUrl = trimmedSignedUrl.replace(templateBaseUrlPrefix.trim(), ''); // Remove the prefix from the URL.
 
-    // If for some reason the fullSignedPdfUrl doesn't start with the expected prefix,
-    // we want to ensure we still send something, ideally the full URL, to avoid breaking it.
-    // However, given the problem, it definitely starts with it.
     console.log(`[WhatsAppClient] Original Signed URL: ${fullSignedPdfUrl}`);
     console.log(`[WhatsAppClient] Trimmed Signed URL: ${trimmedSignedUrl}`);
 
 
-    // Construct the 'values' array based on the template definition
-    // Body has {{1}} which takes 'name' parameter with `name: "1"`
-    // Button URL has {{1}} which takes `parameters[0].name: "2"`.
-    // We are now sending the TRIMMED signed URL for parameter "2".
     const values: TemplateValue[] = [
       {
         name: "1", // Corresponds to {{1}} in the body text "नमस्ते {{1}}, ..."
@@ -307,18 +291,14 @@ class WhatsAppClient {
         is_storage_fetch: false,
         tenant_provide_value: userName
       },
-      // --- ADDITION FOR DYNAMIC PDF BUTTON URL PART ---
       {
-        // This 'name' MUST exactly match the "name" property in the button's "parameters" array
-        // from your template JSON: "parameters": [ { "name": "2", ... } ]
         name: "2", 
         is_tenant_provided: true,
         is_storage_fetch: false,
-        tenant_provide_value: trimmedSignedUrl // <--- CRITICAL CHANGE: Pass the TRIMMED signed URL here
+        tenant_provide_value: trimmedSignedUrl
       }
     ];
     
-    // Debugging the values payload for template
     console.log("[WhatsAppClient] Template 'values' payload:", JSON.stringify(values, null, 2));
 
 
@@ -330,7 +310,6 @@ class WhatsAppClient {
       
       console.log("[WhatsAppClient] Sending Template Message Payload:", JSON.stringify(payload, null, 2));
 
-      // Construct the API URL with phone, tenantId, and language as query parameters
       const api_url_with_params = `${this.templateMessageUrl}?phone=${phone}&tenantId=${this.tenantId}&language=hi`;
 
       return await fetch(api_url_with_params, { 
@@ -345,7 +324,6 @@ class WhatsAppClient {
 
     let response = await sendRequest(token);
 
-    // Retry logic for 401 Unauthorized
     if (response.status === 401) {
       console.warn("[WhatsAppClient] WhatsApp API returned 401 Unauthorized. Refreshing token and retrying...");
       token = await this.authService.forceRefreshToken();
@@ -379,5 +357,4 @@ class WhatsAppClient {
   }
 }
 
-// Export a single instance of the client for use in API routes
 export const whatsappClient = WhatsAppClient.getInstance();
