@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 
 // --- Environment Variables ---
 const S3_BUCKET_NAME = 'astrokiran-public-bucket';
-const AWS_REGION = process.env.WEBSITE_CLOUD_REGION || 'ap-south-1';
+const AWS_REGION = process.env.WEBSITE_CLOUD_REGION || process.env.AWS_REGION || 'ap-south-1';
 
 function createS3Client() {
     if (!AWS_REGION) {
@@ -25,12 +25,30 @@ function createS3Client() {
     console.log('- AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY ? 'SET' : 'NOT SET');
     console.log('- AWS_SESSION_TOKEN:', process.env.AWS_SESSION_TOKEN ? 'SET' : 'NOT SET');
 
+    // Log Amplify-specific environment variables
+    console.log('Amplify-specific environment variables:');
+    console.log('- AMPLIFY_*:', Object.keys(process.env).filter(key => key.startsWith('AMPLIFY_')));
+    console.log('- _AMPLIFY_*:', Object.keys(process.env).filter(key => key.startsWith('_AMPLIFY_')));
+
+    // Check if we have any credentials available
+    const hasCredentials = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY;
+    const hasSessionToken = process.env.AWS_SESSION_TOKEN;
+
+    console.log(`Credentials status: ${hasCredentials ? 'Available' : 'Missing'}`);
+    console.log(`Session token: ${hasSessionToken ? 'Available' : 'Missing'}`);
+
     // Use default credential provider chain
     // This will automatically use IAM roles, environment variables, or other AWS credential sources
-    // Perfect for Amplify projects with service roles
     return new S3Client({
         region: AWS_REGION,
-        // No explicit credentials - let AWS SDK use default credential provider chain
+        // Let AWS SDK handle credential discovery
+        ...(hasCredentials && {
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+                ...(hasSessionToken && { sessionToken: process.env.AWS_SESSION_TOKEN! })
+            }
+        })
     });
 }
 
