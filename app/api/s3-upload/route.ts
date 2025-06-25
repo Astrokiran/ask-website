@@ -19,21 +19,41 @@ function createS3Client() {
     console.log(`Initializing S3 client for region: ${AWS_REGION}`);
     console.log(`Target bucket: ${S3_BUCKET_NAME}`);
 
-    // Log available environment variables for debugging
-    console.log('Available AWS environment variables:');
-    console.log('- AWS_REGION:', process.env.AWS_REGION);
-    console.log('- AWS_DEFAULT_REGION:', process.env.AWS_DEFAULT_REGION);
-    console.log('- AWS_ACCESS_KEY_ID:', process.env.AWS_ACCESS_KEY_ID ? 'SET' : 'NOT SET');
-    console.log('- AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY ? 'SET' : 'NOT SET');
-    console.log('- AWS_SESSION_TOKEN:', process.env.AWS_SESSION_TOKEN ? 'SET' : 'NOT SET');
+    // Comprehensive environment variable debugging
+    console.log('=== ENVIRONMENT VARIABLE DEBUGGING ===');
 
-    // Check custom environment variables
-    console.log('- WEBSITE_CLOUD_ACCESS_KEY_ID:', AWS_ACCESS_KEY_ID ? 'SET' : 'NOT SET');
-    console.log('- WEBSITE_CLOUD_SECRET_ACCESS_KEY:', AWS_SECRET_ACCESS_KEY ? 'SET' : 'NOT SET');
+    // Log all environment variables that contain AWS, CLOUD, or WEBSITE
+    console.log('All AWS/CLOUD/WEBSITE related environment variables:');
+    Object.keys(process.env)
+        .filter(key => key.includes('AWS') || key.includes('CLOUD') || key.includes('WEBSITE'))
+        .forEach(key => {
+            const value = process.env[key];
+            const displayValue = (key.includes('SECRET') || key.includes('KEY')) ?
+                (value ? `SET (${value.length} chars)` : 'NOT SET') : value;
+            console.log(`  ${key}: ${displayValue}`);
+        });
+
+    // Specific checks for our custom variables
+    console.log('\nCustom credential variables:');
+    console.log(`  WEBSITE_CLOUD_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID ? `SET (${AWS_ACCESS_KEY_ID.length} chars)` : 'NOT SET'}`);
+    console.log(`  WEBSITE_CLOUD_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY ? `SET (${AWS_SECRET_ACCESS_KEY.length} chars)` : 'NOT SET'}`);
+
+    // Show raw values for debugging (first few characters only)
+    if (AWS_ACCESS_KEY_ID) {
+        console.log(`  ACCESS_KEY preview: ${AWS_ACCESS_KEY_ID.substring(0, 8)}...`);
+    }
+    if (AWS_SECRET_ACCESS_KEY) {
+        console.log(`  SECRET_KEY preview: ${AWS_SECRET_ACCESS_KEY.substring(0, 8)}...`);
+    }
+
+    // Log total environment variable count
+    console.log(`\nTotal environment variables: ${Object.keys(process.env).length}`);
+
+    console.log('=== END DEBUGGING ===\n');
 
     // Check if we have explicit credentials
     if (AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY) {
-        console.log('Using explicit credentials from environment variables');
+        console.log('✅ Using explicit credentials from WEBSITE_CLOUD_* environment variables');
 
         return new S3Client({
             region: AWS_REGION,
@@ -46,7 +66,7 @@ function createS3Client() {
 
     // Fallback: Try standard AWS environment variables
     if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
-        console.log('Using standard AWS environment variables');
+        console.log('✅ Using standard AWS environment variables');
 
         return new S3Client({
             region: AWS_REGION,
@@ -59,7 +79,7 @@ function createS3Client() {
     }
 
     // Final fallback to default credential provider chain
-    console.log('No explicit credentials found. Using default credential provider chain...');
+    console.log('⚠️ No explicit credentials found. Using default credential provider chain...');
     return new S3Client({
         region: AWS_REGION,
         // Let AWS SDK use default credential provider chain
