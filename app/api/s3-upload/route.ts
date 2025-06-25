@@ -1,12 +1,13 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { fromEnv } from "@aws-sdk/credential-providers";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // --- Environment Variables ---
 const S3_BUCKET_NAME = 'astrokiran-public-bucket';
 const AWS_REGION = process.env.WEBSITE_CLOUD_REGION || process.env.AWS_REGION || 'ap-south-1';
+const AWS_ACCESS_KEY_ID = process.env.WEBSITE_CLOUD_ACCESS_KEY_ID;
+const AWS_SECRET_ACCESS_KEY = process.env.WEBSITE_CLOUD_SECRET_ACCESS_KEY;
 
 function createS3Client() {
     if (!AWS_REGION) {
@@ -26,31 +27,43 @@ function createS3Client() {
     console.log('- AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY ? 'SET' : 'NOT SET');
     console.log('- AWS_SESSION_TOKEN:', process.env.AWS_SESSION_TOKEN ? 'SET' : 'NOT SET');
 
-    // Log Amplify-specific environment variables
-    console.log('Amplify-specific environment variables:');
-    console.log('- AMPLIFY_*:', Object.keys(process.env).filter(key => key.startsWith('AMPLIFY_')));
-    console.log('- _AMPLIFY_*:', Object.keys(process.env).filter(key => key.startsWith('_AMPLIFY_')));
+    // Check custom environment variables
+    console.log('- WEBSITE_CLOUD_ACCESS_KEY_ID:', AWS_ACCESS_KEY_ID ? 'SET' : 'NOT SET');
+    console.log('- WEBSITE_CLOUD_SECRET_ACCESS_KEY:', AWS_SECRET_ACCESS_KEY ? 'SET' : 'NOT SET');
 
-    try {
-        // Use fromEnv to explicitly get credentials from environment variables
-        const credentials = fromEnv();
-        console.log(credentials);
-        console.log('Using fromEnv credential provider for AWS authentication');
+    // Check if we have explicit credentials
+    if (AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY) {
+        console.log('Using explicit credentials from environment variables');
 
         return new S3Client({
             region: AWS_REGION,
-            credentials: credentials,
-        });
-    } catch (error) {
-        console.error('Failed to create S3 client with fromEnv credentials:', error);
-
-        // Fallback to default credential provider chain
-        console.log('Falling back to default credential provider chain...');
-        return new S3Client({
-            region: AWS_REGION,
-            // Let AWS SDK use default credential provider chain as fallback
+            credentials: {
+                accessKeyId: AWS_ACCESS_KEY_ID,
+                secretAccessKey: AWS_SECRET_ACCESS_KEY,
+            },
         });
     }
+
+    // Fallback: Try standard AWS environment variables
+    if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+        console.log('Using standard AWS environment variables');
+
+        return new S3Client({
+            region: AWS_REGION,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                ...(process.env.AWS_SESSION_TOKEN && { sessionToken: process.env.AWS_SESSION_TOKEN })
+            },
+        });
+    }
+
+    // Final fallback to default credential provider chain
+    console.log('No explicit credentials found. Using default credential provider chain...');
+    return new S3Client({
+        region: AWS_REGION,
+        // Let AWS SDK use default credential provider chain
+    });
 }
 
 // Initialize the client. This will throw an error on startup if region is missing.
