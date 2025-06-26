@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavBar } from '@/components/nav-bar'; // Assuming this is the correct path
+import { NavBar } from '@/components/nav-bar'; 
 import { Footer } from '@/components/footer';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useRouter } from 'next/navigation'; 
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { ServicesSection } from "@/components/services-section"
-import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner'; // Import the new banner
+import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
 
 interface BirthDetails {
   name: string;
@@ -27,8 +27,8 @@ interface KundliData {
 
 const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places'];
 
-export default function KundliPage() { // Remove onKundliGenerated prop
-  const router = useRouter(); // Initialize router
+export default function KundliPage() { 
+  const router = useRouter(); 
   const [formData, setFormData] = useState({
     name: '',
     gender: '',
@@ -37,32 +37,29 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     pob: '',
   });
 
-  // State for individual DOB parts
   const [selectedDay, setSelectedDay] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
 
-  // State for individual TOB parts
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
-  const [selectedSecond, setSelectedSecond] = useState(''); // Optional: can be omitted if seconds are not needed
+  const [selectedSecond, setSelectedSecond] = useState(''); 
+  const [selectedAmPm, setSelectedAmPm] = useState('AM'); 
 
-  // Google Maps Autocomplete state
+
   const [autocompleteInstance, setAutocompleteInstance] = useState<google.maps.places.Autocomplete | null>(null);
   const pobSuggestionsRef = useRef<HTMLDivElement>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // State to manage loading state during Kundli generation
   const [loading, setLoading] = useState(false);
 
-  // State for Login Modal
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [selectedCountryCode, setSelectedCountryCode] = useState('+91'); // Default to India
+  const [selectedCountryCode, setSelectedCountryCode] = useState('+91'); 
   const [otp, setOtp] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for authentication status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   const countryCodes = [
     { code: '+91', name: 'India', flag: '🇮🇳' },
@@ -86,18 +83,15 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   };
 
-  // Load Google Maps API Script
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
     libraries: libraries,
   });
 
-  // Callback for when Autocomplete loads
   const onLoadAutocomplete = (autocomplete: google.maps.places.Autocomplete) => {
     setAutocompleteInstance(autocomplete);
   };
 
-  // Callback for when a place is selected
   const onPlaceChanged = () => {
     if (autocompleteInstance !== null) {
       const place = autocompleteInstance.getPlace();
@@ -109,7 +103,6 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   };
 
-  // Validate form inputs
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) {
@@ -119,14 +112,13 @@ export default function KundliPage() { // Remove onKundliGenerated prop
       newErrors.gender = 'Gender is required';
     }
 
-    // Validate DOB parts
     if (!selectedDay || !selectedMonth || !selectedYear) {
       newErrors.dob = 'Full Date of Birth (Day, Month, Year) is required.';
     } else {
       const year = parseInt(selectedYear, 10);
-      const month = parseInt(selectedMonth, 10); // 1-12
+      const month = parseInt(selectedMonth, 10); 
       const day = parseInt(selectedDay, 10);
-      const date = new Date(year, month - 1, day); // Month is 0-indexed in Date constructor
+      const date = new Date(year, month - 1, day); 
 
       if (
         !(date.getFullYear() === year &&
@@ -141,11 +133,10 @@ export default function KundliPage() { // Remove onKundliGenerated prop
       }
     }
 
-    // Validate TOB parts
-    if (!selectedHour || !selectedMinute) { // Seconds can be optional
+    if (!selectedHour || !selectedMinute) { 
       newErrors.tob = 'Time of Birth (Hour and Minute) is required.';
     } else {
-      const timeRegex = /^\d{2}:\d{2}(:\d{2})?$/; // Allows for optional seconds
+      const timeRegex = /^\d{2}:\d{2}(:\d{2})?$/; 
       if (!timeRegex.test(formData.tob)) {
         newErrors.tob = 'Internal error: TOB format incorrect.';
       }
@@ -154,7 +145,7 @@ export default function KundliPage() { // Remove onKundliGenerated prop
       newErrors.pob = 'Place of Birth is required';
     }
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0; 
   };
 
   useEffect(() => {
@@ -173,13 +164,26 @@ export default function KundliPage() { // Remove onKundliGenerated prop
   }, [selectedDay, selectedMonth, selectedYear, errors.dob, formData.dob]);
 
   useEffect(() => {
-    if (selectedHour && selectedMinute) { 
-      const formattedHour = selectedHour.padStart(2, '0');
+    if (selectedHour && selectedMinute) {
+      let hour24 = parseInt(selectedHour, 10);
+
+      if (selectedAmPm === 'PM' && hour24 < 12) {
+        hour24 += 12;
+      }
+      if (selectedAmPm === 'AM' && hour24 === 12) { // Midnight case
+        hour24 = 0;
+      }
+
+      const formattedHour = hour24.toString().padStart(2, '0');
       const formattedMinute = selectedMinute.padStart(2, '0');
       let tobString = `${formattedHour}:${formattedMinute}`;
-      if (selectedSecond) { // Append seconds if selected
+
+      if (selectedSecond) {
         tobString += `:${selectedSecond.padStart(2, '0')}`;
+      } else {
+        tobString += `:00`; 
       }
+
       setFormData(prev => ({ ...prev, tob: tobString }));
       if (errors.tob) {
         setErrors(prevErrors => ({ ...prevErrors, tob: '' }));
@@ -189,7 +193,7 @@ export default function KundliPage() { // Remove onKundliGenerated prop
         setFormData(prev => ({ ...prev, tob: '' }));
       }
     }
-  }, [selectedHour, selectedMinute, selectedSecond, errors.tob, formData.tob]);
+  }, [selectedHour, selectedMinute, selectedSecond, selectedAmPm, errors.tob, formData.tob]);
 
   const generateKundli = async () => {
     setLoading(true);
@@ -199,12 +203,12 @@ export default function KundliPage() { // Remove onKundliGenerated prop
 
     const [hourStr, minuteStr] = formData.tob.split(':');
     let hour = parseInt(hourStr, 10);
-    const minute = parseInt(minuteStr, 10); // Ensure minute is a number
+    const minute = parseInt(minuteStr, 10); 
     const ampm = hour >= 12 ? 'PM' : 'AM';
     hour = hour % 12;
-    hour = hour ? hour : 12; // Convert hour '0' to '12' for AM/PM
+    hour = hour ? hour : 12; 
     const formattedHour = hour.toString().padStart(2, '0');
-    const formattedMinute = minute.toString().padStart(2, '0'); // Ensure minute is two digits
+    const formattedMinute = minute.toString().padStart(2, '0'); 
     const formattedTobForApi = `${formattedHour}:${formattedMinute}${ampm}`;
 
     const apiInputParams = {
@@ -216,7 +220,7 @@ export default function KundliPage() { // Remove onKundliGenerated prop
 
     try {
       sessionStorage.setItem('kundliApiInputParams', JSON.stringify(apiInputParams));
-      router.push('/free-kundli/results'); // Navigate to the result page
+      router.push('/free-kundli/results'); 
     } catch (error) {
       console.error("Error storing Kundli data or navigating:", error);
     }
@@ -247,10 +251,11 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   };
 
-  const handleTimePartChange = (part: 'hour' | 'minute' | 'second', value: string) => {
+    const handleTimePartChange = (part: 'hour' | 'minute' | 'second' | 'ampm', value: string) => {
     if (part === 'hour') setSelectedHour(value);
     if (part === 'minute') setSelectedMinute(value);
     if (part === 'second') setSelectedSecond(value);
+    if (part === 'ampm') setSelectedAmPm(value);
 
     if (errors.tob) {
       setErrors((prevErrors) => ({
@@ -262,7 +267,7 @@ export default function KundliPage() { // Remove onKundliGenerated prop
 
   const handleOpenLoginModal = () => {
     setShowLoginModal(true);
-    setPhoneNumber(''); // Reset fields when opening
+    setPhoneNumber(''); 
     setOtp('');
     setLoginError('');
   };
@@ -276,56 +281,55 @@ export default function KundliPage() { // Remove onKundliGenerated prop
     }
   }, []);
 
- const handleSendOtp = async () => {
-  if (!/^\d{10}$/.test(phoneNumber)) {
-    setLoginError('Please enter a valid 10-digit phone number.');
-    return;
-  }
-  setLoginError('');
-  setLoading(true);
-
-  const phone_number = phoneNumber; // This is the 10-digit number from input
-
-  try {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL; // Verify this ENV var
-    const response = await fetch(`${apiBaseUrl}/horoscope/send-otp`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ phone_number }), // Sending only the 10-digit number
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || 'Failed to send OTP. Please try again.');
+  const handleSendOtp = async () => {
+    if (!/^\d{10}$/.test(phoneNumber)) {
+      setLoginError('Please enter a valid 10-digit phone number.');
+      return;
     }
-    if (!data.success) {
-      throw new Error(data.message + (data.whatsapp_api_response?.error ? ` (Reason: ${data.whatsapp_api_response.error})` : ''));
+    setLoginError('');
+    setLoading(true);
 
+    const phone_number = phoneNumber; 
+
+    try {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL; 
+      const response = await fetch(`${apiBaseUrl}/horoscope/send-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone_number }), 
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Failed to send OTP. Please try again.');
+      }
+      if (!data.success) {
+        throw new Error(data.message + (data.whatsapp_api_response?.error ? ` (Reason: ${data.whatsapp_api_response.error})` : ''));
+      }
+
+      setShowLoginModal(false);
+      setShowOtpModal(true);
+    } catch (error) {
+      console.error('Send OTP error:', error); 
+      setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
+    } finally {
+      setLoading(false);
     }
-
-    setShowLoginModal(false);
-    setShowOtpModal(true);
-  } catch (error) {
-    console.error('Send OTP error:', error); 
-    setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
-  } finally {
-    setLoading(false);
-  }
-};
-const handleVerifyOtp = async () => {
-  if (!/^\d{4,6}$/.test(otp)) { 
+  };
+  const handleVerifyOtp = async () => {
+    if (!/^\d{4,6}$/.test(otp)) { 
       setLoginError('Please enter a valid OTP.');
       return;
-  }
-  setLoginError('');
-  setLoading(true);
+    }
+    setLoginError('');
+    setLoading(true);
 
-  const fullPhoneNumber = (selectedCountryCode + phoneNumber).replace('+', '');
+    const fullPhoneNumber = (selectedCountryCode + phoneNumber).replace('+', '');
 
-  try {
+    try {
         const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
         const response = await fetch(`${apiBaseUrl}/horoscope/validate-otp`, {
           method: 'POST',
@@ -351,17 +355,23 @@ const handleVerifyOtp = async () => {
 
             setIsLoggedIn(true);
             setShowOtpModal(false);
+
+            // Automatically submit the form after successful login
+            if (validateForm()) {
+              generateKundli();
+            }
+
         } else {
             throw new Error('Received an invalid response from the server.');
         }
 
-  } catch (error) {
+    } catch (error) {
       console.error('Verify OTP error:', error);
       setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
-  } finally {
+    } finally {
       setLoading(false);
-  }
-};
+    }
+  };
 
 
   const handleCloseModals = () => {
@@ -403,7 +413,6 @@ const handleVerifyOtp = async () => {
   const currentYear = new Date().getFullYear();
   const yearOptions = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
-  // Month options
   const monthOptions = [
     { value: '1', label: 'January' }, { value: '2', label: 'February' },
     { value: '3', label: 'March' }, { value: '4', label: 'April' },
@@ -413,8 +422,7 @@ const handleVerifyOtp = async () => {
     { value: '11', label: 'November' }, { value: '12', label: 'December' },
   ];
 
-  // Time options
-  const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
+  const hourOptions = Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0'));
   const minuteOptions = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'));
   const secondOptions = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'));
 
@@ -529,55 +537,68 @@ const handleVerifyOtp = async () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Time of Birth
-                </label>
-                <div className="grid grid-cols-3 gap-3">
-                  <select
-                    id="tob_hour"
-                    name="tob_hour"
-                    value={selectedHour}
-                    onChange={(e) => handleTimePartChange('hour', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      errors.tob ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                  >
-                    <option value="">Hour</option>
-                    {hourOptions.map(hour => (
-                      <option key={hour} value={hour}>{hour}</option>
-                    ))}
-                  </select>
-                  <select
-                    id="tob_minute"
-                    name="tob_minute"
-                    value={selectedMinute}
-                    onChange={(e) => handleTimePartChange('minute', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      errors.tob ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                  >
-                    <option value="">Minute</option>
-                    {minuteOptions.map(minute => (
-                      <option key={minute} value={minute}>{minute}</option>
-                    ))}
-                  </select>
-                  <select
-                    id="tob_second"
-                    name="tob_second"
-                    value={selectedSecond}
-                    onChange={(e) => handleTimePartChange('second', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      errors.tob ? 'border-red-500' : 'border-gray-300' 
-                    }`}
-                  >
-                    <option value="">Second (Optional)</option>
-                    {secondOptions.map(second => (
-                      <option key={second} value={second}>{second}</option>
-                    ))}
-                  </select>
-                </div>
-                {errors['tob'] && <p className="text-red-500 text-xs mt-1 col-span-3">{errors['tob']}</p>}
-              </div>
+                         <label className="block text-sm font-medium text-gray-700 mb-1">
+                           Time of Birth
+                         </label>
+                         {/* Changed to grid-cols-4 to fit AM/PM */}
+                         <div className="grid grid-cols-2 md:gird-cols-4 gap-3">
+                           <select
+                             id="tob_hour"
+                             name="tob_hour"
+                             value={selectedHour}
+                             onChange={(e) => handleTimePartChange('hour', e.target.value)}
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                               errors.tob ? 'border-red-500' : 'border-gray-300'
+                             }`}
+                           >
+                             <option value="">Hour</option>
+                             {hourOptions.map(hour => (
+                               <option key={hour} value={hour}>{hour}</option>
+                             ))}
+                           </select>
+                           <select
+                             id="tob_minute"
+                             name="tob_minute"
+                             value={selectedMinute}
+                             onChange={(e) => handleTimePartChange('minute', e.target.value)}
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                               errors.tob ? 'border-red-500' : 'border-gray-300'
+                             }`}
+                           >
+                             <option value="">Minute</option>
+                             {minuteOptions.map(minute => (
+                               <option key={minute} value={minute}>{minute}</option>
+                             ))}
+                           </select>
+                           <select
+                             id="tob_second"
+                             name="tob_second"
+                             value={selectedSecond}
+                             onChange={(e) => handleTimePartChange('second', e.target.value)}
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                               errors.tob ? 'border-red-500' : 'border-gray-300' 
+                             }`}
+                           >
+                             <option value="">Second (Optional)</option>
+                             {secondOptions.map(second => (
+                               <option key={second} value={second}>{second}</option>
+                             ))}
+                           </select>
+                           <select
+                             id="tob_ampm"
+                             name="tob_ampm"
+                             value={selectedAmPm}
+                             onChange={(e) => handleTimePartChange('ampm', e.target.value)}
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                               errors.tob ? 'border-red-500' : 'border-gray-300'
+                             }`}
+                           >
+                             <option value="AM">AM</option>
+                             <option value="PM">PM</option>
+                           </select>
+                         </div>
+                         {errors['tob'] && <p className="text-red-500 text-xs mt-1 col-span-4">{errors['tob']}</p>}
+                       </div>
 
               <div className="relative" ref={pobSuggestionsRef}>
                 <label htmlFor="pob" className="block text-sm font-medium text-gray-700 mb-1">
@@ -595,8 +616,8 @@ const handleVerifyOtp = async () => {
                       type="text"
                       id="pob"
                       name="pob" 
-                      value={formData.pob} // Controlled component
-                      onChange={handleChange} // Update formData.pob as user types
+                      defaultValue={formData.pob}
+                      onChange={handleChange}
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out ${
                         errors['pob'] ? 'border-red-500' : 'border-gray-300'
                       }`}
@@ -609,7 +630,6 @@ const handleVerifyOtp = async () => {
                 {errors['pob'] && <p className="text-red-500 text-xs mt-1">{errors['pob']}</p>}
               </div>
 
-              {/* Form submission button */}
               <button
                 type="submit"
                 className="w-full bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-500 transition duration-300 ease-in-out shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -647,42 +667,22 @@ const handleVerifyOtp = async () => {
             </form>
           </div>
 
-          <div className="p-6 sm:p-8 md:w-2/5 flex flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-yellow-100 rounded-r-xl">
-            {isLoggedIn ? (
-              <>
-                <img src="/ask-logo.png" alt="User avatar or site logo" className="w-20 h-20 mb-4 rounded-full shadow-md opacity-90" />
-                <h2 className="text-2xl font-bold text-gray-700 mb-3 text-center">
-                  Welcome Back!
-                </h2>
-                <p className="text-gray-600 text-center mb-6">
-                  View your previously generated Kundli reports or manage your account.
+          <div className="p-6 sm:p-8 md:w-2/5 flex flex-col justify-center bg-gradient-to-br from-orange-50 to-yellow-100 rounded-r-xl">
+            <div className="text-gray-700">
+                <h2 className="text-2xl font-bold mb-4 text-center">What is a Kundli?</h2>
+                <p className="mb-4 text-sm text-justify">
+                    A Kundli, also known as a Janam Kundali or birth chart, is a fundamental tool in Vedic Astrology. It is an astrological chart prepared based on the exact date, time, and place of an individual's birth. This chart serves as a cosmic map, representing the specific positions of the sun, moon, planets, and other celestial bodies at the moment of birth.
                 </p>
-                <div className="w-full max-w-xs text-center mb-6 p-4 bg-white/50 rounded-lg shadow">
-                    <p className="text-gray-700 text-sm">Your previous Kundlis will appear here.</p>
-                </div>
-                <button
-                  onClick={() => router.push('/free-kundli')} 
-                  className="w-full max-w-xs bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 mb-3 shadow-lg transform hover:scale-105"
-                >
-                  View My Kundlis
-                </button>
-                <button
-                  onClick={handleLogout}
-                  disabled={loading}
-                  className="w-full max-w-xs bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-300 disabled:opacity-50"
-                >
-                  {loading ? 'Logging out...' : 'Logout'}
-                </button>
-              </>
-            ) : (
-              <>
-                <img src="/ask-logo.png" alt="Login illustration or site logo" className="w-24 h-24 mb-6 opacity-80" />
-                <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">Welcome to Astrokiran</h2>
-                <p className="text-gray-600 text-center mb-8">Login to Create and Download your Kundli details for free and manage your profile.</p>
-                <button onClick={handleOpenLoginModal} className="w-full max-w-xs bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 ease-in-out shadow-lg transform hover:scale-105">Login Here</button>
-              </>
-            )}
-          </div>
+                <h3 className="text-xl font-semibold mb-3 text-center">Significance of a Kundli</h3>
+                <p className="mb-4 text-sm text-justify">
+                    It is believed that the planetary positions at your time of birth influence your personality, characteristics, relationships, career, health, and overall life path. A detailed analysis of the Kundli can provide deep insights into your strengths, weaknesses, potential opportunities, and challenges. It is often used for making important life decisions, understanding compatibility, and identifying remedial measures to mitigate negative planetary influences.
+                </p>
+                <h3 className="text-xl font-semibold mb-3 text-center">How It's Generated</h3>
+                <p className="text-sm text-justify">
+                    To create an accurate Kundli, three pieces of information are essential: your full date of birth, the precise time of birth, and the city of birth. Our system uses this data to perform complex astrological calculations, determining the Ascendant (Lagna) and the placement of planets across the 12 houses (Bhavas) of the zodiac, providing you with a personalized astrological blueprint.
+                </p>
+            </div>
+        </div>
         </div>
         
       </main>
@@ -722,7 +722,7 @@ const handleVerifyOtp = async () => {
                 id="phoneNumber"
                 type="tel"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))} // Allow only numbers
+                onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))} 
                 placeholder="Enter mobile number"
                 className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ease-in-out mb-2 ${loginError && !/^\d{10}$/.test(phoneNumber) ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-orange-500'}`}
               />
@@ -763,7 +763,7 @@ const handleVerifyOtp = async () => {
                 inputMode="numeric"
                 pattern="\d*"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))} // Allow only numbers
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))} 
                 placeholder="Enter 6 digit OTP"
                 className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ease-in-out mb-2 tracking-widest text-center text-lg ${loginError && !/^\d{4,6}$/.test(otp) ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-orange-500'}`}
                 maxLength={6}
@@ -777,7 +777,7 @@ const handleVerifyOtp = async () => {
               {loading ? 'Verifying...' : 'Verify & Login'}
             </button>
             <button
-              onClick={handleSendOtp} // Resend OTP - will call the API again
+              onClick={handleSendOtp} 
               className="w-full text-orange-600 py-2 mt-3 rounded-lg text-sm hover:bg-orange-50 transition duration-300 disabled:opacity-50" disabled={loading}
             >
               {loading ? 'Sending...' : 'Resend OTP'}

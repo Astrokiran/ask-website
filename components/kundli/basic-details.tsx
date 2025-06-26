@@ -14,10 +14,10 @@ const DetailCard = ({ title, details }) => {
         <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-5 pb-3 border-b border-orange-200">{title}</h3>
         <div className=" sm:space-y-0.5">
             {details.map((detail, index) => (
-            <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2.5 px-3 rounded-lg transition-colors duration-200 hover:bg-orange-50 group">
-              <dt className="text-sm font-medium text-gray-500 group-hover:text-orange-600 sm:w-2/5 lg:w-1/3 xl:w-2/5 mb-0.5 sm:mb-0">{detail.label}</dt>
-              <dd className="text-sm text-gray-800 font-semibold group-hover:text-orange-800 sm:w-3/5 lg:w-2/3 xl:w-3/5 sm:text-right break-words">{detail.value}</dd>
-            </div>
+                <div key={index} className="grid grid-cols-2 gap-4 items-center py-2.5 px-3 rounded-lg transition-colors duration-200 hover:bg-orange-50 group">
+                  <dt className="text-sm font-medium text-gray-500 group-hover:text-orange-600 break-words">{detail.label}</dt>
+                  <dd className="text-sm text-gray-800 font-semibold group-hover:text-orange-800 text-right break-words">{detail.value}</dd>
+                </div>
           ))}
         </div>
       </div>

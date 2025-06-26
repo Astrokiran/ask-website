@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/testimonials"
 import { Newsletter } from "@/components/newsletter"
 import { Footer } from "@/components/footer"
 import { ReportGeneration } from "@/components/report-generation"
+// Correctly import the new section component
 
 export default function Home() {
   return (
@@ -16,12 +17,13 @@ export default function Home() {
       <div className="min-h-screen overflow-x-hidden">
         <NavBar />
         <main>
+
           <HeroSection />
-          {/* <StatsSection /> */}
           <ServicesSection />
           <FeaturedAstrologers />
           <HowItWorks />
           <ReportGeneration />
+          {/* <StatsSection /> */}
           {/* <Testimonials /> */}
           {/* <Newsletter /> */}
         </main>

@@ -1,8 +1,8 @@
 "use client"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 interface HeroSectionProps {
   title?: string;
@@ -13,7 +13,6 @@ const images = [
   "/guide.png?height=600&width=800",
   "/girl-on-hone.png?height=600&width=800",
   "/astrologer.png?height=600&width=800",
-  // Add more image paths as needed
 ];
 
 export function HeroSection({
@@ -21,9 +20,14 @@ export function HeroSection({
   subtitle = "Connect with expert astrologers for personalized guidance and unlock the mysteries of your destiny"
 }: HeroSectionProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const whatsappNumber = "+918197503574";
-  const message = "Hello, I would like to get an astrology consultation.";
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  
+  // --- START: Simplified CTA Logic ---
+  const router = useRouter();
+
+  const handleRedirect = () => {
+    router.push('/free-kundli');
+  };
+  // --- END: Simplified CTA Logic ---
 
   // Auto-advance carousel
   useEffect(() => {
@@ -34,16 +38,6 @@ export function HeroSection({
     return () => clearInterval(timer);
   }, []);
 
-  const nextImage = () => {
-    console.log('Next image');
-    console.log('process.env', process.env);
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const previousImage = () => {
-    console.log('Previous image');
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
 
   return (
     <div className="min-h-[500px] bg-[#1a1b2e] overflow-hidden">
@@ -55,20 +49,19 @@ export function HeroSection({
             <p className="text-lg text-gray-300 mb-8">
               {subtitle}
             </p>
-
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-8">
-              <Button
-                className="bg-[#25D366] hover:bg-[#22c35e] text-white font-semibold px-8 py-6 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-200 text-xl"
-                onClick={() => window.open(whatsappLink, '_blank')}
-              >
-                Consult on Whatsapp
-                <img
-                  src="/social.png"
-                  alt="WhatsApp"
-                  className="w-10 h-10"
-                />
-              </Button>
+            
+            {/* --- START: New Single CTA Button --- */}
+            <div className="mt-10">
+                <button
+                    onClick={handleRedirect}
+                    className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white text-lg font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-400/50"
+                >
+                    Get your Kundli for Free
+                    <ChevronRight className="h-6 w-6 transition-transform duration-300 group-hover:translate-x-1" />
+                </button>
             </div>
+            {/* --- END: New Single CTA Button --- */}
+
           </div>
 
           {/* Right side carousel */}
@@ -85,31 +78,6 @@ export function HeroSection({
               />
               <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#1a1b2e]/20 to-[#1a1b2e]/40 rounded-lg" />
 
-              {/* Navigation buttons */}
-              {/* <button
-                onClick={previousImage}
-                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              <button
-                onClick={nextImage}
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors"
-              >
-                <ChevronRight size={24} />
-              </button> */}
-
-              {/* Dots indicator */}
-              {/* <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-colors ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-                      }`}
-                  />
-                ))}
-              </div> */}
             </div>
           </div>
         </div>
