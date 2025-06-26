@@ -316,7 +316,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                         {/* <div className="mt-2"><AutoUploadStatusIndicator /></div> */}
                     </div>
                     <div className="flex gap-3 self-start sm:self-auto">
-                        <button onClick={handleDownloadPdf} disabled={isProcessingPdf || !kundliData || loadingLogout} className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-green-500 text-white rounded-lg shadow-md text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-60 disabled:cursor-not-allowed">
+                        <button onClick={handleDownloadPdf} disabled={ !kundliData || loadingLogout} className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-green-500 text-white rounded-lg shadow-md text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-60 disabled:cursor-not-allowed">
                             <Download className="h-4 w-4" />
                             {isProcessingPdf && pdfTask === 'download' ? 'Downloading...' : 'Download PDF'}
                         </button>
