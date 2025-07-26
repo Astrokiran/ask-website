@@ -1,202 +1,249 @@
-import React from 'react';
+"use client";
 
-interface ApiDoshaData {
-  manglik: {
-    manglik_present_rule: {
-      based_on_aspect: string[];
-      based_on_house: string[];
-    };
-    manglik_cancel_rule: string[];
-    is_mars_manglik_cancelled: boolean;
-    manglik_status: string;
-    percentage_manglik_present: number;
-    percentage_manglik_after_cancellation: number;
-    manglik_report: string;
-    is_present: boolean;
+import React, { useState } from 'react';
+import { ShieldCheck, ShieldAlert, Info, Ban, TrendingUp, TrendingDown, Zap, ShieldQuestion } from 'lucide-react';
+
+// --- Type Definitions ---
+interface MangalDoshaData {
+  is_present: boolean;
+  is_cancelled: boolean;
+  report: string;
+  manglik_present_rule: {
+    based_on_aspect: string[];
+    based_on_house: string[];
   };
-  kalsarpa: {
-    present: boolean;
-    type: string;
-    one_line: string;
-    name: string;
-    report: {
-      house_id: number;
-      report: string; 
-    };
-  };
+  manglik_cancel_rule: string[];
+  is_mars_manglik_cancelled: boolean;
+  manglik_status: string;
+  percentage_manglik_present: number;
+  percentage_manglik_after_cancellation: number;
+  manglik_report: string;
+}
+
+interface KalasarpaReportDetail {
+  house_id: number;
+  report: string;
+}
+
+interface KalasarpaDoshaData {
+  is_present: boolean;
+  present: boolean;
+  type: string;
+  one_line: string;
+  name: string;
+  report_detail: KalasarpaReportDetail;
+}
+
+interface KundliDataForDoshaDetails {
+  mangal_dosha: MangalDoshaData;
+  kalasarpa_dosha: KalasarpaDoshaData;
 }
 
 interface DoshaDetailsProps {
-    dosha: ApiDoshaData | null | undefined;
+  kundlidata: KundliDataForDoshaDetails | null | undefined;
 }
 
+// --- Reusable Helper Components ---
 
-
-const CheckCircleIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
+const ProgressBar: React.FC<{ value: number; colorClass: string }> = ({ value, colorClass }) => (
+  <div className="w-full bg-gray-200 rounded-full h-2.5">
+    <div className={`${colorClass} h-2.5 rounded-full`} style={{ width: `${value}%` }}></div>
+  </div>
 );
 
-const ExclamationCircleIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
+const InfoBlock: React.FC<{ title: string; content: string }> = ({ title, content }) => (
+  <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+    <h4 className="font-semibold text-blue-800 flex items-center mb-1">
+      <Info className="w-5 h-5 mr-2" />
+      {title}
+    </h4>
+    <p className="text-sm text-blue-700">{content}</p>
+  </div>
 );
 
+const DoshaAnalysisCard: React.FC<{
+  status: string;
+  report: string;
+  rules?: string[];
+  impact?: {
+    label: string;
+    value: number;
+    icon: React.ElementType;
+    color: 'red' | 'yellow' | 'green';
+  }[];
+  details?: { label: string; value: React.ReactNode }[];
+}> = ({ status, report, rules, impact, details }) => {
+  let statusColor = "text-gray-600 bg-gray-100 ring-gray-300";
+  let StatusIcon = ShieldQuestion;
 
-interface DoshaRuleListProps {
-  title: string;
-  rules: string[] | undefined;
-}
-
-const DoshaRuleList: React.FC<DoshaRuleListProps> = ({ title, rules }) => {
-  if (!rules || rules.length === 0) {
-    return null;
+  if (status.toLowerCase().includes("not present")) {
+    StatusIcon = ShieldCheck;
+    statusColor = "text-green-800 bg-green-100 ring-green-300";
+  } else if (status.toLowerCase().includes("present")) {
+    StatusIcon = ShieldAlert;
+    statusColor = "text-red-800 bg-red-100 ring-red-300";
+    if (status.toLowerCase().includes("cancelled")) {
+      statusColor = "text-yellow-800 bg-yellow-100 ring-yellow-300";
+    }
+  } else if (status.toLowerCase().includes("not applicable")) {
+    StatusIcon = Ban;
   }
+
   return (
-    <div className="mt-4">
-      <h4 className="text-md font-semibold text-gray-700">{title}</h4>
-      <ul className="list-disc list-inside mt-2 space-y-1 text-gray-600">
-        {rules.map((rule, index) => (
-          <li key={index}>{rule}</li>
-        ))}
-      </ul>
+    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition-all">
+      {/* Verdict Section */}
+      <div className="mb-4">
+        <p className="text-sm font-medium text-gray-500 mb-2">Verdict</p>
+        <div className={`flex items-center gap-3 p-3 rounded-lg ring-1 ${statusColor}`}>
+          <StatusIcon className="w-6 h-6" />
+          <p className="text-lg font-bold">{status}</p>
+        </div>
+      </div>
+
+      {/* Report Section */}
+      <p className="text-sm text-gray-700 leading-relaxed mb-4">{report}</p>
+
+      {/* Impact Assessment Section */}
+      {impact && impact.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <p className="text-md font-semibold text-gray-700 mb-3">Impact Assessment</p>
+          <div className="space-y-4">
+            {impact.map((item, index) => (
+              <div key={index}>
+                <div className="flex justify-between items-center mb-1">
+                  <p className="text-sm font-medium text-gray-600 flex items-center">
+                    <item.icon className={`w-4 h-4 mr-2 text-${item.color}-500`} />
+                    {item.label}
+                  </p>
+                  <p className={`text-sm font-bold text-${item.color}-600`}>{item.value.toFixed(2)}%</p>
+                </div>
+                <ProgressBar value={item.value} colorClass={`bg-${item.color}-500`} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Rules Section */}
+      {rules && rules.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <p className="text-md font-semibold text-gray-700 mb-2">Key Astrological Factors</p>
+          <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+            {rules.map((rule, index) => <li key={index}>{rule}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {/* Additional Details Section */}
+      {details && details.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <p className="text-md font-semibold text-gray-700 mb-2">Additional Details</p>
+          <ul className="text-sm text-gray-600 space-y-2">
+            {details.map((detail, index) => (
+              <li key={index} className="flex justify-between items-center">
+                <span className="font-medium">{detail.label}:</span>
+                <span className="text-gray-800 font-semibold">{detail.value}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
 
 
+// --- Main Exported Component ---
+const DoshaDetails: React.FC<DoshaDetailsProps> = ({ kundlidata }) => {
+  const [activeTab, setActiveTab] = useState('mangal');
 
-const DoshaDetails: React.FC<DoshaDetailsProps> = ({ dosha }) => {
-    if (!dosha) {
-        return (
-            <div className="p-6 text-center text-gray-500">
-                <p>Dosha details are not available or are still loading.</p>
-            </div>
-        );
-    }
-    
-    const { manglik, kalsarpa } = dosha;
-
-    if (!manglik && !kalsarpa) {
-        return (
-            <div className="text-center py-10">
-                <p>Dosha details are empty.</p>
-            </div>
-        );
-    }
-
+  if (!kundlidata || !kundlidata.mangal_dosha || !kundlidata.kalasarpa_dosha) {
     return (
-        <div className="p-4 md:p-6 bg-gray-50 space-y-8">
-            
-            {manglik && (
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <div className="flex items-center border-b pb-3 mb-4">
-                        {manglik.is_present ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
-                        <h2 className="text-2xl font-bold text-gray-800">
-                            Manglik Dosha
-                        </h2>
-                    </div>
+      <div className="bg-white min-h-[200px] p-8 rounded-lg shadow-md flex items-center justify-center">
+        <p className="text-lg text-gray-600">No Dosha data available to display.</p>
+      </div>
+    );
+  }
 
-                    <div className="mt-6 grid md:grid-cols-3 gap-8 items-start">
-                        <div className="md:col-span-1">
-                            <img 
-                                src="/manglik.png" 
-                                alt="Manglik Dosha representation of Mars"
-                                className="w-full h-auto object-cover rounded-lg shadow-md"
-                            />
-                        </div>
+  const { mangal_dosha, kalasarpa_dosha } = kundlidata;
 
-                        <div className="md:col-span-2">
-                             <div className="bg-gray-100 p-4 rounded-lg">
-                                <p className="text-lg font-semibold text-gray-800">
-                                    Status: 
-                                    <span className={`ml-2 px-3 py-1 text-sm rounded-full ${
-                                        manglik.is_present 
-                                        ? 'bg-red-100 text-red-800' 
-                                        : 'bg-green-100 text-green-800'
-                                    }`}>
-                                        {manglik.manglik_status}
-                                    </span>
-                                </p>
-                                <p className="mt-2 text-gray-700">{manglik.manglik_report}</p>
-                            </div>
+  // Prepare data for Mangal Dosha Card
+  const mangalRules = [
+    ...mangal_dosha.manglik_present_rule.based_on_house.map(rule => `Presence due to house placement: ${rule}`),
+    ...mangal_dosha.manglik_present_rule.based_on_aspect.map(rule => `Presence due to aspect: ${rule}`),
+    ...mangal_dosha.manglik_cancel_rule.map(rule => `Cancellation factor: ${rule}`),
+  ];
 
-                            <div className="grid md:grid-cols-2 gap-6 mt-6">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Dosha Calculation</h3>
-                                    <DoshaRuleList title="Reasons (Based on House):" rules={manglik.manglik_present_rule?.based_on_house} />
-                                    <DoshaRuleList title="Reasons (Based on Aspect):" rules={manglik.manglik_present_rule?.based_on_aspect} />
-                                </div>
-                                <div>
-                                    <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Cancellation Details</h3>
-                                    {manglik.manglik_cancel_rule && manglik.manglik_cancel_rule.length > 0 ? (
-                                        <DoshaRuleList title="Cancellation Rules:" rules={manglik.manglik_cancel_rule} />
-                                    ) : (
-                                        <p className="mt-3 text-gray-600 italic">No cancellation rules were found.</p>
-                                    )}
-                                    <div className="mt-4 pt-4 border-t">
-                                        <p className="text-sm text-gray-600"><strong>Original Manglik Presence:</strong> {manglik.percentage_manglik_present}%</p>
-                                        <p className="text-sm text-gray-600"><strong>Presence After Cancellation:</strong> {manglik.percentage_manglik_after_cancellation}%</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  const mangalImpact = [
+    { label: 'Initial Dosha Intensity', value: mangal_dosha.percentage_manglik_present, icon: Zap, color: 'red' as 'red' },
+    { label: 'Intensity After Cancellation', value: mangal_dosha.percentage_manglik_after_cancellation, icon: ShieldCheck, color: 'yellow' as 'yellow' },
+  ];
+
+  // Prepare data for Kalasarpa Dosha Card
+  const kalasarpaStatus = kalasarpa_dosha.is_present ? `Present (${kalasarpa_dosha.name})` : "Not Present";
+  const kalasarpaDetails = kalasarpa_dosha.is_present ? [
+    { label: 'Type', value: kalasarpa_dosha.type },
+    { label: 'Name', value: kalasarpa_dosha.name },
+  ] : [];
+
+  return (
+    <div className="container mx-auto p-4 md:p-6 lg:p-8 bg-gray-50 min-h-screen font-sans">
+        {/* Header */}
+        <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Dosha Analysis</h2>
+            <p className="mt-2 text-md text-gray-600">
+                An evaluation of specific planetary alignments, known as Doshas, which can indicate unique challenges and strengths in your life path.
+            </p>
+        </div>
+
+        {/* General Information Section */}
+        <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <InfoBlock
+              title="About Mangal Dosha (Manglik)"
+              content="This dosha is caused by a specific placement of Mars (Mangal) in the birth chart. It is primarily considered for its influence on marital life, potentially causing delays or discord. However, many astrological factors can cancel or reduce its effects."
+            />
+            <InfoBlock
+              title="About Kalasarpa Dosha"
+              content="This dosha occurs when all seven planets are hemmed between the lunar nodes Rahu (North Node) and Ketu (South Node). It can indicate a life of unique challenges and extraordinary potential, often linked to karmic patterns. Its effects vary greatly based on the houses involved."
+            />
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="mb-6 flex border-b border-gray-300">
+            <button
+                onClick={() => setActiveTab('mangal')}
+                className={`py-2 px-4 text-lg font-semibold ${activeTab === 'mangal' ? 'border-b-2 border-indigo-500 text-indigo-600' : 'text-gray-500'}`}
+            >
+                Mangal Dosha 
+            </button>
+            <button
+                onClick={() => setActiveTab('kalasarpa')}
+                className={`py-2 px-4 text-lg font-semibold ${activeTab === 'kalasarpa' ? 'border-b-2 border-indigo-500 text-indigo-600' : 'text-gray-500'}`}
+            >
+                Kalasarpa Dosha
+            </button>
+        </div>
+
+        {/* Tab Content */}
+        <div>
+            {activeTab === 'mangal' && (
+                <DoshaAnalysisCard
+                    status={mangal_dosha.manglik_status}
+                    report={mangal_dosha.manglik_report}
+                    rules={mangalRules}
+                    impact={mangalImpact}
+                />
             )}
-
-            {kalsarpa && (
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <div className="flex items-center border-b pb-3 mb-4">
-                        {kalsarpa.present ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
-                        <h2 className="text-2xl font-bold text-gray-800">
-                            Kalsarpa Dosha
-                        </h2>
-                    </div>
-                     
-                     <div className="mt-6 grid md:grid-cols-3 gap-8 items-start">
-                        <div className="md:col-span-1">
-                             <img 
-                                src="/kalasarp.png" 
-                                alt="Kalsarpa Dosha representation of a snake"
-                                className="w-full h-auto object-cover rounded-lg shadow-md"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                             <div className="bg-gray-100 p-4 rounded-lg">
-                                <p className="text-lg font-semibold text-gray-800">
-                                    Status: 
-                                    <span className={`ml-2 px-3 py-1 text-sm rounded-full ${
-                                        kalsarpa.present 
-                                        ? 'bg-red-100 text-red-800' 
-                                        : 'bg-green-100 text-green-800'
-                                    }`}>
-                                        {kalsarpa.present ? `Present (${kalsarpa.name} - ${kalsarpa.type})` : 'Not Present'}
-                                    </span>
-                                </p>
-                                {kalsarpa.present && (
-                                    <p className="mt-2 text-gray-700">{kalsarpa.one_line}</p>
-                                )}
-                            </div>
-                            
-                            {kalsarpa.present && kalsarpa.report && (
-                                <div className="mt-6">
-                                    <h3 className="text-lg font-semibold text-gray-800">Detailed Report for {kalsarpa.name} Kalsarpa Dosha</h3>
-                                    <div 
-                                        className="mt-2 prose prose-sm max-w-none text-gray-600"
-                                        dangerouslySetInnerHTML={{ __html: kalsarpa.report.report }}
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
+            {activeTab === 'kalasarpa' && (
+                <DoshaAnalysisCard
+                    status={kalasarpaStatus}
+                    report={kalasarpa_dosha.report_detail?.report || kalasarpa_dosha.one_line}
+                    details={kalasarpaDetails}
+                />
             )}
         </div>
-    );
+    </div>
+  );
 };
 
 export default DoshaDetails;

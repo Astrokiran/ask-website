@@ -1,446 +1,564 @@
+// File: /components/kundli/pdf-export.tsx
+
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import autoTable from 'jspdf-autotable';
 
+// --- TYPE DEFINITIONS ---
+// It's good practice to have a type for your data
 
-export interface ApiDoshaData {
-    manglik: {
-        manglik_present_rule: {
-            based_on_aspect: string[];
-            based_on_house: string[];
-        };
-        manglik_cancel_rule: string[];
-        is_mars_manglik_cancelled: boolean;
-        manglik_status: string;
-        percentage_manglik_present: number;
-        percentage_manglik_after_cancellation: number;
-        manglik_report: string;
-        is_present: boolean;
-    };
-    kalsarpa: {
-        present: boolean;
-        type: string;
-        one_line: string;
-        name: string;
-        report: {
-            house_id: number;
-            report: string;
-        };
-    };
+export type KundliData = any;
+
+interface PdfExportOptions {
+  outputType: 'save' | 'blob';
 }
 
-export interface ApiPlanetDataItem {
-    name: string;
-    sign: string;
-    signLord: string;
-    nakshatra: string;
-    nakshatraLord: string;
-    normDegree?: number;
-    isRetro?: string;
-    is_planet_set?: boolean;
-    house?: number;
-    planet_awastha?: string;
-    state?: string;
-}
-
-export interface ApiResponse<T> {
-    data: T;
-}
-
-export interface KundliData {
-    data: {
-        name?: string;
-        date_of_birth?: string;
-        time_of_birth?: string;
-        place_of_birth?: string;
-        latitude?: number;
-        longitude?: number;
-        timezone?: string;
-        sunrise?: string;
-        sunset?: string;
-        ayanamsha?: number;
-        panchang?: {
-            day?: string;
-            tithi?: string;
-            nakshatra?: string;
-            yog?: string;
-            karan?: string;
-            sunrise?: string;
-            sunset?: string;
-        };
-    };
-    planets?: ApiResponse<ApiPlanetDataItem[]>;
-    svgChart?: string;
-    svgChart2?: string;
-    dasha?: ApiResponse<Array<{ planet?: string; start?: string; end?: string }>>;
-    dosha?: ApiDoshaData;
-    s3_key?: string;
-}
-
-
-// --- Constants ---
-const MARGIN = 10;
-const COLOR_PRIMARY = '#C53030';
-const COLOR_ACCENT = '#FBBF24';
-const COLOR_BG_LIGHT = '#F3F4F6';
+// --- CONSTANTS ---
+const MARGIN = 15;
+const PAGE_WIDTH = 210;
+const PAGE_HEIGHT = 297;
+const PAGE_CONTENT_END = PAGE_HEIGHT - 25; 
+const CONTENT_HEIGHT = PAGE_HEIGHT - MARGIN * 2;
+const COLOR_PRIMARY = '#C53030'; // A deep red
+const COLOR_ACCENT = '#FBBF24'; // A warm yellow/gold
 const COLOR_TEXT_DARK = '#1F2937';
 const COLOR_TEXT_LIGHT = '#FFFFFF';
 const COLOR_TEXT_MUTED = '#6B7280';
 const TABLE_HEADER_BG = '#374151';
 
+// --- HELPER FUNCTIONS FOR DRAWING ---
 
+let currentY = 0; // Use a global Y position tracker within the module
 
+const checkAndAddPage = (pdf: jsPDF, requiredHeight = 0) => {
+    if (currentY + requiredHeight > PAGE_CONTENT_END) {
+        pdf.addPage();
+        drawPageHeader(pdf);
+        currentY = 45;
+        return true; // Indicates a page break happened
+    }
+    return false;
+};
 const drawPageHeader = (pdf: jsPDF) => {
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    pdf.setFillColor(COLOR_PRIMARY);
-    pdf.rect(0, 0, pageWidth, 35, 'F');
-    const logoX = MARGIN;
-    const logoY = 5;
-    const logoWidth = 25;
-    const logoHeight = 25;
-    const padding = 1.5;
-    pdf.setFillColor(COLOR_TEXT_LIGHT);
-    pdf.roundedRect(logoX - padding, logoY - padding, logoWidth + (2 * padding), logoHeight + (2 * padding), 2, 2, 'F');
-    pdf.addImage('/ask-logo.png', 'PNG', logoX, logoY, logoWidth, logoHeight);
-    pdf.setFontSize(26).setFont("helvetica", "bold").setTextColor(COLOR_ACCENT);
-    pdf.text('AstroKiran', pageWidth - MARGIN, 18, { align: 'right' });
-    pdf.setFontSize(12).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_LIGHT);
-    pdf.text('Vedic Astrology Kundli Report', pageWidth - MARGIN, 26, { align: 'right' });
+    pdf.setFillColor(COLOR_PRIMARY);
+    pdf.rect(0, 0, PAGE_WIDTH, 35, 'F');
+    pdf.setFontSize(26).setFont("helvetica", "bold").setTextColor(COLOR_ACCENT);
+    pdf.text('AstroKiran', PAGE_WIDTH - MARGIN, 18, { align: 'right' });
+    pdf.setFontSize(12).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_LIGHT);
+    pdf.text('Vedic Astrology Kundli Report', PAGE_WIDTH - MARGIN, 26, { align: 'right' });
 };
 
 const drawPageFooter = (pdf: jsPDF, kundliData: KundliData) => {
-    const totalPages = pdf.internal.getNumberOfPages();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    for (let i = 1; i <= totalPages; i++) {
-        pdf.setPage(i);
-        const footerY = pageHeight - 12;
-        pdf.setLineWidth(0.2).setDrawColor(COLOR_PRIMARY);
-        pdf.line(MARGIN, footerY, pdf.internal.pageSize.getWidth() - MARGIN, footerY);
-        pdf.setFontSize(8).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_MUTED);
-        pdf.text(`Page ${i} of ${totalPages}`, pdf.internal.pageSize.getWidth() - MARGIN, footerY + 5, { align: 'right' });
-        pdf.text(`Generated by AstroKiran for ${kundliData.data.name || 'User'}`, MARGIN, footerY + 5);
-    }
+    const totalPages = pdf.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        const footerY = PAGE_HEIGHT - 12;
+        pdf.setLineWidth(0.2).setDrawColor(COLOR_PRIMARY);
+        pdf.line(MARGIN, footerY, PAGE_WIDTH - MARGIN, footerY);
+        pdf.setFontSize(8).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_MUTED);
+        pdf.text(`Page ${i} of ${totalPages}`, PAGE_WIDTH - MARGIN, footerY + 5, { align: 'right' });
+        pdf.text(`Generated by AstroKiran for ${kundliData?.data?.name || 'User'}`, MARGIN, footerY + 5);
+    }
 };
 
-const drawSectionTitle = (pdf: jsPDF, title: string, y: number) => {
-    pdf.setFontSize(18).setFont("helvetica", "bold").setTextColor(COLOR_PRIMARY);
-    pdf.text(title, MARGIN, y);
-    y += 8;
-    pdf.setLineWidth(0.5).setDrawColor(COLOR_ACCENT);
-    pdf.line(MARGIN, y, MARGIN + 40, y);
-    return y + 8;
-};
-
-
-const drawBasicAndPanchangDetails = (pdf: jsPDF, kundliData: KundliData, y: number) => {
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const contentWidth = pageWidth - 2 * MARGIN;
-    const startY = y;
-    const colWidth = contentWidth / 2 - 5;
-    const basicDetails = {
-        title: 'Basic Details',
-        data: [
-            { label: 'Name', value: kundliData.data.name },
-            { label: 'Date of Birth', value: kundliData.data.date_of_birth },
-            { label: 'Time of Birth', value: kundliData.data.time_of_birth },
-            { label: 'Place of Birth', value: kundliData.data.place_of_birth },
-            { label: 'Latitude', value: kundliData.data.latitude?.toFixed(4) },
-            { label: 'Longitude', value: kundliData.data.longitude?.toFixed(4) },
-            { label: 'Timezone', value: kundliData.data.timezone },
-            { label: 'Ayanamsha', value: kundliData.data.ayanamsha?.toFixed(4) },
-        ]
-    };
-    const panchang = kundliData.data.panchang;
-    const panchangDetails = {
-        title: 'Panchang Details',
-        data: panchang ? [
-            { label: 'Day', value: panchang.day }, { label: 'Sunrise', value: panchang.sunrise },
-            { label: 'Sunset', value: panchang.sunset }, { label: 'Tithi', value: panchang.tithi },
-            { label: 'Nakshatra', value: panchang.nakshatra }, { label: 'Yog', value: panchang.yog },
-            { label: 'Karan', value: panchang.karan },
-        ] : []
-    };
-
-    let finalY = y;
-    [basicDetails, panchangDetails].forEach((section, index) => {
-        let currentY = startY;
-        const currentX = MARGIN + index * (colWidth + 10);
-        pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_PRIMARY);
-        pdf.text(section.title, currentX, currentY);
-        currentY += 6;
-        pdf.setLineWidth(0.2).setDrawColor(COLOR_ACCENT);
-        pdf.line(currentX, currentY, currentX + 30, currentY);
-        
-        // CHANGE: Increased space after title from 6 to 8
-        currentY += 8;
-        
-        // CHANGE: Increased font size for details from 9 to 10
-        pdf.setFontSize(10).setTextColor(COLOR_TEXT_DARK);
-
-        if (section.data.length === 0) {
-            pdf.setFont("helvetica", "italic").setTextColor(COLOR_TEXT_MUTED).text("Data not available.", currentX, currentY);
-        } else {
-            section.data.forEach(detail => {
-                if (detail.value) {
-                    pdf.setFont("helvetica", "bold").text(detail.label + ':', currentX, currentY);
-                    pdf.setFont("helvetica", "normal").text(detail.value.toString(), currentX + 40, currentY, { maxWidth: colWidth - 40 });
-                    
-                    // CHANGE: Increased line height from 7 to 9
-                    currentY += 9;
-                }
-            });
-        }
-        if (currentY > finalY) finalY = currentY;
-    });
-    return finalY + 10;
-};
-
-const drawGenericTable = (pdf: jsPDF, headers: string[], dataRows: (string | undefined)[][], colWidthsConfig: number[], y: number) => {
-    let currentY = y;
-    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
-
-    pdf.setFontSize(8).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_LIGHT).setFillColor(TABLE_HEADER_BG);
-    pdf.roundedRect(MARGIN, currentY, contentWidth, 8, 2, 2, 'F');
-    let currentX = MARGIN;
-    headers.forEach((header, i) => {
-        pdf.text(header, currentX + colWidthsConfig[i] / 2, currentY + 5.5, { align: 'center' });
-        currentX += colWidthsConfig[i];
-    });
+const drawSectionTitle = (pdf: jsPDF, title: string) => {
+    checkAndAddPage(pdf);
+    pdf.setFontSize(18).setFont("helvetica", "bold").setTextColor(COLOR_PRIMARY);
+    pdf.text(title, MARGIN, currentY);
     currentY += 8;
+    pdf.setLineWidth(0.5).setDrawColor(COLOR_ACCENT);
+    pdf.line(MARGIN, currentY, MARGIN + 40, currentY);
+    currentY += 10;
+};
 
-    pdf.setFontSize(8).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_DARK);
-    dataRows.forEach((row, rowIndex) => {
-        if (rowIndex % 2 !== 0) pdf.setFillColor(COLOR_BG_LIGHT).rect(MARGIN, currentY, contentWidth, 7, 'F');
-        currentX = MARGIN;
-        row.forEach((cell, i) => {
-            pdf.text(cell || '-', currentX + 2, currentY + 4.5, { maxWidth: colWidthsConfig[i] - 4 });
-            currentX += colWidthsConfig[i];
-        });
-        currentY += 7;
+const drawBasicAndPanchangDetails = (pdf: jsPDF, kundliData: KundliData) => {
+    drawSectionTitle(pdf, 'Birth Details');
+    const contentWidth = PAGE_WIDTH - 2 * MARGIN;
+    const colWidth = contentWidth / 2 - 5;
+    const initialY = currentY;
+
+    // Column 1: Basic Details
+    let y1 = initialY;
+    const basicData = kundliData?.basic_details?.birth_info || kundliData.data;
+    pdf.setFontSize(12).setFont("helvetica", "bold").text("Basic Information", MARGIN, y1);
+    y1 += 7;
+    pdf.setFontSize(10);
+    pdf.setTextColor(COLOR_TEXT_DARK);
+    [
+        { label: 'Name', value: kundliData?.data?.name },
+        { label: 'Date', value: basicData?.date_of_birth },
+        { label: 'Time', value: basicData?.time_of_birth },
+        { label: 'Place', value: basicData?.place_of_birth },
+        { label: 'Timezone', value: basicData?.timezone },
+        { label: 'Lat / Lng', value: `${basicData?.latitude?.toFixed(4)} / ${basicData?.longitude?.toFixed(4)}` },
+    ].forEach(item => {
+        if (item.value) {
+            pdf.setFont("helvetica", "bold").text(item.label + ':', MARGIN, y1);
+            pdf.setFont("helvetica", "normal").text(String(item.value), MARGIN + 30, y1);
+            y1 += 6;
+        }
     });
-    return currentY + 10;
-};
 
-const drawPlanetsTable = (pdf: jsPDF, kundliData: KundliData, y: number) => {
-    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
-    let currentY = drawSectionTitle(pdf, 'Planetary Positions', y);
+    // Column 2: Panchang Details
+    let y2 = initialY;
+    pdf.setTextColor(COLOR_PRIMARY);
+
+    const panchang = kundliData?.basic_details?.enhanced_panchanga;
+    pdf.setFontSize(12).setFont("helvetica", "bold").text("Panchang Details", MARGIN + colWidth + 10, y2);
+    y2 += 7;
+    pdf.setFontSize(10);
+    pdf.setTextColor(COLOR_TEXT_DARK);
+
+    if (panchang) {
+        [
+            { label: 'Day', value: panchang.vaara?.name },
+            { label: 'Tithi', value: `${panchang.tithi?.name} (${panchang.tithi?.paksha})` },
+            { label: 'Nakshatra', value: panchang.nakshatra?.name },
+            { label: 'Yoga', value: panchang.yoga?.name },
+            { label: 'Karana', value: panchang.karana?.name },
+            { lable: 'Ritu', value: panchang.ritu?.name },
+            { label: 'Samvatsara', value: panchang.samvatsara?.name },
+            { label: 'Masa', value: panchang.masa?.name },
+            { label: 'Sunrise', value: panchang.sunrise?.time },
+            { label: 'Sunset', value: panchang.sunset?.time },
+        ].forEach(item => {
+             if (item.value) {
+                pdf.setFont("helvetica", "bold").text(item.label + ':', MARGIN + colWidth + 10, y2);
+                pdf.setFont("helvetica", "normal").text(String(item.value), MARGIN + colWidth + 40, y2, { maxWidth: colWidth - 45 });
+                y2 += 6;
+            }
+        });
+    }
+
+    currentY = Math.max(y1, y2) + 10;
+};
+const drawPlanetsTable = (pdf: jsPDF, kundliData: KundliData) => {
+    // MODIFIED: Logic is rearranged to prevent orphaned titles.
+    const planets = kundliData?.planets || [];
+    if (planets.length === 0) {
+        drawSectionTitle(pdf, 'Planetary Positions');
+        pdf.text("Planetary data not available.", MARGIN, currentY);
+        currentY += 10;
+        return;
+    }
+
+    const headers = ['Planet', 'Sign', 'S.Lord', 'Nakshatra', 'N.Lord', 'Degree', 'Retro', 'Combust', 'Avastha', 'House', 'Status'];
+    const data = planets.map((p: any) => [
+        p.name, p.sign, p.signLord, p.nakshatra, p.nakshatraLord,
+        p.normDegree?.toFixed(2) + '°',
+        p.isRetro === "true" ? 'R' : 'D',
+        p.is_combust ? 'Yes' : 'No',
+        p.planet_awastha,
+        p.house,
+        p.status
+    ]);
+
+    // 1. First, calculate the height needed for the WHOLE section.
+    const titleHeight = 20; // Estimated space for the title
+    const tableHeight = 8 + (data.length * 7); // Header + rows
+    const requiredHeight = titleHeight + tableHeight;
+
+    // 2. Check if the whole section fits, if not, move to a new page.
+    checkAndAddPage(pdf, requiredHeight);
+
+    // 3. NOW, draw the title, knowing it's on the correct page.
+    drawSectionTitle(pdf, 'Planetary Positions');
     
-    const planets = kundliData.planets?.data || [];
-    if (planets.length > 0) {
-        const headers = ['Planet', 'Sign', 'S.Lord', 'Naksh', 'N.Lord', 'Degree', 'Retro', 'Combust', 'Awastha', 'House', 'State'];
-        const colWidths = [0.11, 0.09, 0.09, 0.12, 0.10, 0.08, 0.08, 0.08, 0.10, 0.07, 0.08].map(w => contentWidth * w);
-        const data = planets.map(p => [
-            p.name, p.sign, p.signLord, p.nakshatra, p.nakshatraLord,
-            p.normDegree?.toFixed(2) + '°',
-            p.isRetro === "true" ? 'Retro' : 'Direct',
-            p.is_planet_set ? 'Yes' : 'No',
-            p.planet_awastha,
-            p.house?.toString(),
-            p.state
-        ]);
-        return drawGenericTable(pdf, headers, data, colWidths, currentY);
-    }
-    pdf.text("Planetary data not available.", MARGIN, currentY);
-    return currentY + 10;
+    autoTable(pdf, {
+        head: [headers],
+        body: data,
+        startY: currentY,
+        theme: 'grid',
+        headStyles: { fillColor: TABLE_HEADER_BG },
+        showHead: 'everyPage', 
+    });
+    currentY = (pdf as any).lastAutoTable.finalY + 10;
 };
 
-const drawDashaTable = (pdf: jsPDF, kundliData: KundliData, y: number) => {
-    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
-    let currentY = drawSectionTitle(pdf, 'Maha Dasha (Major Periods)', y);
 
-    const dashaData = kundliData.dasha?.data || [];
-    if (dashaData.length > 0) {
-        const headers = ['Planet', 'Start Date', 'End Date'];
-        const colWidths = [0.34, 0.33, 0.33].map(w => contentWidth * w);
-        const data = dashaData.map(d => [d.planet, d.start, d.end]);
-        return drawGenericTable(pdf, headers, data, colWidths, currentY);
+const drawDashaTable = (pdf: jsPDF, kundliData: KundliData) => {
+    drawSectionTitle(pdf, 'Vimshottari Dasha');
+    const dashaData = kundliData?.dasha || [];
+     if (dashaData.length === 0) {
+        pdf.text("Dasha data not available.", MARGIN, currentY);
+        currentY += 10;
+        return;
     }
-    pdf.text("Dasha data not available.", MARGIN, currentY);
-    return currentY + 10;
+    const headers = ['Planet', 'Start Date', 'End Date'];
+    const data = dashaData.map((d: any) => [d.planet, d.start, d.end]);
+
+    // ADDED: Calculate table height and check for page break before drawing
+    const rowHeight = 7;
+    const headerHeight = 8;
+    const tableHeight = headerHeight + (data.length * rowHeight);
+    checkAndAddPage(pdf, tableHeight);
+
+    autoTable(pdf, {
+        head: [headers],
+        body: data,
+        startY: currentY,
+        theme: 'striped',
+        headStyles: { fillColor: TABLE_HEADER_BG },
+        // ADDED: This ensures headers are repeated if a table MUST break
+        showHead: 'everyPage',
+    });
+    currentY = (pdf as any).lastAutoTable.finalY + 10;
 };
 
-const drawDoshaDetails = (pdf: jsPDF, dosha: ApiDoshaData, y: number) => {
-    let currentY = drawSectionTitle(pdf, "Dosha Analysis", y);
-    const contentWidth = pdf.internal.pageSize.getWidth() - 2 * MARGIN;
+const drawDoshaDetails = (pdf: jsPDF, kundliData: KundliData) => {
+    drawSectionTitle(pdf, "Dosha Analysis");
+    const dosha = kundliData?.dosha;
+    if (!dosha) return;
 
-    if (dosha.manglik) {
-        pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
-        pdf.text("Manglik Dosha", MARGIN, currentY);
-        currentY += 8;
-        pdf.setFontSize(10);
-        pdf.setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
-        pdf.setFont("helvetica", "normal").text(dosha.manglik.is_present ? `Present (${dosha.manglik.manglik_status})` : "Not Present", MARGIN + 25, currentY);
-        currentY += 7;
-
-        pdf.setFont("helvetica", "bold").text("Report:", MARGIN, currentY);
-        currentY += 5;
-        const reportLines = pdf.splitTextToSize(dosha.manglik.manglik_report, contentWidth);
-        pdf.setFont("helvetica", "normal").text(reportLines, MARGIN, currentY);
-        currentY += reportLines.length * 5 + 5;
-
-        // --- ADDED SECTION START: Reasons based on House and Aspect ---
-        const { based_on_house, based_on_aspect } = dosha.manglik.manglik_present_rule;
-
-        if (based_on_house?.length > 0) {
-            pdf.setFont("helvetica", "bold").text("Reasons (Based on House):", MARGIN, currentY);
-            currentY += 5;
-            based_on_house.forEach(rule => {
-                pdf.setFont("helvetica", "normal").text(`• ${rule}`, MARGIN + 2, currentY, { maxWidth: contentWidth - 2 });
-                currentY += 5;
-            });
-            currentY += 3;
-        }
-
-        if (based_on_aspect?.length > 0) {
-            pdf.setFont("helvetica", "bold").text("Reasons (Based on Aspect):", MARGIN, currentY);
-            currentY += 5;
-            based_on_aspect.forEach(rule => {
-                pdf.setFont("helvetica", "normal").text(`• ${rule}`, MARGIN + 2, currentY, { maxWidth: contentWidth - 2 });
-                currentY += 5;
-            });
-            currentY += 3;
-        }
-        // --- ADDED SECTION END: Reasons ---
-
-        // --- ADDED SECTION START: Cancellation Rules and Percentages ---
-        const cancelRules = dosha.manglik.manglik_cancel_rule;
-        if (cancelRules?.length > 0) {
-            pdf.setFont("helvetica", "bold").text("Cancellation Rules:", MARGIN, currentY);
-            currentY += 5;
-            cancelRules.forEach(rule => {
-                pdf.setFont("helvetica", "normal").text(`• ${rule}`, MARGIN + 2, currentY, { maxWidth: contentWidth - 2 });
-                currentY += 5;
-            });
-            currentY += 3;
-        }
-
-        pdf.setFont("helvetica", "bold").text("Original Manglik Presence:", MARGIN, currentY);
-        pdf.setFont("helvetica", "normal").text(`${dosha.manglik.percentage_manglik_present}%`, MARGIN + 55, currentY);
-        currentY += 7;
-
-        pdf.setFont("helvetica", "bold").text("Presence After Cancellation:", MARGIN, currentY);
-        pdf.setFont("helvetica", "normal").text(`${dosha.manglik.percentage_manglik_after_cancellation}%`, MARGIN + 55, currentY);
-        currentY += 7;
-        // --- ADDED SECTION END: Cancellation ---
-    }
+    const contentWidth = PAGE_WIDTH - 2 * MARGIN;
     
-    currentY += 5; // Space between doshas
-
-    if (dosha.kalsarpa) {
-        // (The Kalsarpa section remains unchanged)
-        pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
-        pdf.text("Kalsarpa Dosha", MARGIN, currentY);
+    // Manglik Dosha
+    if (dosha.mangal_dosha) {
+        checkAndAddPage(pdf, 25); // Check if enough space for the section
+        pdf.setFontSize(14).setFont("helvetica", "bold").text("Manglik Dosha", MARGIN, currentY);
         currentY += 8;
-        pdf.setFontSize(10);
-        pdf.setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
-        pdf.setFont("helvetica", "normal").text(dosha.kalsarpa.present ? `Present (${dosha.kalsarpa.name} - ${dosha.kalsarpa.type})` : "Not Present", MARGIN + 20, currentY);
+        pdf.setFontSize(10).setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
+        pdf.setFont("helvetica", "normal").text(dosha.mangal_dosha.is_present ? `${dosha.mangal_dosha.manglik_status}` : "Not Present", MARGIN + 25, currentY);
         currentY += 7;
-        if (dosha.kalsarpa.present) {
-            pdf.setFont("helvetica", "bold").text("Detailed Report:", MARGIN, currentY);
-            currentY += 5;
-            const cleanReport = dosha.kalsarpa.report.report.replace(/<[^>]*>?/gm, '');
-            const reportLines = pdf.splitTextToSize(cleanReport, contentWidth);
-            pdf.setFont("helvetica", "normal").text(reportLines, MARGIN, currentY);
-            currentY += reportLines.length * 5 + 5;
-        }
-    }
-    return currentY;
-};
-
-const drawChartsOnPage = async (pdf: jsPDF, y: number) => {
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const contentWidth = pageWidth - 2 * MARGIN;
-    let currentY = drawSectionTitle(pdf, 'Natal Charts', y);
-
-    // Add a delay to ensure React has rendered the hidden charts
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    const chartElement1 = document.getElementById('pdf-birth-chart-container');
-    const chartElement2 = document.getElementById('pdf-moon-chart-container');
-
-    if (!chartElement1 || !chartElement2) {
-        pdf.text("Chart elements not found in the DOM. Cannot render charts.", MARGIN, currentY);
-        console.error("Could not find #pdf-birth-chart-container or #pdf-moon-chart-container");
-        return currentY + 10;
-    }
-
-    const chartWidth = (contentWidth / 2) - 5; // Two charts side-by-side with a 10mm gap
-
-    try {
-        const canvasOptions = { scale: 3, useCORS: true, backgroundColor: '#FFFFFF' };
         
-        // Capture both canvases first
+        const reportLines = pdf.splitTextToSize(dosha.mangal_dosha.manglik_report, contentWidth);
+        const textHeight = reportLines.length * 5; // Estimate height
+        checkAndAddPage(pdf, textHeight); // ADDED: Check before drawing text
+        pdf.text(reportLines, MARGIN, currentY);
+        currentY += textHeight + 10;
+    }
+
+    // Kalsarpa Dosha
+    if (dosha.kalasarpa_dosha) {
+        checkAndAddPage(pdf, 25); // Check if enough space for the section
+        pdf.setFontSize(14).setFont("helvetica", "bold").text("Kalsarpa Dosha", MARGIN, currentY);
+        currentY += 8;
+        pdf.setFontSize(10).setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
+        pdf.setFont("helvetica", "normal").text(dosha.kalasarpa_dosha.is_present ? `Present (${dosha.kalasarpa_dosha.name})` : "Not Present", MARGIN + 20, currentY);
+        currentY += 7;
+        
+        if (dosha.kalasarpa_dosha.is_present) {
+            const reportLines = pdf.splitTextToSize(dosha.kalasarpa_dosha.report.report, contentWidth);
+            const textHeight = reportLines.length * 5;
+            checkAndAddPage(pdf, textHeight); // ADDED: Check before drawing text
+            pdf.text(reportLines, MARGIN, currentY);
+            currentY += textHeight + 10;
+        }
+    }
+};
+
+const drawYogaDetails = (pdf: jsPDF, kundliData: KundliData) => {
+    drawSectionTitle(pdf, "Yoga Analysis");
+    const yogas = kundliData?.yogas?.detected_yogas || [];
+    if (yogas.length === 0) {
+        pdf.text("No significant yogas found.", MARGIN, currentY);
+        currentY += 10;
+        return;
+    }
+
+    const contentWidth = PAGE_WIDTH - 2 * MARGIN;
+    yogas.forEach((yoga: any) => {
+        const titleHeight = 8;
+        const descLines = pdf.splitTextToSize(`Description: ${yoga.description}`, contentWidth);
+        const effectsLines = pdf.splitTextToSize(`Effects: ${yoga.effects.join(', ')}`, contentWidth);
+        const requiredHeight = titleHeight + (descLines.length * 5) + (effectsLines.length * 5) + 14;
+        
+        checkAndAddPage(pdf, requiredHeight);
+
+        pdf.setTextColor(COLOR_PRIMARY); 
+        pdf.setFontSize(14).setFont("helvetica", "bold").text(yoga.name, MARGIN, currentY);
+        
+        pdf.setTextColor(COLOR_TEXT_MUTED);
+        pdf.setFontSize(10).setFont("helvetica", "normal").text(`Strength: ${yoga.strength}`, PAGE_WIDTH - MARGIN, currentY, { align: 'right' });
+        currentY += titleHeight;
+
+        pdf.setTextColor(COLOR_TEXT_DARK);
+        pdf.text(descLines, MARGIN, currentY);
+        currentY += descLines.length * 5 + 4;
+        
+        pdf.text(effectsLines, MARGIN, currentY);
+        currentY += effectsLines.length * 5 + 10;
+    });
+};
+
+const drawSummaryDetails = (pdf: jsPDF, kundliData: KundliData) => {
+    const summary = kundliData?.summary;
+    const contentWidth = PAGE_WIDTH - 2 * MARGIN;
+
+    let totalHeight = 20; 
+    if (summary?.interpretation) {
+        const lines = summary.interpretation.split('\n');
+        lines.forEach(line => {
+            const textLines = pdf.splitTextToSize(line.substring(1).trim(), contentWidth - 5);
+            totalHeight += (textLines.length * 5) + 4; 
+        });
+    }
+
+    checkAndAddPage(pdf, totalHeight);
+    
+    drawSectionTitle(pdf, "Summary & Interpretations");
+
+    if (!summary || !summary.interpretation) {
+        pdf.setFont("helvetica", "italic").setTextColor(COLOR_TEXT_MUTED);
+        pdf.text("Summary data not available.", MARGIN, currentY);
+        currentY += 10;
+        return;
+    }
+
+    pdf.setTextColor(COLOR_TEXT_DARK).setFontSize(10).setFont("helvetica", "normal");
+    
+    // Split the interpretation by newlines to process each line individually
+    const lines = summary.interpretation.split('\n');
+
+    for (const line of lines) {
+        if (line.trim().startsWith('*')) {
+            // --- Handle Bullet Points ---
+            const bulletText = line.trim().substring(1).trim(); // Remove the '*'
+            const textLines = pdf.splitTextToSize(bulletText, contentWidth - 5); // Indent text
+            const requiredHeight = textLines.length * 5;
+
+            checkAndAddPage(pdf, requiredHeight); // Ensure each bullet item fits
+
+            pdf.setFont("helvetica", "bold").text('•', MARGIN + 2, currentY); // Draw bullet symbol
+            pdf.setFont("helvetica", "normal").text(textLines, MARGIN + 7, currentY); // Draw indented text
+            currentY += requiredHeight + 3; // Add space after bullet item
+
+        } else if (line.trim() !== '') {
+            // --- Handle Normal Paragraphs ---
+            const textLines = pdf.splitTextToSize(line.trim(), contentWidth);
+            const requiredHeight = textLines.length * 5;
+
+            checkAndAddPage(pdf, requiredHeight); // Ensure paragraph fits
+            
+            pdf.text(textLines, MARGIN, currentY);
+            currentY += requiredHeight + 6; // Add more space after a paragraph
+        }
+    }
+};
+
+const drawNatalCharts = async (pdf: jsPDF, kundliData: KundliData) => {
+    drawSectionTitle(pdf, 'Natal Charts');
+    
+    const chartElement1 = document.getElementById('pdf-lagna-chart');
+    const chartElement2 = document.getElementById('pdf-navamsa-chart');
+
+    if (chartElement1 && chartElement2) {
+        checkAndAddPage(pdf);
+        const contentWidth = PAGE_WIDTH - 2 * MARGIN;
+        const chartWidth = (contentWidth / 2) - 10;
+        const canvasOptions = { scale: 2.5, useCORS: true, backgroundColor: '#FFFFFF' };
+
         const canvas1 = await html2canvas(chartElement1, canvasOptions);
         const canvas2 = await html2canvas(chartElement2, canvasOptions);
-
-        const imgData1 = canvas1.toDataURL('image/png');
-        const imgProps1 = pdf.getImageProperties(imgData1);
-        const pdfImgHeight1 = chartWidth * (imgProps1.height / imgProps1.width);
-
-        const imgData2 = canvas2.toDataURL('image/png');
-        const imgProps2 = pdf.getImageProperties(imgData2);
-        const pdfImgHeight2 = chartWidth * (imgProps2.height / imgProps2.width);
+        const imgProps1 = pdf.getImageProperties(canvas1);
+        const chartHeight = chartWidth * (imgProps1.height / imgProps1.width);
         
-        const maxHeight = Math.max(pdfImgHeight1, pdfImgHeight2);
+        pdf.setFontSize(12).setFont("helvetica", "bold").text('Lagna Chart', MARGIN + chartWidth / 2, currentY, { align: 'center' });
+        pdf.setFontSize(12).setFont("helvetica", "bold").text('Navamsa Chart', MARGIN + chartWidth + 20 + chartWidth / 2, currentY, { align: 'center' });
+        currentY += 8;
 
-        // Add images to PDF
-        pdf.addImage(imgData1, 'PNG', MARGIN, currentY, chartWidth, pdfImgHeight1);
-        pdf.addImage(imgData2, 'PNG', MARGIN + chartWidth + 10, currentY, chartWidth, pdfImgHeight2);
-
-        currentY += maxHeight + 15;
-    } catch (error) {
-        console.error("Error capturing charts for PDF:", error);
-        pdf.text("An error occurred while rendering the charts.", MARGIN, currentY);
-        currentY += 10;
+        pdf.addImage(canvas1.toDataURL('image/png'), 'PNG', MARGIN, currentY, chartWidth, chartHeight);
+        pdf.addImage(canvas2.toDataURL('image/png'), 'PNG', MARGIN + chartWidth + 20, currentY, chartWidth, chartHeight);
+        currentY += chartHeight + 10;
     }
-    return currentY;
+};
+
+const drawAshtakavargaChart = async (pdf: jsPDF, kundliData: KundliData) => {
+    // 1. Add a new page specifically for this chart.
+    pdf.addPage();
+    drawPageHeader(pdf);
+    currentY = 45; // Reset Y position for the new page.
+
+    drawSectionTitle(pdf, 'Ashtakavarga');
+
+    const chartElement = document.getElementById('pdf-ashtakavarga-chart');
+    if (chartElement) {
+        const canvasOptions = { scale: 3, useCORS: true, backgroundColor: '#FFFFFF' };
+        const canvas = await html2canvas(chartElement, canvasOptions);
+        const imgProps = pdf.getImageProperties(canvas);
+
+        // --- NEW DYNAMIC SCALING LOGIC ---
+        
+        // 2. Define the maximum space available on the page.
+        const maxContentWidth = PAGE_WIDTH - MARGIN * 2;
+        const maxContentHeight = PAGE_HEIGHT - currentY - MARGIN; // Height left after title and bottom margin.
+
+        // 3. Calculate the aspect ratio of the captured chart image.
+        const aspectRatio = imgProps.width / imgProps.height;
+
+        // 4. Determine the final size.
+        let finalWidth = maxContentWidth;
+        let finalHeight = finalWidth / aspectRatio;
+
+        // If the calculated height is too tall for the page, shrink it down until it fits.
+        if (finalHeight > maxContentHeight) {
+            finalHeight = maxContentHeight;
+            finalWidth = finalHeight * aspectRatio;
+        }
+
+        // 5. Center the resized image horizontally.
+        const xPosition = MARGIN + (maxContentWidth - finalWidth) / 2;
+
+        // 6. Add the perfectly scaled image to the PDF.
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', xPosition, currentY, finalWidth, finalHeight);
+        currentY += finalHeight + 10;
+    }
 };
 
 
-// --- MAIN PDF GENERATION FUNCTION ---
-export const generateKundliPdf = async (
+const drawVargaCharts = async (pdf: jsPDF) => {
+    // Start on a fresh page.
+    pdf.addPage();
+    drawPageHeader(pdf);
+    currentY = 45;
+    drawSectionTitle(pdf, 'Divisional (Varga) Charts');
+
+    // Find the single container for the composite Varga chart SVG.
+    const chartElement = document.getElementById('pdf-varga-charts-composite');
+    if (chartElement) {
+        const canvasOptions = { scale: 2, useCORS: true, backgroundColor: '#FFFFFF' };
+        const canvas = await html2canvas(chartElement, canvasOptions);
+        const imgProps = pdf.getImageProperties(canvas);
+
+        // Use the same dynamic scaling logic from the Ashtakavarga chart.
+        const maxContentWidth = PAGE_WIDTH - MARGIN * 2;
+        const maxContentHeight = PAGE_HEIGHT - currentY - MARGIN;
+        const aspectRatio = imgProps.width / imgProps.height;
+
+        let finalWidth = maxContentWidth;
+        let finalHeight = finalWidth / aspectRatio;
+
+        if (finalHeight > maxContentHeight) {
+            finalHeight = maxContentHeight;
+            finalWidth = finalHeight * aspectRatio;
+        }
+
+        const xPosition = MARGIN + (maxContentWidth - finalWidth) / 2;
+
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', xPosition, currentY, finalWidth, finalHeight);
+        currentY += finalHeight + 10;
+    }
+};
+
+
+const drawChartsAndAshtakavarga = async (pdf: jsPDF, kundliData: KundliData) => {
+    drawSectionTitle(pdf, 'Charts & Ashtakavarga');
+    
+    // Define elements to capture
+    const elementsToCapture = [
+        { id: 'pdf-lagna-chart', title: 'Lagna Chart' },
+        { id: 'pdf-navamsa-chart', title: 'Navamsa Chart' },
+        { id: 'pdf-ashtakavarga-chart', title: 'Ashtakavarga' },
+        { id: 'pdf-divisional-chart', title: 'Major Varga Charts' },
+    ];
+
+    const contentWidth = PAGE_WIDTH - 2 * MARGIN;
+    const chartWidth = (contentWidth / 2) - 10;
+
+    const canvasOptions = { scale: 2.5, useCORS: true, backgroundColor: '#FFFFFF' };
+    
+    // Draw Lagna and Navamsa side-by-side
+    const chartElement1 = document.getElementById(elementsToCapture[0].id);
+    const chartElement2 = document.getElementById(elementsToCapture[1].id);
+
+    if (chartElement1 && chartElement2) {
+        checkAndAddPage(pdf);
+        const canvas1 = await html2canvas(chartElement1, canvasOptions);
+        const canvas2 = await html2canvas(chartElement2, canvasOptions);
+        const imgProps1 = pdf.getImageProperties(canvas1);
+        const chartHeight = chartWidth * (imgProps1.height / imgProps1.width);
+        
+        pdf.setFontSize(12).setFont("helvetica", "bold").text(elementsToCapture[0].title, MARGIN + chartWidth / 2, currentY, { align: 'center' });
+        pdf.setFontSize(12).setFont("helvetica", "bold").text(elementsToCapture[1].title, MARGIN + chartWidth + 20 + chartWidth / 2, currentY, { align: 'center' });
+        currentY += 8;
+
+        pdf.addImage(canvas1.toDataURL('image/png'), 'PNG', MARGIN, currentY, chartWidth, chartHeight);
+        pdf.addImage(canvas2.toDataURL('image/png'), 'PNG', MARGIN + chartWidth + 20, currentY, chartWidth, chartHeight);
+        currentY += chartHeight + 10;
+    }
+
+    // Draw Ashtakavarga below
+    const chartElement3 = document.getElementById(elementsToCapture[2].id);
+    if (chartElement3) {
+        checkAndAddPage(pdf);
+        pdf.setFontSize(12).setFont("helvetica", "bold").text(elementsToCapture[2].title, MARGIN, currentY);
+        currentY += 8;
+
+        const canvas3 = await html2canvas(chartElement3, canvasOptions);
+        const imgProps3 = pdf.getImageProperties(canvas3);
+        const ashtaWidth = contentWidth * 0.8; // Use 80% of width
+        const ashtaHeight = ashtaWidth * (imgProps3.height / imgProps3.width);
+        
+        pdf.addImage(canvas3.toDataURL('image/png'), 'PNG', MARGIN + (contentWidth - ashtaWidth) / 2, currentY, ashtaWidth, ashtaHeight);
+        currentY += ashtaHeight + 10;
+    }
+};
+
+
+const generateKundliPdf = async (
     kundliData: KundliData, 
-    options: { outputType?: 'save' | 'blob' } = { outputType: 'save' }
-): Promise<void | Blob> => { // Return type is now void OR Blob
+    options: PdfExportOptions = { outputType: 'save' }
+): Promise<Blob | void> => {
+    if (!kundliData) {
+        console.error("Kundli data is null, cannot generate PDF.");
+        return;
+    }
+    
     try {
         const pdf = new jsPDF('p', 'mm', 'a4');
+        currentY = 45;
 
-        await drawPageHeader(pdf);
-        let yPosition = 45;
-        if (kundliData.data.name) {
-            pdf.setFontSize(14).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
-            pdf.text(`Report For: ${kundliData.data.name}`, pdf.internal.pageSize.getWidth() / 2, yPosition, { align: 'center' });
-            yPosition += 10;
-        }
-        drawBasicAndPanchangDetails(pdf, kundliData, yPosition);
+        // Page 1
+        drawPageHeader(pdf);
+        drawBasicAndPanchangDetails(pdf, kundliData);
+        await drawNatalCharts(pdf, kundliData);
 
+        // Page 2
         pdf.addPage();
-        await drawPageHeader(pdf);
-        await drawChartsOnPage(pdf, 45);
+        drawPageHeader(pdf);
+        currentY = 45;
+        drawPlanetsTable(pdf, kundliData);
+        drawDashaTable(pdf, kundliData);
         
+        // Subsequent Chart Pages
+        await drawAshtakavargaChart(pdf, kundliData);
+        await drawVargaCharts(pdf);
+        
+        // Yoga Analysis on its own new page
         pdf.addPage();
-        await drawPageHeader(pdf);
-        yPosition = 45;
-        const yAfterPlanets = drawPlanetsTable(pdf, kundliData, yPosition);
-        drawDashaTable(pdf, kundliData, yAfterPlanets);
+        drawPageHeader(pdf);
+        currentY = 45;
+        drawYogaDetails(pdf, kundliData);
+        
+        // Dosha Analysis on its own new page
+        pdf.addPage();
+        drawPageHeader(pdf);
+        currentY = 45;
+        drawDoshaDetails(pdf, kundliData);
 
-        if (kundliData.dosha) {
-            pdf.addPage();
-            await drawPageHeader(pdf);
-            yPosition = 45;
-            drawDoshaDetails(pdf, kundliData.dosha, yPosition);
-        }
+        // Summary will follow on a new page if needed
+        drawSummaryDetails(pdf, kundliData);
         
         drawPageFooter(pdf, kundliData);
 
-        // Conditional output based on options
+        // CHANGED: Conditional output logic
         if (options.outputType === 'blob') {
+            console.log("Returning PDF as a blob...");
             return pdf.output('blob');
         } else {
-            // Default behavior is to save the file
-            pdf.save(`AstroKiran-Kundli-${kundliData.data.name || 'User'}.pdf`);
+            console.log("Saving PDF directly...");
+            const fileName = `AstroKiran-Kundli-${kundliData.data?.name?.replace(/\s+/g, '_') || 'User'}.pdf`;
+            pdf.save(fileName);
         }
     } catch (error) {
-        console.error("A critical error occurred during PDF generation:", error);
-        alert("Sorry, the PDF could not be created due to an unexpected error.");
+        console.error("Error during PDF generation:", error);
     }
 };
+
+export default generateKundliPdf;
+
+
+
+
+
+
