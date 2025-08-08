@@ -9,6 +9,7 @@ import KundliTabContent from '@/components/kundli/kundli-details';
 import ChartDetails from '@/components/kundli/charts-details';
 import YogasDetails from './yoga-details';
 import SummaryDetails from './summary-details';
+import ReportDetails from './report-details';
 import DoshaDetails from './dosha-details';
 import AshtakavargaDetails from './Ashtakavarga';
 import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
@@ -90,8 +91,19 @@ const VargaChartsForPdf = ({ svgString }: { svgString: string | null }) => {
     return <div dangerouslySetInnerHTML={{ __html: processedSvg }} />;
 };
 
+const IndividualPdfChart: React.FC<{ svgString: string | null; title?: string }> = ({ svgString, title }) => {
+    if (!svgString) return null;
+
+    // This converts the SVG string into a format that is very stable for PDF generation
+    const svgDataUrl = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgString)))}`;
+    
+    // The component now uses the title for the alt text
+    return <img src={svgDataUrl} alt={title || 'Chart'} style={{ maxWidth: '100%' }} />;
+};
+
 const PdfRenderComponent = ({ kundliData }: { kundliData: KundliData }) => {
     if (!kundliData) return null;
+    const vargaCharts = kundliData.charts?.varga_charts_svgs || {};
     return (
         <div style={{ position: 'absolute', left: '-9999px', width: '500px', backgroundColor: 'white', zIndex: -1 }}>
             <div id="pdf-lagna-chart">
@@ -100,9 +112,12 @@ const PdfRenderComponent = ({ kundliData }: { kundliData: KundliData }) => {
             <div id="pdf-navamsa-chart">
                 {kundliData.navamsa_chart_svg && <div dangerouslySetInnerHTML={{ __html: kundliData.navamsa_chart_svg }} />}
             </div>
-            <div id="pdf-varga-charts-composite" style={{ width: '1000px' }}>
-                <VargaChartsForPdf svgString={kundliData.charts?.major_varga_charts_svg} />
-            </div>
+        
+                {Object.entries(vargaCharts).map(([name, svgString]) => (
+                    <div key={name} id={`pdf-varga-${name.replace(/\s+/g, '-')}`}>
+                        {svgString && <div dangerouslySetInnerHTML={{ __html: svgString }} />}
+                    </div>
+                ))}
             <div id="pdf-ashtakavarga-chart">
                 {kundliData.ashtakavarga_svg && (
                     <AshtakavargaDetails
@@ -270,7 +285,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
         setLoadingLogout(false);
     };
 
-    const tabs = ['Basic', 'Kundli', 'Charts', 'Yogas', 'Ashtakvarga', 'Dosha', 'Summary'];
+    const tabs = ['Basic', 'Kundli', 'Charts', 'Yogas', 'Ashtakvarga', 'Dosha', 'Summary', 'Report'];
 
     const renderContent = () => {
         if (!kundliData) return <div className="text-center p-10">Please generate a Kundli.</div>;
@@ -285,6 +300,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
             case 'Dosha':
                 return <div>{sharedBanner}{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
             case 'Summary': return <div><SummaryDetails kundliData={kundliData.summary} /></div>
+            case 'Report': return <div>{sharedBanner}{kundliData.report && <ReportDetails kundliData={kundliData.report} />}</div>;
+
             default: return <div className="text-center p-10">{activeTab} Coming Soon.</div>;
         }
     };

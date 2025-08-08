@@ -127,7 +127,7 @@ const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
             value = panchang.tithi?.name ? `${panchang.tithi.name} (${panchang.tithi.paksha})` : 'N/A';
             break;
           case 'Nakshatra':
-            value = panchang.nakshatra?.name ? `${panchang.nakshatra.name} (Pada ${panchang.nakshatra.pada})` : 'N/A';
+            value = panchang.nakshatra?.name ? `${panchang.nakshatra.name}` : 'N/A';
             break;
           case 'Yoga':
             value = panchang.yoga?.name ? `${panchang.yoga.name} (till ${panchang.yoga.end_time})` : 'N/A';

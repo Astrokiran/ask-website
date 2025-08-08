@@ -1,0 +1,17 @@
+0 verbose cli /home/chay/.nvm/versions/node/v20.19.3/bin/node /home/chay/.nvm/versions/node/v20.19.3/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.19.3
+3 silly config load:file:/home/chay/.nvm/versions/node/v20.19.3/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/chay/Web/ask-website/.npmrc
+5 silly config load:file:/home/chay/.npmrc
+6 silly config load:file:/home/chay/.nvm/versions/node/v20.19.3/etc/npmrc
+7 verbose title npm
+8 verbose argv "--cache" "clear"
+9 verbose logfile logs-max:10 dir:/home/chay/Web/ask-website/clear/_logs/2025-08-05T11_04_46_513Z-
+10 verbose logfile /home/chay/Web/ask-website/clear/_logs/2025-08-05T11_04_46_513Z-debug-0.log
+11 verbose cwd /home/chay/Web/ask-website
+12 verbose os Linux 6.6.87.2-microsoft-standard-WSL2
+13 verbose node v20.19.3
+14 verbose npm  v10.8.2
+15 verbose exit 1
+16 verbose code 1

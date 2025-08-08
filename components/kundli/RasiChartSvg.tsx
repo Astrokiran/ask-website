@@ -25,7 +25,8 @@ type FormattedSouthIndianChartData = {
 export interface ChartPlanet {
   name: string;
   sign: string;
-  degree?: number;
+  normdegree?: number;
+  fullDegree?: string; 
 }
 
 export interface RasiChartData {

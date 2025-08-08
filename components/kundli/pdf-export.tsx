@@ -145,7 +145,7 @@ const drawPlanetsTable = (pdf: jsPDF, kundliData: KundliData) => {
     const headers = ['Planet', 'Sign', 'S.Lord', 'Nakshatra', 'N.Lord', 'Degree', 'Retro', 'Combust', 'Avastha', 'House', 'Status'];
     const data = planets.map((p: any) => [
         p.name, p.sign, p.signLord, p.nakshatra, p.nakshatraLord,
-        p.normDegree?.toFixed(2) + '°',
+        p.fullDegree,
         p.isRetro === "true" ? 'R' : 'D',
         p.is_combust ? 'Yes' : 'No',
         p.planet_awastha,
@@ -328,7 +328,7 @@ const drawSummaryDetails = (pdf: jsPDF, kundliData: KundliData) => {
             const textLines = pdf.splitTextToSize(line.trim(), contentWidth);
             const requiredHeight = textLines.length * 5;
 
-            checkAndAddPage(pdf, requiredHeight); // Ensure paragraph fits
+            // checkAndAddPage(pdf, requiredHeight); // Ensure paragraph fits
             
             pdf.text(textLines, MARGIN, currentY);
             currentY += requiredHeight + 6; // Add more space after a paragraph
@@ -346,7 +346,7 @@ const drawNatalCharts = async (pdf: jsPDF, kundliData: KundliData) => {
         checkAndAddPage(pdf);
         const contentWidth = PAGE_WIDTH - 2 * MARGIN;
         const chartWidth = (contentWidth / 2) - 10;
-        const canvasOptions = { scale: 2.5, useCORS: true, backgroundColor: '#FFFFFF' };
+        const canvasOptions = { scale: 2.0, useCORS: true, backgroundColor: '#FFFFFF' };
 
         const canvas1 = await html2canvas(chartElement1, canvasOptions);
         const canvas2 = await html2canvas(chartElement2, canvasOptions);
@@ -373,7 +373,7 @@ const drawAshtakavargaChart = async (pdf: jsPDF, kundliData: KundliData) => {
 
     const chartElement = document.getElementById('pdf-ashtakavarga-chart');
     if (chartElement) {
-        const canvasOptions = { scale: 3, useCORS: true, backgroundColor: '#FFFFFF' };
+        const canvasOptions = { scale: 1.5, useCORS: true, backgroundColor: '#FFFFFF' };
         const canvas = await html2canvas(chartElement, canvasOptions);
         const imgProps = pdf.getImageProperties(canvas);
 
@@ -406,94 +406,135 @@ const drawAshtakavargaChart = async (pdf: jsPDF, kundliData: KundliData) => {
 };
 
 
-const drawVargaCharts = async (pdf: jsPDF) => {
-    // Start on a fresh page.
+const drawVargaCharts = async (pdf: jsPDF, kundliData: KundliData) => {
+    const vargaChartsData = kundliData?.charts?.varga_charts_svgs || {};
+    const chartEntries = Object.entries(vargaChartsData);
+
+    if (chartEntries.length === 0) return;
+
     pdf.addPage();
     drawPageHeader(pdf);
     currentY = 45;
     drawSectionTitle(pdf, 'Divisional (Varga) Charts');
 
-    // Find the single container for the composite Varga chart SVG.
-    const chartElement = document.getElementById('pdf-varga-charts-composite');
-    if (chartElement) {
-        const canvasOptions = { scale: 2, useCORS: true, backgroundColor: '#FFFFFF' };
-        const canvas = await html2canvas(chartElement, canvasOptions);
-        const imgProps = pdf.getImageProperties(canvas);
+    const contentWidth = PAGE_WIDTH - 2 * MARGIN;
+    const chartGap = 10;
+    const chartWidth = (contentWidth - chartGap) / 2;
+    const canvasOptions = { scale: 1.5, useCORS: true, backgroundColor: '#FFFFFF' };
+    const titleHeight = 8;
+    const spacingBelowRow = 15;
 
-        // Use the same dynamic scaling logic from the Ashtakavarga chart.
-        const maxContentWidth = PAGE_WIDTH - MARGIN * 2;
-        const maxContentHeight = PAGE_HEIGHT - currentY - MARGIN;
-        const aspectRatio = imgProps.width / imgProps.height;
+    for (let i = 0; i < chartEntries.length; i += 2) {
+        const leftChartData = chartEntries[i];
+        const rightChartData = (i + 1 < chartEntries.length) ? chartEntries[i + 1] : null;
 
-        let finalWidth = maxContentWidth;
-        let finalHeight = finalWidth / aspectRatio;
+        const leftChartName = leftChartData[0];
+        const leftElementId = `pdf-varga-${leftChartName.replace(/\s+/g, '-')}`;
+        const leftElement = document.getElementById(leftElementId);
 
-        if (finalHeight > maxContentHeight) {
-            finalHeight = maxContentHeight;
-            finalWidth = finalHeight * aspectRatio;
+        let rightElement = null;
+        if (rightChartData) {
+            const rightChartName = rightChartData[0];
+            const rightElementId = `pdf-varga-${rightChartName.replace(/\s+/g, '-')}`;
+            rightElement = document.getElementById(rightElementId);
         }
 
-        const xPosition = MARGIN + (maxContentWidth - finalWidth) / 2;
+        if (!leftElement) continue;
 
-        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', xPosition, currentY, finalWidth, finalHeight);
-        currentY += finalHeight + 10;
+        const leftCanvas = await html2canvas(leftElement, canvasOptions);
+        const rightCanvas = rightElement ? await html2canvas(rightElement, canvasOptions) : null;
+        const leftImgData = leftCanvas.toDataURL('image/jpeg', 0.8);
+        const rightImgData = rightCanvas ? rightCanvas.toDataURL('image/jpeg', 0.8) : null;
+
+
+        const imgProps = pdf.getImageProperties(leftCanvas);
+        const chartHeight = chartWidth * (imgProps.height / imgProps.width);
+        const requiredRowHeight = titleHeight + chartHeight + spacingBelowRow;
+
+        checkAndAddPage(pdf, requiredRowHeight);
+
+        const x1 = MARGIN;
+        const x2 = MARGIN + chartWidth + chartGap;
+        const titleY = currentY + 5;
+        const chartY = titleY + titleHeight;
+
+        pdf.setFontSize(12).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
+        pdf.text(leftChartName, x1 + chartWidth / 2, titleY, { align: 'center' });
+        pdf.addImage(leftImgData, 'JPEG', x1, chartY, chartWidth, chartHeight, undefined, 'FAST');
+
+        if (rightChartData && rightImgData) {
+            pdf.setFontSize(12).setFont("helvetica", "bold").setTextColor(COLOR_TEXT_DARK);
+            pdf.text(rightChartData[0], x2 + chartWidth / 2, titleY, { align: 'center' });
+            pdf.addImage(rightImgData, 'JPEG', x2, chartY, chartWidth, chartHeight, undefined, 'FAST');
+        }
+
+        currentY += requiredRowHeight;
     }
 };
 
+const drawReportDetails = (pdf: jsPDF, kundliData: KundliData) => {
+    // 1. Get the raw Markdown report string from your data
+    const reportText = kundliData?.report?.report;
+    if (!reportText) {
+        return; // Exit if there's no report
+    }
 
-const drawChartsAndAshtakavarga = async (pdf: jsPDF, kundliData: KundliData) => {
-    drawSectionTitle(pdf, 'Charts & Ashtakavarga');
+    // 2. Start this section on a new page for clarity
+    pdf.addPage();
+    drawPageHeader(pdf);
+    currentY = 45;
+    drawSectionTitle(pdf, 'Personalized Astrological Report');
     
-    // Define elements to capture
-    const elementsToCapture = [
-        { id: 'pdf-lagna-chart', title: 'Lagna Chart' },
-        { id: 'pdf-navamsa-chart', title: 'Navamsa Chart' },
-        { id: 'pdf-ashtakavarga-chart', title: 'Ashtakavarga' },
-        { id: 'pdf-divisional-chart', title: 'Major Varga Charts' },
-    ];
-
+    // 3. Split the report into sections based on '##' headings, just like in your component
+    const sections = reportText.split(/(?=##\s)/).filter(Boolean);
     const contentWidth = PAGE_WIDTH - 2 * MARGIN;
-    const chartWidth = (contentWidth / 2) - 10;
 
-    const canvasOptions = { scale: 2.5, useCORS: true, backgroundColor: '#FFFFFF' };
-    
-    // Draw Lagna and Navamsa side-by-side
-    const chartElement1 = document.getElementById(elementsToCapture[0].id);
-    const chartElement2 = document.getElementById(elementsToCapture[1].id);
+    // 4. Loop through each section and draw it
+    for (const section of sections) {
+        // --- Separate title and content ---
+        const firstNewline = section.indexOf('\n');
+        const title = section.substring(0, firstNewline).replace(/##\s/g, '').trim();
+        const content = section.substring(firstNewline + 1).trim();
 
-    if (chartElement1 && chartElement2) {
-        checkAndAddPage(pdf);
-        const canvas1 = await html2canvas(chartElement1, canvasOptions);
-        const canvas2 = await html2canvas(chartElement2, canvasOptions);
-        const imgProps1 = pdf.getImageProperties(canvas1);
-        const chartHeight = chartWidth * (imgProps1.height / imgProps1.width);
-        
-        pdf.setFontSize(12).setFont("helvetica", "bold").text(elementsToCapture[0].title, MARGIN + chartWidth / 2, currentY, { align: 'center' });
-        pdf.setFontSize(12).setFont("helvetica", "bold").text(elementsToCapture[1].title, MARGIN + chartWidth + 20 + chartWidth / 2, currentY, { align: 'center' });
-        currentY += 8;
+        // --- Check if there's enough space for the title and some text ---
+        checkAndAddPage(pdf, 20); 
 
-        pdf.addImage(canvas1.toDataURL('image/png'), 'PNG', MARGIN, currentY, chartWidth, chartHeight);
-        pdf.addImage(canvas2.toDataURL('image/png'), 'PNG', MARGIN + chartWidth + 20, currentY, chartWidth, chartHeight);
-        currentY += chartHeight + 10;
-    }
+        // --- Draw the section title ---
+        pdf.setFontSize(16).setFont("helvetica", "bold").setTextColor(COLOR_PRIMARY);
+        pdf.text(title, MARGIN, currentY);
+        currentY += 12;
 
-    // Draw Ashtakavarga below
-    const chartElement3 = document.getElementById(elementsToCapture[2].id);
-    if (chartElement3) {
-        checkAndAddPage(pdf);
-        pdf.setFontSize(12).setFont("helvetica", "bold").text(elementsToCapture[2].title, MARGIN, currentY);
-        currentY += 8;
+        // --- Process the content line by line ---
+        pdf.setFontSize(10).setFont("helvetica", "normal").setTextColor(COLOR_TEXT_DARK);
+        const lines = content.split('\n');
 
-        const canvas3 = await html2canvas(chartElement3, canvasOptions);
-        const imgProps3 = pdf.getImageProperties(canvas3);
-        const ashtaWidth = contentWidth * 0.8; // Use 80% of width
-        const ashtaHeight = ashtaWidth * (imgProps3.height / imgProps3.width);
-        
-        pdf.addImage(canvas3.toDataURL('image/png'), 'PNG', MARGIN + (contentWidth - ashtaWidth) / 2, currentY, ashtaWidth, ashtaHeight);
-        currentY += ashtaHeight + 10;
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('*')) {
+                // --- Handle Bullet Points ---
+                const bulletText = trimmedLine.substring(1).trim();
+                const textLines = pdf.splitTextToSize(bulletText, contentWidth - 5); // Indent text
+                const requiredHeight = textLines.length * 5 + 3;
+
+                checkAndAddPage(pdf, requiredHeight);
+
+                pdf.setFont("helvetica", "bold").text('•', MARGIN + 2, currentY);
+                pdf.setFont("helvetica", "normal").text(textLines, MARGIN + 7, currentY);
+                currentY += requiredHeight;
+
+            } else if (trimmedLine.length > 0) {
+                // --- Handle Normal Paragraphs ---
+                const textLines = pdf.splitTextToSize(trimmedLine, contentWidth);
+                const requiredHeight = textLines.length * 5 + 4; // Add space after paragraph
+
+                checkAndAddPage(pdf, requiredHeight);
+                pdf.text(textLines, MARGIN, currentY);
+                currentY += requiredHeight;
+            }
+        }
+        currentY += 6; // Add extra space between sections
     }
 };
-
 
 const generateKundliPdf = async (
     kundliData: KundliData, 
@@ -522,8 +563,7 @@ const generateKundliPdf = async (
         
         // Subsequent Chart Pages
         await drawAshtakavargaChart(pdf, kundliData);
-        await drawVargaCharts(pdf);
-        
+        await drawVargaCharts(pdf, kundliData);        
         // Yoga Analysis on its own new page
         pdf.addPage();
         drawPageHeader(pdf);
@@ -538,6 +578,8 @@ const generateKundliPdf = async (
 
         // Summary will follow on a new page if needed
         drawSummaryDetails(pdf, kundliData);
+        drawReportDetails(pdf, kundliData);
+
         
         drawPageFooter(pdf, kundliData);
 
