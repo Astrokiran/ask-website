@@ -74,25 +74,12 @@ const InfoCard: React.FC<InfoCardProps> = ({ emoji, title, content, listItems })
  * Renders a responsive Ashtakavarga chart from a single composite SVG string,
  * alongside informational cards.
  */
-const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSvgString, isLoading = false,renderForPdf = false }) => {
+const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSvgString, isLoading = false, renderForPdf = false }) => {
   
-  // This hook processes the SVG string to make it responsive.
-  // It runs only when the compositeSvgString prop changes.
-  const processedSvg = useMemo(() => {
-    if (!compositeSvgString) {
-      return null;
-    }
-    // This makes the SVG scalable by:
-    // 1. Removing the fixed width and height attributes.
-    // 2. Adding a viewBox attribute based on the original dimensions.
-    return compositeSvgString
-      .replace(/width="\d+"/, '')
-      .replace(/height="\d+"/, '')
-      .replace('<svg', '<svg viewBox="0 0 460 980"');
-  }, [compositeSvgString]);
-
-   if (renderForPdf) {
-    return processedSvg ? <div dangerouslySetInnerHTML={{ __html: processedSvg }} /> : null;
+  // The useMemo hook is no longer needed because the backend provides a perfect SVG.
+  
+  if (renderForPdf) {
+    return compositeSvgString ? <div dangerouslySetInnerHTML={{ __html: compositeSvgString }} /> : null;
   }
 
   return (
@@ -104,14 +91,13 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          {/* Left Column: A single container for the composite SVG */}
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex justify-center items-center">
+         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4"> 
             {isLoading ? (
-              <div className="w-full max-w-md h-[500px] bg-gray-200 rounded-md animate-pulse" />
-            ) : processedSvg ? (
+              <div className="w-full max-w-4xl h-[900px] bg-gray-200 rounded-md animate-pulse" /> 
+            ) : compositeSvgString ? (
               <div
-                className="w-full max-w-md" // Constrains width for a better look on large screens
-                dangerouslySetInnerHTML={{ __html: processedSvg }}
+                className="w-full max-w-4xl"
+                dangerouslySetInnerHTML={{ __html: compositeSvgString }}
               />
             ) : (
               <div className="text-gray-500 text-center py-20">
@@ -132,7 +118,6 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
               />
             ))}
           </div>
-
         </div>
       </div>
     </div>

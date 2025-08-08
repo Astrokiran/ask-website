@@ -5,13 +5,14 @@ import { ChevronRight, ArrowLeft } from "lucide-react";
 import RasiChartSVG from "./RasiChartSvg"; // Correctly named import
 import type { ChartPlanet, RasiChartData } from "./RasiChartSvg"; // Import types if needed
 
+
 /* ------------------------------------------------------------------
  * Types
  * ------------------------------------------------------------------ */
 interface ApiPlanetDataItem {
   id?: number;
   name: string;
-  fullDegree?: number;
+  fullDegree?: string;
   normDegree?: number;
   speed?: number;
   isRetro: string;
@@ -94,7 +95,8 @@ function buildChartPlanets(planets?: ApiPlanetDataItem[] | null): ChartPlanet[] 
   return planets.map((p) => ({
     name: p.name,
     sign: p.sign,
-    degree: p.normDegree ?? p.fullDegree,
+    fullDegree: p.fullDegree, // Assign the string
+    normDegree: p.normDegree, // Assign the number
   }));
 }
 
@@ -225,7 +227,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                   <td className="px-4 py-3">{p.nakshatra}</td>
                   <td className="px-4 py-3">{p.nakshatraLord}</td>
                   <td className="px-4 py-3 whitespace-nowrap">
-                    {p.normDegree?.toFixed(2)}°
+                    {p.fullDegree}
                   </td>
                   <td className="px-4 py-3">
                     {p.isRetro === "true" ? "Retro" : "Direct"}

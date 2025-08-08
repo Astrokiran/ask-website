@@ -1,0 +1,73 @@
+/* In ChartDetails.css */
+
+.kundli-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: sans-serif;
+}
+
+.main-title, .section-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.main-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.chart-card {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-card svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- RESPONSIVE GRID LOGIC --- */
+
+.main-charts-grid,
+.varga-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Mobile First: Default to 1 column */
+.main-charts-grid,
+.varga-grid {
+  grid-template-columns: 1fr;
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 768px) {
+  .main-charts-grid,
+  .varga-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1200px) {
+  .varga-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -47,7 +47,7 @@ interface ApiDoshasResponse {
 interface ApiPlanetDataItem {
   id?: number;
   name: string;
-  fullDegree?: number;
+  fullDegree?: string; // Full degree in DMS format
   normDegree?: number;
   speed?: number;
   isRetro: string; 
@@ -105,6 +105,7 @@ interface KundliData {
   yogas?: YogasResponse | null;
   
   summary?: SummaryResponse | null;
+  report?: Report | null;
   ashtakavarga_svg?: string ;
   dosha?: {
     mangal_dosha: ApiMangalDoshaData;
@@ -194,8 +195,10 @@ interface VargaAnalysisSummary {
 interface ChartsResponse {
   rasi_chart: ChartData;
   navamsa_chart: NavamsaChart;
-  major_varga_charts: { [key: string]: VargaChart };
-  major_varga_charts_svg: string;
+  // major_varga_charts: { [key: string]: VargaChart };
+  // major_varga_charts_svg: string;
+  varga_charts_svgs?: { [key: string]: string };
+
   varga_strengths: VargaStrengths;
   additional_varga_charts: { [key: string]: AdditionalVargaChart };
   varga_analysis_summary: VargaAnalysisSummary;
@@ -227,6 +230,10 @@ interface YogasResponse {
 interface Summary{
   name: string;
   interpretation: string;
+}
+
+interface Report{
+  report:string;
 }
 
 interface SummaryResponse{
@@ -340,9 +347,9 @@ export default function ReportDisplayPage() {
         console.log("Sending payload:", JSON.stringify(kundliRequestBody, null, 2));
 
         const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-;
+        console.log("API Base URL:", apiBaseUrl);
 
-        const [basicRes,kundliRes, chartsRes, yogasRes,ashatakavargaRes,doshaRes,summaryRes] = await Promise.all([
+        const [basicRes,kundliRes, chartsRes, yogasRes,ashatakavargaRes,doshaRes,summaryRes,reportRes] = await Promise.all([
           fetch(`${apiBaseUrl}/api/birth-details`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -379,7 +386,12 @@ export default function ReportDisplayPage() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(kundliRequestBody),
-          })
+          }),
+          fetch(`${apiBaseUrl}/api/report`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(kundliRequestBody),
+          }),
         ]);
         
         if (!basicRes.ok) throw new Error(`Failed to fetch Basic details: ${basicRes.status} - ${basicRes.statusText}`)
@@ -389,6 +401,7 @@ export default function ReportDisplayPage() {
         if  (!summaryRes.ok) throw new Error(`Failed to fetch Summary details: ${summaryRes.status} - ${summaryRes.statusText}`);
         if (!ashatakavargaRes.ok) throw new Error(`Failed to fetch Ashtakavarga details: ${ashatakavargaRes.status} - ${ashatakavargaRes.statusText}`);
         if (!doshaRes.ok) throw new Error(`Failed to fetch Dosha details: ${doshaRes.status} - ${doshaRes.statusText}`);
+        if (!reportRes.ok) throw new Error(`Failed to fetch Report details: ${reportRes.status} - ${reportRes.statusText}`);
 
 
         const basicResponse: BirthDetailsApiResponse = await basicRes.json();
@@ -397,7 +410,10 @@ export default function ReportDisplayPage() {
         const YogasResponse: YogasResponse = await yogasRes.json();
         const summaryResponse: SummaryResponse = await summaryRes.json()
         const ashatakavargaSvgText = await ashatakavargaRes.text();       
-        const doshaResponse: ApiDoshasResponse = await doshaRes.json(); // *** Use the specific API response type here ***
+        const doshaResponse: ApiDoshasResponse = await doshaRes.json();
+        const reportResponse: Report = await reportRes.json();
+
+        // *** Use the specific API response type here ***
 
 
 
@@ -423,10 +439,10 @@ export default function ReportDisplayPage() {
             house: p.house,
             status: p.status,
             id: undefined,
-            fullDegree: undefined,
+            fullDegree: p.degree_dms, 
             normDegree: p.degree,
             speed: undefined,
-            nakshatra_pad: undefined,
+            // nakshatra_pad: undefined,
             is_planet_set: undefined,
             state: undefined,
           })),
@@ -451,6 +467,7 @@ export default function ReportDisplayPage() {
           charts: chartsResponse,
           yogas: YogasResponse,
           summary: summaryResponse,
+          report: reportResponse,
           ashtakavarga_svg: ashatakavargaSvgText,
           dosha: {
             mangal_dosha: doshaResponse.mangal_dosha,
