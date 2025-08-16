@@ -75,6 +75,9 @@ export default function KundliPage() {
       ...prevData,
       [name]: value,
     }));
+    if (name==='gender') {
+      localStorage.setItem('userGender', value);
+    }
     if (errors[name]) {
       setErrors((prevErrors: Record<string, string>) => ({
         ...prevErrors,
