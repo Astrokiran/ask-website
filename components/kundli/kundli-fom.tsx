@@ -295,8 +295,8 @@ export default function KundliPage() {
     const phone_number = phoneNumber; 
 
     try {
-      const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL; 
-      const response = await fetch(`${apiBaseUrl}/horoscope/send-otp`, {
+      const apiBaseUrl ='http://localhost:9000'; 
+      const response = await fetch(`${apiBaseUrl}/send-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -334,7 +334,7 @@ export default function KundliPage() {
 
     try {
         const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
-        const response = await fetch(`${apiBaseUrl}/horoscope/validate-otp`, {
+        const response = await fetch(`${apiBaseUrl}/validate-otp`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -392,7 +392,7 @@ export default function KundliPage() {
       try {
         const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
 
-        await fetch(`${apiBaseUrl}/horoscope/logout`, {
+        await fetch(`${apiBaseUrl}/logout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

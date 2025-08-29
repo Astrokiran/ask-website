@@ -30,6 +30,9 @@ export function NavBar() {
              <Link href="/kundli-match" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
               Kundli Matching
             </Link>
+            <Link href="/horoscopes" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
+              Daily Horoscope
+            </Link>
             <Link href="/#astrologers" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
               Our Astrologers
             </Link>
@@ -94,7 +97,13 @@ export function NavBar() {
                 Kundli Matching
               </Link>
               
-
+              <Link
+                href="/horoscope"
+                className="text-sm hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Daily Horoscope
+              </Link>
            
               <Link
                 href="/#astrologers"

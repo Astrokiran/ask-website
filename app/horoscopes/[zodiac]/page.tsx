@@ -1,58 +1,65 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { NavBar } from "../../../components/nav-bar";
-import { Footer } from "../../../components/footer";
-import { Button } from "../../../components/ui/button";
-import Link from "next/link";
-import { useHoroscopeStore } from "@/store/horoscope";
-import { zodiacData } from "@/components/horoscope-card";
-import { HoroscopeDetails } from "@/components/horoscope-details";
-import { Newsletter } from "@/components/newsletter";
-
-interface HoroscopeDetails {
-  zodiac: string;
-  prediction: string;
+import { notFound } from "next/navigation";
+import { HoroscopeViewer } from "@/components/daily-horoscope/HoroscopeViewer"; 
+// --- Define API Types (can be in a separate types file) ---
+type HoroscopeCategory = {
+  narrative: string;
+  reason: string;
+};
+type LuckyInsights = {
+  mood: string;
+  lucky_color: string;
+  lucky_number: number;
+  lucky_time: string;
+};
+type HoroscopeDetails = {
+  overview: HoroscopeCategory;
+  love_and_relationships: HoroscopeCategory;
+  career_and_finance: HoroscopeCategory;
+  emotions_and_mind: HoroscopeCategory;
+  travel_and_movement: HoroscopeCategory;
+  remedies: HoroscopeCategory;
+  lucky_insights: LuckyInsights;
+};
+export type ApiResponse = {
+  success: boolean;
+  sign: string;
   date: string;
-  timestamp: string;
+  horoscope: HoroscopeDetails;
+};
+type HoroscopePageProps = {
+  params: {
+    zodiac: string;
+  };
+};
+
+// --- Data Fetching Function ---
+async function getHoroscopeForSign(sign: string): Promise<ApiResponse | null> {
+const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
+  if (!apiBaseUrl) {
+    console.error("HOROSCOPE_API_URL environment variable is not set.");
+    return null;
+  }
+  console.log("the next public horoscope url",apiBaseUrl)
+  const apiUrl = `${apiBaseUrl}/api/v1/kundali/horoscope/daily/${sign}`;
+  try {
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
+    if (!response.ok) return null;
+    const data: ApiResponse = await response.json();
+    return data.success ? data : null;
+  } catch (error) {
+    console.error("Failed to fetch horoscope data:", error);
+    return null;
+  }
 }
 
-export default function HoroscopeDetailsPage({
-  params,
-}: {
-  params: { zodiac: string };
-}) {
+// --- The Page Component ---
+export default async function ZodiacHoroscopePage({ params }: HoroscopePageProps) {
+  const zodiac = params.zodiac.charAt(0).toUpperCase() + params.zodiac.slice(1);
+  const initialData = await getHoroscopeForSign(zodiac);
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <main>
-        <NavBar />
-        <section className="relative py-20 bg-[#1a1b2e]">
-          <div className="container relative z-10 max-w-7xl mx-auto px-4 md:py-10">
-            <div className="relative z-10 container mx-auto px-4 flex items-center">
-              {/* Example: If you have an Aries icon image */}
-              {/* You could also just display an emoji or a custom component */}
-              <h1 className="mb-4 text-8xl font-bold text-white">
-                {zodiacData.filter((sign) => sign.id === params.zodiac)[0].icon}
-              </h1>
+  if (!initialData) {
+    notFound();
+  }
 
-              <div className="max-w-2xl ml-10">
-                <h1 className="text-white text-4xl font-bold mb-2">{
-                    zodiacData.filter((sign) => sign.id === params.zodiac)[0]
-                      .name
-                  }</h1>
-                <p className="text-white text-lg">{
-                    zodiacData.filter((sign) => sign.id === params.zodiac)[0]
-                      .date
-                  }</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <HoroscopeDetails zodiac={params.zodiac} />
-        <Newsletter />
-      </main>
-      <Footer />
-    </div>
-  );
+  return <HoroscopeViewer initialData={initialData} />;
 }
