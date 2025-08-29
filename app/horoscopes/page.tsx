@@ -15,7 +15,7 @@ export default function HoroscopesPage() {
     <div>
       <main>
         <NavBar />
-          <DailyHoroscopeCta phoneNumber={"918197503574"}/>;
+          <DailyHoroscopeCta phoneNumber={"918197503574"}/>
           <ZodiacSignGrid/> 
       </main>
       <Footer />

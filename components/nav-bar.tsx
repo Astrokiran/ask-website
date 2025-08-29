@@ -98,7 +98,7 @@ export function NavBar() {
               </Link>
               
               <Link
-                href="/horoscope"
+                href="/horoscopes"
                 className="text-sm hover:text-primary"
                 onClick={() => setIsMenuOpen(false)}
               >
