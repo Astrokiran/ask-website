@@ -17,7 +17,7 @@ const services = [
     title: "Kundli Analysis",
     description: "Detailed birth chart analysis",
     icon: Sparkles,
-    href: "/kundali"
+    href: "#"
   },
   {
     title: "Numerology",

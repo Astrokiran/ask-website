@@ -53,13 +53,13 @@ export default function KundliPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showOtpModal, setShowOtpModal] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [selectedCountryCode, setSelectedCountryCode] = useState('+91'); 
-  const [otp, setOtp] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  // const [showLoginModal, setShowLoginModal] = useState(false);
+  // const [showOtpModal, setShowOtpModal] = useState(false);
+  // const [phoneNumber, setPhoneNumber] = useState('');
+  // const [selectedCountryCode, setSelectedCountryCode] = useState('+91'); 
+  // const [otp, setOtp] = useState('');
+  // const [loginError, setLoginError] = useState('');
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   const countryCodes = [
     { code: '+91', name: 'India', flag: '🇮🇳' },
@@ -232,10 +232,10 @@ export default function KundliPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isLoggedIn) {
-      handleOpenLoginModal();
-      return;
-    }
+    // if (!isLoggedIn) {
+    //   handleOpenLoginModal();
+    //   return;
+    // }
     if (validateForm()) {
       generateKundli();
     }
@@ -268,150 +268,150 @@ export default function KundliPage() {
     }
   };
 
-  const handleOpenLoginModal = () => {
-    setShowLoginModal(true);
-    setPhoneNumber(''); 
-    setOtp('');
-    setLoginError('');
-  };
+  // const handleOpenLoginModal = () => {
+  //   setShowLoginModal(true);
+  //   setPhoneNumber(''); 
+  //   setOtp('');
+  //   setLoginError('');
+  // };
 
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('accessToken');
+  //   if (token) {
+  //     setIsLoggedIn(true);
+  //   } else {
+  //     setIsLoggedIn(false);
+  //   }
+  // }, []);
 
-  const handleSendOtp = async () => {
-    if (!/^\d{10}$/.test(phoneNumber)) {
-      setLoginError('Please enter a valid 10-digit phone number.');
-      return;
-    }
-    setLoginError('');
-    setLoading(true);
+  // const handleSendOtp = async () => {
+  //   if (!/^\d{10}$/.test(phoneNumber)) {
+  //     setLoginError('Please enter a valid 10-digit phone number.');
+  //     return;
+  //   }
+  //   setLoginError('');
+  //   setLoading(true);
 
-    const phone_number = phoneNumber; 
+  //   const phone_number = phoneNumber; 
 
-    try {
-      const apiBaseUrl ='http://localhost:9000'; 
-      const response = await fetch(`${apiBaseUrl}/send-otp`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ phone_number }), 
-      });
+  //   try {
+  //     const apiBaseUrl ='http://localhost:9000'; 
+  //     const response = await fetch(`${apiBaseUrl}/send-otp`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ phone_number }), 
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || 'Failed to send OTP. Please try again.');
-      }
-      if (!data.success) {
-        throw new Error(data.message + (data.whatsapp_api_response?.error ? ` (Reason: ${data.whatsapp_api_response.error})` : ''));
-      }
+  //     if (!response.ok || !data.success) {
+  //       throw new Error(data.message || 'Failed to send OTP. Please try again.');
+  //     }
+  //     if (!data.success) {
+  //       throw new Error(data.message + (data.whatsapp_api_response?.error ? ` (Reason: ${data.whatsapp_api_response.error})` : ''));
+  //     }
 
-      setShowLoginModal(false);
-      setShowOtpModal(true);
-    } catch (error) {
-      console.error('Send OTP error:', error); 
-      setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleVerifyOtp = async () => {
-    if (!/^\d{4,6}$/.test(otp)) { 
-      setLoginError('Please enter a valid OTP.');
-      return;
-    }
-    setLoginError('');
-    setLoading(true);
+  //     setShowLoginModal(false);
+  //     setShowOtpModal(true);
+  //   } catch (error) {
+  //     console.error('Send OTP error:', error); 
+  //     setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // const handleVerifyOtp = async () => {
+  //   if (!/^\d{4,6}$/.test(otp)) { 
+  //     setLoginError('Please enter a valid OTP.');
+  //     return;
+  //   }
+  //   setLoginError('');
+  //   setLoading(true);
 
-    const fullPhoneNumber = (selectedCountryCode + phoneNumber).replace('+', '');
+  //   const fullPhoneNumber = (selectedCountryCode + phoneNumber).replace('+', '');
 
-    try {
-        const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
-        const response = await fetch(`${apiBaseUrl}/validate-otp`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              phone_number: fullPhoneNumber,
-              otp_code: otp,
-          }),
-    });
+  //   try {
+  //       const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
+  //       const response = await fetch(`${apiBaseUrl}/validate-otp`, {
+  //         method: 'POST',
+  //         headers: {
+  //             'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({
+  //             phone_number: fullPhoneNumber,
+  //             otp_code: otp,
+  //         }),
+  //   });
 
-        const data = await response.json();
+  //       const data = await response.json();
 
-        if (!response.ok || !data.success) {
-            throw new Error(data.error || 'OTP verification failed. Please try again.');
-        }
+  //       if (!response.ok || !data.success) {
+  //           throw new Error(data.error || 'OTP verification failed. Please try again.');
+  //       }
 
-        if (data.data && data.data.access && data.data.refresh) {
-            localStorage.setItem('accessToken', data.data.access);
-            localStorage.setItem('refreshToken', data.data.refresh);
-            localStorage.setItem('userPhoneNumber', fullPhoneNumber);
+  //       if (data.data && data.data.access && data.data.refresh) {
+  //           localStorage.setItem('accessToken', data.data.access);
+  //           localStorage.setItem('refreshToken', data.data.refresh);
+  //           localStorage.setItem('userPhoneNumber', fullPhoneNumber);
 
-            setIsLoggedIn(true);
-            setShowOtpModal(false);
+  //           setIsLoggedIn(true);
+  //           setShowOtpModal(false);
 
-            // Automatically submit the form after successful login
-            if (validateForm()) {
-              generateKundli();
-            }
+  //           // Automatically submit the form after successful login
+  //           if (validateForm()) {
+  //             generateKundli();
+  //           }
 
-        } else {
-            throw new Error('Received an invalid response from the server.');
-        }
+  //       } else {
+  //           throw new Error('Received an invalid response from the server.');
+  //       }
 
-    } catch (error) {
-      console.error('Verify OTP error:', error);
-      setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   } catch (error) {
+  //     console.error('Verify OTP error:', error);
+  //     setLoginError(error instanceof Error ? error.message : 'An unexpected error occurred.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
 
-  const handleCloseModals = () => {
-    setShowLoginModal(false);
-    setShowOtpModal(false);
-    setLoginError(''); 
-  };
+  // const handleCloseModals = () => {
+  //   setShowLoginModal(false);
+  //   setShowOtpModal(false);
+  //   setLoginError(''); 
+  // };
 
-  const handleLogout = async () => {
-    setLoading(true); 
-    const accessToken = localStorage.getItem('accessToken');
-    const phoneNumber = localStorage.getItem('userPhoneNumber');
+  // const handleLogout = async () => {
+  //   setLoading(true); 
+  //   const accessToken = localStorage.getItem('accessToken');
+  //   const phoneNumber = localStorage.getItem('userPhoneNumber');
   
-    if (accessToken && phoneNumber) {
-      try {
-        const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
+  //   if (accessToken && phoneNumber) {
+  //     try {
+  //       const apiBaseUrl = process.env.NEXT_PUBLIC_ASTROKIRAN_API_BASE_URL;
 
-        await fetch(`${apiBaseUrl}/logout`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({ phone_number: phoneNumber }),
-        });
-      } catch (error) {
-        console.error('Failed to logout on server:', error);
-      }
-    }
+  //       await fetch(`${apiBaseUrl}/logout`, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': `Bearer ${accessToken}`,
+  //         },
+  //         body: JSON.stringify({ phone_number: phoneNumber }),
+  //       });
+  //     } catch (error) {
+  //       console.error('Failed to logout on server:', error);
+  //     }
+  //   }
   
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('userPhoneNumber');
-    setIsLoggedIn(false);
-    setLoading(false);
-    alert("You have been logged out.");
-  };
+  //   localStorage.removeItem('accessToken');
+  //   localStorage.removeItem('refreshToken');
+  //   localStorage.removeItem('userPhoneNumber');
+  //   setIsLoggedIn(false);
+  //   setLoading(false);
+  //   alert("You have been logged out.");
+  // };
   
   const currentYear = new Date().getFullYear();
   const yearOptions = Array.from({ length: 100 }, (_, i) => currentYear - i);
@@ -695,7 +695,7 @@ export default function KundliPage() {
       <Footer />
 
 
-      {showLoginModal && (
+      {/* {showLoginModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 transition-opacity duration-300 ease-in-out">
           <div className="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 ease-in-out scale-100">
             <div className="flex justify-between items-center mb-6">
@@ -743,9 +743,9 @@ export default function KundliPage() {
             </p>
           </div>
         </div>
-      )}
+      )} */}
 
-      {showOtpModal && (
+      {/* {showOtpModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 transition-opacity duration-300 ease-in-out">
           <div className="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 ease-in-out scale-100">
             <div className="flex justify-between items-center mb-6">
@@ -787,7 +787,7 @@ export default function KundliPage() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
