@@ -28,6 +28,11 @@ interface ZodiacSign {
   imageUrl: string;
 }
 
+const zodiacOrder = [
+  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+];
+
 // --- 3. Styled Components (Unchanged) ---
 const Container = styled.div`
   max-width: 1200px;
@@ -149,18 +154,20 @@ export const HoroscopeDisplay: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hoveredSign, setHoveredSign] = useState<string | null>(null);
 
-  // ✨ 3. Fetch data from Contentful when the component mounts
   useEffect(() => {
     setIsLoading(true);
     client.getEntries<any>({
-        content_type: 'zodiacSigns' // 👈 REPLACE with your Content Type ID
+        content_type: 'zodiacSigns' 
       })
       .then((response) => {
         if (response.items) {
           const fetchedSigns: ZodiacSign[] = response.items.map((item: any) => ({
-            name: item.fields.signName, // 👈 REPLACE with your sign name Field ID
-            imageUrl: `https:${item.fields.image.fields.file.url}` // 👈 REPLACE with your image Field ID
+            name: item.fields.signName, // 
+            imageUrl: `https:${item.fields.image.fields.file.url}` 
           }));
+          fetchedSigns.sort((a, b) => {
+            return zodiacOrder.indexOf(a.name) - zodiacOrder.indexOf(b.name);
+          });
           setZodiacSigns(fetchedSigns);
         }
       })
