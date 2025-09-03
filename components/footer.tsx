@@ -41,7 +41,7 @@ export function Footer() {
               <Link href="/horoscopes" className="block text-sm text-gray-400 hover:text-white">
                 Horoscope Reading
               </Link>
-              <Link href="/kundali" className="block text-sm text-gray-400 hover:text-white">
+              <Link href="#" className="block text-sm text-gray-400 hover:text-white">
                 Kundli Analysis
               </Link>
               <Link href="#" className="block text-sm text-gray-400 hover:text-white">
@@ -90,7 +90,7 @@ export function Footer() {
             {/* <Link href="#" className="text-gray-400 hover:text-white">
               <Twitter className="w-5 h-5" />
             </Link> */}
-            <Link href="https://www.instagram.com/askastrokiran/?hl=en" className="text-gray-400 hover:text-white">
+            <Link href="https://www.instagram.com/ask.astrokiran/?hl=en" className="text-gray-400 hover:text-white">
               <Instagram className="w-5 h-5" />
             </Link>
             {/* <Link href="#" className="text-gray-400 hover:text-white">

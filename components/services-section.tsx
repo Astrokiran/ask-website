@@ -19,7 +19,7 @@ const services = [
     icon: Sparkles,
     href: "#"
   },
-  {
+  { 
     title: "Numerology",
     description: "Numbers & their influence",
     icon: Calculator,
