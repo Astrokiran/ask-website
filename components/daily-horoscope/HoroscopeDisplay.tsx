@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { createClient } from 'contentful'; // ✨ 1. Import Contentful client
 
-// --- 1. Global Styles ---
+// --- Contentful Client Initialization ---
+const client = createClient({
+  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || '',
+  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || '',
+});
+
+// --- 1. Global Styles (Unchanged) ---
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: white;
@@ -15,28 +22,13 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-// --- 2. Image Data ---
+// --- 2. Data Type Interface (Unchanged) ---
 interface ZodiacSign {
   name: string;
   imageUrl: string;
 }
 
-const zodiacSigns: ZodiacSign[] = [
-  { name: 'Aries', imageUrl: '/aries2.jpg' },
-  { name: 'Taurus', imageUrl: '/taurus2.jpg' },
-  { name: 'Gemini', imageUrl: '/gemini2.jpg' },
-  { name: 'Cancer', imageUrl: '/cancer2.jpg' },
-  { name: 'Leo', imageUrl: '/leo2.jpg' },
-  { name: 'Virgo', imageUrl: '/virgo2.jpg' },
-  { name: 'Libra', imageUrl: '/libra2.jpg' },
-  { name: 'Scorpio', imageUrl: '/scorpio2.jpg' },
-  { name: 'Sagittarius', imageUrl: '/sagrititus2.jpg' },
-  { name: 'Capricorn', imageUrl: '/capricorn2.jpg' },
-  { name: 'Aquarius', imageUrl: '/aquarius.jpg' },
-  { name: 'Pisces', imageUrl: '/pisces2.jpg' },
-];
-
-// --- 3. Styled Components ---
+// --- 3. Styled Components (Unchanged) ---
 const Container = styled.div`
   max-width: 1200px;
   margin: 40px auto;
@@ -71,7 +63,7 @@ const Card = styled(motion.div)`
   background: white;
   border-radius: 20px;
   box-shadow: 8px 8px 15px rgba(251, 146, 60, 0.5), 
-            -8px -8px 15px rgba(255, 200, 150, 0.8);
+              -8px -8px 15px rgba(255, 200, 150, 0.8);
   overflow: hidden;
   cursor: pointer;
   display: flex;
@@ -150,11 +142,34 @@ const MoreButton = styled.a`
   }
 `;
 
-// --- 4. HoroscopeDisplay Component ---
+// --- 4. HoroscopeDisplay Component (Updated with Data Fetching) ---
 export const HoroscopeDisplay: React.FC = () => {
+  // ✨ 2. Add state for fetched data and loading status
+  const [zodiacSigns, setZodiacSigns] = useState<ZodiacSign[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [hoveredSign, setHoveredSign] = useState<string | null>(null);
 
+  // ✨ 3. Fetch data from Contentful when the component mounts
+  useEffect(() => {
+    setIsLoading(true);
+    client.getEntries<any>({
+        content_type: 'zodiacSigns' // 👈 REPLACE with your Content Type ID
+      })
+      .then((response) => {
+        if (response.items) {
+          const fetchedSigns: ZodiacSign[] = response.items.map((item: any) => ({
+            name: item.fields.signName, // 👈 REPLACE with your sign name Field ID
+            imageUrl: `https:${item.fields.image.fields.file.url}` // 👈 REPLACE with your image Field ID
+          }));
+          setZodiacSigns(fetchedSigns);
+        }
+      })
+      .catch(error => console.error("Error fetching data from Contentful:", error))
+      .finally(() => setIsLoading(false));
+  }, []); // Empty array ensures this runs only once on mount
+
   const getHoroscopeDetails = (signName: string) => {
+    // ... (This function remains unchanged)
     switch (signName) {
       case 'Aries': return "Pioneers of the zodiac, brave and impulsive. Ruled by Mars, they are natural leaders full of energy.";
       case 'Taurus': return "Grounded and sensual, they appreciate beauty and stability. Ruled by Venus, they are loyal and patient.";
@@ -171,6 +186,15 @@ export const HoroscopeDisplay: React.FC = () => {
       default: return "No details available for this sign yet.";
     }
   };
+
+  // ✨ 4. Add a loading state for better UX
+  if (isLoading) {
+    return (
+        <Container>
+            <Title>Loading Zodiac Signs...</Title>
+        </Container>
+    );
+  }
 
   return (
     <>
