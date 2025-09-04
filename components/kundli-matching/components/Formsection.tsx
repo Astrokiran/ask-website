@@ -84,7 +84,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
                     label="Full Name"
                     value={data.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
-                    placeholder={`Enter ${personType === 'man' ? 'boy' : 'girl'}'s name`}
+                    // placeholder={`Enter name`}
                     error={errors.name}
                 />
             </motion.div>

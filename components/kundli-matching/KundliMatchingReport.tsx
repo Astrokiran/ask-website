@@ -1,14 +1,11 @@
-// components/kundli-matching/KundliMatchingReport.tsx
-
 'use client';
-
-import React, { useState, useEffect } from 'react';
-import { motion, useInView, useSpring } from 'framer-motion';
-// Icons for a richer UI
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView, useSpring, useAnimation, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Download, CheckCircle, XCircle, User, Heart, Gem, BrainCircuit, Magnet, Star, Zap, MessageSquare, Shield, Users, Dna } from 'lucide-react';
 import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
+import { DailyHoroscopeCta } from '../banners/Daily-horoscope';
 
-// --- TYPE DEFINITIONS (Unchanged) ---
+// --- TYPE DEFINITIONS ---
 interface KootaDetail {
     obtained_points: number;
     max_points: number;
@@ -38,21 +35,16 @@ interface InputData {
     bride: PersonDetails;
 }
 
-
-// --- ANIMATED HELPER COMPONENTS (with Theme changes) ---
-
-// Custom hook for an animated number counter
+// --- ANIMATED HELPER COMPONENTS ---
 const useAnimatedCounter = (to: number) => {
     const ref = React.useRef<HTMLSpanElement>(null);
     const isInView = useInView(ref, { once: true });
     const spring = useSpring(0, { mass: 0.8, stiffness: 75, damping: 25 });
-
     useEffect(() => {
         if (isInView) {
             spring.set(to);
         }
     }, [isInView, spring, to]);
-
     useEffect(() => {
         spring.on("change", (latest) => {
             if (ref.current) {
@@ -60,27 +52,29 @@ const useAnimatedCounter = (to: number) => {
             }
         });
     }, [spring]);
-
     return ref;
 };
 
 const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxScore }) => {
     const percentage = (score / maxScore) * 100;
-    const radius = 85;
+    const radius = 90;
     const circumference = 2 * Math.PI * radius;
     const animatedCounterRef = useAnimatedCounter(score);
 
     return (
-        <div className="relative w-40 h-40 mx-auto md:mx-0 mb-5 flex-shrink-0">
+        <motion.div
+            className="relative w-48 h-48 mx-auto md:mx-0 flex-shrink-0"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+        >
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 200 200">
                 <defs>
                     <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#f59e0b" /> {/* yellow-500 */}
-                        <stop offset="100%" stopColor="#ef4444" /> {/* red-500 */}
+                        <stop offset="0%" stopColor="#fbbf24" /> {/* Lighter orange/yellow */}
+                        <stop offset="100%" stopColor="#f97316" /> {/* Brighter orange */}
                     </linearGradient>
                 </defs>
-                {/* THEME CHANGE: Light gray background circle */}
-                <circle className="text-gray-200" strokeWidth="20" stroke="currentColor" fill="transparent" r={radius} cx="100" cy="100" />
+                <circle className="text-orange-100" strokeWidth="20" stroke="currentColor" fill="transparent" r={radius} cx="100" cy="100" />
                 <motion.circle
                     stroke="url(#scoreGradient)"
                     strokeWidth="20"
@@ -92,60 +86,101 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
                     cy="100"
                     initial={{ strokeDashoffset: circumference }}
                     animate={{ strokeDashoffset: circumference - (percentage / 100) * circumference }}
-                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+                    transition={{ duration: 1.8, ease: "easeOut", delay: 0.3 }}
                 />
             </svg>
-            {/* THEME CHANGE: Dark text for readability on light BG */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-800">
-                <span ref={animatedCounterRef} className="text-5xl font-bold">0.0</span>
-                <span className="text-xl text-slate-500">/ {maxScore}</span>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-orange-900">
+                <motion.span
+                    ref={animatedCounterRef}
+                    className="text-5xl font-extrabold"
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                >
+                    0.0
+                </motion.span>
+                <span className="text-xl text-orange-600">/ {maxScore}</span>
             </div>
-        </div>
-    );
-};
-
-const KootaCard: React.FC<{ name: string; details: KootaDetail; icon: React.ReactNode }> = ({ name, details, icon }) => {
-    const { obtained_points, max_points } = details;
-    const percentage = max_points > 0 ? (obtained_points / max_points) * 100 : 0;
-
-    return (
-        <motion.div 
-            className="bg-white/70 backdrop-blur-sm border border-gray-200 rounded-xl p-5 shadow-lg transition-all hover:shadow-orange-500/20 hover:-translate-y-1 hover:border-orange-300"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-        >
-            <div className="flex justify-between items-start mb-3">
-                <div className="flex items-center gap-3">
-                    <div className=" p-2 rounded-lg text-orange-600">{icon}</div>
-                    <h4 className="text-lg font-bold text-slate-800">{name}</h4>
-                </div>
-                <span className="text-lg font-bold text-slate-700">{obtained_points}<span className="text-sm text-slate-500">/{max_points}</span></span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2 mb-3 overflow-hidden">
-                <motion.div 
-                    className="h-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500" 
-                    initial={{ width: '0%' }}
-                    whileInView={{ width: `${percentage}%` }}
-                    transition={{ duration: 1, ease: 'easeOut' }}
-                    viewport={{ once: true }}
-                />
-            </div>
-            <p className="text-sm text-slate-600 leading-relaxed">{details.description}</p>
         </motion.div>
     );
 };
 
+const ImageSlideshow: React.FC<{ imageSources: string[] }> = ({ imageSources }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        if (imageSources.length <= 1) return;
+        const intervalId = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
+        }, 3000);
+        return () => clearInterval(intervalId);
+    }, [imageSources.length]);
+
+    return (
+        <div className="flex flex-col items-center text-center">
+            <motion.div
+                className="relative w-64 h-64 rounded-xl overflow-hidden border-4 border-orange-300 bg-orange-100 flex items-center justify-center shadow-lg" // Increased size, added shadow, changed to rounded-xl
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: 'spring', stiffness: 200 }}
+            >
+                <AnimatePresence>
+                    <motion.img
+                        key={currentIndex}
+                        src={imageSources[currentIndex]}
+                        alt="Kundli Matching"
+                        className="absolute w-full h-full object-cover"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.7 }}
+                    />
+                </AnimatePresence>
+            </motion.div>
+            <p className="mt-4 text-sm text-orange-700 max-w-xs">
+                Symbolizing the harmony and compatibility between the couple.
+            </p>
+        </div>
+    );
+};
+
+
+const KootaCard: React.FC<{ name: string; points: string; maxPoints: string; description: string; icon: React.ReactNode }> = ({ name, points, maxPoints, description, icon }) => (
+    <motion.div
+        className="bg-white/90 backdrop-blur-md border border-orange-200 rounded-lg p-4 shadow-md transition-all hover:shadow-orange-300/30 hover:-translate-y-1"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        whileHover={{ scale: 1.02 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true }}
+    >
+        <div className="flex flex-col items-center text-center">
+            <div className="p-2 rounded-full bg-orange-100 text-orange-600 mb-2">{icon}</div>
+            <h4 className="text-lg font-semibold text-orange-900 mb-1">{name}</h4>
+            <div className="w-full bg-orange-200 h-2 rounded-full mb-2 overflow-hidden">
+                <motion.div
+                    className="h-2 bg-orange-500 rounded-full"
+                    style={{ width: `${(parseInt(points) / parseInt(maxPoints.replace('/',''))) * 100}%` }}
+                />
+            </div>
+            <span className="text-md font-bold text-orange-800 mb-2">{points}</span>
+            <p className="text-xs text-orange-700 leading-tight">{description}</p>
+        </div>
+    </motion.div>
+);
+
 const SectionHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <div className="text-center mb-10">
-        <h2 className="text-3xl sm:text-4xl font-bold text-slate-800 relative inline-block">
+    <div className="text-center mb-12">
+        <h2 className="text-3xl sm:text-4xl font-bold text-orange-900 relative inline-block">
             {children}
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2/3 h-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full" />
+            <motion.span
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full" // Adjusted gradient for header underline
+                initial={{ width: 0 }}
+                whileInView={{ width: '75%' }}
+                transition={{ duration: 0.8 }}
+            />
         </h2>
     </div>
 );
-
 
 const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) => {
     const { groom, bride } = inputData;
@@ -159,44 +194,60 @@ const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) =
         return `${formattedDate}, ${timeStr}`;
     };
 
-    const DetailCard: React.FC<{ person: PersonDetails, gender: 'Male' | 'Female' }> = ({ person, gender }) => (
-        <div className="bg-gradient-to-br from-orange-200 via-yellow-100 to-orange-400 border border-gray-200 rounded-xl shadow-lg w-full text-center p-6">
-            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-orange-600 mb-1">{person.name}</h3>
-            <p className="font-semibold text-slate-700 mb-4">{gender}</p>
-            <div className="text-left space-y-2 text-sm">
-            <div className="flex justify-between items-center border-b border-gray-200 pb-1">
-            <span className="font-medium text-slate-500">Birth Details</span>
-            <span className="text-slate-800 text-right">{formatDateTime(person.date_of_birth, person.time_of_birth)}</span>
+    const DetailCard: React.FC<{ person: PersonDetails }> = ({ person }) => (
+        <motion.div
+            className="bg-gradient-to-br from-orange-100 to-yellow-100 border border-orange-200 rounded-2xl shadow-lg w-full text-center p-6" // Adjusted gradient and border
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: 'spring', stiffness: 200 }}
+        >
+            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-yellow-600 mb-2">{person.name}</h3> {/* Adjusted gradient for text */}
+            <div className="text-left space-y-3 text-sm">
+                <div className="flex justify-between items-center border-b border-orange-200 pb-2">
+                    <span className="font-medium text-orange-600">Birth Details</span>
+                    <span className="text-orange-800 text-right">{formatDateTime(person.date_of_birth, person.time_of_birth)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                    <span className="font-medium text-orange-600">Birth Place</span>
+                    <span className="text-orange-800 text-right">{person.place_of_birth}</span>
+                </div>
             </div>
-            <div className="flex justify-between items-center">
-            <span className="font-medium text-slate-500">Birth Place</span>
-            <span className="text-slate-800 text-right">{person.place_of_birth}</span>
-            </div>
-            </div>
-            </div>
+        </motion.div>
     );
 
     return (
         <div className="mb-12">
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-                <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2 }} className="w-full md:w-5/12">
-                    <DetailCard person={groom} gender="Male" />
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    className="w-full md:w-5/12"
+                >
+                    <DetailCard person={groom} />
                 </motion.div>
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.5 }}>
-                    <Heart className="w-12 h-12 text-red-500" fill="currentColor" />
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.5 }}
+                >
+                    <Heart className="w-14 h-14 text-orange-500" fill="currentColor" /> {/* Changed heart color */}
                 </motion.div>
-                <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2 }} className="w-full md:w-5/12">
-                    <DetailCard person={bride} gender="Female" />
+                <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    className="w-full md:w-5/12"
+                >
+                    <DetailCard person={bride} />
                 </motion.div>
             </div>
         </div>
     );
 };
 
-
 export function MatchingResults({ data: reportData }: { data: KundliMatchingData }) {
     const [inputData, setInputData] = useState<InputData | null>(null);
-
+    
     useEffect(() => {
         const storedInput = sessionStorage.getItem('kundliMatchingApiInput');
         if (storedInput) {
@@ -204,88 +255,112 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
         }
     }, []);
 
-    const kootaMap: { [key: string]: { name: string; icon: React.ReactNode } } = {
-        varna: { name: "Ego & Work", icon: <BrainCircuit size={24} /> },
-        vashya: { name: "Attraction", icon: <Magnet size={24} /> },
-        tara: { name: "Destiny", icon: <Star size={24} /> },
-        yoni: { name: "Intimacy", icon: <Zap size={24} /> },
-        graha_maitri: { name: "Mental Match", icon: <MessageSquare size={24} /> },
-        gana: { name: "Temperament", icon: <Shield size={24} /> },
-        bhakoot: { name: "Emotional Bond", icon: <Users size={24} /> },
-        nadi: { name: "Health", icon: <Dna size={24} /> }
+    const kootaMap: { [key: string]: { name: string; icon: React.ReactNode; description: string } } = {
+        varna: { name: "Ego & Work", icon: <BrainCircuit size={24} />, description: "Your Varna: Vaisya, Partner Varna: Vaisya. Compatibility is based on spiritual development." },
+        vashya: { name: "Attraction", icon: <Magnet size={24} />, description: "Your Vashya: Chatushpada, Partner Vashya: Jalachara. Indicates mutual attraction and control." },
+        tara: { name: "Destiny", icon: <Star size={24} />, description: "Tara check between 'Rohini' and 'Shravana'. Assesses health and well-being." },
+        yoni: { name: "Intimacy", icon: <Zap size={24} />, description: "Your Yoni: Sarpa, Partner Yoni: Vanara. Level of genuine understanding, vulnerability, and authentic bond between partners." },
+        graha_maitri: { name: "Mental Match", icon: <MessageSquare size={24} />, description: "Your Rasi Lord: Venus, Partner's Rasi Lord: Saturn. Measures mental and intellectual compatibility." },
+        gana: { name: "Temperament", icon: <Shield size={24} />, description: "Your Gana: Manushya, Partner Gana: Deva. Reflects temperament and core nature." },
+        bhakoot: { name: "Emotional Bond", icon: <Users size={24} />, description: "Distance between Moon signs is 9/4. Assesses overall emotional compatibility." },
+        nadi: { name: "Health", icon: <Dna size={24} />, description: "Your Nadi: Antya, Partner Nadi: Antya. The partnership's potential for long-term stability, mutual growth, and lasting success." }
     };
 
     const mangalStatus = reportData.mangal_dosha_analysis.is_compatible;
 
     return (
-        <div className="bg-gradient-to-br from-white to-orange-50 text-slate-800 min-h-screen p-4 sm:p-6 lg:p-8 font-sans">
+        <div className="bg-gradient-to-br from-orange-50 to-yellow-50 text-orange-900 min-h-screen p-4 sm:p-6 lg:p-10 font-sans"> {/* Adjusted background gradient */}
             <div className="max-w-7xl mx-auto">
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                    <div className="flex items-center text-sm text-slate-500 mb-6">
-                        <a href="/kundli-match" className="hover:text-orange-600">Kundli Matching</a>
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <div className="flex items-center text-sm text-orange-600 mb-6">
+                        <a href="/kundli-match" className="hover:text-orange-700 transition-colors">Kundli Matching</a>
                         <ChevronRight className="h-4 w-4 mx-1" />
-                        <span className="font-semibold text-slate-700">Matching Report</span>
+                        <span className="font-semibold text-orange-800">Matching Report</span>
                     </div>
                 </motion.div>
 
                 {inputData && <MatchSummaryHeader inputData={inputData} />}
 
-                <motion.div 
-                    className="bg-white/50 backdrop-blur-xl border border-gray-200 rounded-2xl p-6 sm:p-8 lg:p-12 shadow-2xl"
+                <motion.div
+                    className="bg-white/70 backdrop-blur-xl border border-orange-200 rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl" // Adjusted border color
                     initial="hidden"
                     animate="visible"
                     variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.3 } } }}
                 >
-                    <motion.header 
-                        className="text-center mb-10"
+                    <motion.header
+                        className="text-center mb-12"
                         variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }}
                     >
-                        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-600">
+                        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-yellow-600"> {/* Adjusted gradient for text */}
                             Kundli Matching Report
                         </h1>
                     </motion.header>
 
-                    <motion.section 
+                    <motion.section
                         className="py-8 mb-12"
                         variants={{ hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } }}
                     >
                         <SectionHeader>Final Compatibility Score</SectionHeader>
-                         <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 mt-6">
-                            <ScoreGauge score={reportData.total_points_obtained} maxScore={reportData.maximum_points} />
-                            
-                            <p className="text-lg text-slate-700 text-center md:text-left">
-                                {reportData.conclusion}
-                            </p>
-                        </div>
-                         <div className="mt-10">
-                            <WhatsAppCtaBanner phoneNumber={"918197503574"}/>
+                        <div className="flex flex-col md:flex-row items-center justify-evenly gap-8 md:gap-16 mt-6">
+                            {/* Left Side: Score Gauge */}
+                            <div className="flex-shrink-0">
+                                <ScoreGauge score={reportData.total_points_obtained} maxScore={reportData.maximum_points} />
                             </div>
-
+                            
+                            {/* Right Side: Image Slideshow */}
+                            <ImageSlideshow imageSources={['/kundli-report.jpg', '/kundli-report2.jpg']} />
+                        </div>
+                        
+                        {/* Conclusion Text below */}
+                        <motion.p 
+                            className="mt-10 text-center text-lg font-medium text-orange-800 max-w-3xl mx-auto"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            {reportData.conclusion}
+                        </motion.p>
                     </motion.section>
 
-                    {/* THEME CHANGE: Light theme for Mangal Dosha section */}
-                    <motion.section 
-                        className={`rounded-xl p-6 text-center mb-12 border ${mangalStatus ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}
+                    <motion.section
+                        className={`rounded-2xl p-8 text-center mb-12 border ${mangalStatus ? 'bg-emerald-50/50 border-emerald-200' : 'bg-orange-50/50 border-orange-200'}`} // Adjusted border for negative mangal dosha
                         variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                     >
-                        <div className={`flex items-center justify-center gap-3 text-2xl font-bold ${mangalStatus ? 'text-green-700' : 'text-red-700'}`}>
+                        <div className={`flex items-center justify-center gap-3 text-2xl font-bold ${mangalStatus ? 'text-emerald-700' : 'text-orange-700'}`}> {/* Adjusted text color for negative mangal dosha */}
                             {mangalStatus ? <CheckCircle /> : <XCircle />}
                             <span>Mangal Dosha Analysis</span>
                         </div>
-                        <p className={`mt-3 text-md max-w-3xl mx-auto ${mangalStatus ? 'text-green-800' : 'text-red-800'}`}>
+                        <p className={`mt-4 text-md max-w-3xl mx-auto ${mangalStatus ? 'text-emerald-800' : 'text-orange-800'}`}> {/* Adjusted text color for negative mangal dosha */}
                             {reportData.mangal_dosha_analysis.report}
                         </p>
                     </motion.section>
 
-                    <motion.section variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+                    <motion.section
+                        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+                    >
                         <SectionHeader>Ashtakoota Breakdown</SectionHeader>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {Object.entries(reportData.koota_details).map(([key, details]) => (
-                                <KootaCard key={key} name={kootaMap[key]?.name || key} details={details} icon={kootaMap[key]?.icon || <Gem />} />
+                                <KootaCard
+                                    key={key}
+                                    name={kootaMap[key].name}
+                                    points={`${details.obtained_points}/${details.max_points}`}
+                                    maxPoints={details.max_points.toString()}
+                                    description={kootaMap[key].description}
+                                    icon={kootaMap[key].icon}
+                                />
                             ))}
                         </div>
                     </motion.section>
                 </motion.div>
+
+                <div className="mt-8 space-y-6">
+                    <DailyHoroscopeCta phoneNumber='918197503574' />
+                </div>
             </div>
         </div>
     );

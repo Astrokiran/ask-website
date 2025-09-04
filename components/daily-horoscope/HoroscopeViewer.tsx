@@ -8,6 +8,8 @@ import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
 import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import {
   Select,
@@ -206,27 +208,66 @@ const InsightCard: FC<{ icon: ReactNode, title: string, value: string }> = ({ ic
   </div>
 );
 
-const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, delay: number, icon?: ReactNode }> = ({ title, narrative, reason, delay, icon }) => (
-  <motion.div 
-    className="bg-white rounded-2xl border border-orange-200 shadow-[4px_4px_14px_rgba(255,165,0,0.12),-4px_-4px_14px_rgba(255,215,0,0.08)] overflow-hidden"
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ delay, duration: 0.5, ease: "easeOut" }}
-    whileHover={{ y: -5, boxShadow: "0px 10px 25px rgba(255,165,0,0.25)" }}
-  >
-    <div className="p-6">
-      <h3 className="flex items-center gap-3 text-2xl font-bold mb-4 text-black">
-        {icon}{title}
-      </h3>
-      <p className="text-slate-700 leading-relaxed">{narrative}</p>
-    </div>
-    <Accordion type="single" collapsible className="px-6 pb-2">
-      <AccordionItem value="item-1" className="border-orange-200">
-        <AccordionTrigger className="text-slate-600 hover:text-black text-sm">
-          Astrological Reason
-        </AccordionTrigger>
-        <AccordionContent className="text-slate-600 pt-2">{reason}</AccordionContent>
-      </AccordionItem>
-    </Accordion>
+const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, delay: number, icon?: ReactNode }> = ({ title, narrative, reason, delay, icon }) => {
+  // Special handling for Overview section
+  let overviewContent: ReactNode = narrative;
+
+  if (title === "🔮 Overview") {
+    // Split the narrative into parts
+    const [intro, positivePart, negativePart] = narrative.split(/Positive Career Traits:|Negative Career Traits:/);
+
+    const positiveTraits = positivePart?.split(",").map(t => t.trim()).filter(Boolean);
+    const negativeTraits = negativePart?.split(",").map(t => t.trim()).filter(Boolean);
+
+    overviewContent = (
+      <div className="space-y-4">
+        <p className="text-slate-700 leading-relaxed">{intro.trim()}</p>
+        {positiveTraits && (
+          <div>
+            <h4 className="font-semibold text-green-600">Positive Career Traits:</h4>
+            <ul className="list-disc list-inside text-slate-700">
+              {positiveTraits.map((trait, i) => (
+                <li key={i}>{trait}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {negativeTraits && (
+          <div>
+            <h4 className="font-semibold text-red-600">Negative Career Traits:</h4>
+            <ul className="list-disc list-inside text-slate-700">
+              {negativeTraits.map((trait, i) => (
+                <li key={i}>{trait}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <motion.div 
+      className="bg-white rounded-2xl border border-orange-200 shadow-[4px_4px_14px_rgba(255,165,0,0.12),-4px_-4px_14px_rgba(255,215,0,0.08)] overflow-hidden"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, duration: 0.5, ease: "easeOut" }}
+      whileHover={{ y: -5, boxShadow: "0px 10px 25px rgba(255,165,0,0.25)" }}
+    >
+      <div className="p-6">
+        <h3 className="flex items-center gap-3 text-2xl font-bold mb-4 text-black">
+          {icon}{title}
+        </h3>
+        {overviewContent}
+      </div>
+      <Accordion type="single" collapsible className="px-6 pb-2">
+        <AccordionItem value="item-1" className="border-orange-200">
+          <AccordionTrigger className="text-slate-600 hover:text-black text-sm">
+            Astrological Reason
+          </AccordionTrigger>
+          <AccordionContent className="text-slate-600 pt-2">{reason}</AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </motion.div>
-);
+  );
+};

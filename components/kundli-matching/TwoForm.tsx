@@ -10,6 +10,46 @@ import { ServicesSection } from "@/components/services-section";
 import { FormSection } from './components/FormSection'; 
 import Image from 'next/image';
 import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
+import { Briefcase, Heart, Sparkles, Star } from 'lucide-react';
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const SectionItem = ({ icon, title, text }) => (
+  <motion.div
+    variants={sectionVariants}
+    className="p-4 bg-white/70 backdrop-blur-sm rounded-xl border border-orange-100 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-orange-200"
+  >
+    <div className="flex items-center gap-3 mb-2">
+      {icon}
+      <h3 className="text-xl font-bold text-orange-600">{title}</h3>
+    </div>
+    <p className="text-slate-700 leading-relaxed text-sm md:text-base">
+      {text}
+    </p>
+  </motion.div>
+);
+
+const kundaliSections = [
+  {
+    icon: <Briefcase className="h-6 w-6 text-orange-500" />,
+    title: "In Business",
+    text: "Just like a marriage, a business partnership thrives on trust, balance, and cooperation. Kundali matching can show whether partners share compatible energies for decision-making, financial growth, and handling challenges. It reduces the chances of conflict and helps align visions for long-term success.",
+  },
+  {
+    icon: <Heart className="h-6 w-6 text-red-500" />,
+    title: "In Relationships",
+    text: "For friendships, love, or family ties, Kundali matching highlights emotional compatibility, communication styles, and mutual understanding. It helps strengthen bonds by identifying potential areas of friction early on, so they can be addressed with awareness.",
+  },
+  {
+    icon: <Sparkles className="h-6 w-6 text-yellow-500" />,
+    title: "In Short",
+    text: "Kundali matching acts like a cosmic compatibility test—ensuring harmony, reducing conflicts, and enhancing the chances of prosperity and happiness in both business and personal life.",
+  },
+];
+
 
 interface BirthInputState {
   name: string;
@@ -194,7 +234,7 @@ export default function KundliMatchingPage() {
     }
   };
 
-  const tabs = [{ id: 'man', label: 'Boy Details' }, { id: 'woman', label: 'Girl Details' }];
+  const tabs = [{ id: 'man', label: 'Your Details' }, { id: 'woman', label: 'Partner Details' }];
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
@@ -271,29 +311,33 @@ export default function KundliMatchingPage() {
                 </div>
               </motion.div>
 
-              {/* COLUMN 2: Image and Text */}
               <div className="hidden lg:block">
                 <motion.div
                   initial={{ opacity: 0, x: 50 }} // Animate from right
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, ease: "easeOut" }}
                 >
-                  <div className="mb-6">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                      Seeking a Harmonious Union?
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-orange-600 drop-shadow-md leading-tight">
+                      Kundali Matching: Unlock Success in Relationships
                     </h2>
-                    <p className="text-gray-600 leading-relaxed">
-                      Unveil your potential for marital bliss with our detailed Kundli Matching analysis. Discover key insights into compatibility, relationship dynamics, and potential challenges.
-                    </p>
+                    <Star className="h-8 w-8 text-yellow-500 animate-pulse hidden md:block" />
                   </div>
-                  <Image
-                    src="/kundli-match2.png"
-                    alt="Couple getting married"
-                    width={500}
-                    height={350}
-                    className="rounded-lg shadow-md"
-                    style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
-                  />
+                  <p className="text-slate-800 leading-relaxed text-sm md:text-base mb-6">
+                    Kundali matching, also known as horoscope compatibility, is not just for marriage—it can also be a powerful guide in business partnerships and personal relationships. By analyzing the planetary positions in two individuals’ birth charts, Kundali matching helps reveal compatibility, strengths, and challenges between them.
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {kundaliSections.map((section, index) => (
+                      <SectionItem
+                        key={index}
+                        icon={section.icon}
+                        title={section.title}
+                        text={section.text}
+                      />
+                    ))}
+                  </div>
+                  
                 </motion.div>
               </div>
             </div>
