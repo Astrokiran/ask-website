@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ApiResponse } from "@/app/horoscopes/[zodiac]/page"; 
 import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
+import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 
 
 import {
@@ -15,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
   Accordion,
   AccordionContent,
@@ -90,6 +92,8 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
   return (
    <div> 
     <NavBar />
+    <DailyHoroscopeCta phoneNumber={"918197503574"}/>
+    
     <div className="min-h-screen bg-white text-slate-900 font-sans">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 py-8">
         

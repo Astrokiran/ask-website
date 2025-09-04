@@ -8,6 +8,8 @@ import { Testimonials } from "@/components/testimonials"
 import { Newsletter } from "@/components/newsletter"
 import { Footer } from "@/components/footer"
 import { ReportGeneration } from "@/components/report-generation"
+// import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
+
 // Correctly import the new section component
 
 export default function Home() {
@@ -16,6 +18,7 @@ export default function Home() {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <div className="min-h-screen overflow-x-hidden">
         <NavBar />
+        {/* <DailyHoroscopeCta phoneNumber={"918197503574"}/> */}
         <main>
 
           <HeroSection />

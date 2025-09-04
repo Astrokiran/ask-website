@@ -17,13 +17,13 @@ const services = [
     title: "Kundli Analysis",
     description: "Detailed birth chart analysis",
     icon: Sparkles,
-    href: "#"
+    href: "/free-kundli",
   },
-  { 
-    title: "Numerology",
-    description: "Numbers & their influence",
+  {
+    title: "Kundli Matching",
+    description: "Compatibility analysis for couples",
     icon: Calculator,
-    href: "#"
+    href: "/kundli-match"
   },
   // {
   //   title: "Tarot Reading",

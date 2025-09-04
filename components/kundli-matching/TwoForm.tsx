@@ -9,7 +9,7 @@ import { Footer } from '@/components/footer';
 import { ServicesSection } from "@/components/services-section";
 import { FormSection } from './components/FormSection'; 
 import Image from 'next/image';
-import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
+import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 
 interface BirthInputState {
   name: string;
@@ -53,7 +53,7 @@ const initialFormState: BirthInputState = {
 
 export default function KundliMatchingPage() {
   const router = useRouter();
-  const sharedBanner= <WhatsAppCtaBanner phoneNumber={"918197503574"}/>
+  const sharedBanner = <DailyHoroscopeCta phoneNumber={"918197503574"} />;
 
   
   // --- All your existing state and logic hooks remain here ---
@@ -199,7 +199,7 @@ export default function KundliMatchingPage() {
   return (
     <div className="min-h-screen flex flex-col font-sans">
              <NavBar />
-             <WhatsAppCtaBanner phoneNumber={"918197503574"}/>
+             <DailyHoroscopeCta phoneNumber={"918197503574"}/>
         <main className="flex-grow container mx-auto px-4 pt-4 pb-12 md:pt-6 md:pb-16">
                 <div className="grid lg:grid-cols-2 gap-12 items-start">
               {/* COLUMN 1: Form Container */}

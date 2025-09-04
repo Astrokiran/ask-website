@@ -10,7 +10,7 @@ import SummaryDetails from './summary-details';
 import ReportDetails from './report-details';
 import DoshaDetails from './dosha-details';
 import AshtakavargaDetails from './Ashtakavarga';
-import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
+import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 // Import your enhanced PDF export function and S3 uploader
 import generateKundliPdf from './pdf-export';
 import { uploadPdfToS3 } from './report-pdf';
@@ -247,7 +247,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     const tabs = ['Basic', 'Kundli', 'Charts', 'Yogas', 'Ashtakvarga', 'Dosha', 'Summary', 'Report'];
     const renderContent = () => {
         if (!kundliData) return <div className="text-center p-10">Please generate a Kundli.</div>;
-        const sharedBanner = <WhatsAppCtaBanner phoneNumber={"918197503574"} />;
+        const sharedBanner = <DailyHoroscopeCta phoneNumber={"918197503574"}/>
         switch (activeTab) {
             case 'Basic':
                 return <div>{sharedBanner}{kundliData.basic_details && <BasicDetailsContent kundliData={kundliData.basic_details} />}</div>;
