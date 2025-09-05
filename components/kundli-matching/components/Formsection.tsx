@@ -84,8 +84,9 @@ export const FormSection: React.FC<FormSectionProps> = ({
                     label="Full Name"
                     value={data.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
-                    // placeholder={`Enter name`}
+                    placeholder={personType === 'man' ? "Your name" : "Your partner's name"}
                     error={errors.name}
+                    autoComplete="off" 
                 />
             </motion.div>
 

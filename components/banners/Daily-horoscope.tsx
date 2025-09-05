@@ -15,7 +15,7 @@ interface DailyHoroscopeCtaProps {
 export const DailyHoroscopeCta: React.FC<DailyHoroscopeCtaProps> = ({
   phoneNumber,
 }) => {
-  const prefilledMessage = "Hello AstroKiran, I’d like to know my daily horoscope for today.";
+  const prefilledMessage = "Hello AstroKiran, Can I get more details?";
   const encodedMessage = encodeURIComponent(prefilledMessage);
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 

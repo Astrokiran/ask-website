@@ -234,7 +234,7 @@ export default function KundliMatchingPage() {
     }
   };
 
-  const tabs = [{ id: 'man', label: 'Your Details' }, { id: 'woman', label: 'Partner Details' }];
+  const tabs = [{ id: 'man', label: 'Your Details' }, { id: 'woman', label: "Partner's Details" }];
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
