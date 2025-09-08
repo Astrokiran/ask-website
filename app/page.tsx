@@ -16,6 +16,7 @@ export default function Home() {
   return (
     <div>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="google-site-verification" content="bsao8SV-Yrt9Dh06rZN6WKx86dnPMM_N4srDx2d01BE" />
       <div className="min-h-screen overflow-x-hidden">
         <NavBar />
         {/* <DailyHoroscopeCta phoneNumber={"918197503574"}/> */}

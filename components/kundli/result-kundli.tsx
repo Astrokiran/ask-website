@@ -244,7 +244,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     //     // forceLogout();
     //     // setLoadingLogout(false);
     // };
-    const tabs = ['Basic', 'Kundli', 'Charts', 'Yogas', 'Ashtakvarga', 'Dosha', 'Summary', 'Report'];
+    const tabs = ['Basic', 'Kundli', 'Charts', 'Yogas', 'Ashtakvarga', 'Summary', 'Report'];
     const renderContent = () => {
         if (!kundliData) return <div className="text-center p-10">Please generate a Kundli.</div>;
         const sharedBanner = <DailyHoroscopeCta phoneNumber={"918197503574"}/>
@@ -255,8 +255,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
             case 'Charts': return <div>{sharedBanner}{kundliData.charts && <ChartDetails kundliData={kundliData.charts} />}</div>;
             case 'Yogas': return <div>{sharedBanner}{kundliData.yogas && <YogasDetails kundliData={kundliData.yogas} />}</div>;
             case 'Ashtakvarga': return <div>{sharedBanner}{kundliData.ashtakavarga_svg && <AshtakavargaDetails compositeSvgString={kundliData.ashtakavarga_svg} />}</div>;
-            case 'Dosha':
-                return <div>{sharedBanner}{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
+            // case 'Dosha':
+            //     return <div>{sharedBanner}{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
             case 'Summary': return <div><SummaryDetails kundliData={kundliData.summary} /></div>
             case 'Report': return <div>{sharedBanner}{kundliData.report && <ReportDetails kundliData={kundliData.report} />}</div>;
             default: return <div className="text-center p-10">{activeTab} Coming Soon.</div>;
@@ -281,7 +281,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                         </div>
                         {/* <div className="mt-2"><AutoUploadStatusIndicator /></div> */}
                     </div>
-                    <div className="flex gap-3 self-start sm:self-auto">
+                    <div className="flex gap-3 self-start sm:self-auto">    
                         <button
                             onClick={handleDownloadPdf}
                             disabled={!kundliData || isProcessingPdf || loadingLogout}

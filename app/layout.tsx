@@ -6,10 +6,14 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ["latin"] })
 
+
 export const metadata: Metadata = {
   title: "AstroKiran - Discover Your Cosmic Path",
   description: "Connect with expert astrologers for personalized guidance",
-  generator: 'v0.dev'
+  generator: 'v0.dev',
+  verification: {
+    google: "bsao8SV-Yrt9Dh06rZN6WKx86dnPMM_N4srDx2d01BE",
+  },
 }
 
 export default function RootLayout({
