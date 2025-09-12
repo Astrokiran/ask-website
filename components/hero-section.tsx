@@ -35,7 +35,7 @@ export function HeroSection({
     .then((response) => {
       if (response.items) {
         const fetchedImageUrls: string[] = response.items.map((item: any) => 
-          `https:${item.fields.image.fields.file.url}?h=600&w=800`
+        `https:${item.fields.image.fields.file.url}?h=600&w=800&q=75&fm=webp`
         );
         setHeroImages(fetchedImageUrls);
       }
