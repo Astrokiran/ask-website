@@ -44,6 +44,9 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-white mb-4">Services</h3>
             <div className="space-y-2">
+              <Link href="/astrology-blogs" className="block text-sm text-gray-400 hover:text-white">
+                Blogs
+              </Link>
               <Link href="/horoscopes" className="block text-sm text-gray-400 hover:text-white">
                 Horoscope Reading
               </Link>

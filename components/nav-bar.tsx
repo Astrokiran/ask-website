@@ -33,6 +33,9 @@ export function NavBar() {
             <Link href="/horoscopes" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
               Daily Horoscope
             </Link>
+            <Link href="/astrology-blogs" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
+              Blogs
+            </Link>
             <Link href="/#astrologers" className="text-sm text-gray-600 px-3 py-1 rounded-md hover:bg-gray-100 transition-all duration-200">
               Our Astrologers
             </Link>

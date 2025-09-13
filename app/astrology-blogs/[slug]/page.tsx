@@ -1,6 +1,6 @@
 // File: app/blog/[slug]/page.tsx
 
-import { BlogPostPage } from '@/components/BlogPostPage';
+import  BlogPostPage  from '@/components/BlogPostPage';
 import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
 // This is a Server Component that gets params from the URL
