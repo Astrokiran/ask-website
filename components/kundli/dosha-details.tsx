@@ -73,7 +73,7 @@ const DoshaAnalysisCard: React.FC<{
   }[];
   details?: { label: string; value: React.ReactNode }[];
 }> = ({ status, report, rules, impact, details }) => {
-  let statusColor = "text-gray-600 bg-gray-100 ring-gray-300";
+  let statusColor = "text-muted-foreground bg-muted ring-muted-foreground/30";
   let StatusIcon = ShieldQuestion;
 
   if (status.toLowerCase().includes("not present")) {
@@ -90,10 +90,10 @@ const DoshaAnalysisCard: React.FC<{
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition-all">
+    <div className="bg-card p-6 rounded-lg shadow-md border border transition-all">
       {/* Verdict Section */}
       <div className="mb-4">
-        <p className="text-sm font-medium text-gray-500 mb-2">Verdict</p>
+        <p className="text-sm font-medium text-muted-foreground mb-2">Verdict</p>
         <div className={`flex items-center gap-3 p-3 rounded-lg ring-1 ${statusColor}`}>
           <StatusIcon className="w-6 h-6" />
           <p className="text-lg font-bold">{status}</p>
@@ -101,17 +101,17 @@ const DoshaAnalysisCard: React.FC<{
       </div>
 
       {/* Report Section */}
-      <p className="text-sm text-gray-700 leading-relaxed mb-4">{report}</p>
+      <p className="text-sm text-foreground leading-relaxed mb-4">{report}</p>
 
       {/* Impact Assessment Section */}
       {impact && impact.length > 0 && (
         <div className="mt-4 pt-4 border-t border-gray-100">
-          <p className="text-md font-semibold text-gray-700 mb-3">Impact Assessment</p>
+          <p className="text-md font-semibold text-orange-600 mb-3">Impact Assessment</p>
           <div className="space-y-4">
             {impact.map((item, index) => (
               <div key={index}>
                 <div className="flex justify-between items-center mb-1">
-                  <p className="text-sm font-medium text-gray-600 flex items-center">
+                  <p className="text-sm font-medium text-foreground flex items-center">
                     <item.icon className={`w-4 h-4 mr-2 text-${item.color}-500`} />
                     {item.label}
                   </p>
@@ -127,8 +127,8 @@ const DoshaAnalysisCard: React.FC<{
       {/* Rules Section */}
       {rules && rules.length > 0 && (
         <div className="mt-4 pt-4 border-t border-gray-100">
-          <p className="text-md font-semibold text-gray-700 mb-2">Key Astrological Factors</p>
-          <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+          <p className="text-md font-semibold text-orange-600 mb-2">Key Astrological Factors</p>
+          <ul className="list-disc list-inside text-sm text-foreground space-y-1">
             {rules.map((rule, index) => <li key={index}>{rule}</li>)}
           </ul>
         </div>
@@ -137,12 +137,12 @@ const DoshaAnalysisCard: React.FC<{
       {/* Additional Details Section */}
       {details && details.length > 0 && (
         <div className="mt-4 pt-4 border-t border-gray-100">
-          <p className="text-md font-semibold text-gray-700 mb-2">Additional Details</p>
-          <ul className="text-sm text-gray-600 space-y-2">
+          <p className="text-md font-semibold text-orange-600 mb-2">Additional Details</p>
+          <ul className="text-sm text-foreground space-y-2">
             {details.map((detail, index) => (
               <li key={index} className="flex justify-between items-center">
                 <span className="font-medium">{detail.label}:</span>
-                <span className="text-gray-800 font-semibold">{detail.value}</span>
+                <span className="text-foreground font-semibold">{detail.value}</span>
               </li>
             ))}
           </ul>
@@ -159,8 +159,8 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ kundlidata }) => {
 
   if (!kundlidata || !kundlidata.mangal_dosha || !kundlidata.kalasarpa_dosha) {
     return (
-      <div className="bg-white min-h-[200px] p-8 rounded-lg shadow-md flex items-center justify-center">
-        <p className="text-lg text-gray-600">No Dosha data available to display.</p>
+      <div className="bg-card min-h-[200px] p-8 rounded-lg shadow-md flex items-center justify-center">
+        <p className="text-lg text-muted-foreground">No Dosha data available to display.</p>
       </div>
     );
   }
@@ -187,11 +187,11 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ kundlidata }) => {
   ] : [];
 
   return (
-    <div className="container mx-auto p-4 md:p-6 lg:p-8 bg-gray-50 min-h-screen font-sans">
+    <div className="container mx-auto p-4 md:p-6 lg:p-8 bg-background min-h-screen font-sans">
         {/* Header */}
         <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Dosha Analysis</h2>
-            <p className="mt-2 text-md text-gray-600">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Dosha Analysis</h2>
+            <p className="mt-2 text-md text-muted-foreground">
                 An evaluation of specific planetary alignments, known as Doshas, which can indicate unique challenges and strengths in your life path.
             </p>
         </div>
@@ -212,13 +212,13 @@ const DoshaDetails: React.FC<DoshaDetailsProps> = ({ kundlidata }) => {
         <div className="mb-6 flex border-b border-gray-300">
             <button
                 onClick={() => setActiveTab('mangal')}
-                className={`py-2 px-4 text-lg font-semibold ${activeTab === 'mangal' ? 'border-b-2 border-indigo-500 text-indigo-600' : 'text-gray-500'}`}
+                className={`py-2 px-4 text-lg font-semibold ${activeTab === 'mangal' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-muted-foreground'}`}
             >
                 Mangal Dosha 
             </button>
             <button
                 onClick={() => setActiveTab('kalasarpa')}
-                className={`py-2 px-4 text-lg font-semibold ${activeTab === 'kalasarpa' ? 'border-b-2 border-indigo-500 text-indigo-600' : 'text-gray-500'}`}
+                className={`py-2 px-4 text-lg font-semibold ${activeTab === 'kalasarpa' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-muted-foreground'}`}
             >
                 Kalasarpa Dosha
             </button>

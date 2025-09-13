@@ -495,11 +495,11 @@ export default function ReportDisplayPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-background">
         <NavBar />
         <main className="flex-grow container mx-auto px-4 py-8 text-center">
           <p className="text-xl text-red-600 mb-4">Error: {error}</p>
-          <Link href="/free-kundli" className="text-indigo-600 hover:text-indigo-800">
+          <Link href="/free-kundli" className="text-primary hover:text-primary/80">
             Try Generating Kundli Again
           </Link>
         </main>
@@ -509,16 +509,16 @@ export default function ReportDisplayPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-background">
       <NavBar />
       <main className="flex-grow container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         {reportData ? (
           <KundliReportPage kundliData={reportData} />
         ) : (
           <div className="text-center py-10">
-            <p className="text-xl text-gray-700">No Kundli data found to display.</p>
+            <p className="text-xl text-foreground">No Kundli data found to display.</p>
             <p className="mt-4">
-              <Link href="/free-kundli" className="text-indigo-600 hover:text-indigo-800">
+              <Link href="/free-kundli" className="text-primary hover:text-primary/80">
                 Generate a new Kundli
               </Link>
             </p>

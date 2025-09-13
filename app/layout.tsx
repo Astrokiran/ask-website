@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import type React from "react" // Import React
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,13 +23,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-      <GoogleAnalytics gaId="G-97R5TTNY4G" />
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+        <GoogleAnalytics gaId="G-97R5TTNY4G" />
+      </body>
     </html>
   )
 }
-
-
-
-import './globals.css'

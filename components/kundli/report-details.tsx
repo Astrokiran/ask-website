@@ -31,8 +31,8 @@ interface ZodiacImageMap {
 // --- UI COMPONENT: SectionCard ---
 // Redesigned for a fully responsive, side-by-side layout
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode; imageUrl?: string | null; }> = ({ title, icon, children, imageUrl }) => (
-  <div className="bg-white rounded-xl shadow-md border border-orange-100 p-6 md:p-8 transition-all duration-300 hover:shadow-lg overflow-hidden">
-    <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+  <div className="bg-card rounded-xl shadow-md border border-orange-100 p-6 md:p-8 transition-all duration-300 hover:shadow-lg overflow-hidden">
+    <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-6 flex items-center">
       <span className="text-orange-500 mr-3">{icon}</span>
       {title}
     </h3>
@@ -50,7 +50,7 @@ const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
         )}
 
         {/* Right Side: Text Content */}
-        <div className="prose prose-md max-w-none text-gray-700 leading-relaxed flex-1">
+        <div className="prose prose-md max-w-none text-foreground leading-relaxed flex-1">
             {children}
         </div>
     </div>
@@ -89,8 +89,8 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
     // Loading state for the entire report
     if (!kundliData || !kundliData.report || isCmsLoading) {
         return (
-            <div className="bg-gradient-to-b from-orange-50 to-gray-50 min-h-screen p-8 flex items-center justify-center">
-                <p className="text-lg text-gray-600 flex items-center gap-2">
+            <div className="bg-background min-h-screen p-8 flex items-center justify-center">
+                <p className="text-lg text-muted-foreground flex items-center gap-2">
                     <Bot size={20} className="text-orange-500 animate-pulse" />
                     Preparing your astrological report...
                 </p>
@@ -100,8 +100,8 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
 
     // Custom Markdown renderers
     const renderers = {
-        h3: ({ node, ...props }: any) => <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3" {...props} />,
-        p: ({ node, ...props }: any) => <p className="mb-4 text-gray-600" {...props} />,
+        h3: ({ node, ...props }: any) => <h3 className="text-lg font-semibold text-foreground mt-6 mb-3" {...props} />,
+        p: ({ node, ...props }: any) => <p className="mb-4 text-foreground" {...props} />,
         ul: ({ node, ...props }: any) => <ul className="list-disc list-inside space-y-3 mb-4" {...props} />,
         li: ({ node, ...props }: any) => (
             <li className="flex items-start">
@@ -124,7 +124,7 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
     };
 
     return (
-        <div className="bg-gradient-to-b from-orange-50 to-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
+        <div className="bg-background min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-5xl mx-auto space-y-6">
                 <div className="grid gap-6">
                     {sections.map((section, index) => {
@@ -153,7 +153,7 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
                     })}
                 </div>
 
-                <footer className="text-center mt-10 text-sm text-gray-500 bg-white/50 py-4 rounded-lg">
+                <footer className="text-center mt-10 text-sm text-muted-foreground bg-card/50 py-4 rounded-lg">
                     <p>
                         This report offers a foundational analysis of your birth chart. For personalized insights, consult a professional astrologer.
                     </p>

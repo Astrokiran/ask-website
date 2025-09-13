@@ -435,23 +435,23 @@ export default function KundliPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 font-sans"> 
+    <div className="min-h-screen flex flex-col bg-background font-sans"> 
       <NavBar />
 
       
       <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
-        <div className="w-full max-w-6xl bg-white rounded-xl shadow-2xl overflow-hidden md:flex">
-          <div className="p-6 sm:p-8 md:w-3/5 flex flex-col justify-center border-r border-gray-200">
+        <div className="w-full max-w-6xl bg-card rounded-xl shadow-2xl overflow-hidden md:flex border">
+          <div className="p-6 sm:p-8 md:w-3/5 flex flex-col justify-center border-r border-border">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500 mb-6 text-center">
               Free Kundli Generation
             </h1>
-            <p className="text-gray-600 text-center mb-8">
+            <p className="text-muted-foreground text-center mb-8">
               Enter your birth details to unlock insights into your destiny.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
                   Full Name
                 </label>
                 <input
@@ -460,8 +460,8 @@ export default function KundliPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out ${
-                    errors['name'] ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out bg-background text-foreground ${
+                    errors['name'] ? 'border-red-500' : 'border-input'
                   }`}
                   placeholder="Enter your name"
                 />
@@ -469,7 +469,7 @@ export default function KundliPage() {
               </div>
 
               <div>
-                <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="gender" className="block text-sm font-medium text-foreground mb-1">
                   Gender
                 </label>
                 <select
@@ -477,8 +477,8 @@ export default function KundliPage() {
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out ${
-                    errors['gender'] ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out bg-background text-foreground ${
+                    errors['gender'] ? 'border-red-500' : 'border-input'
                   }`}
                 >
                   <option value="">Select Gender</option>
@@ -489,7 +489,7 @@ export default function KundliPage() {
               </div>
 
               <div>
-                <label htmlFor="dob" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="dob" className="block text-sm font-medium text-foreground mb-1">
                   Date of Birth
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -498,8 +498,8 @@ export default function KundliPage() {
                     name="dob_day"
                     value={selectedDay}
                     onChange={(e) => handleDatePartChange('day', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      errors.dob ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-background text-foreground ${
+                      errors.dob ? 'border-red-500' : 'border-input'
                     }`}
                   >
                     <option value="">Day</option>
@@ -512,8 +512,8 @@ export default function KundliPage() {
                     name="dob_month"
                     value={selectedMonth}
                     onChange={(e) => handleDatePartChange('month', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      errors.dob ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-background text-foreground ${
+                      errors.dob ? 'border-red-500' : 'border-input'
                     }`}
                   >
                     <option value="">Month</option>
@@ -526,8 +526,8 @@ export default function KundliPage() {
                     name="dob_year"
                     value={selectedYear}
                     onChange={(e) => handleDatePartChange('year', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      errors.dob ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-background text-foreground ${
+                      errors.dob ? 'border-red-500' : 'border-input'
                     }`}
                   >
                     <option value="">Year</option>
@@ -540,7 +540,7 @@ export default function KundliPage() {
               </div>
 
               <div>
-                         <label className="block text-sm font-medium text-gray-700 mb-1">
+                         <label className="block text-sm font-medium text-foreground mb-1">
                            Time of Birth
                          </label>
                          {/* Changed to grid-cols-4 to fit AM/PM */}
@@ -550,8 +550,8 @@ export default function KundliPage() {
                              name="tob_hour"
                              value={selectedHour}
                              onChange={(e) => handleTimePartChange('hour', e.target.value)}
-                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300'
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-background text-foreground ${
+                               errors.tob ? 'border-red-500' : 'border-input'
                              }`}
                            >
                              <option value="">Hour</option>
@@ -564,8 +564,8 @@ export default function KundliPage() {
                              name="tob_minute"
                              value={selectedMinute}
                              onChange={(e) => handleTimePartChange('minute', e.target.value)}
-                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300'
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-background text-foreground ${
+                               errors.tob ? 'border-red-500' : 'border-input'
                              }`}
                            >
                              <option value="">Minute</option>
@@ -578,8 +578,8 @@ export default function KundliPage() {
                              name="tob_second"
                              value={selectedSecond}
                              onChange={(e) => handleTimePartChange('second', e.target.value)}
-                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300' 
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-background text-foreground ${
+                               errors.tob ? 'border-red-500' : 'border-input' 
                              }`}
                            >
                              <option value="">Second (Optional)</option>
@@ -592,8 +592,8 @@ export default function KundliPage() {
                              name="tob_ampm"
                              value={selectedAmPm}
                              onChange={(e) => handleTimePartChange('ampm', e.target.value)}
-                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300'
+                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-background text-foreground ${
+                               errors.tob ? 'border-red-500' : 'border-input'
                              }`}
                            >
                              <option value="AM">AM</option>
@@ -604,7 +604,7 @@ export default function KundliPage() {
                        </div>
 
               <div className="relative" ref={pobSuggestionsRef}>
-                <label htmlFor="pob" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="pob" className="block text-sm font-medium text-foreground mb-1">
                   Place of Birth
                 </label>
                 {isLoaded && !loadError ? (
@@ -622,13 +622,13 @@ export default function KundliPage() {
                       defaultValue={formData.pob}
                       onChange={handleChange}
                       className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out ${
-                        errors['pob'] ? 'border-red-500' : 'border-gray-300'
+                        errors['pob'] ? 'border-red-500' : 'border-input'
                       }`}
                       placeholder="Type and select your city"
                     />
                   </Autocomplete>
                 ) : (
-                  <input type="text" id="pob" name="pob" value={formData.pob} onChange={handleChange} placeholder="Enter place of birth (Maps loading...)" className={`w-full px-4 py-2 border rounded-lg ${errors['pob'] ? 'border-red-500' : 'border-gray-300'}`} />
+                  <input type="text" id="pob" name="pob" value={formData.pob} onChange={handleChange} placeholder="Enter place of birth (Maps loading...)" className={`w-full px-4 py-2 border rounded-lg ${errors['pob'] ? 'border-red-500' : 'border-input'}`} />
                 )}
                 {errors['pob'] && <p className="text-red-500 text-xs mt-1">{errors['pob']}</p>}
               </div>
@@ -670,8 +670,8 @@ export default function KundliPage() {
             </form>
           </div>
 
-          <div className="p-6 sm:p-8 md:w-2/5 flex flex-col justify-center bg-gradient-to-br from-orange-50 to-yellow-100 rounded-r-xl">
-            <div className="text-gray-700">
+          <div className="p-6 sm:p-8 md:w-2/5 flex flex-col justify-center bg-muted/20 rounded-r-xl">
+            <div className="text-foreground">
                 <h2 className="text-2xl font-bold mb-4 text-center">What is a Kundli?</h2>
                 <p className="mb-4 text-sm text-justify">
                     A Kundli, also known as a Janam Kundali or birth chart, is a fundamental tool in Vedic Astrology. It is an astrological chart prepared based on the exact date, time, and place of an individual's birth. This chart serves as a cosmic map, representing the specific positions of the sun, moon, planets, and other celestial bodies at the moment of birth.
@@ -705,7 +705,7 @@ export default function KundliPage() {
             <p className="text-gray-600 mb-5 text-sm">Enter your Whatsapp number. We'll send you an OTP to verify.</p>
             <div className="flex gap-2">
               <div className="w-1/3">
-                <label htmlFor="countryCode" className="block text-sm font-medium text-gray-700 mb-1">Code</label>
+                <label htmlFor="countryCode" className="block text-sm font-medium text-foreground mb-1">Code</label>
                 <select
                   id="countryCode"
                   value={selectedCountryCode}
@@ -720,7 +720,7 @@ export default function KundliPage() {
                 </select>
               </div>
               <div className="w-2/3">
-              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-foreground mb-1">Mobile Number</label>
               <input
                 id="phoneNumber"
                 type="tel"
@@ -759,7 +759,7 @@ export default function KundliPage() {
              <button onClick={() => { setShowOtpModal(false); setShowLoginModal(true); setLoginError(''); }} className="text-orange-600 hover:underline text-xs mb-4 block">Change Number?</button>
 
             <div>
-              <label htmlFor="otpInput" className="block text-sm font-medium text-gray-700 mb-1">OTP</label>
+              <label htmlFor="otpInput" className="block text-sm font-medium text-foreground mb-1">OTP</label>
               <input
                 id="otpInput"
                 type="text"

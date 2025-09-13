@@ -269,7 +269,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     //     return null;
     // };
     return (
-        <div className="bg-gray-100 min-h-screen p-4 sm:p-6 lg:p-8">
+        <div className="bg-background min-h-screen p-4 sm:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
                     <div>
@@ -292,7 +292,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                         </button>
                     </div>
                 </div>
-                <div className="bg-white rounded-lg shadow-sm">
+                <div className="bg-card rounded-lg shadow-sm border">
                     <div className="border-b border-gray-200">
                         <nav className="-mb-px flex space-x-1 sm:space-x-4 overflow-x-auto p-2">
                             {tabs.map((tab) => (

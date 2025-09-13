@@ -159,8 +159,8 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         
         {/* Card 1: Lagna Chart */}
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+        <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
+          <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-4 pb-2 border-b border-orange-200 text-center">
             Lagna / Ascendant / Basic Birth Chart
           </h3>
           <div className="w-full flex justify-center">
@@ -170,14 +170,14 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                 dangerouslySetInnerHTML={{ __html: rasiChartSvgString }}
               />
             ) : (
-              <div className="text-center text-gray-500 p-8">Rasi Chart not available.</div>
+              <div className="text-center text-muted-foreground p-8">Rasi Chart not available.</div>
             )}
           </div>
         </div>
 
         {/* Card 2: Navamsa Chart */}
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+        <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
+          <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-4 pb-2 border-b border-orange-200 text-center">
             Navamsa
           </h3>
           <div className="w-full flex justify-center">
@@ -187,18 +187,18 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                 dangerouslySetInnerHTML={{ __html: navamsaChartSvgString }}
               />
             ) : (
-              <div className="text-center text-gray-500 p-8">Navamsa Chart not available.</div>
+              <div className="text-center text-muted-foreground p-8">Navamsa Chart not available.</div>
             )}
           </div>
         </div>
       </div>
 
       {/* ================== PLANETS TABLE ================== */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-1">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Planets</h3>
+      <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
+        <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-5 pb-3 border-b border-orange-200">Planets</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left border-collapse">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+            <thead className="text-xs text-foreground uppercase bg-muted/50">
               <tr>
                 <th className="px-4 py-3">Planet</th>
                 <th className="px-4 py-3">Sign</th>
@@ -217,25 +217,25 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
               {planetaryPositions.map((p, index) => (
                 <tr
                   key={index}
-                  className="bg-white border-b hover:bg-gray-50 transition-colors"
+                  className="bg-card border-b hover:bg-muted/30 transition-colors"
                 >
-                  <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                  <td className="px-4 py-3 font-semibold text-orange-600 whitespace-nowrap">
                     {p.name}
                   </td>
-                  <td className="px-4 py-3">{p.sign}</td>
-                  <td className="px-4 py-3">{p.signLord}</td>
-                  <td className="px-4 py-3">{p.nakshatra}</td>
-                  <td className="px-4 py-3">{p.nakshatraLord}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">
+                  <td className="px-4 py-3 text-foreground font-medium">{p.sign}</td>
+                  <td className="px-4 py-3 text-foreground">{p.signLord}</td>
+                  <td className="px-4 py-3 text-foreground">{p.nakshatra}</td>
+                  <td className="px-4 py-3 text-foreground">{p.nakshatraLord}</td>
+                  <td className="px-4 py-3 text-foreground whitespace-nowrap">
                     {p.fullDegree}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-foreground">
                     {p.isRetro === "true" ? "Retro" : "Direct"}
                   </td>
-                  <td className="px-4 py-3">{p.is_planet_set ? "Yes" : "No"}</td>
-                  <td className="px-4 py-3">{p.planet_awastha}</td>
-                  <td className="px-4 py-3">{p.house?.toString()}</td>
-                  <td className="px-4 py-3">{p.status}</td>
+                  <td className="px-4 py-3 text-foreground">{p.is_planet_set ? "Yes" : "No"}</td>
+                  <td className="px-4 py-3 text-foreground">{p.planet_awastha}</td>
+                  <td className="px-4 py-3 text-foreground">{p.house?.toString()}</td>
+                  <td className="px-4 py-3 text-foreground">{p.status}</td>
                 </tr>
               ))}
             </tbody>
@@ -245,34 +245,34 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
 
       {/* ================== CURRENT DASHA DETAILS ================== */}
       {curMD && (
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
+          <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-5 pb-3 border-b border-orange-200">
             Current Dasha Details
           </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div className="bg-gray-50 p-4 rounded-md shadow-sm">
-              <h4 className="text-lg font-medium text-gray-700 mb-2">
+            <div className="bg-muted/30 p-4 rounded-lg shadow-sm hover:bg-accent transition-colors duration-200">
+              <h4 className="text-lg font-medium text-foreground mb-2">
                 Mahadasha
               </h4>
-              <p><strong>Planet:</strong> {curMD.planet}</p>
-              <p><strong>Start Date:</strong> {formatDate(curMD.start)}</p>
-              <p><strong>End Date:</strong> {formatDate(curMD.end)}</p>
+              <p className="text-foreground"><span className="font-semibold text-orange-600">Planet:</span> {curMD.planet}</p>
+              <p className="text-foreground"><span className="font-semibold text-orange-600">Start Date:</span> {formatDate(curMD.start)}</p>
+              <p className="text-foreground"><span className="font-semibold text-orange-600">End Date:</span> {formatDate(curMD.end)}</p>
               {curMD.sub_periods?.length ? (
-                <p>
-                  <strong>Total Years:</strong> {curMD.sub_periods[0].duration_years}
+                <p className="text-foreground">
+                  <span className="font-semibold text-orange-600">Total Years:</span> {curMD.sub_periods[0].duration_years}
                 </p>
               ) : null}
             </div>
 
             {curAD && (
-              <div className="bg-gray-50 p-4 rounded-md shadow-sm">
-                <h4 className="text-lg font-medium text-gray-700 mb-2">
+              <div className="bg-muted/30 p-4 rounded-lg shadow-sm hover:bg-accent transition-colors duration-200">
+                <h4 className="text-lg font-medium text-foreground mb-2">
                   Antardasha
                 </h4>
-                <p><strong>Planet:</strong> {curAD.planet}</p>
-                <p><strong>Start Date:</strong> {formatDate(curAD.start_date)}</p>
-                <p><strong>End Date:</strong> {formatDate(curAD.end_date)}</p>
-                <p><strong>Duration (Years):</strong> {curAD.duration_years}</p>
+                <p className="text-foreground"><span className="font-semibold text-orange-600">Planet:</span> {curAD.planet}</p>
+                <p className="text-foreground"><span className="font-semibold text-orange-600">Start Date:</span> {formatDate(curAD.start_date)}</p>
+                <p className="text-foreground"><span className="font-semibold text-orange-600">End Date:</span> {formatDate(curAD.end_date)}</p>
+                <p className="text-foreground"><span className="font-semibold text-orange-600">Duration (Years):</span> {curAD.duration_years}</p>
               </div>
             )}
           </div>
@@ -280,8 +280,8 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
       )}
 
       {/* ================== VIMSHOTTARI DASHA ================== */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
+        <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-5 pb-3 border-b border-orange-200">
           Vimshottari Dasha
         </h3>
 
@@ -290,8 +290,8 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           <button
             className={`px-1 pb-1 ${
               activeTab === "mahadasa"
-                ? "text-black border-b-2 border-black"
-                : "text-gray-500 hover:text-gray-700"
+                ? "text-orange-600 border-b-2 border-orange-500"
+                : "text-muted-foreground hover:text-foreground"
             }`}
             onClick={() => {
               setActiveTab("mahadasa");
@@ -300,12 +300,12 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           >
             1&nbsp;Mahadasha
           </button>
-          <span className="text-gray-300">—</span>
+          <span className="text-muted-foreground">—</span>
           <button
             className={`px-1 pb-1 ${
               activeTab === "antardasha"
-                ? "text-black border-b-2 border-black"
-                : "text-gray-500 hover:text-gray-700"
+                ? "text-orange-600 border-b-2 border-orange-500"
+                : "text-muted-foreground hover:text-foreground"
             }`}
             onClick={() => setActiveTab("antardasha")}
           >
@@ -329,8 +329,8 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
 
         {activeTab === "mahadasa" && (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left border border-gray-200 rounded-md">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <table className="w-full text-sm text-left border border rounded-md">
+              <thead className="text-xs text-foreground uppercase bg-muted/30">
                 <tr>
                   <th className="px-4 py-3">Planet</th>
                   <th className="px-4 py-3">Start Date</th>
@@ -341,18 +341,18 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                 {mahaRows.map((d, idx) => (
                   <tr
                     key={idx}
-                    className="bg-white border-b hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="bg-card border-b hover:bg-muted/30 transition-colors cursor-pointer"
                     onClick={() => handleMahaArrow(idx)}
                   >
-                    <td className="px-4 py-3 font-medium text-gray-900">
+                    <td className="px-4 py-3 font-semibold text-orange-600">
                       {d.planet}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 text-foreground">
                       {idx === 0 ? "Birth" : formatDate(d.start)}
                     </td>
-                    <td className="px-4 py-3 flex justify-between items-center">
+                    <td className="px-4 py-3 flex justify-between items-center text-foreground">
                       {formatDate(d.end)}
-                      <ChevronRight className="h-4 w-4 text-gray-400 ml-2" />
+                      <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
                     </td>
                   </tr>
                 ))}
@@ -364,17 +364,17 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
         {activeTab === "antardasha" && (
           <>
             {selectedMahaIndex != null && (
-              <div className="text-sm text-gray-600 mb-2">
+              <div className="text-sm text-muted-foreground mb-2">
                 Showing Antardasha under{" "}
-                <span className="font-semibold">
+                <span className="font-semibold text-orange-600">
                   {mahaRows[selectedMahaIndex]?.planet}
                 </span>{" "}
                 Mahadasha.
               </div>
             )}
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left border border-gray-200 rounded-md">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+              <table className="w-full text-sm text-left border border rounded-md">
+                <thead className="text-xs text-foreground uppercase bg-muted/30">
                   <tr>
                     <th className="px-4 py-3">Planet</th>
                     <th className="px-4 py-3">Start Date</th>
@@ -385,19 +385,19 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                   {antarRows.map((row, i) => (
                     <tr
                       key={i}
-                      className="bg-white border-b hover:bg-gray-50 transition-colors"
+                      className="bg-card border-b hover:bg-muted/30 transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                      <td className="px-4 py-3 font-semibold text-orange-600 whitespace-nowrap">
                         {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.planet)}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 text-foreground">
                         {row.mahaIdx === 0 && i === 0 && selectedMahaIndex != null
                           ? "Birth"
                           : formatDate(row.start_date)}
                       </td>
-                      <td className="px-4 py-3 flex justify-between items-center">
+                      <td className="px-4 py-3 flex justify-between items-center text-foreground">
                         {formatDate(row.end_date)}
-                        <ChevronRight className="h-4 w-4 text-gray-400 ml-2" />
+                        <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
                       </td>
                     </tr>
                   ))}
@@ -405,7 +405,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                     <tr>
                       <td
                         colSpan={3}
-                        className="px-4 py-6 text-center text-gray-500 italic"
+                        className="px-4 py-6 text-center text-muted-foreground italic"
                       >
                         No Antardasha data.
                       </td>

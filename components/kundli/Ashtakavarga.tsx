@@ -53,13 +53,13 @@ interface InfoCardProps {
  * A card component to display a piece of information.
  */
 const InfoCard: React.FC<InfoCardProps> = ({ emoji, title, content, listItems }) => (
-  <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-3 h-full">
-    <h3 className="text-xl font-bold text-gray-800">
+  <div className="bg-card border border rounded-lg shadow-sm p-6 space-y-3 h-full">
+    <h3 className="text-xl font-bold text-foreground">
       <span className="mr-2">{emoji}</span> {title}
     </h3>
-    <p className="text-gray-600">{content}</p>
+    <p className="text-foreground">{content}</p>
     {listItems && (
-      <ul className="list-disc list-inside text-gray-600 space-y-1 pl-1">
+      <ul className="list-disc list-inside text-foreground space-y-1 pl-1">
         {listItems.map((item, index) => (
           <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
         ))}
@@ -83,24 +83,24 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
   }
 
   return (
-    <div className="p-4 sm:p-6 bg-gray-50/50">
+    <div className="p-4 sm:p-6 bg-background/50">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
           Ashtakavarga Analysis
         </h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4"> 
+         <div className="bg-card border border rounded-lg shadow-sm p-4"> 
             {isLoading ? (
-              <div className="w-full max-w-4xl h-[900px] bg-gray-200 rounded-md animate-pulse" /> 
+              <div className="w-full max-w-4xl h-[900px] bg-muted rounded-md animate-pulse" /> 
             ) : compositeSvgString ? (
               <div
                 className="w-full max-w-4xl"
                 dangerouslySetInnerHTML={{ __html: compositeSvgString }}
               />
             ) : (
-              <div className="text-gray-500 text-center py-20">
+              <div className="text-muted-foreground text-center py-20">
                 Chart data is not available.
               </div>
             )}

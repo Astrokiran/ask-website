@@ -39,23 +39,23 @@ interface BasicDetailsProps {
 const DetailCard = ({ title, details }) => {
   if (!Array.isArray(details) || details.length === 0) {
     return (
-      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg border border-gray-200 p-6 transform transition-all hover:scale-[1.01] duration-300">
+      <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
         <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-4 pb-2 border-b border-orange-200">{title}</h3>
-        <p className="text-gray-500">No details available.</p>
+        <p className="text-muted-foreground">No details available.</p>
       </div>
     );
   }
   return (
-    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg border border-gray-200 p-6 transform transition-all hover:scale-[1.01] duration-300">
+    <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
       <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-5 pb-3 border-b border-orange-200">{title}</h3>
       <div className="sm:space-y-0.5">
         {details.map((detail, index) => (
           <div
             key={index}
-            className="grid grid-cols-2 gap-4 items-center py-2.5 px-3 rounded-lg transition-colors duration-200 hover:bg-orange-50 group"
+            className="grid grid-cols-2 gap-4 items-center py-2.5 px-3 rounded-lg transition-colors duration-200 hover:bg-accent group"
           >
-            <dt className="text-sm font-medium text-gray-500 group-hover:text-orange-600 break-words">{detail.label}</dt>
-            <dd className="text-sm text-gray-800 font-semibold group-hover:text-orange-800 text-right break-words">{detail.value}</dd>
+            <dt className="text-sm font-medium text-muted-foreground group-hover:text-orange-600 break-words">{detail.label}</dt>
+            <dd className="text-sm text-foreground font-semibold group-hover:text-orange-800 text-right break-words">{detail.value}</dd>
           </div>
         ))}
       </div>
@@ -178,7 +178,7 @@ const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <DetailCard title="Basic Details" details={displayBasicDetails} />
         <DetailCard title="Panchang Details" details={displayPanchangDetails} />
-        {/* <div className="bg-white rounded-xl shadow-lg border border-gray-200 transform transition-all hover:scale-[1.01] duration-300 overflow-hidden">
+        {/* <div className="bg-white rounded-xl shadow-lg border transform transition-all hover:scale-[1.01] duration-300 overflow-hidden">
           {/* <img src="/.png" alt="Lord Ganesha" className="w-full h-full object-cover" /> */}
         {/* </div>  */}
       </div>

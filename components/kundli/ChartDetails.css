@@ -10,10 +10,10 @@
 
 .main-title, .section-title {
   text-align: center;
-  color: #333;
+  color: hsl(var(--foreground));
   margin-bottom: 2rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 .main-title {
@@ -27,11 +27,12 @@
 }
 
 .chart-card {
-  background-color: white;
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eee;
+  border: 1px solid hsl(var(--border));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,6 +43,7 @@
   max-width: 100%;
   height: auto;
 }
+
 
 /* --- RESPONSIVE GRID LOGIC --- */
 

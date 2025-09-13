@@ -123,7 +123,7 @@ export function FeaturedAstrologers() {
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {/* Main Featured Astrologer */}
-          <div className="flex-1 bg-white rounded-xl p-4 md:p-8 relative">
+          <div className="flex-1 bg-card rounded-xl p-4 md:p-8 relative border">
             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
               {/* Left Content */}
               <motion.div
@@ -200,7 +200,7 @@ export function FeaturedAstrologers() {
                 <button
                   key={i} // Using index as key is okay here as list order is stable
                   onClick={() => setCurrentIndex(i)}
-                  className={`w-full text-left flex items-center gap-4 bg-white p-3 md:p-4 rounded-lg transition-all hover:shadow-md ${
+                  className={`w-full text-left flex items-center gap-4 bg-card p-3 md:p-4 rounded-lg transition-all hover:shadow-md border ${
                     currentIndex === i ? "ring-2 ring-yellow-400" : ""
                   }`}
                 >

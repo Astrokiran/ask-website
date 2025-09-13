@@ -55,8 +55,8 @@ const ChartDetails: React.FC<ChartDetailsProps> = ({ kundliData }) => {
           <h3 className="section-title">Divisional (Varga) Charts</h3>
           <div className="varga-grid">
             {otherVargaCharts.map(([name, svgString]) => (
-              <div 
-                key={name} 
+              <div
+                key={name}
                 className="chart-card"
                 dangerouslySetInnerHTML={{ __html: svgString }}
               />

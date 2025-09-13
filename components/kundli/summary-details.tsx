@@ -90,12 +90,12 @@ const HighlightCard: React.FC<{ title: string; icon: React.ReactNode; children: 
 );
 
 const FeatureCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
-    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-300">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+    <div className="bg-card rounded-xl shadow-md border border p-6 hover:shadow-lg transition-shadow duration-300">
+        <h3 className="text-xl font-semibold text-orange-600 mb-4 flex items-center">
             <span className="mr-3 text-orange-500">{icon}</span>
             {title}
         </h3>
-        <div className="text-gray-600 space-y-2">
+        <div className="text-foreground space-y-2">
             {children}
         </div>
     </div>
@@ -107,9 +107,9 @@ const StyledListItem: React.FC<{ item: string; index: number }> = ({ item, index
     const description = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
 
     return (
-        <li key={index} className="flex items-start p-3 bg-gray-50 hover:bg-orange-50 rounded-lg transition-colors duration-200">
-            <span className="font-semibold text-gray-800 w-1/3 md:w-1/4">{label}</span>
-            <span className="text-gray-700 w-2/3 md:w-3/4">{description}</span>
+        <li key={index} className="flex items-start p-3 bg-muted/20 hover:bg-muted/30 rounded-lg transition-colors duration-200">
+            <span className="font-semibold text-orange-600 w-1/3 md:w-1/4">{label}</span>
+            <span className="text-foreground w-2/3 md:w-3/4">{description}</span>
         </li>
     );
 };
@@ -121,8 +121,8 @@ const SummaryDetails: React.FC<SummaryDetailsProps> = ({ kundliData }) => {
 
     if (!kundliData || !kundliData.name || !kundliData.interpretation) {
         return (
-            <div className="bg-gray-50 min-h-screen p-8 flex items-center justify-center">
-                <p className="text-lg text-gray-600">No summary data available to display.</p>
+            <div className="bg-muted/20 min-h-screen p-8 flex items-center justify-center">
+                <p className="text-lg text-muted-foreground">No summary data available to display.</p>
             </div>
         );
     }
@@ -144,14 +144,14 @@ const SummaryDetails: React.FC<SummaryDetailsProps> = ({ kundliData }) => {
 
 
     return (
-        <div className="bg-gray-100 min-h-screen p-4 sm:p-6 lg:p-8 font-sans">
+        <div className="bg-background min-h-screen p-4 sm:p-6 lg:p-8 font-sans">
             <div className="max-w-6xl mx-auto">
                 {/* --- HEADER --- */}
                 <header className="mb-8 md:mb-12">
-                    <h4 className="text-4xl md:text-5xl font-bold text-gray-900">
+                    <h4 className="text-4xl md:text-5xl font-bold text-foreground">
                         Astrological Summary
                     </h4>
-                    <p className="text-lg text-gray-600 mt-2">
+                    <p className="text-lg text-muted-foreground mt-2">
                         Welcome, <span className="font-semibold text-orange-600">{name}</span>. Here is a detailed look into your Vedic astrology chart.
                     </p>
                 </header>
@@ -203,7 +203,7 @@ const SummaryDetails: React.FC<SummaryDetailsProps> = ({ kundliData }) => {
 
                 </main>
 
-                <footer className="text-center mt-12 text-sm text-gray-500">
+                <footer className="text-center mt-12 text-sm text-muted-foreground">
                     <p>This interpretation provides key insights from your Vedic astrology chart. Your chart is unique and contains many more subtleties that can be explored in a detailed consultation.</p>
                 </footer>
             </div>
