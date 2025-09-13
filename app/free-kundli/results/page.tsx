@@ -107,6 +107,7 @@ interface KundliData {
   summary?: SummaryResponse | null;
   report?: Report | null;
   ashtakavarga_svg?: string ;
+  ashtakavarga_data?: AshtakavargaData | null;
   dosha?: {
     mangal_dosha: ApiMangalDoshaData;
     kalasarpa_dosha: ApiKalasarpaDoshaData;
@@ -349,7 +350,7 @@ export default function ReportDisplayPage() {
         const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
         console.log("API Base URL:", apiBaseUrl);
 
-        const [basicRes,kundliRes, chartsRes, yogasRes,ashatakavargaRes,doshaRes,summaryRes,reportRes] = await Promise.all([
+        const [basicRes,kundliRes, chartsRes, yogasRes,ashatakavargaRes,ashtakavargaDataRes,doshaRes,summaryRes,reportRes] = await Promise.all([
           fetch(`${apiBaseUrl}/api/birth-details`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -372,6 +373,12 @@ export default function ReportDisplayPage() {
             body: JSON.stringify(kundliRequestBody),
           }),
           fetch(`${apiBaseUrl}/api/ashtakavarga-svg`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(kundliRequestBody),
+          }),
+
+          fetch(`${apiBaseUrl}/api/ashtakavarga-data`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(kundliRequestBody),
@@ -400,6 +407,7 @@ export default function ReportDisplayPage() {
         if  (!yogasRes.ok) throw new Error(`Failed to fetch Yogas details: ${yogasRes.status} - ${yogasRes.statusText}`);
         if  (!summaryRes.ok) throw new Error(`Failed to fetch Summary details: ${summaryRes.status} - ${summaryRes.statusText}`);
         if (!ashatakavargaRes.ok) throw new Error(`Failed to fetch Ashtakavarga details: ${ashatakavargaRes.status} - ${ashatakavargaRes.statusText}`);
+        if (!ashtakavargaDataRes.ok) throw new Error(`Failed to fetch Ashtakavarga Data details: ${ashtakavargaDataRes.status} - ${ashtakavargaDataRes.statusText}`);
         if (!doshaRes.ok) throw new Error(`Failed to fetch Dosha details: ${doshaRes.status} - ${doshaRes.statusText}`);
         if (!reportRes.ok) throw new Error(`Failed to fetch Report details: ${reportRes.status} - ${reportRes.statusText}`);
 
@@ -409,7 +417,8 @@ export default function ReportDisplayPage() {
         const chartsResponse: ChartsResponse = await chartsRes.json();  
         const YogasResponse: YogasResponse = await yogasRes.json();
         const summaryResponse: SummaryResponse = await summaryRes.json()
-        const ashatakavargaSvgText = await ashatakavargaRes.text();       
+        const ashatakavargaSvgText = await ashatakavargaRes.text();
+        const ashtakavargaDataResponse: AshtakavargaResponse = await ashtakavargaDataRes.json();       
         const doshaResponse: ApiDoshasResponse = await doshaRes.json();
         const reportResponse: Report = await reportRes.json();
 
@@ -469,6 +478,7 @@ export default function ReportDisplayPage() {
           summary: summaryResponse,
           report: reportResponse,
           ashtakavarga_svg: ashatakavargaSvgText,
+          ashtakavarga_data: ashtakavargaDataResponse.ashtakavarga,
           dosha: {
             mangal_dosha: doshaResponse.mangal_dosha,
             kalasarpa_dosha: doshaResponse.kalasarpa_dosha,
