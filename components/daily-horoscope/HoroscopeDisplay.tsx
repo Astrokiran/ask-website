@@ -9,16 +9,15 @@ const client = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || '',
 });
 
-// --- 1. Global Styles (Unchanged) ---
+// --- 1. Global Styles (Dark Mode Compatible) ---
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: white;
+    background-color: hsl(var(--background));
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
-    
     -moz-osx-font-smoothing: grayscale;
   }
 `;
@@ -39,13 +38,13 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
-  background-color: white;
+  background-color: hsl(var(--background));
   border-radius: 10px;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  color: #333;
+  color: hsl(var(--foreground));
   font-family: 'Playfair Display', serif;
   font-size: 2.8em;
   margin-bottom: 50px;
@@ -66,10 +65,10 @@ const CardWrapper = styled.div`
 `;
 
 const Card = styled(motion.div)`
-  background: white;
+  background: hsl(var(--card));
   border-radius: 20px;
-  box-shadow: 8px 8px 15px rgba(251, 146, 60, 0.5), 
-              -8px -8px 15px rgba(255, 200, 150, 0.8);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid hsl(var(--border));
   overflow: hidden;
   cursor: pointer;
   display: flex;
@@ -80,6 +79,12 @@ const Card = styled(motion.div)`
   height: 320px;
   position: relative;
   z-index: 2;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 35px rgba(234, 88, 12, 0.25);
+    border-color: hsl(var(--orange-500));
+  }
 `;
 
 const CardImage = styled.img`
@@ -88,15 +93,16 @@ const CardImage = styled.img`
   object-fit: contain;
   margin-bottom: 15px;
   border-radius: 50%;
-  background-color: #f8f8f8;
+  background-color: hsl(var(--muted));
   padding: 10px;
-  box-shadow: inset 2px 2px 5px #d1d1d1, inset -2px -2px 5px #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid hsl(var(--border));
 `;
 
 const CardName = styled.h3`
   font-family: 'Montserrat', sans-serif;
   font-size: 1.6em;
-  color: #444;
+  color: hsl(var(--foreground));
   margin-top: 10px;
   font-weight: 600;
   text-transform: uppercase;
@@ -116,10 +122,11 @@ const HoverBackgroundImage = styled(motion.img)`
 
 const DetailsPanel = styled(motion.div)`
   margin-top: 15px;
-  background: white;
+  background: hsl(var(--card));
   padding: 18px;
   border-radius: 15px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid hsl(var(--border));
   text-align: center;
 `;
 
@@ -127,12 +134,12 @@ const DetailsText = styled.p`
   font-family: 'Roboto', sans-serif;
   font-size: 0.95em;
   line-height: 1.6;
-  color: #333;
+  color: hsl(var(--muted-foreground));
   margin: 0 0 10px 0;
 `;
 
 const MoreButton = styled.a`
-  background: #ff6b6b;
+  background: linear-gradient(135deg, hsl(var(--orange-500)), hsl(var(--orange-600)));
   color: white;
   border: none;
   padding: 8px 22px;
@@ -141,10 +148,13 @@ const MoreButton = styled.a`
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  display: inline-block;
 
   &:hover {
-    background: #ff4757;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+    background: linear-gradient(135deg, hsl(var(--orange-600)), hsl(var(--orange-700)));
   }
 `;
 

@@ -96,19 +96,19 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
     <NavBar />
     <DailyHoroscopeCta phoneNumber={"918197503574"}/>
     
-    <div className="min-h-screen bg-white text-slate-900 font-sans">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 py-8">
         
         {/* Left Sticky Selector */}
         <aside className="lg:col-span-3 lg:sticky lg:top-8 h-fit space-y-6">
   {/* Selector */}
-  <div className="p-6 bg-white rounded-2xl border border-orange-200 shadow-md">
+  <div className="p-6 bg-card rounded-2xl border border shadow-md">
     <h2 className="text-lg font-bold text-orange-400 mb-4 tracking-wider">SELECT SIGN</h2>
     <Select value={selectedSign} onValueChange={setSelectedSign}>
-      <SelectTrigger className="w-full bg-white border-orange-300 text-lg h-12 shadow-sm">
+      <SelectTrigger className="w-full bg-card border text-lg h-12 shadow-sm">
         <SelectValue placeholder="Select a sign" />
       </SelectTrigger>
-      <SelectContent className="bg-white border-orange-200 text-slate-900">
+      <SelectContent className="bg-card border text-foreground">
         {zodiacSigns.map((s) => (
           <SelectItem key={s} value={s} className="text-lg">
             {s}
@@ -156,7 +156,7 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
                     <h1 className="text-5xl md:text-7xl font-extrabold font-serif text-orange-400 drop-shadow-md">
                       {sign}
                     </h1>
-                    <p className="text-slate-500 mt-2 text-lg">
+                    <p className="text-muted-foreground mt-2 text-lg">
                       {new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                     </p>
                   </div>
@@ -202,8 +202,8 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
 
 // --- Reusable Animated Card Components ---
 const InsightCard: FC<{ icon: ReactNode, title: string, value: string }> = ({ icon, title, value }) => (
-  <div className="p-4 bg-white rounded-xl border border-orange-200 shadow-[4px_4px_12px_rgba(255,165,0,0.12),-4px_-4px_12px_rgba(255,215,0,0.08)] hover:shadow-[6px_6px_16px_rgba(255,140,0,0.18)] transition-all duration-300">
-    <div className="flex justify-center items-center gap-2 mb-1 text-slate-600 text-sm">{icon}{title}</div>
+  <div className="p-4 bg-card rounded-xl border border shadow-md hover:shadow-lg transition-all duration-300">
+    <div className="flex justify-center items-center gap-2 mb-1 text-muted-foreground text-sm">{icon}{title}</div>
     <p className="text-lg font-semibold text-black">{value}</p>
   </div>
 );
@@ -221,11 +221,11 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
 
     overviewContent = (
       <div className="space-y-4">
-        <p className="text-slate-700 leading-relaxed">{intro.trim()}</p>
+        <p className="text-foreground leading-relaxed">{intro.trim()}</p>
         {positiveTraits && (
           <div>
             <h4 className="font-semibold text-green-600">Positive Career Traits:</h4>
-            <ul className="list-disc list-inside text-slate-700">
+            <ul className="list-disc list-inside text-foreground">
               {positiveTraits.map((trait, i) => (
                 <li key={i}>{trait}</li>
               ))}
@@ -234,8 +234,8 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
         )}
         {negativeTraits && (
           <div>
-            <h4 className="font-semibold text-red-600">Negative Career Traits:</h4>
-            <ul className="list-disc list-inside text-slate-700">
+            <h4 className="font-semibold text-red-500">Negative Career Traits:</h4>
+            <ul className="list-disc list-inside text-foreground">
               {negativeTraits.map((trait, i) => (
                 <li key={i}>{trait}</li>
               ))}
@@ -248,7 +248,7 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
 
   return (
     <motion.div 
-      className="bg-white rounded-2xl border border-orange-200 shadow-[4px_4px_14px_rgba(255,165,0,0.12),-4px_-4px_14px_rgba(255,215,0,0.08)] overflow-hidden"
+      className="bg-card rounded-2xl border border shadow-md overflow-hidden"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.5, ease: "easeOut" }}
@@ -262,10 +262,10 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
       </div>
       <Accordion type="single" collapsible className="px-6 pb-2">
         <AccordionItem value="item-1" className="border-orange-200">
-          <AccordionTrigger className="text-slate-600 hover:text-black text-sm">
+          <AccordionTrigger className="text-muted-foreground hover:text-foreground text-sm">
             Astrological Reason
           </AccordionTrigger>
-          <AccordionContent className="text-slate-600 pt-2">{reason}</AccordionContent>
+          <AccordionContent className="text-muted-foreground pt-2">{reason}</AccordionContent>
         </AccordionItem>
       </Accordion>
     </motion.div>
