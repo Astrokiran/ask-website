@@ -37,15 +37,15 @@ const LoadingState = () => (
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        <p className="text-xl font-semibold text-gray-700">Generating Your Matching Report...</p>
-        <p className="text-gray-500">Please wait a moment.</p>
+        <p className="text-xl font-semibold text-foreground">Generating Your Matching Report...</p>
+        <p className="text-muted-foreground">Please wait a moment.</p>
     </div>
 );
 
 const ErrorState: React.FC<{ message: string }> = ({ message }) => (
-    <div className="text-center p-10 min-h-[50vh] flex flex-col justify-center items-center bg-red-50 rounded-lg border border-red-200">
-        <h3 className="text-2xl font-bold text-red-600">An Error Occurred</h3>
-        <p className="text-gray-700 mt-2 mb-6 max-w-md">{message}</p>
+    <div className="text-center p-10 min-h-[50vh] flex flex-col justify-center items-center bg-destructive/10 rounded-lg border border-destructive/20">
+        <h3 className="text-2xl font-bold text-destructive">An Error Occurred</h3>
+        <p className="text-foreground mt-2 mb-6 max-w-md">{message}</p>
         <Link href="/kundli-match" className="px-6 py-2 bg-orange-500 text-white font-semibold rounded-lg shadow hover:bg-orange-600 transition-colors">
             Fill Form Again
         </Link>
@@ -123,7 +123,7 @@ function Results() {
 
 export default function ResultsPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
         <NavBar />
         <main className="container mx-auto px-4 py-8 flex-grow">
             <Suspense fallback={<LoadingState />}>

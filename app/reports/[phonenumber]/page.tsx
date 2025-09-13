@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
 import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
 import { Newsletter } from "@/components/newsletter";
@@ -83,33 +82,20 @@ export default function ReportPage() {
       {/* ✅ Report Section with Enhanced Animation */}
       <div className="max-w-7xl mx-auto px-4 py-12 md:py-20">
         {PLANETS.map(({ name, key, icon }) => (
-          <motion.div
+          <div
             key={key}
-            className="bg-white text-black p-4 rounded-lg shadow-lg mb-6 transition-transform"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{
-              opacity: 1,
-              y: expanded === key ? 0 : 5, // Slight movement for non-active cards
-              scale: expanded === key ? 1.02 : 1, // Slight scaling effect
-            }}
-            transition={{ duration: 0.3 }}
+            className={`bg-white text-black p-4 rounded-lg shadow-lg mb-6 transition-all duration-300 hover:shadow-xl ${expanded === key ? 'scale-[1.02]' : 'scale-100'} animate-fadeInUp`}
           >
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold text-gray-800">{icon} {name}</h2>
             </div>
 
             {/* ✅ First collapse previous card, then expand selected one */}
-            <motion.p
-              className="mt-2 overflow-hidden"
-              initial={false}
-              animate={{
-                height: expanded === key ? "auto" : "80px",
-                opacity: expanded === key ? 1 : 0.6,
-              }}
-              transition={{ duration: 0.5 }}
+            <div
+              className={`mt-2 overflow-hidden transition-all duration-500 ${expanded === key ? 'max-h-none opacity-100' : 'max-h-20 opacity-60'}`}
             >
               {expanded === key ? report[key] : `${report[key].slice(0, 300)}...`}
-            </motion.p>
+            </div>
 
             <button
               onClick={() => handleToggle(key)}
@@ -117,7 +103,7 @@ export default function ReportPage() {
             >
               {expanded === key ? "Show Less" : "Read More"}
             </button>
-          </motion.div>
+          </div>
         ))}
       </div>
 

@@ -2,7 +2,7 @@ import KundliMatchingPage from '@/components/kundli-matching/TwoForm';
 
 export default function KundliMatchPage() {
   return (
-    <main style={{ padding: '2rem' }}>
+    <main className="p-8 bg-background min-h-screen">
       <KundliMatchingPage />
     </main>
   );

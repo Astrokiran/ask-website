@@ -1,7 +1,6 @@
 // pages/kundli-match/components/FormSection.tsx
 
 import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Autocomplete } from '@react-google-maps/api';
 import { FormInput } from './FormInput';
 import { FormSelect } from './FormSelect';
@@ -78,8 +77,8 @@ export const FormSection: React.FC<FormSectionProps> = ({
     }, [data.pob]);
 
     return (
-        <motion.div className="space-y-5" variants={containerVariants} initial="hidden" animate="visible">
-            <motion.div variants={itemVariants}>
+        <div className="space-y-5" >
+            <div >
                 <FormInput
                     label="Full Name"
                     value={data.name}
@@ -87,20 +86,20 @@ export const FormSection: React.FC<FormSectionProps> = ({
                     placeholder={`Enter ${personType === 'man' ? 'boy' : 'girl'}'s name`}
                     error={errors.name}
                 />
-            </motion.div>
+            </div>
 
-            <motion.div variants={itemVariants}>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+            <div >
+                <label className="block text-sm font-medium text-foreground mb-1">Date of Birth</label>
                 <div className="grid grid-cols-3 gap-3">
                     <FormSelect name="day" value={data.day} onChange={(e) => handleInputChange('day', e.target.value)} options={dayOptions} placeholder="Day" error={!!errors.dob} />
                     <FormSelect name="month" value={data.month} onChange={(e) => handleInputChange('month', e.target.value)} options={monthOptions} placeholder="Month" error={!!errors.dob} />
                     <FormSelect name="year" value={data.year} onChange={(e) => handleInputChange('year', e.target.value)} options={yearOptions} placeholder="Year" error={!!errors.dob} />
                 </div>
                 {errors.dob && <p className="text-red-500 text-xs mt-1">{errors.dob}</p>}
-            </motion.div>
+            </div>
 
-            <motion.div variants={itemVariants}>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Time of Birth</label>
+            <div >
+                <label className="block text-sm font-medium text-foreground mb-1">Time of Birth</label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <FormSelect name="hour" value={data.hour} onChange={(e) => handleInputChange('hour', e.target.value)} options={hourOptions} placeholder="Hour" error={!!errors.tob} />
                     <FormSelect name="minute" value={data.minute} onChange={(e) => handleInputChange('minute', e.target.value)} options={minuteOptions} placeholder="Minute" error={!!errors.tob} />
@@ -108,10 +107,10 @@ export const FormSection: React.FC<FormSectionProps> = ({
                     <FormSelect name="ampm" value={data.ampm} onChange={(e) => handleInputChange('ampm', e.target.value)} options={[{ value: 'AM', label: 'AM' }, { value: 'PM', label: 'PM' }]} error={!!errors.tob} />
                 </div>
                 {errors.tob && <p className="text-red-500 text-xs mt-1">{errors.tob}</p>}
-            </motion.div>
+            </div>
 
-            <motion.div variants={itemVariants}>
-                 <label className="block text-sm font-medium text-gray-700 mb-1">Place of Birth</label>
+            <div >
+                 <label className="block text-sm font-medium text-foreground mb-1">Place of Birth</label>
                  {isGoogleMapsLoaded ? (
                      <Autocomplete onLoad={onLoadAutocomplete} onPlaceChanged={onPlaceChanged} options={{ types: ['(cities)'] }}>
                          <input
@@ -120,14 +119,14 @@ export const FormSection: React.FC<FormSectionProps> = ({
                             defaultValue={data.pob}
                             onChange={(e) => handleInputChange('pob', e.target.value)}
                             placeholder="Type and select a city"
-                            className={`w-full px-4 py-2 bg-gray-50 border rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 ${errors.pob ? 'border-red-500 ring-red-200' : 'border-gray-300 focus:border-orange-500 focus:ring-orange-200'}`}
+                            className={`w-full px-4 py-2 bg-muted border rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 text-foreground ${errors.pob ? 'border-destructive ring-destructive/20' : 'border-input focus:border-orange-500 focus:ring-orange-200'}`}
                          />
                      </Autocomplete>
                  ) : (
-                     <input type="text" placeholder="Map is loading..." disabled className="w-full px-4 py-2 border rounded-lg bg-gray-100"/>
+                     <input type="text" placeholder="Map is loading..." disabled className="w-full px-4 py-2 border rounded-lg bg-muted/50 text-muted-foreground"/>
                  )}
                  {errors.pob && <p className="text-red-500 text-xs mt-1">{errors.pob}</p>}
-            </motion.div>
-        </motion.div>
+            </div>
+        </div>
     );
 };

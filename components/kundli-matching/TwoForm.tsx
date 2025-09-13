@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useJsApiLoader } from '@react-google-maps/api';
-import { motion, AnimatePresence } from 'framer-motion';
 import { NavBar } from '@/components/nav-bar';
 import { Footer } from '@/components/footer';
 import { ServicesSection } from "@/components/services-section";
@@ -12,24 +11,19 @@ import Image from 'next/image';
 import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 import { Briefcase, Heart, Sparkles, Star } from 'lucide-react';
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
 
 const SectionItem = ({ icon, title, text }) => (
-  <motion.div
-    variants={sectionVariants}
-    className="p-4 bg-white/70 backdrop-blur-sm rounded-xl border border-orange-100 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-orange-200"
+  <div
+    className="p-4 bg-card/70 backdrop-blur-sm rounded-xl border border shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-orange-500 animate-fadeInUp"
   >
     <div className="flex items-center gap-3 mb-2">
       {icon}
-      <h3 className="text-xl font-bold text-orange-600">{title}</h3>
+      <h3 className="text-xl font-bold text-orange-600 dark:text-orange-400">{title}</h3>
     </div>
-    <p className="text-slate-700 leading-relaxed text-sm md:text-base">
+    <p className="text-foreground leading-relaxed text-sm md:text-base">
       {text}
     </p>
-  </motion.div>
+  </div>
 );
 
 const kundaliSections = [
@@ -238,29 +232,26 @@ export default function KundliMatchingPage() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
-             <NavBar />
-             <DailyHoroscopeCta phoneNumber={"918197503574"}/>
-        <main className="flex-grow container mx-auto px-4 pt-4 pb-12 md:pt-6 md:pb-16">
-                <div className="grid lg:grid-cols-2 gap-12 items-start">
-              {/* COLUMN 1: Form Container */}
-              <motion.div
-                className="w-full max-w-lg mx-auto lg:max-w-none lg:mx-0"
-                initial={{ opacity: 0, x: -50 }} // Animate from left
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-              >
-                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <NavBar />
+      <DailyHoroscopeCta phoneNumber={"918197503574"}/>
+      <main className="flex-grow container mx-auto px-4 pt-4 pb-12 md:pt-6 md:pb-16">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* COLUMN 1: Form Container */}
+          <div
+            className="w-full max-w-lg mx-auto lg:max-w-none lg:mx-0"
+          >
+                <div className="bg-card rounded-2xl shadow-2xl overflow-hidden border border">
                   <div className="flex relative border-b border-gray-200">
                     {tabs.map(tab => (
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as 'man' | 'woman')}
-                        className={`${activeTab === tab.id ? 'text-orange-600' : 'text-gray-500 hover:text-orange-500'}
+                        className={`${activeTab === tab.id ? 'text-orange-600 dark:text-orange-400' : 'text-muted-foreground hover:text-orange-500'}
                             w-1/2 py-4 text-center font-bold text-lg transition-colors duration-300 relative focus:outline-none`}
                       >
                         {tab.label}
                         {activeTab === tab.id && (
-                          <motion.div
+                          <div
                             className="absolute bottom-0 left-0 right-0 h-1 bg-orange-600"
                             layoutId="underline"
                           />
@@ -270,13 +261,9 @@ export default function KundliMatchingPage() {
                   </div>
 
                   <form onSubmit={handleSubmit} className="p-6 sm:p-8">
-                    <AnimatePresence mode="wait">
-                      <motion.div
+                      <div
                         key={activeTab}
-                        initial={{ y: 10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -10, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        className="transition-all duration-300"
                       >
                         {activeTab === 'man' ? (
                           <FormSection
@@ -295,35 +282,29 @@ export default function KundliMatchingPage() {
                             isGoogleMapsLoaded={isLoaded && !loadError}
                           />
                         )}
-                      </motion.div>
-                    </AnimatePresence>
+                      </div>
 
-                    <motion.button
+                    <button
                       type="submit"
                       className="w-full mt-8 bg-gradient-to-r from-yellow-500 to-orange-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                      whileHover={{ scale: 1.05, filter: "brightness(1.1)" }}
-                      whileTap={{ scale: 0.95 }}
                       disabled={loading}
                     >
                       {loading ? 'Calculating...' : 'Match Kundli'}
-                    </motion.button>
+                    </button>
                   </form>
                 </div>
-              </motion.div>
+              </div>
 
               <div className="hidden lg:block">
-                <motion.div
-                  initial={{ opacity: 0, x: 50 }} // Animate from right
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
+                <div
                 >
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-orange-600 drop-shadow-md leading-tight">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-orange-600 dark:text-orange-400 drop-shadow-md leading-tight">
                       Kundali Matching: Unlock Success in Relationships
                     </h2>
                     <Star className="h-8 w-8 text-yellow-500 animate-pulse hidden md:block" />
                   </div>
-                  <p className="text-slate-800 leading-relaxed text-sm md:text-base mb-6">
+                  <p className="text-foreground leading-relaxed text-sm md:text-base mb-6">
                     Kundali matching, also known as horoscope compatibility, is not just for marriage—it can also be a powerful guide in business partnerships and personal relationships. By analyzing the planetary positions in two individuals’ birth charts, Kundali matching helps reveal compatibility, strengths, and challenges between them.
                   </p>
 
@@ -338,10 +319,10 @@ export default function KundliMatchingPage() {
                     ))}
                   </div>
                   
-                </motion.div>
+                </div>
               </div>
             </div>
-          </main>
+        </main>
       <ServicesSection />
       <Footer />
     </div>

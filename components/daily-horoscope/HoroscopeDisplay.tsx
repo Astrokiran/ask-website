@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
 import { createClient } from 'contentful'; // ✨ 1. Import Contentful client
 
 // --- Contentful Client Initialization ---
@@ -64,7 +63,7 @@ const CardWrapper = styled.div`
   max-width: 300px;
 `;
 
-const Card = styled(motion.div)`
+const Card = styled.div`
   background: hsl(var(--card));
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -109,18 +108,18 @@ const CardName = styled.h3`
   letter-spacing: 0.5px;
 `;
 
-const ImageZoomContainer = styled(motion.div)`
+const ImageZoomContainer = styled.div`
   position: absolute;
   inset: 0;
 `;
 
-const HoverBackgroundImage = styled(motion.img)`
+const HoverBackgroundImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-const DetailsPanel = styled(motion.div)`
+const DetailsPanel = styled.div`
   margin-top: 15px;
   background: hsl(var(--card));
   padding: 18px;
@@ -230,41 +229,26 @@ export const HoroscopeDisplay: React.FC = () => {
                 <CardImage src={sign.imageUrl} alt={sign.name} />
                 <CardName>{sign.name}</CardName>
 
-                <AnimatePresence>
-                  {hoveredSign === sign.name && (
-                    <ImageZoomContainer
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      <HoverBackgroundImage
-                        src={sign.imageUrl}
-                        alt={`${sign.name} background`}
-                        initial={{ scale: 1 }}
-                        animate={{ scale: 1.15 }}
-                        transition={{ duration: 0.4, ease: 'easeOut' }}
-                      />
-                    </ImageZoomContainer>
-                  )}
-                </AnimatePresence>
+                {hoveredSign === sign.name && (
+                  <ImageZoomContainer className="absolute inset-0 opacity-0 animate-in fade-in duration-300">
+                    <HoverBackgroundImage
+                      src={sign.imageUrl}
+                      alt={`${sign.name} background`}
+                      className="transition-transform duration-400 ease-out hover:scale-110"
+                    />
+                  </ImageZoomContainer>
+                )}
               </Card>
 
               {/* Panel Below */}
-              <AnimatePresence>
-                {hoveredSign === sign.name && (
-                  <DetailsPanel
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                  >
-                    <DetailsText>{getHoroscopeDetails(sign.name)}</DetailsText>
-                    <MoreButton href={`/horoscopes/${sign.name.toLowerCase()}`}>
-                      View
-                    </MoreButton>
-                  </DetailsPanel>
-                )}
-              </AnimatePresence>
+              {hoveredSign === sign.name && (
+                <DetailsPanel className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <DetailsText>{getHoroscopeDetails(sign.name)}</DetailsText>
+                  <MoreButton href={`/horoscopes/${sign.name.toLowerCase()}`}>
+                    View
+                  </MoreButton>
+                </DetailsPanel>
+              )}
             </CardWrapper>
           ))}
         </Grid>

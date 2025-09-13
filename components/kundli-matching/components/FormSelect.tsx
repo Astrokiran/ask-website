@@ -11,11 +11,11 @@ interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> 
 export const FormSelect: React.FC<FormSelectProps> = ({ options, placeholder, error, ...props }) => (
     <select
         {...props}
-        className={`w-full px-4 py-2 bg-gray-50 border rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 ${
+        className={`w-full px-4 py-2 bg-muted border rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 text-foreground ${
             error
-                ? 'border-red-500 ring-red-200'
-                : 'border-gray-300 focus:border-orange-500 focus:ring-orange-200'
-        } ${props.value === '' ? 'text-gray-400' : ''}`}
+                ? 'border-destructive ring-destructive/20'
+                : 'border-input focus:border-orange-500 focus:ring-orange-200'
+        } ${props.value === '' ? 'text-muted-foreground' : ''}`}
     >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((opt) => (

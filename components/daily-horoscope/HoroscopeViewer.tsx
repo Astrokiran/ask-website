@@ -2,7 +2,6 @@
 
 import { useState, useEffect, FC, ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { ApiResponse } from "@/app/horoscopes/[zodiac]/page"; 
 import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
@@ -120,31 +119,24 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
 
   {/* Sign Image */}
   {selectedSign && (
-    <motion.div
+    <div
       key={selectedSign}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4 }}
-      className="flex justify-center"
+      className="flex justify-center animate-fadeInUp"
     >
       <img
         src={zodiacImages[selectedSign]}
         alt={selectedSign}
   className="w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 object-contain drop-shadow-lg"
       />
-    </motion.div>
+    </div>
   )}
 </aside>
 
         {/* Right Content */}
         <main className="lg:col-span-9">
-          <AnimatePresence mode="wait"> 
-            <motion.div
+            <div
               key={selectedSign}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="animate-fadeInUp"
             >
               {isLoading ? (
                 <div className="flex justify-center items-center h-96">
@@ -162,14 +154,14 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
                   </div>
 
                   {/* Lucky Insights */}
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+                  <div className="animate-fadeInUp">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                       <InsightCard icon={<Gem className="text-yellow-500"/>} title="Mood" value={horoscope.lucky_insights.mood} />
                       <InsightCard icon={<Palette className="text-orange-400"/>} title="Lucky Color" value={horoscope.lucky_insights.lucky_color} />
                       <InsightCard icon={<Hash className="text-amber-500"/>} title="Lucky Number" value={horoscope.lucky_insights.lucky_number.toString()} />
                       <InsightCard icon={<Clock className="text-orange-300"/>} title="Lucky Time" value={horoscope.lucky_insights.lucky_time} />
                     </div>
-                  </motion.div>
+                  </div>
                   
                   {/* Overview */}
                   <HoroscopeCard title="🔮 Overview" narrative={horoscope.overview.narrative} reason={horoscope.overview.reason} delay={0.3} />
@@ -189,8 +181,7 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
                   </div>
                 </div>
               )}
-            </motion.div>
-          </AnimatePresence>
+            </div>
         </main>
       </div>
     </div>
@@ -208,7 +199,7 @@ const InsightCard: FC<{ icon: ReactNode, title: string, value: string }> = ({ ic
   </div>
 );
 
-const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, delay: number, icon?: ReactNode }> = ({ title, narrative, reason, delay, icon }) => {
+const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, delay?: number, icon?: ReactNode }> = ({ title, narrative, reason, delay = 0, icon }) => {
   // Special handling for Overview section
   let overviewContent: ReactNode = narrative;
 
@@ -247,12 +238,8 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
   }
 
   return (
-    <motion.div 
-      className="bg-card rounded-2xl border border shadow-md overflow-hidden"
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, duration: 0.5, ease: "easeOut" }}
-      whileHover={{ y: -5, boxShadow: "0px 10px 25px rgba(255,165,0,0.25)" }}
+    <div
+      className="bg-card rounded-2xl border border shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/25 animate-fadeInUp"
     >
       <div className="p-6">
         <h3 className="flex items-center gap-3 text-2xl font-bold mb-4 text-black">
@@ -268,6 +255,6 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
           <AccordionContent className="text-muted-foreground pt-2">{reason}</AccordionContent>
         </AccordionItem>
       </Accordion>
-    </motion.div>
+    </div>
   );
 };
