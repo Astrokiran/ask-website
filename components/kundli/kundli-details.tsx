@@ -244,7 +244,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
       </div>
 
       {/* ================== CURRENT DASHA DETAILS ================== */}
-      {curMD && (
+      {/* {curMD && (
         <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Current Dasha Details
@@ -277,7 +277,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             )}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* ================== VIMSHOTTARI DASHA ================== */}
       <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
