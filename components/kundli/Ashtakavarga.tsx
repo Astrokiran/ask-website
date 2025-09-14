@@ -1,127 +1,181 @@
+
 "use client";
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 // --- CONSTANTS ---
-// Informational content for the right-side cards.
+const SIGN_NAMES = [
+    "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+    "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+];
+const PLANET_KEYS = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
+
 const ASHTAKAVARGA_INFO_CONTENT = [
-  {
-    emoji: "🪐",
-    title: "What is Ashtakavarga?",
-    content: "Ashtakavarga is a unique system in Vedic astrology for evaluating a planet's strength. It assigns points (Bindus) to houses based on planetary positions, providing a nuanced score. 'Ashta' means eight, referring to the seven planets plus the Ascendant (Lagna) as points of reference.",
-  },
-  {
-    emoji: "💡",
-    title: "How It's Calculated & Used",
-    content: "The system generates a Sarvashtakavarga (SAV) score for each house by totaling the benefic points given by the eight sources. This score indicates the house's overall strength and potential to deliver results.",
-    listItems: [
-      "A score <strong>above 30 Bindus</strong> is considered very strong, promising auspicious results.",
-      "A score between <strong>25 and 30</strong> is good and indicates favorable conditions.",
-      "A score <strong>below 25</strong> suggests weakness, pointing to potential challenges in that area of life."
-    ]
-  },
-  {
-    emoji: "🎯",
-    title: "Benefits in Predictions",
-    content: "Astrologers use Ashtakavarga to make precise predictions and recommendations. It helps to:",
-    listItems: [
-      "<strong>Assess House Strength:</strong> Quickly identify which areas of life (career, wealth, relationships) are fortified or vulnerable.",
-      "<strong>Time Events:</strong> Pinpoint favorable periods by analyzing planetary transits over high-scoring houses.",
-      "<strong>Refine Judgements:</strong> Determine if a planet will act as a benefic or malefic in a specific chart, beyond its natural tendencies."
-    ]
-  }
+    {
+        emoji: "🪐",
+        title: "What is Ashtakavarga?",
+        content: "Ashtakavarga is a unique system in Vedic astrology for evaluating a planet's strength. It assigns points (Bindus) to houses based on planetary positions, providing a nuanced score. 'Ashta' means eight, referring to the seven planets plus the Ascendant (Lagna) as points of reference.",
+    },
+    {
+        emoji: "💡",
+        title: "How It's Calculated & Used",
+        content: "The system generates a Sarvashtakavarga (SAV) score for each house by totaling the benefic points given by the eight sources. This score indicates the house's overall strength and potential to deliver results.",
+        listItems: [
+            "A score <strong>above 30 Bindus</strong> is considered very strong, promising auspicious results.",
+            "A score between <strong>25 and 30</strong> is good and indicates favorable conditions.",
+            "A score <strong>below 25</strong> suggests weakness, pointing to potential challenges in that area of life."
+        ]
+    },
+    {
+        emoji: "🎯",
+        title: "Benefits in Predictions",
+        content: "Astrologers use Ashtakavarga to make precise predictions and recommendations. It helps to:",
+        listItems: [
+            "<strong>Assess House Strength:</strong> Quickly identify which areas of life (career, wealth, relationships) are fortified or vulnerable.",
+            "<strong>Time Events:</strong> Pinpoint favorable periods by analyzing planetary transits over high-scoring houses.",
+            "<strong>Refine Judgements:</strong> Determine if a planet will act as a benefic or malefic in a specific chart, beyond its natural tendencies."
+        ]
+    }
 ];
 
 // --- TYPES ---
+interface AshtakavargaData {
+    bhinna_ashtakavarga: { [key: string]: number[] };
+    sarvashtakavarga: number[];
+}
+
 interface AshtakavargaAnalysisProps {
-  /** The single, composite SVG string for all charts from the API. */
-  compositeSvgString: string | null;
-  /** A boolean to indicate if the chart data is being loaded. */
-  isLoading?: boolean;
-  renderForPdf?: boolean;
+    /** The single, composite SVG string for all charts from the API. */
+    compositeSvgString: string | null;
+    /** The data for the Ashtakavarga table. */
+    tableData: AshtakavargaData | null;
+    /** A boolean to indicate if the chart data is being loaded. */
+    isLoading?: boolean;
+    renderForPdf?: boolean;
 }
 
 interface InfoCardProps {
-  emoji: string;
-  title: string;
-  content: string;
-  listItems?: string[];
+    emoji: string;
+    title: string;
+    content: string;
+    listItems?: string[];
 }
 
-// --- CHILD COMPONENTS ---
-/**
- * A card component to display a piece of information.
- */
+
+// --- CHILD COMPONENT ---
 const InfoCard: React.FC<InfoCardProps> = ({ emoji, title, content, listItems }) => (
-  <div className="bg-card border border rounded-lg shadow-sm p-6 space-y-3 h-full">
-    <h3 className="text-xl font-bold text-foreground">
-      <span className="mr-2">{emoji}</span> {title}
-    </h3>
-    <p className="text-foreground">{content}</p>
-    {listItems && (
-      <ul className="list-disc list-inside text-foreground space-y-1 pl-1">
-        {listItems.map((item, index) => (
-          <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
-        ))}
-      </ul>
-    )}
-  </div>
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-3 h-full">
+        <h3 className="text-xl font-bold text-gray-800">
+            <span className="mr-2">{emoji}</span> {title}
+        </h3>
+        <p className="text-gray-600">{content}</p>
+        {listItems && (
+            <ul className="list-disc list-inside text-gray-600 space-y-1 pl-1">
+                {listItems.map((item, index) => (
+                    <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                ))}
+            </ul>
+        )}
+    </div>
 );
 
 
 // --- MAIN COMPONENT ---
-/**
- * Renders a responsive Ashtakavarga chart from a single composite SVG string,
- * alongside informational cards.
- */
-const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSvgString, isLoading = false, renderForPdf = false }) => {
-  
-  // The useMemo hook is no longer needed because the backend provides a perfect SVG.
-  
-  if (renderForPdf) {
-    return compositeSvgString ? <div dangerouslySetInnerHTML={{ __html: compositeSvgString }} /> : null;
-  }
+const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSvgString, tableData, isLoading = false, renderForPdf = false }) => {
 
-  return (
-    <div className="p-4 sm:p-6 bg-background/50">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
-          Ashtakavarga Analysis
-        </h2>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-         <div className="bg-card border border rounded-lg shadow-sm p-4"> 
-            {isLoading ? (
-              <div className="w-full max-w-4xl h-[900px] bg-muted rounded-md animate-pulse" /> 
-            ) : compositeSvgString ? (
-              <div
-                className="w-full max-w-4xl"
-                dangerouslySetInnerHTML={{ __html: compositeSvgString }}
-              />
-            ) : (
-              <div className="text-muted-foreground text-center py-20">
-                Chart data is not available.
-              </div>
-            )}
-          </div>
+    if (renderForPdf) {
+        // Simple rendering for PDF generation
+        return (
+            <div>
+                 {tableData && (
+                    <div className="overflow-x-auto p-4 mb-8">
+                        {/* Simplified table for PDF might be needed */}
+                    </div>
+                 )}
+                 {compositeSvgString && <div dangerouslySetInnerHTML={{ __html: compositeSvgString }} />}
+            </div>
+        );
+    }
 
-          {/* Right Column: Information Grid */}
-          <div className="grid grid-cols-1 gap-6 content-start">
-            {ASHTAKAVARGA_INFO_CONTENT.map((info) => (
-              <InfoCard
-                key={info.title}
-                emoji={info.emoji}
-                title={info.title}
-                content={info.content}
-                listItems={info.listItems}
-              />
-            ))}
-          </div>
+    return (
+        <div className="p-4 sm:p-6 bg-gray-50/50">
+            <div className="max-w-7xl mx-auto">
+                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                    Ashtakavarga Analysis
+                </h2>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                    {/* Left Column: Table and Charts */}
+                    <div className="space-y-8">
+                        {/* --- RESPONSIVE TABLE --- */}
+                        {isLoading ? (
+                            <div className="w-full h-96 bg-gray-200 rounded-lg animate-pulse" />
+                        ) : tableData ? (
+                            <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Rashi</th>
+                                            {PLANET_KEYS.map(p => (
+                                                <th key={p} scope="col" className="px-4 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">{p.slice(0, 2)}</th>
+                                            ))}
+                                            <th scope="col" className="px-4 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {SIGN_NAMES.map((signName, index) => (
+                                            <tr key={signName} className="hover:bg-gray-50 transition-colors">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-800">{signName}</td>
+                                                {PLANET_KEYS.map(planet => (
+                                                    <td key={`${planet}-${index}`} className="px-4 py-3 whitespace-nowrap text-sm text-center text-gray-600">
+                                                        {tableData.bhinna_ashtakavarga[planet]?.[index] ?? '-'}
+                                                    </td>
+                                                ))}
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-center font-bold text-indigo-700">
+                                                    {tableData.sarvashtakavarga?.[index] ?? '-'}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                             <div className="text-gray-500 text-center py-20 bg-white border rounded-lg">Table data not available.</div>
+                        )}
+
+                        {/* --- SVG CHARTS --- */}
+                        {isLoading ? (
+                            <div className="w-full h-[600px] md:h-[900px] bg-gray-200 rounded-lg animate-pulse" />
+                        ) : compositeSvgString ? (
+                            <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                                <div
+                                    className="w-full max-w-4xl"
+                                    dangerouslySetInnerHTML={{ __html: compositeSvgString }}
+                                />
+                            </div>
+                        ) : (
+                            <div className="text-gray-500 text-center py-20 bg-white border rounded-lg">Chart data not available.</div>
+                        )}
+                    </div>
+
+                    {/* Right Column: Information Grid */}
+                    <div className="grid grid-cols-1 gap-6 content-start">
+                        {ASHTAKAVARGA_INFO_CONTENT.map((info) => (
+                            <InfoCard
+                                key={info.title}
+                                emoji={info.emoji}
+                                title={info.title}
+                                content={info.content}
+                                listItems={info.listItems}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default AshtakavargaAnalysis;
+
