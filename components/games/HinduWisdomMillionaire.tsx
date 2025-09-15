@@ -401,49 +401,49 @@ export default function HinduWisdomMillionaire() {
       <div className="absolute bottom-36 right-12 w-6 h-6 border-2 border-purple-400 rounded-full animate-pulse opacity-40"></div>
       <div className="absolute top-72 right-1/4 w-4 h-4 bg-gradient-to-r from-orange-400 to-purple-500 transform rotate-12 animate-bounce opacity-50"></div>
 
-      <div className="relative max-w-7xl mx-auto px-4 py-12 lg:py-20">
+      <div className="relative max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12 lg:py-20">
         {/* Enhanced Header with Instagram-style effects */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
           {/* Language Toggle and Badge */}
-          <div className="flex flex-col items-center gap-4 mb-6">
+          <div className="flex flex-col items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
             <LanguageToggle currentLanguage={language} onLanguageChange={setLanguage} />
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500/20 to-purple-500/20 backdrop-blur-sm border border-orange-300/30 rounded-full px-4 py-2 animate-pulse">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500/20 to-purple-500/20 backdrop-blur-sm border border-orange-300/30 rounded-full px-3 sm:px-4 py-2 animate-pulse">
               <span className="w-2 h-2 bg-orange-500 rounded-full animate-ping"></span>
-              <span className="text-sm font-semibold text-orange-600 dark:text-orange-400">🔥 {t.categories}</span>
+              <span className="text-xs sm:text-sm font-semibold text-orange-600 dark:text-orange-400">🔥 {t.categories}</span>
             </div>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight mb-6 relative text-center px-4">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight mb-4 sm:mb-6 relative text-center px-2 sm:px-4">
             {/* Glowing background effect */}
             <span className="absolute inset-0 bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 blur-xl opacity-30 animate-pulse"></span>
             <span className="relative bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-lg break-words whitespace-pre-wrap">
               {t.title}
             </span>
             {/* Floating sparkle on title */}
-            <span className="absolute -top-2 -right-2 text-yellow-400 animate-bounce text-lg">✨</span>
+            <span className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 text-yellow-400 animate-bounce text-sm sm:text-lg">✨</span>
           </h1>
 
-          <div className="relative mb-8">
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto font-medium mb-2">
+          <div className="relative mb-6 sm:mb-8">
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto font-medium mb-2 px-2">
               {t.subtitle}
             </p>
-            <p className="text-sm md:text-base text-orange-600 dark:text-orange-400">
+            <p className="text-xs sm:text-sm md:text-base text-orange-600 dark:text-orange-400 px-2">
               {t.description}
             </p>
             {/* Accent line under subtitle */}
-            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 rounded-full mx-auto mt-4 animate-pulse"></div>
+            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 rounded-full mx-auto mt-3 sm:mt-4 animate-pulse"></div>
           </div>
         </div>
 
         {/* Game Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {/* Enhanced Money Ladder */}
-          <div className="lg:col-span-1 bg-card/80 backdrop-blur-md rounded-3xl p-6 border-2 border-orange-300/50 shadow-2xl shadow-orange-500/10">
-            <h3 className="text-xl font-bold text-orange-600 dark:text-orange-400 text-center mb-6 flex items-center justify-center gap-2">
+          <div className="lg:col-span-1 order-2 lg:order-1 bg-card/80 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-orange-300/50 shadow-2xl shadow-orange-500/10">
+            <h3 className="text-lg sm:text-xl font-bold text-orange-600 dark:text-orange-400 text-center mb-4 sm:mb-6 flex items-center justify-center gap-2">
               <span className="animate-bounce">💰</span>
               {t.prizeLadder}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1 sm:space-y-2 max-h-64 sm:max-h-none overflow-y-auto lg:overflow-visible">
               {prizeLadder.slice().reverse().map((amount, index) => {
                 const levelIndex = prizeLadder.length - 1 - index;
                 const isCurrent = gameActive && levelIndex === currentQuestion;
@@ -453,7 +453,7 @@ export default function HinduWisdomMillionaire() {
                 return (
                   <div
                     key={levelIndex}
-                    className={`flex justify-between items-center p-3 rounded-xl border-2 transition-all duration-300 relative overflow-hidden ${
+                    className={`flex justify-between items-center p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 transition-all duration-300 relative overflow-hidden text-sm sm:text-base ${
                       isCurrent
                         ? 'bg-gradient-to-r from-orange-500 to-purple-600 text-white font-bold border-orange-400 animate-pulse shadow-lg transform scale-105'
                         : isCompleted
@@ -475,19 +475,19 @@ export default function HinduWisdomMillionaire() {
           </div>
 
           {/* Game Content */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="lg:col-span-3 order-1 lg:order-2 space-y-4 sm:space-y-6">
             {gameActive && (
-              <div className="flex flex-wrap justify-between items-center gap-4">
-                <div className="bg-gradient-to-r from-purple-500/20 to-purple-600/20 backdrop-blur-sm border border-purple-300/30 px-4 py-2 rounded-full font-bold text-purple-600 dark:text-purple-400">
+              <div className="flex flex-wrap justify-center sm:justify-between items-center gap-2 sm:gap-4">
+                <div className="bg-gradient-to-r from-purple-500/20 to-purple-600/20 backdrop-blur-sm border border-purple-300/30 px-3 sm:px-4 py-2 rounded-full font-bold text-purple-600 dark:text-purple-400 text-sm sm:text-base">
                   {t.question} {currentQuestion + 1}
                 </div>
                 <div
-                  className="px-4 py-2 rounded-full font-bold text-white backdrop-blur-sm border border-white/20"
+                  className="px-3 sm:px-4 py-2 rounded-full font-bold text-white backdrop-blur-sm border border-white/20 text-xs sm:text-sm"
                   style={{ background: `linear-gradient(45deg, ${getCategoryColor(currentQuestionData?.category || '')}, #764ba2)` }}
                 >
                   {getCategoryName(currentQuestionData?.category || '')}
                 </div>
-                <div className={`px-4 py-2 rounded-full font-bold text-lg text-white backdrop-blur-sm transition-all duration-300 ${
+                <div className={`px-3 sm:px-4 py-2 rounded-full font-bold text-base sm:text-lg text-white backdrop-blur-sm transition-all duration-300 ${
                   timeLeft <= 10
                     ? 'bg-gradient-to-r from-red-500 to-red-600 animate-pulse border-2 border-red-400 shadow-lg shadow-red-500/30'
                     : 'bg-gradient-to-r from-orange-500 to-orange-600 border border-orange-300/30'
@@ -498,7 +498,7 @@ export default function HinduWisdomMillionaire() {
             )}
 
             {/* Enhanced Question Container */}
-            <div className="bg-card/80 backdrop-blur-md rounded-3xl p-8 border-2 border-orange-300/50 min-h-[250px] flex items-center justify-center relative overflow-hidden shadow-2xl shadow-orange-500/10">
+            <div className="bg-card/80 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border-2 border-orange-300/50 min-h-[180px] sm:min-h-[220px] lg:min-h-[250px] flex items-center justify-center relative overflow-hidden shadow-2xl shadow-orange-500/10">
               {/* Rotating gradient background */}
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-purple-500/10 to-orange-500/10 animate-pulse"></div>
 
@@ -574,7 +574,7 @@ export default function HinduWisdomMillionaire() {
                       key={index}
                       onClick={() => selectAnswer(index)}
                       disabled={selectedAnswer !== null}
-                      className={`group relative p-6 rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 overflow-hidden backdrop-blur-sm ${
+                      className={`group relative p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 active:scale-95 overflow-hidden backdrop-blur-sm min-h-[56px] sm:min-h-[64px] md:min-h-[70px] w-full touch-manipulation ${
                         selectedAnswer === index
                           ? 'bg-gradient-to-r from-orange-500 to-purple-600 text-white border-2 border-orange-400 shadow-lg shadow-orange-500/30'
                           : selectedAnswer !== null && index === currentQuestionData.correct
@@ -586,40 +586,40 @@ export default function HinduWisdomMillionaire() {
                     >
                       {/* Shimmer effect on hover */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                      <span className="relative z-10">{answer}</span>
+                      <span className="relative z-10 text-sm sm:text-base md:text-lg leading-snug">{String.fromCharCode(65 + index)}. {answer}</span>
                     </button>
                   );
                 })}
               </div>
             )}
 
-            {/* Enhanced Lifelines */}
+            {/* Enhanced Lifelines - Mobile Optimized */}
             {gameActive && (
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                 <button
                   onClick={useFiftyFifty}
                   disabled={!lifelines.fiftyFifty}
-                  className="group relative px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg border border-purple-300/30 overflow-hidden"
+                  className="group relative px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg border border-purple-300/30 overflow-hidden min-h-[44px] touch-manipulation"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                  <span className="relative z-10">🎯 {t.fiftyFifty}</span>
+                  <span className="relative z-10 text-sm sm:text-base">🎯 {t.fiftyFifty}</span>
                 </button>
               </div>
             )}
 
-            {/* Enhanced Controls */}
-            <div className="flex flex-wrap justify-center gap-6">
+            {/* Enhanced Controls - Mobile Optimized */}
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-6">
               {!gameActive ? (
                 <button
                   onClick={startGame}
-                  className="group relative inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-xl font-black rounded-2xl shadow-2xl shadow-orange-500/40 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden"
+                  className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 md:px-12 py-4 sm:py-6 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-lg sm:text-xl font-black rounded-xl sm:rounded-2xl shadow-2xl shadow-orange-500/40 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden min-h-[56px] touch-manipulation w-full sm:w-auto max-w-sm"
                 >
                   {/* Animated background shimmer */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                  <span className="relative flex items-center gap-3">
-                    <span className="animate-bounce">🎁</span>
-                    {t.beginJourney}
-                    <span className="text-yellow-400 animate-pulse">✨</span>
+                  <span className="relative flex items-center gap-2 sm:gap-3 text-center">
+                    <span className="animate-bounce text-base sm:text-lg">🎁</span>
+                    <span className="text-sm sm:text-lg">{t.beginJourney}</span>
+                    <span className="text-yellow-400 animate-pulse text-base sm:text-lg">✨</span>
                   </span>
                   {/* Glowing border effect */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-purple-500 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
@@ -628,24 +628,24 @@ export default function HinduWisdomMillionaire() {
                 <>
                   <button
                     onClick={newGame}
-                    className="group relative px-8 py-4 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl font-semibold hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-purple-300/30 overflow-hidden"
+                    className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl sm:rounded-2xl font-semibold hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-purple-300/30 overflow-hidden min-h-[48px] touch-manipulation"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                    <span className="relative z-10">🔄 {t.newGame}</span>
+                    <span className="relative z-10 text-sm sm:text-base">🔄 {t.newGame}</span>
                   </button>
                   <button
                     onClick={walkAway}
-                    className="group relative px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-2xl font-semibold hover:from-red-400 hover:to-red-500 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-red-300/30 overflow-hidden"
+                    className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl sm:rounded-2xl font-semibold hover:from-red-400 hover:to-red-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-red-300/30 overflow-hidden min-h-[48px] touch-manipulation"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                    <span className="relative z-10">🚶 {t.walkAway}</span>
+                    <span className="relative z-10 text-sm sm:text-base">🚶 {t.walkAway}</span>
                   </button>
                 </>
               )}
             </div>
 
-            {/* Enhanced Stats with Instagram-style design */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            {/* Enhanced Stats with Instagram-style design - Mobile Optimized */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center">
               <div className="group relative bg-gradient-to-br from-orange-500/20 to-orange-600/20 backdrop-blur-md rounded-2xl p-4 border border-orange-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 <div className="relative z-10">
@@ -753,17 +753,17 @@ export default function HinduWisdomMillionaire() {
               <div className="flex justify-center">
                 <button
                   onClick={beginGameAfterModal}
-                  className="group relative px-8 py-3 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-lg font-bold rounded-2xl shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden min-h-[48px] w-full sm:w-auto touch-manipulation"
                 >
                   {/* Animated shimmer effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                   <span className="relative flex items-center justify-center gap-2">
-                    <span className="animate-bounce">🚀</span>
-                    {language === 'hi' ? 'ज्ञान यात्रा शुरू करें' : 'Begin Wisdom Quest'}
-                    <span className="text-yellow-400 animate-pulse">✨</span>
+                    <span className="animate-bounce text-sm sm:text-base">🚀</span>
+                    <span className="text-sm sm:text-base">{language === 'hi' ? 'ज्ञान यात्रा शुरू करें' : 'Begin Wisdom Quest'}</span>
+                    <span className="text-yellow-400 animate-pulse text-sm sm:text-base">✨</span>
                   </span>
                   {/* Glowing border effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-purple-500 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-400 to-purple-500 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </button>
               </div>
             </div>
@@ -771,10 +771,10 @@ export default function HinduWisdomMillionaire() {
         </div>
       )}
 
-      {/* Walk Away Confirmation Modal */}
+      {/* Walk Away Confirmation Modal - Mobile Optimized */}
       {showWalkAwayModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
-          <div className="relative bg-card/95 backdrop-blur-xl p-8 rounded-3xl max-w-lg w-full border-2 border-red-300/50 shadow-2xl shadow-red-500/20 overflow-hidden">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="relative bg-card/95 backdrop-blur-xl p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl max-w-lg w-full border-2 border-red-300/50 shadow-2xl shadow-red-500/20 overflow-hidden max-h-[90vh] overflow-y-auto">
             {/* Background gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-red-50/80 via-orange-50/60 to-yellow-50/40 dark:from-red-950/30 dark:via-orange-950/20 dark:to-yellow-950/15"></div>
 
@@ -785,24 +785,24 @@ export default function HinduWisdomMillionaire() {
             <div className="absolute bottom-4 right-4 text-red-500 opacity-80 animate-bounce text-lg">🤔</div>
 
             <div className="relative z-10">
-              <div className="text-center mb-6">
-                <div className="text-6xl mb-4">🚶‍♂️</div>
-                <h2 className="text-3xl font-black mb-4 bg-gradient-to-r from-red-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent">
+              <div className="text-center mb-4 sm:mb-6">
+                <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">🚶‍♂️</div>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-black mb-3 sm:mb-4 bg-gradient-to-r from-red-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent px-2">
                   {language === 'hi' ? 'क्या आप वाकई चले जाना चाहते हैं?' : 'Are you sure you want to walk away?'}
                 </h2>
               </div>
 
-              <div className="text-center mb-8">
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              <div className="text-center mb-6 sm:mb-8">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-4 sm:mb-6 px-2">
                   {language === 'hi'
                     ? `आप अपने साथ ले जा रहे हैं`
                     : 'You will walk away with'}
                 </p>
 
                 {/* Prize amount with glowing effect */}
-                <div className="relative inline-block mb-6">
+                <div className="relative inline-block mb-4 sm:mb-6">
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-yellow-600 to-orange-500 blur-lg opacity-30 animate-pulse"></div>
-                  <div className="relative text-5xl font-black bg-gradient-to-r from-orange-500 via-yellow-600 to-orange-500 bg-clip-text text-transparent">
+                  <div className="relative text-3xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-500 via-yellow-600 to-orange-500 bg-clip-text text-transparent">
                     ₹{formatMoney(currentAmount)}
                   </div>
                 </div>
@@ -816,23 +816,23 @@ export default function HinduWisdomMillionaire() {
                 </div>
               </div>
 
-              <div className="flex gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                 <button
                   onClick={cancelWalkAway}
-                  className="group relative px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl font-semibold hover:from-green-400 hover:to-green-500 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-green-300/30 overflow-hidden"
+                  className="group relative px-4 sm:px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl sm:rounded-2xl font-semibold hover:from-green-400 hover:to-green-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-green-300/30 overflow-hidden min-h-[48px] w-full sm:w-auto touch-manipulation"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
                     <span>💪</span>
                     {language === 'hi' ? 'जारी रखें' : 'Continue Playing'}
                   </span>
                 </button>
                 <button
                   onClick={confirmWalkAway}
-                  className="group relative px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-2xl font-semibold hover:from-red-400 hover:to-red-500 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-red-300/30 overflow-hidden"
+                  className="group relative px-4 sm:px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl sm:rounded-2xl font-semibold hover:from-red-400 hover:to-red-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-red-300/30 overflow-hidden min-h-[48px] w-full sm:w-auto touch-manipulation"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
                     <span>🚶</span>
                     {language === 'hi' ? 'हां, चलिए' : 'Yes, Walk Away'}
                   </span>
@@ -843,10 +843,10 @@ export default function HinduWisdomMillionaire() {
         </div>
       )}
 
-      {/* Enhanced Game Over Modal with Instagram-style design */}
+      {/* Enhanced Game Over Modal with Instagram-style design - Mobile Optimized */}
       {showGameOver && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
-          <div className="relative bg-card/95 backdrop-blur-xl p-8 rounded-3xl max-w-lg w-full border-2 border-orange-300/50 shadow-2xl shadow-orange-500/20 overflow-hidden">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="relative bg-card/95 backdrop-blur-xl p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl max-w-lg w-full border-2 border-orange-300/50 shadow-2xl shadow-orange-500/20 overflow-hidden max-h-[90vh] overflow-y-auto">
             {/* Background gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-50/80 via-purple-50/60 to-pink-50/40 dark:from-orange-950/30 dark:via-purple-950/20 dark:to-pink-950/15"></div>
 
@@ -857,44 +857,44 @@ export default function HinduWisdomMillionaire() {
             <div className="absolute bottom-4 right-4 text-orange-500 opacity-80 animate-bounce text-lg">✨</div>
 
             <div className="relative z-10">
-              <h2 className="text-3xl font-black text-center mb-6 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-center mb-4 sm:mb-6 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 bg-clip-text text-transparent px-2">
                 {gameOverData.title}
               </h2>
 
-              <div className="text-center mb-6">
-                <p className="text-lg text-muted-foreground leading-relaxed mb-4 font-medium">
+              <div className="text-center mb-4 sm:mb-6">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-3 sm:mb-4 font-medium px-2">
                   {gameOverData.message}
                 </p>
 
                 {/* Prize amount with glowing effect */}
-                <div className="relative inline-block mb-4">
+                <div className="relative inline-block mb-3 sm:mb-4">
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 blur-lg opacity-30 animate-pulse"></div>
-                  <div className="relative text-4xl font-black bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+                  <div className="relative text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 bg-clip-text text-transparent">
                     ₹{formatMoney(currentAmount)}
                   </div>
                 </div>
               </div>
 
               {/* Stats in a beautiful card */}
-              <div className="bg-gradient-to-r from-orange-500/10 to-purple-500/10 backdrop-blur-sm rounded-2xl p-4 border border-orange-300/30 mb-6">
-                <p className="text-sm text-center text-muted-foreground leading-relaxed font-medium">
+              <div className="bg-gradient-to-r from-orange-500/10 to-purple-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-orange-300/30 mb-4 sm:mb-6">
+                <p className="text-xs sm:text-sm text-center text-muted-foreground leading-relaxed font-medium">
                   {gameOverData.stats}
                 </p>
               </div>
 
               <button
                 onClick={newGame}
-                className="group relative w-full px-8 py-4 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-lg font-bold rounded-2xl shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
+                className="group relative w-full px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden min-h-[48px] touch-manipulation"
               >
                 {/* Animated shimmer effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 <span className="relative flex items-center justify-center gap-2">
-                  <span className="animate-bounce">🔄</span>
-                  {t.continueJourney}
-                  <span className="text-yellow-400 animate-pulse">✨</span>
+                  <span className="animate-bounce text-sm sm:text-base">🔄</span>
+                  <span className="text-sm sm:text-base">{t.continueJourney}</span>
+                  <span className="text-yellow-400 animate-pulse text-sm sm:text-base">✨</span>
                 </span>
                 {/* Glowing border effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-purple-500 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-400 to-purple-500 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               </button>
             </div>
           </div>
