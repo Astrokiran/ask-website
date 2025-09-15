@@ -33,10 +33,10 @@ export function ServicesSection() {
       <div className="relative max-w-7xl mx-auto px-4">
         {/* Header Section */}
         <div className="text-center mb-8 animate-fadeInUp">
-          <h2 className="text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-purple-600 via-orange-500 to-purple-600 bg-clip-text text-transparent mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-purple-600 via-orange-500 to-purple-600 bg-clip-text text-transparent mb-6">
             Our Premium Services
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Discover your destiny through our comprehensive astrological services crafted by expert astrologers
           </p>
           <div className="flex justify-center mt-8">
@@ -45,7 +45,7 @@ export function ServicesSection() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, index) => (
             <div
               key={service.title}
@@ -57,7 +57,7 @@ export function ServicesSection() {
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-orange-500/10 to-purple-500/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 {/* Main Card */}
-                <div className="relative bg-card/80 backdrop-blur-sm p-8 rounded-3xl border border-border/50 group-hover:border-orange-300/50 dark:group-hover:border-orange-700/50 shadow-lg group-hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
+                <div className="relative bg-card/80 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-3xl border border-border/50 group-hover:border-orange-300/50 dark:group-hover:border-orange-700/50 shadow-lg group-hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
 
                   {/* Icon Container */}
                   <div className="relative mb-6">
@@ -72,17 +72,17 @@ export function ServicesSection() {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-orange-500 transition-colors duration-300">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 group-hover:text-orange-500 transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
+                    <p className="text-muted-foreground leading-relaxed mb-4 sm:mb-6 text-base sm:text-lg">
                       {service.description}
                     </p>
                   </div>
 
                   {/* CTA Link */}
                   <Link href={service.href} className="mt-auto">
-                    <div className="group/link inline-flex items-center gap-3 text-orange-500 hover:text-orange-600 font-semibold text-lg transition-all duration-300 hover:translate-x-1">
+                    <div className="group/link inline-flex items-center gap-3 text-orange-500 hover:text-orange-600 font-semibold text-base sm:text-lg transition-all duration-300 hover:translate-x-1">
                       Explore Service
                       <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center group-hover/link:bg-orange-200 dark:group-hover/link:bg-orange-900/40 transition-colors duration-300">
                         <ArrowRight className="w-4 h-4" />
