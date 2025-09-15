@@ -4,7 +4,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Star, Heart, Sparkles, Gift, Us
 
 export function Footer() {
   return (
-    <footer className="bg-card border-t border-border py-12">
+    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-12">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8 mb-8">
           <div>
@@ -12,74 +12,66 @@ export function Footer() {
               <Image src="/ask-logo.png" alt="Astrokiran Logo" width={32} height={32} />
               <span className="font-semibold text-foreground">Astrokiran</span>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              ✨ <strong className="text-orange-500">Trusted by 40,000+ WhatsApp Users</strong> ✨<br/>
-              🌟 Authentic Astrological Guidance<br/>
-              🎯 Expert Predictions & Insights<br/>
-              💫 Discover your cosmic path today!
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              <strong className="text-blue-600 dark:text-blue-400">Trusted by 40,000+ WhatsApp Users</strong><br/>
+              Authentic Astrological Guidance<br/>
+              Expert Predictions & Insights<br/>
+              Discover your cosmic path today!
             </p>
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-orange-500" />
-              🔥 Quick Access
+            <h3 className="font-medium text-gray-900 dark:text-white mb-4">
+              Quick Access
             </h3>
-            <div className="space-y-3">
-              <Link href="/free-kundli" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-orange-500 transition-colors">
-                <Gift className="w-4 h-4 text-orange-500" />
-                <span className="group-hover:translate-x-1 transition-transform">Free Kundli <em className="text-xs">(₹1K Report FREE!)</em> ✨</span>
+            <div className="space-y-2">
+              <Link href="/free-kundli" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Free Kundli
               </Link>
-              <Link href="/kundli-match" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-500 transition-colors">
-                <Heart className="w-4 h-4 text-purple-500" />
-                <span className="group-hover:translate-x-1 transition-transform">Kundli Matching <em className="text-xs">(Perfect Match?)</em> 💕</span>
+              <Link href="/kundli-match" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Kundli Matching
               </Link>
-              <Link href="/horoscopes" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-orange-500 transition-colors">
-                <Star className="w-4 h-4 text-orange-500" />
-                <span className="group-hover:translate-x-1 transition-transform">Daily Horoscope <em className="text-xs">(What's Today?)</em> 🌟</span>
+              <Link href="/horoscopes" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Daily Horoscope
               </Link>
-              <Link href="/blog" className="block text-sm text-gray-400 hover:text-white">
+              <Link href="/blog" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
                 Blogs
               </Link>
-              <Link href="/#astrologers" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-500 transition-colors">
-                <Users className="w-4 h-4 text-purple-500" />
-                <span className="group-hover:translate-x-1 transition-transform">Our Astrologers <em className="text-xs">(Meet Experts)</em> 👨‍🔬</span>
+              <Link href="/#astrologers" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Our Astrologers
               </Link>
-              <Link href="/services" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-orange-500 transition-colors">
-                <Sparkles className="w-4 h-4 text-orange-500" />
-                <span className="group-hover:translate-x-1 transition-transform">Services <em className="text-xs">(All Solutions)</em> 🎯</span>
+              <Link href="/services" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Services
               </Link>
-              <Link href="/pricing" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-500 transition-colors">
-                <TrendingUp className="w-4 h-4 text-purple-500" />
-                <span className="group-hover:translate-x-1 transition-transform">Pricing <em className="text-xs">(Fair Rates)</em> 💰</span>
+              <Link href="/pricing" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Pricing
               </Link>
             </div>
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-purple-500" />
-              🎯 Our Expertise
+            <h3 className="font-medium text-gray-900 dark:text-white mb-4">
+              Our Expertise
             </h3>
-            <div className="space-y-3">
-              <Link href="/horoscopes" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-orange-500 transition-colors">
-                <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></div>
-                <span className="group-hover:translate-x-1 transition-transform">Horoscope Reading <em className="text-xs">(Daily Guidance)</em> 🔮</span>
+            <div className="space-y-2">
+              <Link href="/horoscopes" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Horoscope Reading
               </Link>
-              <Link href="#" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-500 transition-colors">
-                <div className="w-2 h-2 bg-purple-500 rounded-full group-hover:scale-150 transition-transform"></div>
-                <span className="group-hover:translate-x-1 transition-transform">Kundli Analysis <em className="text-xs">(Birth Chart)</em> 📊</span>
+              <Link href="/free-kundli" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Kundli Analysis
               </Link>
-              <Link href="#" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-orange-500 transition-colors">
-                <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></div>
-                <span className="group-hover:translate-x-1 transition-transform">Numerology <em className="text-xs">(Lucky Numbers)</em> 🎲</span>
+              <Link href="/kundli-match" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Compatibility Matching
+              </Link>
+              <Link href="/blog" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+                Astrological Insights
               </Link>
             </div>
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Contact Us</h3>
-            <div className="space-y-2 text-sm text-muted-foreground">
+            <h3 className="font-medium text-gray-900 dark:text-white mb-4">Contact Us</h3>
+            <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
               <p className="leading-relaxed">235 13th Cross, Hoysala Nagar 2nd Stage, Indiranagar, Bangalore North, Karnataka, India, 560038</p>
               <p className="break-all">contact@astrokiran.com</p>
               <p>+918197503574</p>
@@ -87,42 +79,33 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Corporate Info</h3>
+            <h3 className="font-medium text-gray-900 dark:text-white mb-4">Corporate Info</h3>
             <div className="space-y-2">
-              <Link href="/terms" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/terms" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
                 Terms & Conditions
               </Link>
-              {/* <Link href="/privacy" className="block text-sm text-gray-400 hover:text-white">
-                Privacy Policy
-              </Link> */}
-              <Link href="/disclaimer" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/disclaimer" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
                 Disclaimer
               </Link>
-              <Link href="/pricing-policy" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/pricing-policy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
                 Pricing Policy
               </Link>
-              <Link href="/privacy-policy" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/privacy-policy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
                 Privacy Policy
               </Link>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-border">
-          <p className="text-sm text-muted-foreground">© 2024 Astrokiran. All rights reserved.</p>
+        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-gray-200 dark:border-gray-700">
+          <p className="text-sm text-gray-600 dark:text-gray-400">© 2024 Astrokiran. All rights reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <Link href="https://www.facebook.com/profile.php?id=61573395667162" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="https://www.facebook.com/profile.php?id=61573395667162" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               <Facebook className="w-5 h-5" />
             </Link>
-            {/* <Link href="#" className="text-gray-400 hover:text-white">
-              <Twitter className="w-5 h-5" />
-            </Link> */}
-            <Link href="https://www.instagram.com/ask.astrokiran/?hl=en" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="https://www.instagram.com/ask.astrokiran/?hl=en" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               <Instagram className="w-5 h-5" />
             </Link>
-            {/* <Link href="#" className="text-gray-400 hover:text-white">
-              <Linkedin className="w-5 h-5" />
-            </Link> */}
           </div>
         </div>
       </div>

@@ -46,10 +46,11 @@ const Container = styled.div`
 const Title = styled.h1`
   text-align: center;
   color: hsl(var(--foreground));
-  font-family: 'Playfair Display', serif;
-  font-size: 2.8em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 2.2em;
+  font-weight: 600;
   margin-bottom: 50px;
-  letter-spacing: 1px;
+  letter-spacing: -0.025em;
 `;
 
 const Grid = styled.div`
@@ -67,8 +68,8 @@ const CardWrapper = styled.div`
 
 const Card = styled.div`
   background: hsl(var(--card));
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid hsl(var(--border));
   overflow: hidden;
   cursor: pointer;
@@ -80,11 +81,12 @@ const Card = styled.div`
   height: 320px;
   position: relative;
   z-index: 2;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 
   &:hover {
-    box-shadow: 0 12px 35px rgba(234, 88, 12, 0.25);
-    border-color: hsl(var(--orange-500));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+    border-color: rgb(59 130 246);
   }
 `;
 
@@ -101,13 +103,12 @@ const CardImage = styled.img`
 `;
 
 const CardName = styled.h3`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.4em;
   color: hsl(var(--foreground));
   margin-top: 10px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: -0.025em;
 `;
 
 const ImageZoomContainer = styled.div`
@@ -125,8 +126,8 @@ const DetailsPanel = styled.div`
   margin-top: 15px;
   background: hsl(var(--card));
   padding: 18px;
-  border-radius: 15px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid hsl(var(--border));
   text-align: center;
 `;
@@ -140,22 +141,22 @@ const DetailsText = styled.p`
 `;
 
 const MoreButton = styled.a`
-  background: linear-gradient(135deg, hsl(var(--orange-500)), hsl(var(--orange-600)));
+  background: rgb(59 130 246);
   color: white;
   border: none;
   padding: 8px 22px;
-  border-radius: 50px;
+  border-radius: 8px;
   font-size: 0.95em;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: inline-block;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
-    background: linear-gradient(135deg, hsl(var(--orange-600)), hsl(var(--orange-700)));
+    background: rgb(37 99 235);
+    transform: scale(1.02);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 `;
 

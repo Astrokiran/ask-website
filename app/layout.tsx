@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import type React from "react" // Import React
+import type React from "react"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import OrganizationSchema from "@/components/schema/OrganizationSchema"
@@ -11,7 +11,7 @@ import { ServiceWorker } from "@/components/performance/ServiceWorker"
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
-  fallback: ['system-ui', 'arial'],
+  fallback: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Segoe UI', 'system-ui', 'sans-serif'],
   adjustFontFallback: true,
   preload: true,
   variable: '--font-inter'

@@ -294,11 +294,11 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                         </button>
                     </div>
                 </div>
-                <div className="bg-card rounded-lg shadow-sm border">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                    <div className="border-b border-gray-200 dark:border-gray-700">
                         <nav className="-mb-px flex space-x-1 sm:space-x-4 overflow-x-auto p-1 sm:p-2">
                             {tabs.map((tab) => (
-                                <button key={tab} onClick={() => setActiveTab(tab)} className={`whitespace-nowrap py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab ? 'bg-orange-400 text-gray-800 shadow-sm' : 'text-gray-600 hover:bg-orange-100 hover:text-gray-700'}`}>
+                                <button key={tab} onClick={() => setActiveTab(tab)} className={`whitespace-nowrap py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400'}`}>
                                     {tab}
                                 </button>
                             ))}

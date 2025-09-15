@@ -24,7 +24,7 @@ interface HeroSectionProps {
 
 export function HeroSection({
   title = "Ask Astrokiran Kahin Bhi Kabhi Bhi",
-  subtitle = "Connect with expert astrologers ✨ for issues related to Health 💪, Business 📈, Finance 💰, Love ❤️, Marriage 💍, and Government Jobs 🏛️. Get instant personal guidance 💡 and quick, easy-to-follow remedies 🙏 at your convenience."
+  subtitle = "Connect with expert astrologers for issues related to Health, Business, Finance, Love, Marriage, and Government Jobs. Get instant personal guidance and quick, easy-to-follow remedies at your convenience."
 }: HeroSectionProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentAstrologerIndex, setCurrentAstrologerIndex] = useState(0);
@@ -122,34 +122,14 @@ export function HeroSection({
 
   return (
     <div className="bg-background relative w-full max-w-full overflow-hidden">
-      {/* Enhanced Dynamic Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-50/80 via-purple-50/60 to-orange-50/40 dark:from-orange-950/30 dark:via-purple-950/20 dark:to-orange-950/15"></div>
+      {/* Clean Apple-style background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white/80 dark:from-gray-900/50 dark:to-gray-800/80"></div>
 
-      {/* Multiple layered gradients for depth */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(251,146,60,0.3)_0%,transparent_40%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(251,146,60,0.15)_0%,transparent_40%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_30%,rgba(147,51,234,0.25)_0%,transparent_45%)] dark:bg-[radial-gradient(circle_at_80%_30%,rgba(147,51,234,0.12)_0%,transparent_45%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,rgba(236,72,153,0.2)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_50%_80%,rgba(236,72,153,0.1)_0%,transparent_50%)]"></div>
+      {/* Subtle geometric elements */}
+      <div className="absolute top-20 left-8 w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full opacity-40"></div>
+      <div className="absolute bottom-32 right-16 w-3 h-3 bg-gray-200 dark:bg-gray-700 rounded-full opacity-30"></div>
 
-      {/* Enhanced Floating Elements with varied sizes and animations */}
-      <div className="absolute top-16 left-8 w-3 h-3 bg-orange-400 rounded-full animate-pulse opacity-70 shadow-lg"></div>
-      <div className="absolute top-24 left-24 w-2 h-2 bg-purple-500 rounded-full animate-ping opacity-60"></div>
-      <div className="absolute top-32 right-16 w-4 h-4 bg-pink-400 rounded-full animate-bounce opacity-80 shadow-md"></div>
-      <div className="absolute top-48 right-32 w-1.5 h-1.5 bg-orange-300 rounded-full animate-pulse opacity-60"></div>
-      <div className="absolute bottom-32 left-16 w-3.5 h-3.5 bg-purple-400 rounded-full animate-bounce opacity-70 shadow-lg"></div>
-      <div className="absolute bottom-48 left-40 w-2.5 h-2.5 bg-orange-500 rounded-full animate-ping opacity-50"></div>
-      <div className="absolute bottom-24 right-20 w-3 h-3 bg-pink-500 rounded-full animate-pulse opacity-65 shadow-md"></div>
 
-      {/* Magical sparkle effects */}
-      <div className="absolute top-20 left-1/4 text-orange-400 opacity-80 animate-pulse text-sm">✨</div>
-      <div className="absolute top-40 right-1/4 text-purple-500 opacity-70 animate-bounce text-lg">⭐</div>
-      <div className="absolute bottom-40 left-1/3 text-pink-400 opacity-75 animate-pulse text-base">🌟</div>
-      <div className="absolute bottom-20 right-1/3 text-orange-500 opacity-80 animate-bounce text-sm">✨</div>
-      <div className="absolute top-60 left-1/2 text-purple-400 opacity-60 animate-ping text-xs">💫</div>
-
-      {/* Geometric shapes for modern look */}
-      <div className="absolute top-28 left-12 w-8 h-8 border-2 border-orange-300 rotate-45 animate-spin opacity-30"></div>
-      <div className="absolute bottom-36 right-12 w-6 h-6 border-2 border-purple-400 rounded-full animate-pulse opacity-40"></div>
-      <div className="absolute top-72 right-1/4 w-4 h-4 bg-gradient-to-r from-orange-400 to-purple-500 transform rotate-12 animate-bounce opacity-50"></div>
 
       <div className="relative w-full max-w-7xl mx-auto px-3 sm:px-4 py-8 sm:py-12 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center w-full">
@@ -159,19 +139,13 @@ export function HeroSection({
             {/* Enhanced title with multiple effects */}
             <div className="animate-fadeInUp mb-8">
               {/* Animated badge above title */}
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500/20 to-purple-500/20 backdrop-blur-sm border border-orange-300/30 rounded-full px-4 py-2 mb-6 animate-pulse">
-                <span className="w-2 h-2 bg-orange-500 rounded-full animate-ping"></span>
-                <span className="text-sm font-semibold text-orange-600 dark:text-orange-400">🔥 India's Most Trusted Astrology Platform</span>
+              <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-black/60 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-full px-4 py-2 mb-6">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">India's Most Trusted Astrology Platform</span>
               </div>
 
-              <h1 className="text-2xl lg:text-4xl font-black leading-tight mb-6 relative">
-                {/* Glowing background effect */}
-                <span className="absolute inset-0 bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 blur-xl opacity-30 animate-pulse"></span>
-                <span className="relative bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-lg">
-                  {title}
-                </span>
-                {/* Floating sparkle on title */}
-                <span className="absolute -top-2 -right-2 text-yellow-400 animate-bounce text-lg">✨</span>
+              <h1 className="text-2xl lg:text-4xl font-bold leading-tight mb-6 text-gray-900 dark:text-white">
+                {title}
               </h1>
 
               {/* Enhanced subtitle with effects */}
@@ -186,7 +160,7 @@ export function HeroSection({
                   Whether you seek guidance on relationships, career decisions, health concerns, or spiritual growth, our expert astrologers combine ancient wisdom with modern understanding to illuminate your path forward with clarity and confidence.
                 </p>
                 {/* Accent line under subtitle */}
-                <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 rounded-full mx-auto lg:mx-0 mt-4 animate-pulse"></div>
+                <div className="w-24 h-0.5 bg-gray-300 dark:bg-gray-600 mx-auto lg:mx-0 mt-4"></div>
               </div>
             </div>
 
@@ -194,17 +168,12 @@ export function HeroSection({
               {/* Enhanced primary button */}
               <button
                 onClick={handleRedirect}
-                className="group relative inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-xl font-black rounded-2xl shadow-2xl shadow-orange-500/40 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden"
+                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white text-lg font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
               >
-                {/* Animated background shimmer */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                <span className="relative flex items-center gap-3">
-                  <span className="animate-bounce">🎁</span>
+                <span className="flex items-center gap-3">
                   Get your Kundli for Free
-                  <ChevronRight className="h-6 w-6 transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-110" />
+                  <ChevronRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
                 </span>
-                {/* Glowing border effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-purple-500 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               </button>
 
               {/* Enhanced secondary button */}
@@ -212,16 +181,14 @@ export function HeroSection({
                 href="https://wa.me/918197503574?text=Hi,%20I%20would%20like%20to%20consult%20with%20an%20astrologer"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center gap-3 px-12 py-6 bg-card/90 backdrop-blur-md border-2 border-orange-300/50 hover:border-orange-400 dark:border-orange-700/50 dark:hover:border-orange-600 text-foreground text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
+                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-900 dark:text-white text-lg font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
               >
-                {/* Animated background on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-50/50 to-purple-50/50 dark:from-orange-950/20 dark:to-purple-950/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-                <span className="relative flex items-center gap-3">
-                  <svg className="w-6 h-6 text-green-500 group-hover:animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                <span className="flex items-center gap-3">
+                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516"/>
                   </svg>
-                  <span className="bg-gradient-to-r from-orange-600 to-purple-600 bg-clip-text text-transparent font-black">First Call: ₹51</span>
-                  <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full animate-pulse">SPECIAL</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">First Call: ₹51</span>
+                  <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">Special</span>
                 </span>
               </a>
             </div>
@@ -230,11 +197,11 @@ export function HeroSection({
           {/* Right Astrologer Slideshow */}
           <div className="relative">
             <div className="relative h-[500px] lg:h-[600px] group">
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-purple-500/20 to-orange-500/20 rounded-3xl blur-3xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+              {/* Subtle shadow effect */}
+              <div className="absolute inset-0 bg-gray-100/50 dark:bg-gray-800/50 rounded-3xl blur-2xl opacity-60"></div>
 
               {/* Main Astrologer Container */}
-              <div className="relative h-full w-full rounded-3xl overflow-hidden border border-orange-200/20 dark:border-orange-800/20 shadow-2xl bg-card/80 backdrop-blur-sm">
+              <div className="relative h-full w-full rounded-3xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 shadow-xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
                 {astrologersData.length > 0 && (
                   <div key={currentAstrologerIndex} className="h-full flex flex-col">
                     {/* Astrologer Image */}
@@ -248,20 +215,20 @@ export function HeroSection({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
                       {/* Floating Badge */}
-                      <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
-                        <p className="text-sm font-semibold text-foreground">✨ Expert Astrologer</p>
+                      <div className="absolute top-6 right-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Expert Astrologer</p>
                       </div>
 
                       {/* Navigation Buttons */}
                       <button
                         onClick={handlePrevAstrologer}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-orange-500/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors z-10"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors z-10"
                       >
                         <ChevronLeft className="w-5 h-5 text-white" />
                       </button>
                       <button
                         onClick={handleNextAstrologer}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-purple-500/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-purple-500 transition-colors z-10"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors z-10"
                       >
                         <ChevronRight className="w-5 h-5 text-white" />
                       </button>
@@ -315,10 +282,10 @@ export function HeroSection({
                     <button
                       key={index}
                       onClick={() => setCurrentAstrologerIndex(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      className={`w-2 h-2 rounded-full transition-all duration-200 ${
                         index === currentAstrologerIndex
-                          ? 'bg-orange-500 scale-125'
-                          : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
+                          ? 'bg-blue-500'
+                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                       }`}
                     />
                   ))}

@@ -28,13 +28,7 @@ export function NavBar() {
 
   return (
     <>
-      <div className="fixed top-0 w-full max-w-full bg-background/95 backdrop-blur-md border-b border-orange-200/20 z-[9999] text-xl shadow-lg overflow-hidden">
-        {/* Instagram-style gradient background overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-50/30 via-purple-50/20 to-orange-50/30 dark:from-orange-950/10 dark:via-purple-950/5 dark:to-orange-950/10"></div>
-
-        {/* Floating sparkle effects */}
-        <div className="absolute top-1 left-1/4 text-orange-400/60 animate-pulse text-xs">✨</div>
-        <div className="absolute top-1 right-1/4 text-purple-500/60 animate-bounce text-xs">⭐</div>
+      <div className="fixed top-0 w-full max-w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 z-[9999] text-xl shadow-sm overflow-hidden">
 
         <nav className="relative flex items-center justify-between p-3 sm:p-4 w-full max-w-7xl mx-auto gap-2 overflow-hidden">
           {/* Fixed Logo - never shrinks */}
@@ -43,14 +37,10 @@ export function NavBar() {
               {/* Enhanced logo with glow effect */}
               <div className="relative">
                 <img src="/ask-logo.png" alt="Astrokiran Logo" className="w-12 h-12 transition-all duration-300 group-hover:drop-shadow-lg" />
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-purple-500 rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
               </div>
-              <span className="font-bold bg-gradient-to-r from-orange-600 via-purple-600 to-orange-600 bg-clip-text text-transparent group-hover:from-orange-500 group-hover:via-purple-500 group-hover:to-orange-500 transition-all duration-300 whitespace-nowrap">
+              <span className="font-semibold text-gray-900 dark:text-white transition-all duration-300 whitespace-nowrap">
                 Astrokiran
               </span>
-              {/* Floating sparkle on logo hover */}
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-yellow-400 animate-bounce text-sm ml-1">✨</span>
             </div>
           </Link>
 
@@ -61,32 +51,29 @@ export function NavBar() {
               className="flex items-center gap-1 overflow-x-auto nav-scroll w-full min-w-0"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-            <Link href="/free-kundli" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-orange-600 transition-colors">Free Kundli</span>
+            <Link href="/free-kundli" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Free Kundli</span>
             </Link>
-             <Link href="/kundli-match" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-purple-600 transition-colors">Kundli Matching</span>
+             <Link href="/kundli-match" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Kundli Matching</span>
             </Link>
-            <Link href="/horoscopes" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-orange-600 transition-colors">Daily Horoscope</span>
+            <Link href="/horoscopes" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Daily Horoscope</span>
             </Link>
-            <Link href="/blog" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-purple-600 transition-colors">Blogs</span>
+            <Link href="/blog" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Blogs</span>
             </Link>
-            <Link href="/#astrologers" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-orange-600 transition-colors">Our Astrologers</span>
+            <Link href="/#astrologers" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Our Astrologers</span>
             </Link>
-            <Link href="/#services" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-purple-600 transition-colors">Services</span>
+            <Link href="/#services" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Services</span>
             </Link>
-            <Link href="/pricing" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-orange-600 transition-colors">Pricing</span>
+            <Link href="/pricing" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Pricing</span>
             </Link>
-            <Link href="/games/hindu-wisdom-millionaire" className="group relative text-sm font-medium text-foreground px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-purple-600 transition-colors flex items-center gap-1">
-                <span>🎮</span>
-                <span>Games</span>
-              </span>
+            <Link href="/games/hindu-wisdom-millionaire" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
+              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Games</span>
             </Link>
             </div>
           </div>
@@ -126,7 +113,7 @@ export function NavBar() {
             </a>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>

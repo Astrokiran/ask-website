@@ -31,9 +31,9 @@ interface ZodiacImageMap {
 // --- UI COMPONENT: SectionCard ---
 // Redesigned for a fully responsive, side-by-side layout
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode; imageUrl?: string | null; }> = ({ title, icon, children, imageUrl }) => (
-  <div className="bg-card rounded-xl shadow-md border border-orange-100 p-6 md:p-8 transition-all duration-300 hover:shadow-lg overflow-hidden">
-    <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-6 flex items-center">
-      <span className="text-orange-500 mr-3">{icon}</span>
+  <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 transition-all duration-200 hover:shadow-sm overflow-hidden">
+    <h3 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+      <span className="text-blue-600 dark:text-blue-400 mr-3">{icon}</span>
       {title}
     </h3>
     {/* Responsive container for content and image */}
@@ -44,13 +44,13 @@ const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
                 <img
                     src={imageUrl}
                     alt={title}
-                    className="w-full h-auto object-contain rounded-full bg-orange-50 p-2 shadow-sm border border-orange-100"
+                    className="w-full h-auto object-contain rounded-full bg-gray-50 dark:bg-gray-700 p-2 border border-gray-200 dark:border-gray-600"
                 />
             </div>
         )}
 
         {/* Right Side: Text Content */}
-        <div className="prose prose-md max-w-none text-foreground leading-relaxed flex-1">
+        <div className="prose prose-md max-w-none text-gray-900 dark:text-white leading-relaxed flex-1">
             {children}
         </div>
     </div>
@@ -89,9 +89,9 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
     // Loading state for the entire report
     if (!kundliData || !kundliData.report || isCmsLoading) {
         return (
-            <div className="bg-background min-h-screen p-8 flex items-center justify-center">
-                <p className="text-lg text-muted-foreground flex items-center gap-2">
-                    <Bot size={20} className="text-orange-500 animate-pulse" />
+            <div className="min-h-screen p-8 flex items-center justify-center">
+                <p className="text-lg text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <Bot size={20} className="text-blue-600 dark:text-blue-400 animate-pulse" />
                     Preparing your astrological report...
                 </p>
             </div>
@@ -100,16 +100,16 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
 
     // Custom Markdown renderers
     const renderers = {
-        h3: ({ node, ...props }: any) => <h3 className="text-lg font-semibold text-foreground mt-6 mb-3" {...props} />,
-        p: ({ node, ...props }: any) => <p className="mb-4 text-foreground" {...props} />,
+        h3: ({ node, ...props }: any) => <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-6 mb-3" {...props} />,
+        p: ({ node, ...props }: any) => <p className="mb-4 text-gray-900 dark:text-white" {...props} />,
         ul: ({ node, ...props }: any) => <ul className="list-disc list-inside space-y-3 mb-4" {...props} />,
         li: ({ node, ...props }: any) => (
             <li className="flex items-start">
-                <Sparkles size={15} className="text-orange-400 mr-3 mt-1.5 flex-shrink-0" />
+                <Sparkles size={15} className="text-blue-600 dark:text-blue-400 mr-3 mt-1.5 flex-shrink-0" />
                 <span>{props.children}</span>
             </li>
         ),
-        strong: ({ node, ...props }: any) => <strong className="font-semibold text-orange-700" {...props} />,
+        strong: ({ node, ...props }: any) => <strong className="font-semibold text-blue-600 dark:text-blue-400" {...props} />,
     };
 
     const { report } = kundliData;
@@ -124,8 +124,8 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
     };
 
     return (
-        <div className="bg-background min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
-            <div className="max-w-5xl mx-auto space-y-6">
+        <div className="mt-6">
+            <div className="space-y-6">
                 <div className="grid gap-6">
                     {sections.map((section, index) => {
                         const firstNewline = section.indexOf('\n');
@@ -153,7 +153,7 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
                     })}
                 </div>
 
-                <footer className="text-center mt-10 text-sm text-muted-foreground bg-card/50 py-4 rounded-lg">
+                <footer className="text-center mt-10 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 py-4 rounded-xl">
                     <p>
                         This report offers a foundational analysis of your birth chart. For personalized insights, consult a professional astrologer.
                     </p>

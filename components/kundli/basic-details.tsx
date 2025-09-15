@@ -39,23 +39,23 @@ interface BasicDetailsProps {
 const DetailCard = ({ title, details }) => {
   if (!Array.isArray(details) || details.length === 0) {
     return (
-      <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
-        <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-4 pb-2 border-b border-orange-200">{title}</h3>
-        <p className="text-muted-foreground">No details available.</p>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-400">No details available.</p>
       </div>
     );
   }
   return (
-    <div className="bg-card rounded-xl shadow-lg border p-6 transform transition-all hover:scale-[1.01] duration-300">
-      <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-5 pb-3 border-b border-orange-200">{title}</h3>
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-5 pb-3 border-b border-gray-200 dark:border-gray-700">{title}</h3>
       <div className="sm:space-y-0.5">
         {details.map((detail, index) => (
           <div
             key={index}
-            className="grid grid-cols-2 gap-4 items-center py-2.5 px-3 rounded-lg transition-colors duration-200 hover:bg-accent group"
+            className="grid grid-cols-2 gap-4 items-center py-2.5 px-3 rounded-lg transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 group"
           >
-            <dt className="text-sm font-medium text-muted-foreground group-hover:text-orange-600 break-words">{detail.label}</dt>
-            <dd className="text-sm text-foreground font-semibold group-hover:text-orange-800 text-right break-words">{detail.value}</dd>
+            <dt className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 break-words">{detail.label}</dt>
+            <dd className="text-sm text-gray-900 dark:text-white font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300 text-right break-words">{detail.value}</dd>
           </div>
         ))}
       </div>

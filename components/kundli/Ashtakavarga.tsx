@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -12,12 +11,10 @@ const PLANET_KEYS = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Satu
 
 const ASHTAKAVARGA_INFO_CONTENT = [
     {
-        emoji: "🪐",
         title: "What is Ashtakavarga?",
         content: "Ashtakavarga is a unique system in Vedic astrology for evaluating a planet's strength. It assigns points (Bindus) to houses based on planetary positions, providing a nuanced score. 'Ashta' means eight, referring to the seven planets plus the Ascendant (Lagna) as points of reference.",
     },
     {
-        emoji: "💡",
         title: "How It's Calculated & Used",
         content: "The system generates a Sarvashtakavarga (SAV) score for each house by totaling the benefic points given by the eight sources. This score indicates the house's overall strength and potential to deliver results.",
         listItems: [
@@ -27,7 +24,6 @@ const ASHTAKAVARGA_INFO_CONTENT = [
         ]
     },
     {
-        emoji: "🎯",
         title: "Benefits in Predictions",
         content: "Astrologers use Ashtakavarga to make precise predictions and recommendations. It helps to:",
         listItems: [
@@ -55,7 +51,6 @@ interface AshtakavargaAnalysisProps {
 }
 
 interface InfoCardProps {
-    emoji: string;
     title: string;
     content: string;
     listItems?: string[];
@@ -63,14 +58,14 @@ interface InfoCardProps {
 
 
 // --- CHILD COMPONENT ---
-const InfoCard: React.FC<InfoCardProps> = ({ emoji, title, content, listItems }) => (
-    <div className="bg-card border border-border rounded-lg shadow-sm p-6 space-y-3 h-full">
-        <h3 className="text-xl font-bold text-foreground">
-            <span className="mr-2">{emoji}</span> {title}
+const InfoCard: React.FC<InfoCardProps> = ({ title, content, listItems }) => (
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-3 h-full">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+            {title}
         </h3>
-        <p className="text-muted-foreground">{content}</p>
+        <p className="text-gray-600 dark:text-gray-400">{content}</p>
         {listItems && (
-            <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
+            <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1 pl-1">
                 {listItems.map((item, index) => (
                     <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
                 ))}
@@ -98,79 +93,75 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
     }
 
     return (
-        <div className="p-4 sm:p-6 bg-background">
-            <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
-                    Ashtakavarga Analysis
-                </h2>
+        <div className="mt-6">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">
+                Ashtakavarga Analysis
+            </h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-                    {/* Left Column: Table and Charts */}
-                    <div className="space-y-8">
-                        {/* --- RESPONSIVE TABLE --- */}
-                        {isLoading ? (
-                            <div className="w-full h-96 bg-muted rounded-lg animate-pulse" />
-                        ) : tableData ? (
-                            <div className="bg-card border border-border rounded-lg shadow-sm p-4 overflow-x-auto">
-                                <table className="min-w-full divide-y divide-border">
-                                    <thead className="bg-muted/50">
-                                        <tr>
-                                            <th scope="col" className="px-4 py-3 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Rashi</th>
-                                            {PLANET_KEYS.map(p => (
-                                                <th key={p} scope="col" className="px-4 py-3 text-center text-xs font-bold text-muted-foreground uppercase tracking-wider">{p.slice(0, 2)}</th>
-                                            ))}
-                                            <th scope="col" className="px-4 py-3 text-center text-xs font-bold text-muted-foreground uppercase tracking-wider">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-card divide-y divide-border">
-                                        {SIGN_NAMES.map((signName, index) => (
-                                            <tr key={signName} className="hover:bg-muted/30 transition-colors">
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-foreground">{signName}</td>
-                                                {PLANET_KEYS.map(planet => (
-                                                    <td key={`${planet}-${index}`} className="px-4 py-3 whitespace-nowrap text-sm text-center text-muted-foreground">
-                                                        {tableData.bhinna_ashtakavarga[planet]?.[index] ?? '-'}
-                                                    </td>
-                                                ))}
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-center font-bold text-orange-600 dark:text-orange-400">
-                                                    {tableData.sarvashtakavarga?.[index] ?? '-'}
-                                                </td>
-                                            </tr>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Left Column: Table and Charts */}
+                <div className="space-y-8">
+                    {/* --- RESPONSIVE TABLE --- */}
+                    {isLoading ? (
+                        <div className="w-full h-96 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse" />
+                    ) : tableData ? (
+                        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead className="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Rashi</th>
+                                        {PLANET_KEYS.map(p => (
+                                            <th key={p} scope="col" className="px-4 py-3 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">{p.slice(0, 2)}</th>
                                         ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                             <div className="text-muted-foreground text-center py-20 bg-card border border-border rounded-lg">Table data not available.</div>
-                        )}
+                                        <th scope="col" className="px-4 py-3 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                    {SIGN_NAMES.map((signName, index) => (
+                                        <tr key={signName} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                            <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{signName}</td>
+                                            {PLANET_KEYS.map(planet => (
+                                                <td key={`${planet}-${index}`} className="px-4 py-3 whitespace-nowrap text-sm text-center text-gray-600 dark:text-gray-400">
+                                                    {tableData.bhinna_ashtakavarga[planet]?.[index] ?? '-'}
+                                                </td>
+                                            ))}
+                                            <td className="px-4 py-3 whitespace-nowrap text-sm text-center font-semibold text-blue-600 dark:text-blue-400">
+                                                {tableData.sarvashtakavarga?.[index] ?? '-'}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                         <div className="text-gray-600 dark:text-gray-400 text-center py-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">Table data not available.</div>
+                    )}
 
-                        {/* --- SVG CHARTS --- */}
-                        {isLoading ? (
-                            <div className="w-full h-[600px] md:h-[900px] bg-muted rounded-lg animate-pulse" />
-                        ) : compositeSvgString ? (
-                            <div className="bg-card border border-border rounded-lg shadow-sm p-4">
-                                <div
-                                    className="w-full max-w-4xl"
-                                    dangerouslySetInnerHTML={{ __html: compositeSvgString }}
-                                />
-                            </div>
-                        ) : (
-                            <div className="text-muted-foreground text-center py-20 bg-card border border-border rounded-lg">Chart data not available.</div>
-                        )}
-                    </div>
-
-                    {/* Right Column: Information Grid */}
-                    <div className="grid grid-cols-1 gap-6 content-start">
-                        {ASHTAKAVARGA_INFO_CONTENT.map((info) => (
-                            <InfoCard
-                                key={info.title}
-                                emoji={info.emoji}
-                                title={info.title}
-                                content={info.content}
-                                listItems={info.listItems}
+                    {/* --- SVG CHARTS --- */}
+                    {isLoading ? (
+                        <div className="w-full h-[600px] md:h-[900px] bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse" />
+                    ) : compositeSvgString ? (
+                        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                            <div
+                                className="w-full max-w-4xl"
+                                dangerouslySetInnerHTML={{ __html: compositeSvgString }}
                             />
-                        ))}
-                    </div>
+                        </div>
+                    ) : (
+                        <div className="text-gray-600 dark:text-gray-400 text-center py-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">Chart data not available.</div>
+                    )}
+                </div>
+
+                {/* Right Column: Information Grid */}
+                <div className="grid grid-cols-1 gap-6 content-start">
+                    {ASHTAKAVARGA_INFO_CONTENT.map((info) => (
+                        <InfoCard
+                            key={info.title}
+                            title={info.title}
+                            content={info.content}
+                            listItems={info.listItems}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
@@ -178,4 +169,3 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
 };
 
 export default AshtakavargaAnalysis;
-

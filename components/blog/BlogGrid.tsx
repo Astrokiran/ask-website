@@ -13,23 +13,23 @@ function BlogGridSkeleton() {
   return (
     <div className="grid gap-8 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="relative bg-card/80 backdrop-blur-sm rounded-2xl border border-orange-200/30 dark:border-orange-800/30 overflow-hidden animate-pulse shadow-xl">
-          <div className="h-48 bg-gradient-to-br from-orange-100/50 to-purple-100/50 dark:from-orange-900/30 dark:to-purple-900/30" />
+        <div key={i} className="relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-pulse shadow-sm">
+          <div className="h-48 bg-gray-200 dark:bg-gray-700" />
           <div className="p-6 space-y-4">
             <div className="flex gap-4">
-              <div className="h-4 w-20 bg-muted rounded" />
-              <div className="h-4 w-24 bg-muted rounded" />
+              <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
             </div>
             <div className="space-y-2">
-              <div className="h-6 w-3/4 bg-muted rounded" />
-              <div className="h-6 w-1/2 bg-muted rounded" />
+              <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="h-6 w-1/2 bg-gray-200 dark:bg-gray-700 rounded" />
             </div>
             <div className="space-y-2">
-              <div className="h-4 w-full bg-muted rounded" />
-              <div className="h-4 w-full bg-muted rounded" />
-              <div className="h-4 w-2/3 bg-muted rounded" />
+              <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded" />
+              <div className="h-4 w-2/3 bg-gray-200 dark:bg-gray-700 rounded" />
             </div>
-            <div className="h-4 w-24 bg-muted rounded" />
+            <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
           </div>
         </div>
       ))}
@@ -40,17 +40,14 @@ function BlogGridSkeleton() {
 function EmptyState() {
   return (
     <div className="text-center py-20">
-      <div className="mx-auto w-32 h-32 bg-gradient-to-br from-orange-400/20 to-purple-500/20 rounded-full flex items-center justify-center mb-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-purple-500/20 rounded-full blur-xl"></div>
-        <div className="relative text-6xl">✨</div>
+      <div className="mx-auto w-32 h-32 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-8">
+        <div className="text-4xl text-gray-400">📄</div>
       </div>
-      <h3 className="text-2xl lg:text-3xl font-bold mb-4">
-        <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-          No Cosmic Articles Found
-        </span>
+      <h3 className="text-2xl lg:text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
+        No Articles Found
       </h3>
-      <p className="text-muted-foreground max-w-md mx-auto text-lg">
-        The cosmic archives don't contain any articles matching your search. Try exploring different topics or clearing your filters.
+      <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto text-lg">
+        No articles match your search criteria. Try exploring different topics or clearing your filters.
       </p>
     </div>
   );
@@ -59,21 +56,18 @@ function EmptyState() {
 function ErrorState({ error }: { error: string }) {
   return (
     <div className="text-center py-20">
-      <div className="mx-auto w-32 h-32 bg-gradient-to-br from-red-400/20 to-orange-500/20 rounded-full flex items-center justify-center mb-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-full blur-xl"></div>
-        <div className="relative text-6xl">⚠️</div>
+      <div className="mx-auto w-32 h-32 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-8">
+        <div className="text-4xl text-red-500">⚠️</div>
       </div>
-      <h3 className="text-2xl lg:text-3xl font-bold mb-4">
-        <span className="bg-gradient-to-r from-red-500 to-orange-600 bg-clip-text text-transparent">
-          Cosmic Connection Lost
-        </span>
+      <h3 className="text-2xl lg:text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
+        Connection Error
       </h3>
-      <p className="text-muted-foreground max-w-md mx-auto mb-8 text-lg">{error}</p>
+      <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto mb-8 text-lg">{error}</p>
       <button
         onClick={() => window.location.reload()}
-        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]"
       >
-        <span>Reconnect to the Cosmos</span>
+        <span>Try Again</span>
       </button>
     </div>
   );

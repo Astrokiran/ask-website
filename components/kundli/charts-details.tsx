@@ -1,7 +1,4 @@
-// In ChartDetails.tsx
-
 import React from 'react';
-import './ChartDetails.css'; // We will create this file next
 
 // --- INTERFACES ---
 
@@ -29,35 +26,37 @@ const ChartDetails: React.FC<ChartDetailsProps> = ({ kundliData }) => {
   const otherVargaCharts = varga_charts_svgs ? Object.entries(varga_charts_svgs) : [];
 
   return (
-    <div className="kundli-container">
-      <h2 className="main-title">Astrological Charts</h2>
-      
+    <div className="mt-6">
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Astrological Charts</h2>
+
       {/* Main Charts: Rasi (D1) and Navamsa (D9) */}
-      <div className="main-charts-grid">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {rasi_chart_svg && (
-          <div className="chart-card">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
             <div dangerouslySetInnerHTML={{ __html: rasi_chart_svg }} />
           </div>
         )}
 
         {navamsa_chart_svg ? (
-          <div className="chart-card">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
             <div dangerouslySetInnerHTML={{ __html: navamsa_chart_svg }} />
           </div>
         ) : (
-            <div className="chart-card"><p>Navamsa Chart not available.</p></div>
-)}
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
+            <p className="text-gray-600 dark:text-gray-400">Navamsa Chart not available.</p>
+          </div>
+        )}
       </div>
 
       {/* Responsive Divisional (Varga) Charts */}
       {otherVargaCharts.length > 0 && (
-        <div className="varga-section">
-          <h3 className="section-title">Divisional (Varga) Charts</h3>
-          <div className="varga-grid">
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Divisional (Varga) Charts</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherVargaCharts.map(([name, svgString]) => (
               <div
                 key={name}
-                className="chart-card"
+                className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm"
                 dangerouslySetInnerHTML={{ __html: svgString }}
               />
             ))}
