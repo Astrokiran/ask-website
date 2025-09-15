@@ -3,10 +3,8 @@
 import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useJsApiLoader } from '@react-google-maps/api';
-import { NavBar } from '@/components/nav-bar';
-import { Footer } from '@/components/footer';
 import { ServicesSection } from "@/components/services-section";
-import { FormSection } from './components/FormSection'; 
+import { FormSection } from './components/Formsection'; 
 import Image from 'next/image';
 import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 import { Briefcase, Heart, Sparkles, Star } from 'lucide-react';
@@ -14,13 +12,13 @@ import { Briefcase, Heart, Sparkles, Star } from 'lucide-react';
 
 const SectionItem = ({ icon, title, text }) => (
   <div
-    className="p-4 bg-card/70 backdrop-blur-sm rounded-xl border border shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-orange-500 animate-fadeInUp"
+    className="p-3 sm:p-4 bg-card/70 backdrop-blur-sm rounded-lg sm:rounded-xl border border shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-orange-500 animate-fadeInUp"
   >
-    <div className="flex items-center gap-3 mb-2">
+    <div className="flex items-center gap-2 sm:gap-3 mb-2">
       {icon}
-      <h3 className="text-xl font-bold text-orange-600 dark:text-orange-400">{title}</h3>
+      <h3 className="text-lg sm:text-xl font-bold text-orange-600 dark:text-orange-400">{title}</h3>
     </div>
-    <p className="text-foreground leading-relaxed text-sm md:text-base">
+    <p className="text-foreground leading-relaxed text-xs sm:text-sm md:text-base">
       {text}
     </p>
   </div>
@@ -231,23 +229,22 @@ export default function KundliMatchingPage() {
   const tabs = [{ id: 'man', label: 'Your Details' }, { id: 'woman', label: "Partner's Details" }];
 
   return (
-    <div className="min-h-screen flex flex-col font-sans">
-      <NavBar />
+    <div className="w-full font-sans">
       <DailyHoroscopeCta phoneNumber={"918197503574"}/>
-      <main className="flex-grow container mx-auto px-4 pt-4 pb-12 md:pt-6 md:pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 pt-2 sm:pt-4 pb-8 sm:pb-12 md:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-start">
           {/* COLUMN 1: Form Container */}
           <div
-            className="w-full max-w-lg mx-auto lg:max-w-none lg:mx-0"
+            className="w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto lg:max-w-none lg:mx-0"
           >
-                <div className="bg-card rounded-2xl shadow-2xl overflow-hidden border border">
+                <div className="bg-card rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden border border">
                   <div className="flex relative border-b border-gray-200">
                     {tabs.map(tab => (
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as 'man' | 'woman')}
                         className={`${activeTab === tab.id ? 'text-orange-600 dark:text-orange-400' : 'text-muted-foreground hover:text-orange-500'}
-                            w-1/2 py-4 text-center font-bold text-lg transition-colors duration-300 relative focus:outline-none`}
+                            w-1/2 py-3 sm:py-4 text-center font-bold text-base sm:text-lg transition-colors duration-300 relative focus:outline-none`}
                       >
                         {tab.label}
                         {activeTab === tab.id && (
@@ -260,7 +257,7 @@ export default function KundliMatchingPage() {
                     ))}
                   </div>
 
-                  <form onSubmit={handleSubmit} className="p-6 sm:p-8">
+                  <form onSubmit={handleSubmit} className="p-4 sm:p-6 md:p-8">
                       <div
                         key={activeTab}
                         className="transition-all duration-300"
@@ -286,7 +283,7 @@ export default function KundliMatchingPage() {
 
                     <button
                       type="submit"
-                      className="w-full mt-8 bg-gradient-to-r from-yellow-500 to-orange-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="w-full mt-6 sm:mt-8 bg-gradient-to-r from-yellow-500 to-orange-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out shadow-lg disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base"
                       disabled={loading}
                     >
                       {loading ? 'Calculating...' : 'Match Kundli'}
@@ -295,11 +292,11 @@ export default function KundliMatchingPage() {
                 </div>
               </div>
 
-              <div className="hidden lg:block">
+              <div className="block">
                 <div
                 >
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-orange-600 dark:text-orange-400 drop-shadow-md leading-tight">
+                    <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-orange-600 dark:text-orange-400 drop-shadow-md leading-tight">
                       Kundali Matching: Unlock Success in Relationships
                     </h2>
                     <Star className="h-8 w-8 text-yellow-500 animate-pulse hidden md:block" />
@@ -308,7 +305,7 @@ export default function KundliMatchingPage() {
                     Kundali matching, also known as horoscope compatibility, is not just for marriage—it can also be a powerful guide in business partnerships and personal relationships. By analyzing the planetary positions in two individuals’ birth charts, Kundali matching helps reveal compatibility, strengths, and challenges between them.
                   </p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {kundaliSections.map((section, index) => (
                       <SectionItem
                         key={index}
@@ -324,7 +321,6 @@ export default function KundliMatchingPage() {
             </div>
         </main>
       <ServicesSection />
-      <Footer />
     </div>
   );
 }

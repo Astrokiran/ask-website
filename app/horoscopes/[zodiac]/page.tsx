@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import { notFound } from "next/navigation";
 import { HoroscopeViewer } from "@/components/daily-horoscope/HoroscopeViewer"; 
 // --- Define API Types (can be in a separate types file) ---
@@ -32,6 +33,20 @@ type HoroscopePageProps = {
   };
 };
 
+// Generate metadata for each zodiac page
+export async function generateMetadata({ params }: HoroscopePageProps): Promise<Metadata> {
+  const zodiac = params.zodiac.charAt(0).toUpperCase() + params.zodiac.slice(1);
+
+  return {
+    title: `${zodiac} Horoscope Today - Daily Predictions & Astrology Forecast`,
+    description: `Get today's ${zodiac} horoscope with accurate daily predictions for love, career, health, and finance. Free daily astrology forecast for ${zodiac} zodiac sign.`,
+    keywords: [`${zodiac.toLowerCase()} horoscope`, `${zodiac.toLowerCase()} horoscope today`, `${zodiac.toLowerCase()} daily horoscope`, `${zodiac.toLowerCase()} astrology`, `${zodiac.toLowerCase()} predictions`],
+    alternates: {
+      canonical: `https://astrokiran.com/horoscopes/${params.zodiac}`,
+    },
+  }
+}
+
 // --- Data Fetching Function ---
 async function getHoroscopeForSign(sign: string): Promise<ApiResponse | null> {
 const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
@@ -61,5 +76,17 @@ export default async function ZodiacHoroscopePage({ params }: HoroscopePageProps
     notFound();
   }
 
-  return <HoroscopeViewer initialData={initialData} />;
+  return (
+    <div>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold text-center mb-4">
+          {zodiac} Horoscope Today - Daily Astrology Predictions
+        </h1>
+        <p className="text-lg text-center mb-8 text-gray-600">
+          Get accurate daily horoscope predictions for {zodiac}. Today's forecast for love, career, health, finance, and lucky insights.
+        </p>
+      </div>
+      <HoroscopeViewer initialData={initialData} />
+    </div>
+  );
 }

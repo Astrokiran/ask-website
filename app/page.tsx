@@ -1,16 +1,22 @@
+import { Metadata } from 'next'
 import { NavBar } from "@/components/nav-bar"
 import { HeroSection } from "@/components/hero-section"
 import { StatsSection } from "@/components/stats-section"
 import { ServicesSection } from "@/components/services-section"
-import { HowItWorks } from "@/components/how-it-works"
 import { FeaturedAstrologers } from "@/components/featured-astrologers"
 import { Testimonials } from "@/components/testimonials"
 import { Newsletter } from "@/components/newsletter"
 import { Footer } from "@/components/footer"
 import { ReportGeneration } from "@/components/report-generation"
-// import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 
-// Correctly import the new section component
+export const metadata: Metadata = {
+  title: "Astrokiran - Free ₹1000 Kundli, Tarot Reading, Palmistry & Astrology Services India",
+  description: "Get FREE detailed kundli worth ₹1000, tarot card readings, prashna kundali, palmistry, hastrekha reading, numerology, and kundali milan. Expert astrology consultations via WhatsApp across India.",
+  keywords: ["free kundli", "tarot card reading", "prashna kundali", "palmistry", "hastrekha reading", "numerology", "kundali milan", "astrology consultation", "whatsapp astrologer", "detailed horoscope"],
+  alternates: {
+    canonical: "https://astrokiran.com",
+  },
+}
 
 export default function Home() {
   return (
@@ -25,7 +31,6 @@ export default function Home() {
           <HeroSection />
           <ServicesSection />
           <FeaturedAstrologers />
-          <HowItWorks />
           <ReportGeneration />
           {/* <StatsSection /> */}
           {/* <Testimonials /> */}

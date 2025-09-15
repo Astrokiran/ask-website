@@ -270,34 +270,35 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     //     return null;
     // };
     return (
-        <div className="bg-background min-h-screen p-4 sm:p-6 lg:p-8">
+        <div className="bg-background min-h-screen p-2 sm:p-4 lg:p-8">
             <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
                     <div>
                         {/* <UserStatus isLoggedIn={isLoggedIn} userName={kundliData?.data?.name} onLogout={handleLogout} /> */}
-                        <div className="flex items-center text-sm text-gray-500 mt-1">
+                        <div className="flex items-center text-xs sm:text-sm text-gray-500 mt-1">
                             <a href="/free-kundli" className="hover:text-indigo-600">Free Kundli</a>
-                            <ChevronRight className="h-4 w-4 mx-1" />
+                            <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 mx-1" />
                             <span className="font-semibold text-gray-700">Kundli Details</span>
                         </div>
                         {/* <div className="mt-2"><AutoUploadStatusIndicator /></div> */}
                     </div>
-                    <div className="flex gap-3 self-start sm:self-auto">    
+                    <div className="flex gap-2 sm:gap-3 self-start sm:self-auto">
                         <button
                             onClick={handleDownloadPdf}
                             disabled={!kundliData || isProcessingPdf || loadingLogout}
-                            className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-green-500 text-white rounded-lg shadow-md text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-60 disabled:cursor-not-allowed"
+                            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 sm:px-4 bg-green-500 text-white rounded-lg shadow-md text-xs sm:text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                            <Download className="h-4 w-4" />
-                            {isProcessingPdf && pdfTask === 'download' ? 'Downloading...' : 'Download PDF'}
+                            <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                            <span className="hidden sm:inline">{isProcessingPdf && pdfTask === 'download' ? 'Downloading...' : 'Download PDF'}</span>
+                            <span className="sm:hidden">PDF</span>
                         </button>
                     </div>
                 </div>
                 <div className="bg-card rounded-lg shadow-sm border">
                     <div className="border-b border-gray-200">
-                        <nav className="-mb-px flex space-x-1 sm:space-x-4 overflow-x-auto p-2">
+                        <nav className="-mb-px flex space-x-1 sm:space-x-4 overflow-x-auto p-1 sm:p-2">
                             {tabs.map((tab) => (
-                                <button key={tab} onClick={() => setActiveTab(tab)} className={`whitespace-nowrap py-3 px-4 text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab ? 'bg-orange-400 text-gray-800 shadow-sm' : 'text-gray-600 hover:bg-orange-100 hover:text-gray-700'}`}>
+                                <button key={tab} onClick={() => setActiveTab(tab)} className={`whitespace-nowrap py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab ? 'bg-orange-400 text-gray-800 shadow-sm' : 'text-gray-600 hover:bg-orange-100 hover:text-gray-700'}`}>
                                     {tab}
                                 </button>
                             ))}
@@ -305,7 +306,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     </div>
                 </div>
                 
-                <div className="mt-4">
+                <div className="mt-2 sm:mt-4">
                     {renderContent()}
                 </div>
                 {isProcessingPdf && <PdfRenderComponent kundliData={kundliData} />}

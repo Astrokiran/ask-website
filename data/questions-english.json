@@ -1,0 +1,84 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "How many houses (bhavas) are there in a Vedic birth chart?",
+      "answers": ["A: 10", "B: 12", "C: 14", "D: 16"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "easy"
+    },
+    {
+      "id": 2,
+      "question": "Who is known as the 'Remover of Obstacles' in Hinduism?",
+      "answers": ["A: Lord Vishnu", "B: Lord Shiva", "C: Lord Ganesha", "D: Lord Brahma"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "id": 3,
+      "question": "Which goddess is associated with knowledge, music, and arts?",
+      "answers": ["A: Lakshmi", "B: Durga", "C: Saraswati", "D: Kali"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "id": 4,
+      "question": "What is the sacred sound 'Om' also known as?",
+      "answers": ["A: Pranava", "B: Mantra", "C: Gayatri", "D: Vedika"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "easy"
+    },
+    {
+      "id": 5,
+      "question": "Which festival is known as the 'Festival of Lights'?",
+      "answers": ["A: Holi", "B: Diwali", "C: Dussehra", "D: Navratri"],
+      "correct": 1,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "id": 6,
+      "question": "What is the Sanskrit name for Jupiter in Vedic astrology?",
+      "answers": ["A: Shukra", "B: Mangal", "C: Guru (Brihaspati)", "D: Shani"],
+      "correct": 2,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "id": 7,
+      "question": "Which avatar of Vishnu lifted the Govardhan hill?",
+      "answers": ["A: Rama", "B: Krishna", "C: Narasimha", "D: Vamana"],
+      "correct": 1,
+      "category": "Mythology",
+      "difficulty": "medium"
+    },
+    {
+      "id": 8,
+      "question": "How many forms of Goddess Durga are worshipped during Navratri?",
+      "answers": ["A: 7", "B: 8", "C: 9", "D: 10"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "id": 9,
+      "question": "Which scripture contains the famous Bhagavad Gita?",
+      "answers": ["A: Ramayana", "B: Mahabharata", "C: Vishnu Purana", "D: Shiva Purana"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "medium"
+    },
+    {
+      "id": 10,
+      "question": "What is the concept of 'Moksha' in Hindu philosophy?",
+      "answers": ["A: Rebirth", "B: Liberation from cycle of death and rebirth", "C: Meditation", "D: Devotion"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "hard"
+    }
+  ]
+}
