@@ -1,7 +1,17 @@
 import React from "react";
+import { Metadata } from 'next'
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
+
+export const metadata: Metadata = {
+  title: "Pricing Policy - Astrokiran Astrology Service Pricing & Payment Terms",
+  description: "Learn about Astrokiran's pricing policy, payment schedules, price matching, and terms of service. WhatsApp consultations from ₹50-500 per session.",
+  keywords: ["pricing policy", "astrology pricing", "payment terms", "consultation fees", "whatsapp astrology cost"],
+  alternates: {
+    canonical: "https://astrokiran.com/pricing-policy",
+  },
+}
 
 export default function PricingPolicyPage() {
   return (
@@ -9,7 +19,7 @@ export default function PricingPolicyPage() {
       <NavBar />
 
       <section className="container mx-auto py-10 px-4">
-        <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Pricing Policy</h2>
+        <h1 className="text-3xl font-bold text-foreground text-center mb-6">Pricing Policy</h1>
         <Card className="max-w-4xl mx-auto p-6 shadow-lg">
           <CardContent className="space-y-8">
             <div>

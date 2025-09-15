@@ -64,13 +64,13 @@ interface InfoCardProps {
 
 // --- CHILD COMPONENT ---
 const InfoCard: React.FC<InfoCardProps> = ({ emoji, title, content, listItems }) => (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-3 h-full">
-        <h3 className="text-xl font-bold text-gray-800">
+    <div className="bg-card border border-border rounded-lg shadow-sm p-6 space-y-3 h-full">
+        <h3 className="text-xl font-bold text-foreground">
             <span className="mr-2">{emoji}</span> {title}
         </h3>
-        <p className="text-gray-600">{content}</p>
+        <p className="text-muted-foreground">{content}</p>
         {listItems && (
-            <ul className="list-disc list-inside text-gray-600 space-y-1 pl-1">
+            <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
                 {listItems.map((item, index) => (
                     <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
                 ))}
@@ -98,9 +98,9 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
     }
 
     return (
-        <div className="p-4 sm:p-6 bg-gray-50/50">
+        <div className="p-4 sm:p-6 bg-background">
             <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
                     Ashtakavarga Analysis
                 </h2>
 
@@ -110,29 +110,29 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
                     <div className="space-y-8">
                         {/* --- RESPONSIVE TABLE --- */}
                         {isLoading ? (
-                            <div className="w-full h-96 bg-gray-200 rounded-lg animate-pulse" />
+                            <div className="w-full h-96 bg-muted rounded-lg animate-pulse" />
                         ) : tableData ? (
-                            <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
+                            <div className="bg-card border border-border rounded-lg shadow-sm p-4 overflow-x-auto">
+                                <table className="min-w-full divide-y divide-border">
+                                    <thead className="bg-muted/50">
                                         <tr>
-                                            <th scope="col" className="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Rashi</th>
+                                            <th scope="col" className="px-4 py-3 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Rashi</th>
                                             {PLANET_KEYS.map(p => (
-                                                <th key={p} scope="col" className="px-4 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">{p.slice(0, 2)}</th>
+                                                <th key={p} scope="col" className="px-4 py-3 text-center text-xs font-bold text-muted-foreground uppercase tracking-wider">{p.slice(0, 2)}</th>
                                             ))}
-                                            <th scope="col" className="px-4 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Total</th>
+                                            <th scope="col" className="px-4 py-3 text-center text-xs font-bold text-muted-foreground uppercase tracking-wider">Total</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
+                                    <tbody className="bg-card divide-y divide-border">
                                         {SIGN_NAMES.map((signName, index) => (
-                                            <tr key={signName} className="hover:bg-gray-50 transition-colors">
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-800">{signName}</td>
+                                            <tr key={signName} className="hover:bg-muted/30 transition-colors">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-foreground">{signName}</td>
                                                 {PLANET_KEYS.map(planet => (
-                                                    <td key={`${planet}-${index}`} className="px-4 py-3 whitespace-nowrap text-sm text-center text-gray-600">
+                                                    <td key={`${planet}-${index}`} className="px-4 py-3 whitespace-nowrap text-sm text-center text-muted-foreground">
                                                         {tableData.bhinna_ashtakavarga[planet]?.[index] ?? '-'}
                                                     </td>
                                                 ))}
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-center font-bold text-indigo-700">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-center font-bold text-orange-600 dark:text-orange-400">
                                                     {tableData.sarvashtakavarga?.[index] ?? '-'}
                                                 </td>
                                             </tr>
@@ -141,21 +141,21 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
                                 </table>
                             </div>
                         ) : (
-                             <div className="text-gray-500 text-center py-20 bg-white border rounded-lg">Table data not available.</div>
+                             <div className="text-muted-foreground text-center py-20 bg-card border border-border rounded-lg">Table data not available.</div>
                         )}
 
                         {/* --- SVG CHARTS --- */}
                         {isLoading ? (
-                            <div className="w-full h-[600px] md:h-[900px] bg-gray-200 rounded-lg animate-pulse" />
+                            <div className="w-full h-[600px] md:h-[900px] bg-muted rounded-lg animate-pulse" />
                         ) : compositeSvgString ? (
-                            <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                            <div className="bg-card border border-border rounded-lg shadow-sm p-4">
                                 <div
                                     className="w-full max-w-4xl"
                                     dangerouslySetInnerHTML={{ __html: compositeSvgString }}
                                 />
                             </div>
                         ) : (
-                            <div className="text-gray-500 text-center py-20 bg-white border rounded-lg">Chart data not available.</div>
+                            <div className="text-muted-foreground text-center py-20 bg-card border border-border rounded-lg">Chart data not available.</div>
                         )}
                     </div>
 

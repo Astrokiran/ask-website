@@ -1,0 +1,84 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "वैदिक जन्म कुंडली में कितने भाव होते हैं?",
+      "answers": ["अ: 10", "ब: 12", "स: 14", "द: 16"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "easy"
+    },
+    {
+      "id": 2,
+      "question": "हिंदू धर्म में 'विघ्न हर्ता' के नाम से कौन जाने जाते हैं?",
+      "answers": ["अ: भगवान विष्णु", "ब: भगवान शिव", "स: भगवान गणेश", "द: भगवान ब्रह्मा"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "id": 3,
+      "question": "कौन सी देवी ज्ञान, संगीत और कलाओं से जुड़ी हुई हैं?",
+      "answers": ["अ: लक्ष्मी", "ब: दुर्गा", "स: सरस्वती", "द: काली"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "id": 4,
+      "question": "पवित्र ध्वनि 'ॐ' को और किस नाम से जाना जाता है?",
+      "answers": ["अ: प्रणव", "ब: मंत्र", "स: गायत्री", "द: वेदिका"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "easy"
+    },
+    {
+      "id": 5,
+      "question": "कौन सा त्योहार 'दीपों का त्योहार' के नाम से जाना जाता है?",
+      "answers": ["अ: होली", "ब: दिवाली", "स: दशहरा", "द: नवरात्रि"],
+      "correct": 1,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "id": 6,
+      "question": "वैदिक ज्योतिष में बृहस्पति का संस्कृत नाम क्या है?",
+      "answers": ["अ: शुक्र", "ब: मंगल", "स: गुरु (बृहस्पति)", "द: शनि"],
+      "correct": 2,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "id": 7,
+      "question": "विष्णु के किस अवतार ने गोवर्धन पर्वत को उठाया था?",
+      "answers": ["अ: राम", "ब: कृष्ण", "स: नरसिंह", "द: वामन"],
+      "correct": 1,
+      "category": "Mythology",
+      "difficulty": "medium"
+    },
+    {
+      "id": 8,
+      "question": "नवरात्रि के दौरान देवी दुर्गा के कितने रूपों की पूजा की जाती है?",
+      "answers": ["अ: 7", "ब: 8", "स: 9", "द: 10"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "id": 9,
+      "question": "प्रसिद्ध भगवद्गीता किस शास्त्र में है?",
+      "answers": ["अ: रामायण", "ब: महाभारत", "स: विष्णु पुराण", "द: शिव पुराण"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "medium"
+    },
+    {
+      "id": 10,
+      "question": "हिंदू दर्शन में 'मोक्ष' की अवधारणा क्या है?",
+      "answers": ["अ: पुनर्जन्म", "ब: मृत्यु और पुनर्जन्म के चक्र से मुक्ति", "स: ध्यान", "द: भक्ति"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "hard"
+    }
+  ]
+}

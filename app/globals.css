@@ -199,6 +199,44 @@ body {
   scrollbar-color: hsl(var(--orange-500) / 0.3) transparent;
 }
 
+/* Hide scrollbar utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Show scrollbar on hover for navigation */
+.nav-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  height: 4px;
+  display: none;
+}
+
+.nav-scroll:hover::-webkit-scrollbar {
+  display: block;
+}
+
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--orange-500) / 0.5);
+  border-radius: 2px;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--orange-500) / 0.7);
+}
+
 /* Blog animations */
 @keyframes blob {
   0% {

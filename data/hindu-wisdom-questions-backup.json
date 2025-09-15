@@ -1,0 +1,1086 @@
+{
+  "questions": [
+    {
+      "question": {
+        "en": "How many houses (bhavas) are there in a Vedic birth chart?",
+        "hi": "वैदिक जन्म कुंडली में कितने भाव होते हैं?"
+      },
+      "answers": {
+        "en": ["A: 10", "B: 12", "C: 14", "D: 16"],
+        "hi": ["अ: 10", "ब: 12", "स: 14", "द: 16"]
+      },
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "easy"
+    },
+    {
+      "question": {
+        "en": "Who is known as the 'Remover of Obstacles' in Hinduism?",
+        "hi": "हिंदू धर्म में 'विघ्न हर्ता' के नाम से कौन जाने जाते हैं?"
+      },
+      "answers": {
+        "en": ["A: Lord Vishnu", "B: Lord Shiva", "C: Lord Ganesha", "D: Lord Brahma"],
+        "hi": ["अ: भगवान विष्णु", "ब: भगवान शिव", "स: भगवान गणेश", "द: भगवान ब्रह्मा"]
+      },
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": {
+        "en": "Which goddess is associated with knowledge, music, and arts?",
+        "hi": "कौन सी देवी ज्ञान, संगीत और कलाओं से जुड़ी हुई हैं?"
+      },
+      "answers": {
+        "en": ["A: Lakshmi", "B: Durga", "C: Saraswati", "D: Kali"],
+        "hi": ["अ: लक्ष्मी", "ब: दुर्गा", "स: सरस्वती", "द: काली"]
+      },
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "question": {
+        "en": "What is the sacred sound 'Om' also known as?",
+        "hi": "पवित्र ध्वनि 'ॐ' को और किस नाम से जाना जाता है?"
+      },
+      "answers": {
+        "en": ["A: Pranava", "B: Mantra", "C: Gayatri", "D: Vedika"],
+        "hi": ["अ: प्रणव", "ब: मंत्र", "स: गायत्री", "द: वेदिका"]
+      },
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "easy"
+    },
+    {
+      "question": {
+        "en": "Which festival is known as the 'Festival of Lights'?",
+        "hi": "कौन सा त्योहार 'दीपों का त्योहार' के नाम से जाना जाता है?"
+      },
+      "answers": {
+        "en": ["A: Holi", "B: Diwali", "C: Dussehra", "D: Navratri"],
+        "hi": ["अ: होली", "ब: दिवाली", "स: दशहरा", "द: नवरात्रि"]
+      },
+      "correct": 1,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": {
+        "en": "What is the Sanskrit name for Jupiter in Vedic astrology?",
+        "hi": "वैदिक ज्योतिष में बृहस्पति का संस्कृत नाम क्या है?"
+      },
+      "answers": {
+        "en": ["A: Shukra", "B: Mangal", "C: Guru (Brihaspati)", "D: Shani"],
+        "hi": ["अ: शुक्र", "ब: मंगल", "स: गुरु (बृहस्पति)", "द: शनि"]
+      },
+      "correct": 2,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": {
+        "en": "Which avatar of Vishnu lifted the Govardhan hill?",
+        "hi": "विष्णु के किस अवतार ने गोवर्धन पर्वत को उठाया था?"
+      },
+      "answers": {
+        "en": ["A: Rama", "B: Krishna", "C: Narasimha", "D: Vamana"],
+        "hi": ["अ: राम", "ब: कृष्ण", "स: नरसिंह", "द: वामन"]
+      },
+      "correct": 1,
+      "category": "Mythology",
+      "difficulty": "medium"
+    },
+    {
+      "question": {
+        "en": "How many forms of Goddess Durga are worshipped during Navratri?",
+        "hi": "नवरात्रि के दौरान देवी दुर्गा के कितने रूपों की पूजा की जाती है?"
+      },
+      "answers": {
+        "en": ["A: 7", "B: 8", "C: 9", "D: 10"],
+        "hi": ["अ: 7", "ब: 8", "स: 9", "द: 10"]
+      },
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": {
+        "en": "Which scripture contains the famous Bhagavad Gita?",
+        "hi": "प्रसिद्ध भगवद्गीता किस शास्त्र में है?"
+      },
+      "answers": {
+        "en": ["A: Ramayana", "B: Mahabharata", "C: Vishnu Purana", "D: Shiva Purana"],
+        "hi": ["अ: रामायण", "ब: महाभारत", "स: विष्णु पुराण", "द: शिव पुराण"]
+      },
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What does 'Yoga' literally mean in Sanskrit?",
+      "answers": ["A: Exercise", "B: Union", "C: Meditation", "D: Breathing"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which nakshatra is ruled by the deity Agni (Fire God)?",
+      "answers": ["A: Ashwini", "B: Bharani", "C: Krittika", "D: Rohini"],
+      "correct": 2,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who was the guru of the Pandavas and Kauravas?",
+      "answers": ["A: Kripacharya", "B: Dronacharya", "C: Parashurama", "D: Vyasa"],
+      "correct": 1,
+      "category": "Mythology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which goddess is considered the consort of Brahma?",
+      "answers": ["A: Saraswati", "B: Lakshmi", "C: Parvati", "D: Ganga"],
+      "correct": 0,
+      "category": "Hindu Goddesses",
+      "difficulty": "hard"
+    },
+    {
+      "question": "How many verses are there in the Bhagavad Gita?",
+      "answers": ["A: 600", "B: 700", "C: 800", "D: 900"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the concept of 'Moksha' in Hindu philosophy?",
+      "answers": ["A: Rebirth", "B: Liberation from cycle of death and rebirth", "C: Meditation", "D: Devotion"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which planet represents the soul (Atma) in Vedic astrology?",
+      "answers": ["A: Moon", "B: Sun", "C: Jupiter", "D: Venus"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who is known as the 'Destroyer' in the Hindu Trinity?",
+      "answers": ["A: Brahma", "B: Vishnu", "C: Shiva", "D: Indra"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which river is considered the most sacred in Hinduism?",
+      "answers": ["A: Yamuna", "B: Ganga", "C: Saraswati", "D: Narmada"],
+      "correct": 1,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the duration of Kali Yuga according to Hindu cosmology?",
+      "answers": ["A: 432,000 years", "B: 864,000 years", "C: 1,296,000 years", "D: 1,728,000 years"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which demon was killed by Goddess Durga?",
+      "answers": ["A: Ravana", "B: Mahishasura", "C: Hiranyakashipu", "D: Kumbhakarna"],
+      "correct": 1,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "How many nakshatras are there in Vedic astrology?",
+      "answers": ["A: 24", "B: 27", "C: 28", "D: 30"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who wrote the Ramayana?",
+      "answers": ["A: Vyasa", "B: Valmiki", "C: Kalidasa", "D: Tulsidas"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which festival celebrates the victory of good over evil with the burning of Ravana's effigy?",
+      "answers": ["A: Diwali", "B: Holi", "C: Dussehra", "D: Karva Chauth"],
+      "correct": 2,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the vehicle (vahana) of Lord Vishnu?",
+      "answers": ["A: Nandi", "B: Garuda", "C: Hanuman", "D: Mushak"],
+      "correct": 1,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which chakra is associated with the color violet/purple?",
+      "answers": ["A: Muladhara", "B: Manipura", "C: Anahata", "D: Sahasrara"],
+      "correct": 3,
+      "category": "Philosophy",
+      "difficulty": "hard"
+    },
+    {
+      "question": "In which sign is Mars exalted in Vedic astrology?",
+      "answers": ["A: Aries", "B: Scorpio", "C: Capricorn", "D: Leo"],
+      "correct": 2,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the meaning of 'Namaste'?",
+      "answers": ["A: Hello", "B: I bow to you", "C: Goodbye", "D: Thank you"],
+      "correct": 1,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which god is known as 'Nataraja' - the cosmic dancer?",
+      "answers": ["A: Vishnu", "B: Krishna", "C: Shiva", "D: Indra"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
+    },
+    {
+      "question": "How many Vedas are there?",
+      "answers": ["A: 3", "B: 4", "C: 5", "D: 6"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which goddess is depicted with eight or ten arms?",
+      "answers": ["A: Saraswati", "B: Lakshmi", "C: Durga", "D: Ganga"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the name of Arjuna's bow in Mahabharata?",
+      "answers": ["A: Pinaka", "B: Gandiva", "C: Vijaya", "D: Sharanga"],
+      "correct": 1,
+      "category": "Mythology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which Veda contains the Gayatri Mantra?",
+      "answers": ["A: Rigveda", "B: Samaveda", "C: Yajurveda", "D: Atharvaveda"],
+      "correct": 0,
+      "category": "Scriptures",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the color associated with the Root Chakra (Muladhara)?",
+      "answers": ["A: Orange", "B: Red", "C: Yellow", "D: Green"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which is the birthstone associated with the zodiac sign Cancer in Vedic astrology?",
+      "answers": ["A: Ruby", "B: Emerald", "C: Pearl", "D: Diamond"],
+      "correct": 2,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who is the consort of Lord Shiva?",
+      "answers": ["A: Lakshmi", "B: Saraswati", "C: Parvati", "D: Radha"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the Hindu concept of righteous duty called?",
+      "answers": ["A: Karma", "B: Dharma", "C: Moksha", "D: Ahimsa"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which festival is celebrated by throwing colored powder?",
+      "answers": ["A: Diwali", "B: Holi", "C: Navratri", "D: Karva Chauth"],
+      "correct": 1,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the sacred thread ceremony called?",
+      "answers": ["A: Annaprashan", "B: Upanayana", "C: Mundan", "D: Vidyarambha"],
+      "correct": 1,
+      "category": "Culture",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which planet rules the zodiac sign Scorpio in Vedic astrology?",
+      "answers": ["A: Mars", "B: Jupiter", "C: Venus", "D: Mercury"],
+      "correct": 0,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who is known as the 'Preserver' in the Hindu Trinity?",
+      "answers": ["A: Brahma", "B: Vishnu", "C: Shiva", "D: Indra"],
+      "correct": 1,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which goddess is the consort of Lord Vishnu?",
+      "answers": ["A: Saraswati", "B: Lakshmi", "C: Durga", "D: Kali"],
+      "correct": 1,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the epic that tells the story of Lord Rama?",
+      "answers": ["A: Mahabharata", "B: Ramayana", "C: Puranas", "D: Upanishads"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which demon king was defeated by Lord Rama?",
+      "answers": ["A: Hiranyakashipu", "B: Mahishasura", "C: Ravana", "D: Bhasmasura"],
+      "correct": 2,
+      "category": "Mythology",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What does the word 'Guru' literally mean?",
+      "answers": ["A: Teacher", "B: From darkness to light", "C: Wise one", "D: Holy person"],
+      "correct": 1,
+      "category": "Culture",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which nakshatra is considered the most auspicious for marriage?",
+      "answers": ["A: Ashwini", "B: Rohini", "C: Pushya", "D: Magha"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the name of Lord Krishna's city?",
+      "answers": ["A: Mathura", "B: Vrindavan", "C: Dwarka", "D: Hastinapura"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which goddess is known as 'Adi Shakti'?",
+      "answers": ["A: Durga", "B: Kali", "C: Devi", "D: Parvati"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "How many chapters are there in the Bhagavad Gita?",
+      "answers": ["A: 16", "B: 18", "C: 20", "D: 24"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which bird is the vehicle of Goddess Saraswati?",
+      "answers": ["A: Peacock", "B: Swan", "C: Eagle", "D: Owl"],
+      "correct": 1,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the meaning of 'Satsang'?",
+      "answers": ["A: Meditation", "B: Company of truth/good people", "C: Prayer", "D: Fasting"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which day of the week is dedicated to Lord Shiva?",
+      "answers": ["A: Sunday", "B: Monday", "C: Tuesday", "D: Thursday"],
+      "correct": 1,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the exaltation sign of Venus in Vedic astrology?",
+      "answers": ["A: Taurus", "B: Libra", "C: Pisces", "D: Cancer"],
+      "correct": 2,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who is the father of Lord Ganesha?",
+      "answers": ["A: Vishnu", "B: Brahma", "C: Shiva", "D: Indra"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which goddess is depicted riding a lion or tiger?",
+      "answers": ["A: Saraswati", "B: Lakshmi", "C: Durga", "D: Ganga"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the name of the celestial weapon of Lord Vishnu?",
+      "answers": ["A: Trishul", "B: Sudarshan Chakra", "C: Vajra", "D: Gada"],
+      "correct": 1,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which text is known as the 'Fifth Veda'?",
+      "answers": ["A: Ramayana", "B: Mahabharata", "C: Puranas", "D: Upanishads"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the Hindu festival of lights called in South India?",
+      "answers": ["A: Diwali", "B: Deepavali", "C: Both A and B", "D: Karthigai Deepam"],
+      "correct": 2,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which yoga involves the path of knowledge?",
+      "answers": ["A: Karma Yoga", "B: Bhakti Yoga", "C: Jnana Yoga", "D: Raja Yoga"],
+      "correct": 2,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the traditional Indian greeting with palms together?",
+      "answers": ["A: Namaste", "B: Pranam", "C: Vanakkam", "D: All of the above"],
+      "correct": 3,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which planet is called 'Shukra' in Vedic astrology?",
+      "answers": ["A: Mercury", "B: Venus", "C: Mars", "D: Jupiter"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Who is the monkey devotee of Lord Rama?",
+      "answers": ["A: Sugriva", "B: Hanuman", "C: Angada", "D: Jambavan"],
+      "correct": 1,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which goddess represents wealth and prosperity?",
+      "answers": ["A: Saraswati", "B: Durga", "C: Lakshmi", "D: Kali"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the name of the sacred fire ceremony?",
+      "answers": ["A: Aarti", "B: Havan", "C: Puja", "D: Yagna"],
+      "correct": 3,
+      "category": "Culture",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which is the longest epic in the world?",
+      "answers": ["A: Ramayana", "B: Mahabharata", "C: Iliad", "D: Odyssey"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What does 'Ahimsa' mean?",
+      "answers": ["A: Truth", "B: Non-violence", "C: Purity", "D: Devotion"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which festival celebrates the birth of Lord Krishna?",
+      "answers": ["A: Janmashtami", "B: Ram Navami", "C: Shivaratri", "D: Ganesha Chaturthi"],
+      "correct": 0,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the debilitation sign of the Sun in Vedic astrology?",
+      "answers": ["A: Aquarius", "B: Libra", "C: Pisces", "D: Capricorn"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who is known as the 'Creator' in the Hindu Trinity?",
+      "answers": ["A: Brahma", "B: Vishnu", "C: Shiva", "D: Indra"],
+      "correct": 0,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which goddess is associated with time and change?",
+      "answers": ["A: Durga", "B: Kali", "C: Saraswati", "D: Lakshmi"],
+      "correct": 1,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the primary language of Hindu scriptures?",
+      "answers": ["A: Hindi", "B: Tamil", "C: Sanskrit", "D: Pali"],
+      "correct": 2,
+      "category": "Scriptures",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which demon was killed by baby Krishna?",
+      "answers": ["A: Putana", "B: Trinavarta", "C: Aghasura", "D: All of the above"],
+      "correct": 3,
+      "category": "Mythology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the meaning of 'Samsara'?",
+      "answers": ["A: Liberation", "B: Cycle of birth and death", "C: Meditation", "D: Devotion"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which tree is considered sacred in Hinduism?",
+      "answers": ["A: Banyan", "B: Peepal", "C: Neem", "D: All of the above"],
+      "correct": 3,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the ruling deity of Saturn (Shani)?",
+      "answers": ["A: Lord Vishnu", "B: Lord Shiva", "C: Lord Hanuman", "D: Lord Ganesha"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who lifted the Govardhan mountain?",
+      "answers": ["A: Rama", "B: Krishna", "C: Hanuman", "D: Bhima"],
+      "correct": 1,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which form of Durga is worshipped on the first day of Navratri?",
+      "answers": ["A: Brahmacharini", "B: Shailputri", "C: Chandraghanta", "D: Kushmanda"],
+      "correct": 1,
+      "category": "Hindu Goddesses",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the name of Draupadi's father?",
+      "answers": ["A: Drupada", "B: Virata", "C: Shantanu", "D: Dhritarashtra"],
+      "correct": 0,
+      "category": "Mythology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which Upanishad contains the Mahavakya 'Tat tvam asi'?",
+      "answers": ["A: Isha Upanishad", "B: Chandogya Upanishad", "C: Brihadaranyaka Upanishad", "D: Katha Upanishad"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the concept of 'Maya' in Hindu philosophy?",
+      "answers": ["A: Love", "B: Illusion", "C: Truth", "D: Power"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which festival involves fasting for the long life of husband?",
+      "answers": ["A: Karva Chauth", "B: Teej", "C: Vat Savitri", "D: All of the above"],
+      "correct": 3,
+      "category": "Festivals",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the traditional way of touching elders' feet called?",
+      "answers": ["A: Pranaam", "B: Charan Sparsh", "C: Pranam", "D: All of the above"],
+      "correct": 3,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which nakshatra spans across Gemini and Cancer?",
+      "answers": ["A: Punarvasu", "B: Pushya", "C: Ashlesha", "D: Magha"],
+      "correct": 0,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who is the divine architect in Hindu mythology?",
+      "answers": ["A: Vishwakarma", "B: Tvashta", "C: Maya", "D: All of the above"],
+      "correct": 0,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which goddess is known as 'Jagadamba'?",
+      "answers": ["A: Durga", "B: Lakshmi", "C: Saraswati", "D: Parvati"],
+      "correct": 0,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the collection of 108 Upanishads called?",
+      "answers": ["A: Vedanta", "B: Muktika", "C: Prasthanatrayi", "D: Smriti"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who was the son of Abhimanyu?",
+      "answers": ["A: Parikshit", "B: Janamejaya", "C: Shantanu", "D: Bharata"],
+      "correct": 0,
+      "category": "Mythology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What are the four goals of human life in Hinduism?",
+      "answers": ["A: Dharma, Artha, Kama, Moksha", "B: Truth, Non-violence, Purity, Devotion", "C: Meditation, Prayer, Service, Study", "D: Faith, Hope, Charity, Love"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which festival marks the victory of Durga over Mahishasura?",
+      "answers": ["A: Navratri", "B: Dussehra", "C: Durga Puja", "D: All of the above"],
+      "correct": 3,
+      "category": "Festivals",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the practice of walking around a temple called?",
+      "answers": ["A: Pradakshina", "B: Parikrama", "C: Both A and B", "D: Darshan"],
+      "correct": 2,
+      "category": "Culture",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which planet has the longest transit period in Vedic astrology?",
+      "answers": ["A: Jupiter", "B: Saturn", "C: Rahu", "D: Ketu"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who is the guru of the Devas?",
+      "answers": ["A: Brihaspati", "B: Shukracharya", "C: Vishwamitra", "D: Vasishtha"],
+      "correct": 0,
+      "category": "Hindu Gods",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which aspect of Devi is worshipped for protection?",
+      "answers": ["A: Lakshmi", "B: Saraswati", "C: Durga", "D: Ganga"],
+      "correct": 2,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "question": "How many Puranas are there in total?",
+      "answers": ["A: 16", "B: 18", "C: 20", "D: 24"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who was the mother of the Pandavas?",
+      "answers": ["A: Kunti", "B: Madri", "C: Both A and B", "D: Gandhari"],
+      "correct": 2,
+      "category": "Mythology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the state of complete absorption in meditation called?",
+      "answers": ["A: Dharana", "B: Dhyana", "C: Samadhi", "D: Pratyahara"],
+      "correct": 2,
+      "category": "Philosophy",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which festival celebrates the harvest season?",
+      "answers": ["A: Pongal", "B: Baisakhi", "C: Makar Sankranti", "D: All of the above"],
+      "correct": 3,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the Hindu concept of guest being equal to God?",
+      "answers": ["A: Atithi Devo Bhava", "B: Vasudhaiva Kutumbakam", "C: Satyameva Jayate", "D: Sarve Bhavantu Sukhinah"],
+      "correct": 0,
+      "category": "Culture",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which house represents marriage in Vedic astrology?",
+      "answers": ["A: 5th house", "B: 7th house", "C: 9th house", "D: 11th house"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who is the protector deity of dharma?",
+      "answers": ["A: Yama", "B: Dharmaraja", "C: Both A and B", "D: Indra"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which goddess represents the power of speech?",
+      "answers": ["A: Saraswati", "B: Vani", "C: Bharati", "D: All of the above"],
+      "correct": 3,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the meaning of 'Vedanta'?",
+      "answers": ["A: Beginning of Vedas", "B: End of Vedas", "C: Essence of Vedas", "D: Commentary on Vedas"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who was the charioteer of Arjuna in the Kurukshetra war?",
+      "answers": ["A: Krishna", "B: Shalya", "C: Karna", "D: Ashwatthama"],
+      "correct": 0,
+      "category": "Mythology",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What are the eight limbs of yoga called?",
+      "answers": ["A: Ashtanga", "B: Ashtavakra", "C: Ashtadhyayi", "D: Ashtakam"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which festival involves worship of the Tulsi plant?",
+      "answers": ["A: Tulsi Vivah", "B: Dev Uthani Ekadashi", "C: Kartik Purnima", "D: All of the above"],
+      "correct": 3,
+      "category": "Festivals",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the Hindu concept of three gunas?",
+      "answers": ["A: Sattva, Rajas, Tamas", "B: Dharma, Artha, Kama", "C: Body, Mind, Soul", "D: Past, Present, Future"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which mudra is commonly used in meditation?",
+      "answers": ["A: Anjali Mudra", "B: Gyan Mudra", "C: Bhumi Sparsh Mudra", "D: Varada Mudra"],
+      "correct": 1,
+      "category": "Culture",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the ruling planet of the zodiac sign Aquarius?",
+      "answers": ["A: Saturn", "B: Uranus", "C: Rahu", "D: Both A and C"],
+      "correct": 3,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who is the lord of obstacles and beginnings?",
+      "answers": ["A: Ganesha", "B: Kartikeya", "C: Hanuman", "D: Bhairava"],
+      "correct": 0,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which goddess is worshipped for victory in battles?",
+      "answers": ["A: Durga", "B: Chamundi", "C: Kali", "D: All of the above"],
+      "correct": 3,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the shortest among the four Vedas?",
+      "answers": ["A: Rigveda", "B: Samaveda", "C: Yajurveda", "D: Atharvaveda"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who killed the demon Mahishasura?",
+      "answers": ["A: Durga", "B: Kali", "C: Chamundi", "D: Parvati"],
+      "correct": 0,
+      "category": "Mythology",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the practice of selfless action called?",
+      "answers": ["A: Karma Yoga", "B: Nishkama Karma", "C: Both A and B", "D: Seva"],
+      "correct": 2,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which festival celebrates the homecoming of Lord Rama?",
+      "answers": ["A: Diwali", "B: Ram Navami", "C: Dussehra", "D: Hanuman Jayanti"],
+      "correct": 0,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the traditional Indian system of medicine called?",
+      "answers": ["A: Ayurveda", "B: Siddha", "C: Unani", "D: Both A and B"],
+      "correct": 3,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which nakshatra is associated with Lord Krishna's birth?",
+      "answers": ["A: Rohini", "B: Pushya", "C: Magha", "D: Purva Phalguni"],
+      "correct": 0,
+      "category": "Vedic Astrology",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who is the god of wind?",
+      "answers": ["A: Vayu", "B: Marut", "C: Pavan", "D: All of the above"],
+      "correct": 3,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which goddess is known as 'Annapurna'?",
+      "answers": ["A: Lakshmi", "B: Parvati", "C: Durga", "D: Saraswati"],
+      "correct": 1,
+      "category": "Hindu Goddesses",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the collection of hymns in the Rigveda called?",
+      "answers": ["A: Suktas", "B: Mandalas", "C: Richas", "D: Samhitas"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who was the teacher of Arjuna in archery?",
+      "answers": ["A: Drona", "B: Kripa", "C: Parashurama", "D: Bhishma"],
+      "correct": 0,
+      "category": "Mythology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the ultimate reality in Advaita Vedanta?",
+      "answers": ["A: Brahman", "B: Atman", "C: Both A and B", "D: Ishvara"],
+      "correct": 2,
+      "category": "Philosophy",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which festival is known as the festival of nine nights?",
+      "answers": ["A: Navratri", "B: Dussehra", "C: Durga Puja", "D: Chaitra Navratri"],
+      "correct": 0,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the Hindu greeting meaning 'victory to you'?",
+      "answers": ["A: Namaste", "B: Jai", "C: Pranaam", "D: Sat Sri Akal"],
+      "correct": 1,
+      "category": "Culture",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which planet is considered the most benefic in Vedic astrology?",
+      "answers": ["A: Jupiter", "B: Venus", "C: Moon", "D: Mercury"],
+      "correct": 0,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Who is known as 'Mahadev'?",
+      "answers": ["A: Vishnu", "B: Shiva", "C: Brahma", "D: Indra"],
+      "correct": 1,
+      "category": "Hindu Gods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which goddess is the presiding deity of the Ganga river?",
+      "answers": ["A: Ganga", "B: Yamuna", "C: Saraswati", "D: Narmada"],
+      "correct": 0,
+      "category": "Hindu Goddesses",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the last book of the Mahabharata called?",
+      "answers": ["A: Ashwamedhika Parva", "B: Swargarohana Parva", "C: Mausala Parva", "D: Mahaprasthanika Parva"],
+      "correct": 1,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Who was known as 'Gangaputra' (son of Ganga)?",
+      "answers": ["A: Arjuna", "B: Bhishma", "C: Karna", "D: Abhimanyu"],
+      "correct": 1,
+      "category": "Mythology",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the practice of breath control in yoga called?",
+      "answers": ["A: Asana", "B: Pranayama", "C: Dharana", "D: Samadhi"],
+      "correct": 1,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    }
+  ],
+  "categories": {
+    "Vedic Astrology": {
+      "color": "#9c27b0",
+      "name": {
+        "en": "Vedic Astrology",
+        "hi": "वैदिक ज्योतिष"
+      }
+    },
+    "Hindu Gods": {
+      "color": "#ff5722",
+      "name": {
+        "en": "Hindu Gods",
+        "hi": "हिंदू देवता"
+      }
+    },
+    "Hindu Goddesses": {
+      "color": "#e91e63",
+      "name": {
+        "en": "Hindu Goddesses",
+        "hi": "हिंदू देवियां"
+      }
+    },
+    "Mythology": {
+      "color": "#2196f3",
+      "name": {
+        "en": "Mythology",
+        "hi": "पुराण"
+      }
+    },
+    "Scriptures": {
+      "color": "#4caf50",
+      "name": {
+        "en": "Scriptures",
+        "hi": "शास्त्र"
+      }
+    },
+    "Festivals": {
+      "color": "#ff9800",
+      "name": {
+        "en": "Festivals",
+        "hi": "त्योहार"
+      }
+    },
+    "Culture": {
+      "color": "#795548",
+      "name": {
+        "en": "Culture",
+        "hi": "संस्कृति"
+      }
+    },
+    "Philosophy": {
+      "color": "#607d8b",
+      "name": {
+        "en": "Philosophy",
+        "hi": "दर्शन"
+      }
+    }
+  },
+  "wisdomLevels": [
+    {
+      "min": 0,
+      "max": 2,
+      "title": {
+        "en": "Seeker",
+        "hi": "साधक"
+      },
+      "description": {
+        "en": "Beginning the journey",
+        "hi": "यात्रा की शुरुआत"
+      }
+    },
+    {
+      "min": 3,
+      "max": 5,
+      "title": {
+        "en": "Student",
+        "hi": "छात्र"
+      },
+      "description": {
+        "en": "Learning the basics",
+        "hi": "मूल बातें सीखना"
+      }
+    },
+    {
+      "min": 6,
+      "max": 8,
+      "title": {
+        "en": "Devotee",
+        "hi": "भक्त"
+      },
+      "description": {
+        "en": "Growing in faith",
+        "hi": "श्रद्धा में वृद्धि"
+      }
+    },
+    {
+      "min": 9,
+      "max": 11,
+      "title": {
+        "en": "Scholar",
+        "hi": "विद्वान"
+      },
+      "description": {
+        "en": "Wise in knowledge",
+        "hi": "ज्ञान में निपुण"
+      }
+    },
+    {
+      "min": 12,
+      "max": 13,
+      "title": {
+        "en": "Sage",
+        "hi": "ऋषि"
+      },
+      "description": {
+        "en": "Master of wisdom",
+        "hi": "ज्ञान के स्वामी"
+      }
+    },
+    {
+      "min": 14,
+      "max": 15,
+      "title": {
+        "en": "Enlightened Master",
+        "hi": "ज्ञानी गुरु"
+      },
+      "description": {
+        "en": "One with cosmic consciousness",
+        "hi": "ब्रह्मांडीय चेतना से एकाकार"
+      }
+    }
+  ]
+}

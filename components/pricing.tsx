@@ -90,34 +90,7 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
 
 export default function Pricing() {
   return (
-    <div className="bg-background min-h-screen">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-transparent to-purple-50/30 dark:from-orange-950/20 dark:via-transparent dark:to-purple-950/10"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(251,146,60,0.1)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_70%_30%,rgba(251,146,60,0.05)_0%,transparent_50%)]"></div>
-
-        <div className="relative py-20 lg:py-32">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 bg-clip-text text-transparent mb-6">
-                Expert Astrological Consultation
-              </h1>
-              <p className="text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto">
-                Discover your path with personalized astrological guidance from our experienced consultants
-              </p>
-              <div className="flex justify-center mt-8">
-                <div className="h-1 w-24 bg-gradient-to-r from-orange-500 to-purple-600 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div className="bg-background">
       {/* Pricing Plans */}
       <div className="relative py-20">
         <div className="max-w-7xl mx-auto px-4">

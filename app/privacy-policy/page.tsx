@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
       <NavBar />
 
       <section className="container mx-auto py-10 px-4">
-        <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">Privacy Policy</h1>
+        <h1 className="text-3xl font-bold text-foreground text-center mb-6">Privacy Policy</h1>
         <Card className="max-w-4xl mx-auto p-6 shadow-lg">
           <CardContent className="space-y-8">
             <div>
