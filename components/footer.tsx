@@ -38,6 +38,9 @@ export function Footer() {
                 <Star className="w-4 h-4 text-orange-500" />
                 <span className="group-hover:translate-x-1 transition-transform">Daily Horoscope <em className="text-xs">(What's Today?)</em> 🌟</span>
               </Link>
+              <Link href="/blog" className="block text-sm text-gray-400 hover:text-white">
+                Blogs
+              </Link>
               <Link href="/#astrologers" className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-500 transition-colors">
                 <Users className="w-4 h-4 text-purple-500" />
                 <span className="group-hover:translate-x-1 transition-transform">Our Astrologers <em className="text-xs">(Meet Experts)</em> 👨‍🔬</span>
