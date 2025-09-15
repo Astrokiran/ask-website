@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="bg-card border-t border-border py-12">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Image src="/ask-logo.png" alt="Astrokiran Logo" width={32} height={32} />
@@ -80,8 +80,8 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Contact Us</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>235 13th Cross, Hoysala Nagar 2nd Stage, Indiranagar, Bangalore North, Karnataka, India, 560038</p>
-              <p>contact@astrokiran.com</p>
+              <p className="leading-relaxed">235 13th Cross, Hoysala Nagar 2nd Stage, Indiranagar, Bangalore North, Karnataka, India, 560038</p>
+              <p className="break-all">contact@astrokiran.com</p>
               <p>+918197503574</p>
             </div>
           </div>

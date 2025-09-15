@@ -28,12 +28,12 @@ export const WhatsAppCtaBanner: React.FC<WhatsAppCtaBannerProps> = ({
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
   return (
-    <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl shadow-lg p-6 sm:p-8 my-8">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+    <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl shadow-lg p-4 sm:p-6 lg:p-8 my-6 sm:my-8">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
         {/* Left Side: Text Content */}
         <div className="text-white text-center md:text-left">
-          <h3 className="text-2xl font-bold">{title}</h3>
-          <p className="mt-2 text-orange-100 max-w-2xl">{subtitle}</p>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold">{title}</h3>
+          <p className="mt-2 text-orange-100 max-w-2xl text-sm sm:text-base">{subtitle}</p>
         </div>
 
         {/* Right Side: Button */}
@@ -42,7 +42,7 @@ export const WhatsAppCtaBanner: React.FC<WhatsAppCtaBannerProps> = ({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-6 py-3 bg-white text-orange-600 font-bold text-base rounded-lg shadow-md hover:bg-orange-50 transform hover:scale-105 transition-transform duration-200 ease-in-out"
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-white text-orange-600 font-bold text-sm sm:text-base rounded-lg shadow-md hover:bg-orange-50 transform hover:scale-105 transition-transform duration-200 ease-in-out"
           >
             <WhatsAppIcon />
             {buttonText}
