@@ -1,7 +1,17 @@
 import React from "react";
+import { Metadata } from 'next'
 import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
+
+export const metadata: Metadata = {
+  title: "Disclaimer - AstroKiran Astrology Service Disclaimers",
+  description: "Important disclaimer about AstroKiran's astrology services. Read about service limitations, entertainment purposes, and professional advice guidelines.",
+  keywords: ["astrology disclaimer", "service limitations", "entertainment purposes", "professional advice"],
+  alternates: {
+    canonical: "https://astrokiran.com/disclaimer",
+  },
+}
 
 export default function DisclaimerPage() {
     return (
@@ -9,7 +19,7 @@ export default function DisclaimerPage() {
             <NavBar />
 
             <section className="container mx-auto py-10 px-4">
-                <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Disclaimer</h2>
+                <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">Disclaimer</h1>
                 <Card className="max-w-4xl mx-auto p-6 shadow-lg">
                     <CardContent className="space-y-6">
                         <p>

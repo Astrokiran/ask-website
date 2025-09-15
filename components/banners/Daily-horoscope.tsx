@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useRef, useEffect } from 'react';
 
 // Added a dedicated WhatsApp icon component for clarity

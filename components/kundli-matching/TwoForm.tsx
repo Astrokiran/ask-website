@@ -6,7 +6,7 @@ import { useJsApiLoader } from '@react-google-maps/api';
 import { NavBar } from '@/components/nav-bar';
 import { Footer } from '@/components/footer';
 import { ServicesSection } from "@/components/services-section";
-import { FormSection } from './components/FormSection'; 
+import { FormSection } from './components/Formsection'; 
 import Image from 'next/image';
 import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 import { Briefcase, Heart, Sparkles, Star } from 'lucide-react';

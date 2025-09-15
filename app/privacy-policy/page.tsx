@@ -1,7 +1,17 @@
 import React from "react";
+import { Metadata } from 'next'
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy - AstroKiran Data Protection & Security",
+  description: "AstroKiran's privacy policy explaining how we collect, use, and protect your personal information for astrology consultations, kundli services, and horoscope readings.",
+  keywords: ["privacy policy", "data protection", "astrology privacy", "personal information security"],
+  alternates: {
+    canonical: "https://astrokiran.com/privacy-policy",
+  },
+}
 
 export default function PrivacyPolicyPage() {
   return (
@@ -9,7 +19,7 @@ export default function PrivacyPolicyPage() {
       <NavBar />
 
       <section className="container mx-auto py-10 px-4">
-        <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Privacy Policy</h2>
+        <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">Privacy Policy</h1>
         <Card className="max-w-4xl mx-auto p-6 shadow-lg">
           <CardContent className="space-y-8">
             <div>
