@@ -157,6 +157,35 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Prevent horizontal overflow */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Box sizing fix */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* Prevent elements from breaking out of viewport */
+  img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Fix for elements that might cause overflow */
+  pre, code {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* Prevent table overflow */
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
 }
 
 /* In your globals.css */
@@ -278,4 +307,50 @@ body {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+/* Responsive utilities to prevent overflow */
+@layer utilities {
+  .container-responsive {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-responsive {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-responsive {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container-responsive {
+      max-width: 80rem;
+    }
+  }
+
+  /* Prevent any element from extending beyond viewport */
+  .no-overflow {
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  /* Responsive text that wraps properly */
+  .text-responsive {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
 }

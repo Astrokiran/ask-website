@@ -121,7 +121,7 @@ export function HeroSection({
   }
 
   return (
-    <div className="bg-background relative overflow-hidden">
+    <div className="bg-background relative w-full max-w-full overflow-hidden">
       {/* Enhanced Dynamic Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-orange-50/80 via-purple-50/60 to-orange-50/40 dark:from-orange-950/30 dark:via-purple-950/20 dark:to-orange-950/15"></div>
 
@@ -151,8 +151,8 @@ export function HeroSection({
       <div className="absolute bottom-36 right-12 w-6 h-6 border-2 border-purple-400 rounded-full animate-pulse opacity-40"></div>
       <div className="absolute top-72 right-1/4 w-4 h-4 bg-gradient-to-r from-orange-400 to-purple-500 transform rotate-12 animate-bounce opacity-50"></div>
 
-      <div className="relative max-w-7xl mx-auto px-4 py-12 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="relative w-full max-w-7xl mx-auto px-3 sm:px-4 py-8 sm:py-12 lg:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center w-full">
 
           {/* Left Content */}
           <div className="relative z-10 text-center lg:text-left">

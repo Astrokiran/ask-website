@@ -58,14 +58,16 @@ export default function RootLayout({
         <OrganizationSchema />
         <LocalBusinessSchema />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen w-full overflow-x-hidden`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="w-full max-w-full min-h-screen overflow-x-hidden">
+            {children}
+          </div>
         </ThemeProvider>
         <ServiceWorker />
         <GoogleAnalytics gaId="G-97R5TTNY4G" />

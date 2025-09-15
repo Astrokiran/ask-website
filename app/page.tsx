@@ -20,14 +20,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div>
+    <div className="w-full max-w-full">
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="google-site-verification" content="bsao8SV-Yrt9Dh06rZN6WKx86dnPMM_N4srDx2d01BE" />
-      <div className="min-h-screen overflow-x-hidden">
+      <div className="min-h-screen w-full max-w-full overflow-x-hidden">
         <NavBar />
         {/* <DailyHoroscopeCta phoneNumber={"918197503574"}/> */}
-        <main>
-
+        <main className="w-full max-w-full">
           <HeroSection />
           <ServicesSection />
           <FeaturedAstrologers />
