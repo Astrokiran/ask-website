@@ -10,7 +10,7 @@ import { Footer } from "@/components/footer"
 import { ReportGeneration } from "@/components/report-generation"
 
 export const metadata: Metadata = {
-  title: "Astrokiran - Free ₹1000 Kundli, Tarot Reading, Palmistry & Astrology Services India",
+  title: "Free ₹1000 Kundli, Tarot & Astrology Services - Astrokiran",
   description: "Get FREE detailed kundli worth ₹1000, tarot card readings, prashna kundali, palmistry, hastrekha reading, numerology, and kundali milan. Expert astrology consultations via WhatsApp across India.",
   keywords: ["free kundli", "tarot card reading", "prashna kundali", "palmistry", "hastrekha reading", "numerology", "kundali milan", "astrology consultation", "whatsapp astrologer", "detailed horoscope"],
   alternates: {

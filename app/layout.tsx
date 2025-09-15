@@ -6,13 +6,15 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import OrganizationSchema from "@/components/schema/OrganizationSchema"
 import LocalBusinessSchema from "@/components/schema/LocalBusinessSchema"
+import { ServiceWorker } from "@/components/performance/ServiceWorker"
 
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
   fallback: ['system-ui', 'arial'],
-  adjustFontFallback: false,
-  preload: true
+  adjustFontFallback: true,
+  preload: true,
+  variable: '--font-inter'
 })
 
 
@@ -65,6 +67,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <ServiceWorker />
         <GoogleAnalytics gaId="G-97R5TTNY4G" />
       </body>
     </html>

@@ -1,14 +1,14 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Astrology Blog - Expert Insights & Spiritual Guidance | Astrokiran",
+  title: "Astrology Blog - Expert Insights & Guidance | Astrokiran",
   description: "Discover expert astrology insights, vedic wisdom, horoscope tips, daily predictions, and spiritual guidance. Read comprehensive guides on palmistry, numerology, tarot, and kundli analysis.",
   keywords: ["astrology blog", "vedic astrology", "horoscope tips", "spiritual guidance", "palmistry", "numerology", "tarot reading", "kundli analysis", "daily horoscope", "astrology insights"],
   alternates: {
     canonical: "https://astrokiran.com/blog",
   },
   openGraph: {
-    title: "Astrology Blog - Expert Insights & Spiritual Guidance | Astrokiran",
+    title: "Astrology Blog - Expert Insights & Guidance | Astrokiran",
     description: "Discover expert astrology insights, vedic wisdom, horoscope tips, daily predictions, and spiritual guidance.",
     url: "https://astrokiran.com/blog",
     siteName: "Astrokiran",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Astrology Blog - Expert Insights & Spiritual Guidance | Astrokiran",
+    title: "Astrology Blog - Expert Insights & Guidance | Astrokiran",
     description: "Discover expert astrology insights, vedic wisdom, horoscope tips, daily predictions, and spiritual guidance.",
     images: ["/blog-og-image.jpg"],
   },

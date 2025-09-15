@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { format } from 'date-fns';
 import { ArrowRight, Calendar, User } from 'lucide-react';
 import { BlogPostPreview } from '@/lib/blog';
@@ -12,24 +13,27 @@ interface BlogCardProps {
 
 export function BlogCard({ post, featured = false }: BlogCardProps) {
   const cardClasses = featured
-    ? "relative bg-card/80 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col group transform hover:-translate-y-3 transition-all duration-500 hover:shadow-3xl border-2 border-orange-200/50 dark:border-orange-800/50"
-    : "relative bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden flex flex-col group transform hover:-translate-y-2 transition-all duration-300 hover:shadow-2xl border border-orange-200/30 dark:border-orange-800/30";
+    ? "relative bg-card/90 rounded-3xl shadow-lg overflow-hidden flex flex-col group md:transform md:hover:-translate-y-3 transition-all duration-300 md:hover:shadow-3xl border-2 border-orange-200/50 dark:border-orange-800/50"
+    : "relative bg-card/90 rounded-2xl shadow-md overflow-hidden flex flex-col group md:transform md:hover:-translate-y-2 transition-all duration-300 md:hover:shadow-2xl border border-orange-200/30 dark:border-orange-800/30";
 
   const imageHeight = featured ? "h-56 lg:h-48" : "h-40 lg:h-36";
   const titleSize = featured ? "text-2xl" : "text-xl";
 
   return (
     <Link href={`/blog/${post.slug}`} className={cardClasses}>
-      {/* Glow Effect */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 via-purple-500/20 to-orange-500/20 rounded-3xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      {/* Glow Effect - only on desktop */}
+      <div className="hidden md:block absolute -inset-1 bg-gradient-to-r from-orange-500/20 via-purple-500/20 to-orange-500/20 rounded-3xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       <div className="relative">
       <div className="relative overflow-hidden">
         {post.heroImageUrl ? (
-          <img
-            src={`${post.heroImageUrl}?w=800&h=400&fit=fill&q=80&fm=webp`}
+          <Image
+            src={`${post.heroImageUrl}?w=800&h=400&fit=fill&q=85&fm=webp`}
             alt={`Cover image for ${post.title}`}
-            className={`w-full ${imageHeight} object-cover transition-transform duration-500 group-hover:scale-110`}
+            width={800}
+            height={400}
+            className={`w-full ${imageHeight} object-cover md:transition-transform md:duration-300 md:group-hover:scale-105`}
             loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
           <div className={`w-full ${imageHeight} bg-gradient-to-br from-orange-400/30 to-purple-500/30 flex items-center justify-center`}>
@@ -105,10 +109,14 @@ export function FeaturedBlogCard({ post }: { post: BlogPostPreview }) {
 
       <div className="relative h-96 w-full">
         {post.heroImageUrl ? (
-          <img
-            src={`${post.heroImageUrl}?w=1200&h=600&fit=fill&q=80&fm=webp`}
+          <Image
+            src={`${post.heroImageUrl}?w=1200&h=600&fit=fill&q=85&fm=webp`}
             alt={`Cover image for ${post.title}`}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            width={1200}
+            height={600}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            priority={true}
+            sizes="(max-width: 768px) 100vw, 1200px"
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-orange-400/40 to-purple-500/60 flex items-center justify-center">

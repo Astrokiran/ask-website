@@ -176,8 +176,14 @@ export function HeroSection({
 
               {/* Enhanced subtitle with effects */}
               <div className="relative mb-8">
-                <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
+                <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium mb-4">
                   {subtitle}
+                </p>
+                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-4">
+                  Experience authentic Vedic astrology consultations with India's most trusted platform. Our certified astrologers provide personalized insights into your life's journey, offering comprehensive analysis of your birth chart, planetary positions, and cosmic influences that shape your destiny.
+                </p>
+                <p className="text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                  Whether you seek guidance on relationships, career decisions, health concerns, or spiritual growth, our expert astrologers combine ancient wisdom with modern understanding to illuminate your path forward with clarity and confidence.
                 </p>
                 {/* Accent line under subtitle */}
                 <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 rounded-full mx-auto lg:mx-0 mt-4 animate-pulse"></div>

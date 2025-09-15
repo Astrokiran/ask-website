@@ -1,14 +1,23 @@
 "use client";
 
 import { useEffect, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { NavBar } from '@/components/nav-bar';
 import { Footer } from '@/components/footer';
 import { BlogGrid } from '@/components/blog/BlogGrid';
 import { BlogPagination } from '@/components/blog/BlogPagination';
 import { BlogSearch } from '@/components/blog/BlogSearch';
 import { FeaturedBlogCard } from '@/components/blog/BlogCard';
-import { BlogSidebarToggle } from '@/components/blog/BlogSidebarToggle';
 import { getBlogPosts, getFeaturedPosts, getBlogTags, getBlogArchives, getBlogAuthors, type BlogPostPreview, type PaginatedBlogResponse, type BlogFilters } from '@/lib/blog';
+
+// Dynamic import for sidebar - not critical for initial load
+const BlogSidebarToggle = dynamic(
+  () => import('@/components/blog/BlogSidebarToggle').then(mod => ({ default: mod.BlogSidebarToggle })),
+  {
+    loading: () => <div className="w-80 h-48 bg-muted/30 animate-pulse rounded-lg" />,
+    ssr: false
+  }
+);
 
 const POSTS_PER_PAGE = 12;
 
@@ -109,16 +118,16 @@ export default function BlogListPage() {
   const authorNames = authors.map(author => author.name);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Dynamic Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-transparent to-purple-50/30 dark:from-orange-950/20 dark:via-transparent dark:to-purple-950/10"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.15)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.08)_0%,transparent_50%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.1)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.05)_0%,transparent_50%)]"></div>
+    <div className="min-h-screen bg-background">
+      {/* Dynamic Background Effects - desktop only */}
+      <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-orange-50/30 via-transparent to-purple-50/20 dark:from-orange-950/10 dark:via-transparent dark:to-purple-950/5"></div>
+      <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.08)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.04)_0%,transparent_50%)]"></div>
+      <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.05)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.03)_0%,transparent_50%)]"></div>
 
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-4 h-4 bg-orange-400 rounded-full animate-pulse opacity-60"></div>
-      <div className="absolute top-40 right-20 w-6 h-6 bg-purple-400 rounded-full animate-pulse opacity-40"></div>
-      <div className="absolute bottom-20 left-20 w-3 h-3 bg-orange-300 rounded-full animate-pulse opacity-50"></div>
+      {/* Floating Elements - desktop only with reduced animation */}
+      <div className="hidden lg:block absolute top-20 left-10 w-3 h-3 bg-orange-400/50 rounded-full opacity-40"></div>
+      <div className="hidden lg:block absolute top-40 right-20 w-4 h-4 bg-purple-400/50 rounded-full opacity-30"></div>
+      <div className="hidden lg:block absolute bottom-20 left-20 w-2 h-2 bg-orange-300/50 rounded-full opacity-30"></div>
 
       <NavBar />
 
@@ -132,8 +141,14 @@ export default function BlogListPage() {
                 Astrology Blogs
               </span>
             </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
               Discover expert astrology insights, vedic wisdom, horoscope tips, and spiritual guidance for your cosmic journey. Dive deep into the mysteries of the universe with our comprehensive guides.
+            </p>
+            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+              Our astrology blog serves as your gateway to ancient Vedic knowledge and modern spiritual understanding. Explore in-depth articles on planetary movements, birth chart analysis, and cosmic influences that shape your destiny. Learn from certified astrologers who combine traditional wisdom with contemporary insights to guide you through life's challenges and opportunities.
+            </p>
+            <p className="text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
+              From beginner-friendly explanations of zodiac signs to advanced techniques in predictive astrology, our content caters to seekers at every level of their spiritual journey. Discover practical remedies, understand planetary transits, and unlock the secrets of your personal horoscope through our carefully curated collection of astrology articles.
             </p>
           </div>
 

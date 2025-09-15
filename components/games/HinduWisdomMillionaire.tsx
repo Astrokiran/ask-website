@@ -249,8 +249,9 @@ export default function HinduWisdomMillionaire() {
         setCurrentStreak(prev => prev + 1);
 
         setTimeout(() => {
-          setCurrentQuestion(prev => prev + 1);
-          if (currentQuestion + 1 < 15) {
+          const nextQuestion = currentQuestion + 1;
+          setCurrentQuestion(nextQuestion);
+          if (nextQuestion < 15) {
             loadQuestion();
           } else {
             endGame(true);
