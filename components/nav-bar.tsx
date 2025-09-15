@@ -133,7 +133,7 @@ export function NavBar() {
                 Pricing
               </Link>
               <a
-                href="https://wa.me/+1234567890"
+                href="https://wa.me/+918197503574?text=Hello, I would like to get an astrology consultation."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-[#25D366] hover:text-[#22c55e]"
