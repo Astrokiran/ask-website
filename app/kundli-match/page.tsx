@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import KundliMatchingPage from '@/components/kundli-matching/TwoForm'
 
 export const metadata: Metadata = {
-  title: "Kundli Matching for Marriage - Love Compatibility Calculator | AstroKiran",
+  title: "Kundli Matching for Marriage - Love Compatibility Calculator | Astrokiran",
   description: "Free kundli matching for marriage compatibility. Check gun milan, love compatibility score, and marriage predictions. Accurate Vedic matchmaking by name and birth details.",
   keywords: ["kundli matching", "marriage compatibility", "love calculator", "gun milan", "kundli milan by name", "matchmaking"],
   alternates: {

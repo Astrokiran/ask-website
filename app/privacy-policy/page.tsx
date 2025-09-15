@@ -5,8 +5,8 @@ import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - AstroKiran Data Protection & Security",
-  description: "AstroKiran's privacy policy explaining how we collect, use, and protect your personal information for astrology consultations, kundli services, and horoscope readings.",
+  title: "Privacy Policy - Astrokiran Data Protection & Security",
+  description: "Astrokiran's privacy policy explaining how we collect, use, and protect your personal information for astrology consultations, kundli services, and horoscope readings.",
   keywords: ["privacy policy", "data protection", "astrology privacy", "personal information security"],
   alternates: {
     canonical: "https://astrokiran.com/privacy-policy",
@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
         <Card className="max-w-4xl mx-auto p-6 shadow-lg">
           <CardContent className="space-y-8">
             <div>
-              <p>Pixelforge Tech Pvt Ltd (“PFTPL”, or “we” or “our” or “us”) operates the AstroKiran website, whatsapp business and mobile application (together “Platform”), which enables users in India (“Users”, or “you” and its grammatical variations) to access various astrological and related services.This policy (“Privacy Policy”) governs how AstroKiran collects, uses, shares, and protects the personal information disclosed to us by Users in the course of their usage of the Platform, and forms an integral part of the Terms of Service between AstroKiran and you. Accordingly, you are advised to read this Privacy Policy carefully before accessing the Platform.All words used but not defined herein shall have the meaning ascribed to them in the Terms of Service.</p>
+              <p>Pixelforge Tech Pvt Ltd (“PFTPL”, or “we” or “our” or “us”) operates the Astrokiran website, whatsapp business and mobile application (together “Platform”), which enables users in India (“Users”, or “you” and its grammatical variations) to access various astrological and related services.This policy (“Privacy Policy”) governs how Astrokiran collects, uses, shares, and protects the personal information disclosed to us by Users in the course of their usage of the Platform, and forms an integral part of the Terms of Service between Astrokiran and you. Accordingly, you are advised to read this Privacy Policy carefully before accessing the Platform.All words used but not defined herein shall have the meaning ascribed to them in the Terms of Service.</p>
             </div>
 
             <div>
@@ -32,7 +32,7 @@ export default function PrivacyPolicyPage() {
               <div>
                 <ol className="p-2 pl-8 space-y-1 list-decimal">
                   <li>Information you provide: When you register on the Platform, you will be required to provide us with your name, location, email address, mobile number, display picture, date of birth, place of birth, time of birth, and other relevant profile information.</li>
-                  <li>Transaction details initiated by you: If you initiate a cash transaction in relation to your AstroKiran service or account, we receive and store details pertaining to such transaction, including the payment method used, the amount paid, and the date and time of the transaction.</li>
+                  <li>Transaction details initiated by you: If you initiate a cash transaction in relation to your Astrokiran service or account, we receive and store details pertaining to such transaction, including the payment method used, the amount paid, and the date and time of the transaction.</li>
                   <li>Interaction information: When you interact with our customer support over any medium, such interactions may be recorded and stored.</li>
                   <li>Technical information about you: - We automatically collect certain information from you when you use the Platform, including your IP address, location, other unique device identifiers, your browser type, language, the URL of the website which you may have used to reach our Platform, and cookies (defined below).</li>
                   <li>Messages. When you use our Platform to communicate, we receive and store the messages you may send or receive on the Platform, and any other content you may upload or share on the Platform.</li>

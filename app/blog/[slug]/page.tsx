@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     .join(' ')
 
   return {
-    title: `${title} - AstroKiran Astrology Blog`,
+    title: `${title} - Astrokiran Astrology Blog`,
     description: `Read our comprehensive guide on ${title.toLowerCase()}. Expert astrology insights, tips, and guidance for your spiritual journey.`,
     keywords: [`${title.toLowerCase()}`, "astrology blog", "vedic astrology", "astrology tips", "spiritual guidance"],
     alternates: {

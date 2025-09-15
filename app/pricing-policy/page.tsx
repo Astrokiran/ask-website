@@ -14,7 +14,7 @@ export default function PricingPolicyPage() {
           <CardContent className="space-y-8">
             <div>
               <h3 className="text-xl font-semibold mb-2">Price Range</h3>
-              <p>At AstroKiran, we have customized pricing according to the services rendered by us. The details are provided to you beforehand based on the effort, efficiency, and the output of the service. Typically, the range of transactions on our WhatsApp service varies from INR 50 to 500 per user per session.</p>
+              <p>At Astrokiran, we have customized pricing according to the services rendered by us. The details are provided to you beforehand based on the effort, efficiency, and the output of the service. Typically, the range of transactions on our WhatsApp service varies from INR 50 to 500 per user per session.</p>
             </div>
 
             <div>
@@ -24,7 +24,7 @@ export default function PricingPolicyPage() {
 
             <div>
               <h3 className="text-xl font-semibold mb-2">Price Matching</h3>
-              <p>At AstroKiran, we are committed to offering you the best possible prices. If you find a service that we offer—providing a similar level of professionalism and features—available from a comparable service provider at a lower price, we will be happy to review and consider a price match.</p>
+              <p>At Astrokiran, we are committed to offering you the best possible prices. If you find a service that we offer—providing a similar level of professionalism and features—available from a comparable service provider at a lower price, we will be happy to review and consider a price match.</p>
             </div>
 
             <div>

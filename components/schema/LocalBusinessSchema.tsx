@@ -2,7 +2,7 @@ export default function LocalBusinessSchema() {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": "AstroKiran - Online Astrology Services India",
+    "name": "Astrokiran - Online Astrology Services India",
     "description": "Complete astrology services including FREE ₹1000 kundli, tarot card reading, prashna kundali, palmistry, hastrekha reading, numerology, kundali milan, and expert WhatsApp consultations across India.",
     "url": "https://astrokiran.com",
     "telephone": "+91-8197503574",

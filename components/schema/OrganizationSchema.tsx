@@ -2,7 +2,7 @@ export default function OrganizationSchema() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "AstroKiran",
+    "name": "Astrokiran",
     "description": "Complete online astrology services including FREE ₹1000 kundli, tarot card reading, prashna kundali, palmistry, hastrekha reading, numerology, kundali milan, and WhatsApp consultations available across India.",
     "url": "https://astrokiran.com",
     "logo": "https://astrokiran.com/logo.png",

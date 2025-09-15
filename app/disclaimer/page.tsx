@@ -5,8 +5,8 @@ import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 
 export const metadata: Metadata = {
-  title: "Disclaimer - AstroKiran Astrology Service Disclaimers",
-  description: "Important disclaimer about AstroKiran's astrology services. Read about service limitations, entertainment purposes, and professional advice guidelines.",
+  title: "Disclaimer - Astrokiran Astrology Service Disclaimers",
+  description: "Important disclaimer about Astrokiran's astrology services. Read about service limitations, entertainment purposes, and professional advice guidelines.",
   keywords: ["astrology disclaimer", "service limitations", "entertainment purposes", "professional advice"],
   alternates: {
     canonical: "https://astrokiran.com/disclaimer",
@@ -19,15 +19,15 @@ export default function DisclaimerPage() {
             <NavBar />
 
             <section className="container mx-auto py-10 px-4">
-                <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">Disclaimer</h1>
+                <h1 className="text-3xl font-bold text-foreground text-center mb-6">Disclaimer</h1>
                 <Card className="max-w-4xl mx-auto p-6 shadow-lg">
                     <CardContent className="space-y-6">
                         <p>
-                            The information and data contained on the AstroKiran website and WhatsApp services are to be treated purely for entertainment purposes only. Any prediction or message that you receive is not a substitute for advice, programs, or treatment that you would normally receive from a licensed professional such as a lawyer, doctor, psychiatrist, or financial advisor. Accordingly, AstroKiran provides no guarantees, implied warranties, or assurances of any kind and will not be responsible for any interpretation made or use by the recipient of the information and data mentioned above.
+                            The information and data contained on the Astrokiran website and WhatsApp services are to be treated purely for entertainment purposes only. Any prediction or message that you receive is not a substitute for advice, programs, or treatment that you would normally receive from a licensed professional such as a lawyer, doctor, psychiatrist, or financial advisor. Accordingly, Astrokiran provides no guarantees, implied warranties, or assurances of any kind and will not be responsible for any interpretation made or use by the recipient of the information and data mentioned above.
                         </p>
 
                         <p>
-                            Moreover, AstroKiran is a product of Pixelforge Tech PVT LTD. All transactions and gathered data are accessed and managed by AstroKiran in accordance with our privacy policy and terms of service.
+                            Moreover, Astrokiran is a product of Pixelforge Tech PVT LTD. All transactions and gathered data are accessed and managed by Astrokiran in accordance with our privacy policy and terms of service.
                         </p>
 
                         <p>

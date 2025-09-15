@@ -1,9 +1,21 @@
 "use client"
 
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, ChevronLeft, Star } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { client } from "./featured-astrologers"; // Reuse the Contentful client
+
+interface Astrologer {
+  name: string;
+  title: string;
+  stats: {
+    Experience: string;
+    languages: string;
+  };
+  description: string;
+  image: string;
+}
 
 interface HeroSectionProps {
   title?: string;
@@ -11,11 +23,13 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({
-  title = "Discover Your Cosmic Path",
-  subtitle = "Connect with expert astrologers for personalized guidance and unlock the mysteries of your destiny"
+  title = "Ask Astrokiran Kahin Bhi Kabhi Bhi",
+  subtitle = "Connect with expert astrologers ✨ for issues related to Health 💪, Business 📈, Finance 💰, Love ❤️, Marriage 💍, and Government Jobs 🏛️. Get instant personal guidance 💡 and quick, easy-to-follow remedies 🙏 at your convenience."
 }: HeroSectionProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentAstrologerIndex, setCurrentAstrologerIndex] = useState(0);
   const [heroImages, setHeroImages] = useState<string[]>([]);
+  const [astrologersData, setAstrologersData] = useState<Astrologer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
@@ -26,19 +40,44 @@ export function HeroSection({
 
   useEffect(() => {
     setIsLoading(true);
-    client.getEntries({
-      content_type: 'heroimages', // Matches your Contentful model ID
-      order: ['fields.order']
-    })
-    .then((response) => {
-      if (response.items) {
-        const fetchedImageUrls: string[] = response.items.map((item: any) =>
-        `https:${item.fields.image.fields.file.url}?h=600&w=800&q=75&fm=webp`
+
+    // Fetch both hero images and astrologers data
+    Promise.all([
+      client.getEntries({
+        content_type: 'heroimages',
+        order: ['fields.order']
+      }),
+      client.getEntries({
+        content_type: 'astrologersImages'
+      })
+    ])
+    .then(([heroResponse, astrologersResponse]) => {
+      // Process hero images
+      if (heroResponse.items) {
+        const fetchedImageUrls: string[] = heroResponse.items.map((item: any) =>
+          `https:${item.fields.image.fields.file.url}?h=600&w=800&q=75&fm=webp`
         );
         setHeroImages(fetchedImageUrls);
       }
+
+      // Process astrologers data
+      if (astrologersResponse.items && astrologersResponse.items.length > 0) {
+        const fetchedAstrologers: Astrologer[] = astrologersResponse.items.map((item: any) => ({
+          name: item.fields.astrologerName || "N/A",
+          title: item.fields.title || "Astrologer",
+          stats: {
+            Experience: item.fields.experiance || "N/A",
+            languages: item.fields.languages || "Hindi, English",
+          },
+          description: item.fields.description || "No description available.",
+          image: item.fields.astrologerImage?.fields?.file?.url
+            ? `https:${item.fields.astrologerImage.fields.file.url}`
+            : "/ask-logo.png",
+        }));
+        setAstrologersData(fetchedAstrologers);
+      }
     })
-    .catch(error => console.error("Error fetching hero images from Contentful:", error))
+    .catch(error => console.error("Error fetching data from Contentful:", error))
     .finally(() => setIsLoading(false));
   }, []);
 
@@ -52,9 +91,29 @@ export function HeroSection({
     return () => clearInterval(timer);
   }, [heroImages]);
 
+  useEffect(() => {
+    if (astrologersData.length === 0) return;
+
+    const timer = setInterval(() => {
+      setCurrentAstrologerIndex((prev) => (prev + 1) % astrologersData.length);
+    }, 6000); // Slightly different timing than images
+
+    return () => clearInterval(timer);
+  }, [astrologersData]);
+
+  const handlePrevAstrologer = () => {
+    if (astrologersData.length === 0) return;
+    setCurrentAstrologerIndex((prev) => (prev - 1 + astrologersData.length) % astrologersData.length);
+  };
+
+  const handleNextAstrologer = () => {
+    if (astrologersData.length === 0) return;
+    setCurrentAstrologerIndex((prev) => (prev + 1) % astrologersData.length);
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-[90vh] bg-background flex items-center justify-center relative overflow-hidden">
+      <div className="bg-background flex items-center justify-center relative overflow-hidden py-20">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-transparent to-purple-50/30 dark:from-orange-950/20 dark:via-transparent dark:to-purple-950/10"></div>
         <p className="text-foreground text-xl font-semibold">Loading Cosmic Imagery...</p>
       </div>
@@ -62,7 +121,7 @@ export function HeroSection({
   }
 
   return (
-    <div className="min-h-[90vh] bg-background relative overflow-hidden">
+    <div className="bg-background relative overflow-hidden">
       {/* Dynamic Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-transparent to-purple-50/30 dark:from-orange-950/20 dark:via-transparent dark:to-purple-950/10"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.15)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.08)_0%,transparent_50%)]"></div>
@@ -73,13 +132,13 @@ export function HeroSection({
       <div className="absolute top-40 right-20 w-6 h-6 bg-purple-400 rounded-full animate-pulse opacity-40"></div>
       <div className="absolute bottom-20 left-20 w-3 h-3 bg-orange-300 rounded-full animate-pulse opacity-50"></div>
 
-      <div className="relative max-w-7xl mx-auto px-4 py-20 lg:py-32">
+      <div className="relative max-w-7xl mx-auto px-4 py-8 pb-8 lg:py-12 lg:pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left Content */}
           <div className="relative z-10 text-center lg:text-left">
             <div className="animate-fadeInUp">
-              <h1 className="text-5xl lg:text-7xl font-extrabold leading-tight mb-8">
+              <h1 className="text-2xl lg:text-3xl font-extrabold leading-tight mb-8">
                 <span className="bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 bg-clip-text text-transparent">
                   {title}
                 </span>
@@ -113,15 +172,78 @@ export function HeroSection({
             </div>
           </div>
 
-          {/* Right Image Carousel */}
+          {/* Right Astrologer Slideshow */}
           <div className="relative">
             <div className="relative h-[500px] lg:h-[600px] group">
               {/* Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-purple-500/20 to-orange-500/20 rounded-3xl blur-3xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
 
-              {/* Main Image Container */}
-              <div className="relative h-full w-full rounded-3xl overflow-hidden border border-orange-200/20 dark:border-orange-800/20 shadow-2xl">
-                {heroImages.length > 0 && (
+              {/* Main Astrologer Container */}
+              <div className="relative h-full w-full rounded-3xl overflow-hidden border border-orange-200/20 dark:border-orange-800/20 shadow-2xl bg-card/80 backdrop-blur-sm">
+                {astrologersData.length > 0 && (
+                  <div key={currentAstrologerIndex} className="h-full flex flex-col">
+                    {/* Astrologer Image */}
+                    <div className="relative flex-1">
+                      <img
+                        src={astrologersData[currentAstrologerIndex]?.image}
+                        alt={astrologersData[currentAstrologerIndex]?.name}
+                        className="h-full w-full object-cover transition-all duration-1000"
+                      />
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                      {/* Floating Badge */}
+                      <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
+                        <p className="text-sm font-semibold text-foreground">✨ Expert Astrologer</p>
+                      </div>
+
+                      {/* Navigation Buttons */}
+                      <button
+                        onClick={handlePrevAstrologer}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-orange-500/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors z-10"
+                      >
+                        <ChevronLeft className="w-5 h-5 text-white" />
+                      </button>
+                      <button
+                        onClick={handleNextAstrologer}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-purple-500/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-purple-500 transition-colors z-10"
+                      >
+                        <ChevronRight className="w-5 h-5 text-white" />
+                      </button>
+                    </div>
+
+                    {/* Astrologer Info Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/60 to-transparent text-white">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="text-2xl font-bold mb-1">
+                            {astrologersData[currentAstrologerIndex]?.name}
+                          </h3>
+                          <p className="text-orange-300 font-medium mb-2">
+                            {astrologersData[currentAstrologerIndex]?.title}
+                          </p>
+                          <div className="flex items-center gap-4 text-sm">
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 text-yellow-400" />
+                              <span>{astrologersData[currentAstrologerIndex]?.stats.Experience} Years</span>
+                            </div>
+                            <div className="h-4 w-px bg-white/30"></div>
+                            <span>{astrologersData[currentAstrologerIndex]?.stats.languages}</span>
+                          </div>
+                        </div>
+                        <Avatar className="w-16 h-16 border-2 border-white/30">
+                          <AvatarImage src={astrologersData[currentAstrologerIndex]?.image} />
+                          <AvatarFallback className="bg-gradient-to-br from-orange-400 to-purple-500 text-white font-bold">
+                            {astrologersData[currentAstrologerIndex]?.name?.substring(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Fallback to hero images if no astrologers */}
+                {astrologersData.length === 0 && heroImages.length > 0 && (
                   <img
                     key={currentImageIndex}
                     src={heroImages[currentImageIndex]}
@@ -129,25 +251,17 @@ export function HeroSection({
                     className="h-full w-full object-cover transition-all duration-1000"
                   />
                 )}
-
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-
-                {/* Floating Badge */}
-                <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
-                  <p className="text-sm font-semibold text-foreground">✨ Live Guidance</p>
-                </div>
               </div>
 
-              {/* Image Navigation Indicators */}
-              {heroImages.length > 1 && (
+              {/* Astrologer Navigation Indicators */}
+              {astrologersData.length > 1 && (
                 <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
-                  {heroImages.map((_, index) => (
+                  {astrologersData.map((_, index) => (
                     <button
                       key={index}
-                      onClick={() => setCurrentImageIndex(index)}
+                      onClick={() => setCurrentAstrologerIndex(index)}
                       className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        index === currentImageIndex
+                        index === currentAstrologerIndex
                           ? 'bg-orange-500 scale-125'
                           : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
                       }`}

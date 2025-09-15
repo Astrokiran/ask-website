@@ -13,17 +13,17 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   metadataBase: new URL('https://astrokiran.com'),
   title: {
-    default: "Free ₹1000 Kundli, Tarot, Palmistry, Numerology & Astrology Services - AstroKiran",
-    template: "%s | AstroKiran - Complete Astrology Services India"
+    default: "Free ₹1000 Kundli, Tarot, Palmistry, Numerology & Astrology Services - Astrokiran",
+    template: "%s | Astrokiran - Complete Astrology Services India"
   },
   description: "Get FREE detailed kundli worth ₹1000, tarot card reading, prashna kundali, palmistry, hastrekha reading, numerology, kundali milan & WhatsApp consultations across India. Complete astrology services platform.",
   keywords: ["free kundli", "tarot card reading", "prashna kundali", "palmistry", "hastrekha reading", "numerology", "kundali milan", "astrology consultation", "whatsapp astrologer", "detailed horoscope"],
   generator: 'v0.dev',
   openGraph: {
-    title: "AstroKiran - Free ₹1000 Kundli, Tarot & Complete Astrology Services India",
+    title: "Astrokiran - Free ₹1000 Kundli, Tarot & Complete Astrology Services India",
     description: "Complete astrology services including FREE ₹1000 kundli, tarot card reading, palmistry, hastrekha, numerology, prashna kundali & WhatsApp consultations across India.",
     url: "https://astrokiran.com",
-    siteName: "AstroKiran",
+    siteName: "Astrokiran",
     type: "website",
   },
   robots: {

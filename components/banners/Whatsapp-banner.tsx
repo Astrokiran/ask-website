@@ -21,7 +21,7 @@ export const WhatsAppCtaBanner: React.FC<WhatsAppCtaBannerProps> = ({
   title = "Have Questions About Your Kundli?",
   subtitle = "Our expert astrologers are ready to provide detailed insights and remedies. Chat with us for a private consultation.",
   buttonText = "Chat on WhatsApp",
-  prefilledMessage = "Hello AstroKiran, I have some questions about my Kundli report."
+  prefilledMessage = "Hello Astrokiran, I have some questions about my Kundli report."
 }) => {
 
   const encodedMessage = encodeURIComponent(prefilledMessage);

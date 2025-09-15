@@ -19,8 +19,8 @@ export function NavBar() {
         <nav className="flex items-center justify-between p-4 max-w-7xl mx-auto">
           <Link href="/" >
             <div className="flex items-center gap-2">
-              <img src="/ask-logo.png" alt="AstroKiran Logo" className="w-12 h-12" />
-              <span className="font-bold">AstroKiran</span>
+              <img src="/ask-logo.png" alt="Astrokiran Logo" className="w-12 h-12" />
+              <span className="font-bold">Astrokiran</span>
             </div>
           </Link>
 

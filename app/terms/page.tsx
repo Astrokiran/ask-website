@@ -5,8 +5,8 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions - AstroKiran Astrology Services",
-  description: "Read AstroKiran's terms and conditions for astrology services, WhatsApp consultations, kundli generation, and horoscope readings. Complete service terms and policies.",
+  title: "Terms & Conditions - Astrokiran Astrology Services",
+  description: "Read Astrokiran's terms and conditions for astrology services, WhatsApp consultations, kundli generation, and horoscope readings. Complete service terms and policies.",
   keywords: ["astrology terms", "service conditions", "astrokiran policies", "astrology service agreement"],
   alternates: {
     canonical: "https://astrokiran.com/terms",
@@ -27,7 +27,7 @@ const TermsPage = () => {
                             Terms & Conditions
                         </h1>
                         <p className="text-xl text-indigo-100 dark:text-indigo-200 max-w-2xl mx-auto leading-relaxed">
-                            Understanding our service policies and your rights as an AstroKiran user
+                            Understanding our service policies and your rights as an Astrokiran user
                         </p>
                     </div>
                 </div>
@@ -54,10 +54,10 @@ const TermsPage = () => {
                                     </h2>
                                     <div className="text-muted-foreground space-y-4 leading-relaxed">
                                         <p>
-                                            AstroKiran is an online platform offered by <span className="font-semibold text-indigo-600 dark:text-indigo-400">Pixelforge Tech Private Limited</span> (hereinafter referred to as "AstroKiran", "We", "Us", or "Our") that enables users ("You") to use our astrology services over WhatsApp, website, and mobile applications.
+                                            Astrokiran is an online platform offered by <span className="font-semibold text-indigo-600 dark:text-indigo-400">Pixelforge Tech Private Limited</span> (hereinafter referred to as "Astrokiran", "We", "Us", or "Our") that enables users ("You") to use our astrology services over WhatsApp, website, and mobile applications.
                                         </p>
                                         <p>
-                                            These Terms of Service for AstroKiran ("Terms"), along with AstroKiran's Privacy Policy ("Privacy Policy") (together, "Platform Policies"), govern the relationship between You and Us. The Terms and Privacy Policy form a binding legal agreement based on which You may visit, access, or use the AstroKiran product, website, mobile applications, and related services ("Services").
+                                            These Terms of Service for Astrokiran ("Terms"), along with Astrokiran's Privacy Policy ("Privacy Policy") (together, "Platform Policies"), govern the relationship between You and Us. The Terms and Privacy Policy form a binding legal agreement based on which You may visit, access, or use the Astrokiran product, website, mobile applications, and related services ("Services").
                                         </p>
                                         <div className="bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 dark:border-yellow-500 p-4 rounded-r-lg">
                                             <p className="text-yellow-800 dark:text-yellow-200 font-medium">
@@ -74,7 +74,7 @@ const TermsPage = () => {
                                         Overview of Services
                                     </h2>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        AstroKiran offers comprehensive astrological services including astrology consultations, tarot card reading, prashna kundali, palmistry, hastrekha reading, numerology, kundali milan, detailed horoscope reports, telephone/video consultations, WhatsApp consultations, and a <span className="font-semibold text-blue-600 dark:text-blue-400">FREE kundali worth ₹1000</span>.
+                                        Astrokiran offers comprehensive astrological services including astrology consultations, tarot card reading, prashna kundali, palmistry, hastrekha reading, numerology, kundali milan, detailed horoscope reports, telephone/video consultations, WhatsApp consultations, and a <span className="font-semibold text-blue-600 dark:text-blue-400">FREE kundali worth ₹1000</span>.
                                     </p>
                                 </div>
 
@@ -111,7 +111,7 @@ const TermsPage = () => {
                                             You can use the Services via WhatsApp, website, or mobile applications available on Google Play and the Apple App Store.
                                         </p>
                                         <p>
-                                            When You access Our Services and/or create an AstroKiran account, We may collect, use, share, and store Your information, including personal and sensitive information, to ensure effective service delivery. The collection and usage of such information are governed by the Privacy Policy.
+                                            When You access Our Services and/or create an Astrokiran account, We may collect, use, share, and store Your information, including personal and sensitive information, to ensure effective service delivery. The collection and usage of such information are governed by the Privacy Policy.
                                         </p>
                                         <div className="bg-amber-50 dark:bg-amber-900/30 border-l-4 border-amber-400 dark:border-amber-500 p-4 rounded-r-lg">
                                             <p className="text-amber-800 dark:text-amber-200">
@@ -216,7 +216,7 @@ const TermsPage = () => {
                                     <div className="text-muted-foreground space-y-6 leading-relaxed">
                                         <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-400 dark:border-red-500 p-4 rounded-r-lg">
                                             <p className="text-red-800 dark:text-red-200 font-medium">
-                                                ⚠️ <strong>General Disclaimer:</strong> AstroKiran is not liable for any loss, damages, or expenses incurred by You in connection with Our Services.
+                                                ⚠️ <strong>General Disclaimer:</strong> Astrokiran is not liable for any loss, damages, or expenses incurred by You in connection with Our Services.
                                             </p>
                                         </div>
 
@@ -252,7 +252,7 @@ const TermsPage = () => {
                                     </h2>
                                     <div className="text-muted-foreground space-y-4 leading-relaxed">
                                         <p>
-                                            AstroKiran and its affiliates exclusively own all intellectual property, including trademarks, copyrights, patents, and proprietary technology related to the Platform. You are granted a <strong className="text-teal-700 dark:text-teal-300">limited, non-transferable right</strong> to use Our Services but have no ownership over any intellectual property.
+                                            Astrokiran and its affiliates exclusively own all intellectual property, including trademarks, copyrights, patents, and proprietary technology related to the Platform. You are granted a <strong className="text-teal-700 dark:text-teal-300">limited, non-transferable right</strong> to use Our Services but have no ownership over any intellectual property.
                                         </p>
                                         <div className="bg-orange-50 dark:bg-orange-900/30 border-l-4 border-orange-400 dark:border-orange-500 p-4 rounded-r-lg">
                                             <p className="text-orange-800 dark:text-orange-200">
@@ -294,7 +294,7 @@ const TermsPage = () => {
                                             </p>
                                         </div>
                                         <p className="text-sm">
-                                            AstroKiran may seek injunctive relief in a court of competent jurisdiction.
+                                            Astrokiran may seek injunctive relief in a court of competent jurisdiction.
                                         </p>
                                     </div>
                                 </div>
