@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import { NavBar } from '@/components/nav-bar'
+import { Footer } from '@/components/footer'
 import KundliMatchingPage from '@/components/kundli-matching/TwoForm'
 
 export const metadata: Metadata = {
@@ -12,16 +14,22 @@ export const metadata: Metadata = {
 
 export default function KundliMatchPage() {
   return (
-    <main className="p-8 bg-background min-h-screen">
-      <div className="container mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-6">
-          Kundli Matching for Marriage - Check Compatibility
-        </h1>
-        <p className="text-lg text-center mb-8 text-gray-600">
-          Get accurate kundli matching results for marriage compatibility. Check gun milan score and detailed compatibility analysis.
-        </p>
-      </div>
-      <KundliMatchingPage />
-    </main>
+    <div className="min-h-screen flex flex-col bg-background">
+      <NavBar />
+      <main className="flex-1 bg-background pt-4 sm:pt-6 md:pt-8">
+        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="text-center mb-6 sm:mb-8 md:mb-12">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-orange-600 via-purple-600 to-orange-600 bg-clip-text text-transparent">
+              Kundli Matching for Marriage - Check Compatibility
+            </h1>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-2">
+              Get accurate kundli matching results for marriage compatibility. Check gun milan score and detailed compatibility analysis.
+            </p>
+          </div>
+        </div>
+        <KundliMatchingPage />
+      </main>
+      <Footer />
+    </div>
   )
 }

@@ -28,7 +28,7 @@ export function NavBar() {
 
   return (
     <>
-      <div className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-orange-200/20 z-50 text-xl shadow-lg">
+      <div className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-orange-200/20 z-[9999] text-xl shadow-lg">
         {/* Instagram-style gradient background overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-orange-50/30 via-purple-50/20 to-orange-50/30 dark:from-orange-950/10 dark:via-purple-950/5 dark:to-orange-950/10"></div>
 
@@ -167,7 +167,7 @@ export function NavBar() {
 
         {/* Enhanced Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-orange-200/20 shadow-xl max-h-[80vh] overflow-y-auto scrollbar-hide">
+          <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-orange-200/20 shadow-xl max-h-[80vh] overflow-y-auto scrollbar-hide relative z-[9998]">
             {/* Mobile menu gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-orange-50/20 to-purple-50/20 dark:from-orange-950/10 dark:to-purple-950/10"></div>
             <div className="relative flex flex-col p-6 space-y-4">

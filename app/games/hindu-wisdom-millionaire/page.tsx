@@ -169,14 +169,14 @@ export default function HinduWisdomMillionairePage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
             />
 
-            <div className="min-h-screen">
+            <div className="min-h-screen flex flex-col">
                 <NavBar />
-                <main role="main" aria-label="Hindu Wisdom Millionaire Game">
-                    <article>
+                <main role="main" aria-label="Hindu Wisdom Millionaire Game" className="flex-1">
+                    <article className="h-full">
                         <header>
                             <h1 className="sr-only">Hindu Wisdom Millionaire - Ultimate Vedic Knowledge Quiz Game</h1>
                         </header>
-                        <section aria-label="Interactive Hindu Wisdom Quiz Game">
+                        <section aria-label="Interactive Hindu Wisdom Quiz Game" className="h-full">
                             <HinduWisdomMillionaire />
                         </section>
                     </article>

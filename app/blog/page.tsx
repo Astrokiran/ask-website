@@ -129,7 +129,7 @@ export default function BlogListPage() {
           <div className="text-center mb-16">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-8">
               <span className="bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 bg-clip-text text-transparent">
-                Cosmic Blog
+                Astrology Blogs
               </span>
             </h1>
             <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
@@ -142,7 +142,7 @@ export default function BlogListPage() {
             <div className="max-w-5xl mx-auto">
               <h2 className="text-3xl lg:text-4xl font-bold mb-10 text-center">
                 <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-                  ✨ Featured Cosmic Article
+                  ✨ Featured Astrology Article
                 </span>
               </h2>
               <FeaturedBlogCard post={featuredPosts[0]} />

@@ -401,49 +401,49 @@ export default function HinduWisdomMillionaire() {
       <div className="absolute bottom-36 right-12 w-6 h-6 border-2 border-purple-400 rounded-full animate-pulse opacity-40"></div>
       <div className="absolute top-72 right-1/4 w-4 h-4 bg-gradient-to-r from-orange-400 to-purple-500 transform rotate-12 animate-bounce opacity-50"></div>
 
-      <div className="relative max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12 lg:py-20">
+      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12 xl:py-20">
         {/* Enhanced Header with Instagram-style effects */}
-        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+        <div className="text-center mb-4 sm:mb-6 md:mb-8 lg:mb-10 xl:mb-12">
           {/* Language Toggle and Badge */}
-          <div className="flex flex-col items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="flex flex-col items-center gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
             <LanguageToggle currentLanguage={language} onLanguageChange={setLanguage} />
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500/20 to-purple-500/20 backdrop-blur-sm border border-orange-300/30 rounded-full px-3 sm:px-4 py-2 animate-pulse">
+            <div className="inline-flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-orange-500/20 to-purple-500/20 backdrop-blur-sm border border-orange-300/30 rounded-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 animate-pulse max-w-xs sm:max-w-sm">
               <span className="w-2 h-2 bg-orange-500 rounded-full animate-ping"></span>
-              <span className="text-xs sm:text-sm font-semibold text-orange-600 dark:text-orange-400">🔥 {t.categories}</span>
+              <span className="text-xs sm:text-sm md:text-base font-semibold text-orange-600 dark:text-orange-400 truncate">🔥 {t.categories}</span>
             </div>
           </div>
 
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight mb-4 sm:mb-6 relative text-center px-2 sm:px-4">
+          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-black leading-tight mb-3 sm:mb-4 md:mb-6 relative text-center px-2 sm:px-4 md:px-6">
             {/* Glowing background effect */}
             <span className="absolute inset-0 bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 blur-xl opacity-30 animate-pulse"></span>
             <span className="relative bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-lg break-words whitespace-pre-wrap">
               {t.title}
             </span>
             {/* Floating sparkle on title */}
-            <span className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 text-yellow-400 animate-bounce text-sm sm:text-lg">✨</span>
+            <span className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 text-yellow-400 animate-bounce text-xs sm:text-sm md:text-base lg:text-lg">✨</span>
           </h1>
 
-          <div className="relative mb-6 sm:mb-8">
-            <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto font-medium mb-2 px-2">
+          <div className="relative mb-4 sm:mb-6 md:mb-8">
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto font-medium mb-2 px-3 sm:px-4">
               {t.subtitle}
             </p>
-            <p className="text-xs sm:text-sm md:text-base text-orange-600 dark:text-orange-400 px-2">
+            <p className="text-xs sm:text-sm md:text-base text-orange-600 dark:text-orange-400 px-3 sm:px-4">
               {t.description}
             </p>
             {/* Accent line under subtitle */}
-            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 rounded-full mx-auto mt-3 sm:mt-4 animate-pulse"></div>
+            <div className="w-12 sm:w-16 md:w-20 lg:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-orange-500 to-purple-500 rounded-full mx-auto mt-2 sm:mt-3 md:mt-4 animate-pulse"></div>
           </div>
         </div>
 
         {/* Game Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
           {/* Enhanced Money Ladder */}
-          <div className="lg:col-span-1 order-2 lg:order-1 bg-card/80 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-orange-300/50 shadow-2xl shadow-orange-500/10">
-            <h3 className="text-lg sm:text-xl font-bold text-orange-600 dark:text-orange-400 text-center mb-4 sm:mb-6 flex items-center justify-center gap-2">
+          <div className="lg:col-span-1 order-2 lg:order-1 bg-card/80 backdrop-blur-md rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 border-2 border-orange-300/50 shadow-2xl shadow-orange-500/10">
+            <h3 className="text-base sm:text-lg md:text-xl font-bold text-orange-600 dark:text-orange-400 text-center mb-3 sm:mb-4 md:mb-6 flex items-center justify-center gap-1 sm:gap-2">
               <span className="animate-bounce">💰</span>
               {t.prizeLadder}
             </h3>
-            <div className="space-y-1 sm:space-y-2 max-h-64 sm:max-h-none overflow-y-auto lg:overflow-visible">
+            <div className="space-y-0.5 sm:space-y-1 md:space-y-2 max-h-56 sm:max-h-64 lg:max-h-none overflow-y-auto lg:overflow-visible">
               {prizeLadder.slice().reverse().map((amount, index) => {
                 const levelIndex = prizeLadder.length - 1 - index;
                 const isCurrent = gameActive && levelIndex === currentQuestion;
@@ -453,7 +453,7 @@ export default function HinduWisdomMillionaire() {
                 return (
                   <div
                     key={levelIndex}
-                    className={`flex justify-between items-center p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 transition-all duration-300 relative overflow-hidden text-sm sm:text-base ${
+                    className={`flex justify-between items-center p-1.5 sm:p-2 md:p-3 rounded-md sm:rounded-lg md:rounded-xl border-2 transition-all duration-300 relative overflow-hidden text-xs sm:text-sm md:text-base ${
                       isCurrent
                         ? 'bg-gradient-to-r from-orange-500 to-purple-600 text-white font-bold border-orange-400 animate-pulse shadow-lg transform scale-105'
                         : isCompleted
@@ -475,19 +475,19 @@ export default function HinduWisdomMillionaire() {
           </div>
 
           {/* Game Content */}
-          <div className="lg:col-span-3 order-1 lg:order-2 space-y-4 sm:space-y-6">
+          <div className="lg:col-span-3 order-1 lg:order-2 space-y-3 sm:space-y-4 md:space-y-6">
             {gameActive && (
-              <div className="flex flex-wrap justify-center sm:justify-between items-center gap-2 sm:gap-4">
-                <div className="bg-gradient-to-r from-purple-500/20 to-purple-600/20 backdrop-blur-sm border border-purple-300/30 px-3 sm:px-4 py-2 rounded-full font-bold text-purple-600 dark:text-purple-400 text-sm sm:text-base">
+              <div className="flex flex-wrap justify-center sm:justify-between items-center gap-2 sm:gap-3 md:gap-4">
+                <div className="bg-gradient-to-r from-purple-500/20 to-purple-600/20 backdrop-blur-sm border border-purple-300/30 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full font-bold text-purple-600 dark:text-purple-400 text-xs sm:text-sm md:text-base">
                   {t.question} {currentQuestion + 1}
                 </div>
                 <div
-                  className="px-3 sm:px-4 py-2 rounded-full font-bold text-white backdrop-blur-sm border border-white/20 text-xs sm:text-sm"
+                  className="px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full font-bold text-white backdrop-blur-sm border border-white/20 text-xs sm:text-sm"
                   style={{ background: `linear-gradient(45deg, ${getCategoryColor(currentQuestionData?.category || '')}, #764ba2)` }}
                 >
                   {getCategoryName(currentQuestionData?.category || '')}
                 </div>
-                <div className={`px-3 sm:px-4 py-2 rounded-full font-bold text-base sm:text-lg text-white backdrop-blur-sm transition-all duration-300 ${
+                <div className={`px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full font-bold text-sm sm:text-base md:text-lg text-white backdrop-blur-sm transition-all duration-300 ${
                   timeLeft <= 10
                     ? 'bg-gradient-to-r from-red-500 to-red-600 animate-pulse border-2 border-red-400 shadow-lg shadow-red-500/30'
                     : 'bg-gradient-to-r from-orange-500 to-orange-600 border border-orange-300/30'
@@ -498,12 +498,12 @@ export default function HinduWisdomMillionaire() {
             )}
 
             {/* Enhanced Question Container */}
-            <div className="bg-card/80 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border-2 border-orange-300/50 min-h-[180px] sm:min-h-[220px] lg:min-h-[250px] flex items-center justify-center relative overflow-hidden shadow-2xl shadow-orange-500/10">
+            <div className="bg-card/80 backdrop-blur-md rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border-2 border-orange-300/50 min-h-[150px] sm:min-h-[180px] md:min-h-[200px] lg:min-h-[250px] flex items-center justify-center relative overflow-hidden shadow-2xl shadow-orange-500/10">
               {/* Rotating gradient background */}
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-purple-500/10 to-orange-500/10 animate-pulse"></div>
 
               {gameActive && currentQuestionData?.difficulty && (
-                <div className={`absolute top-4 right-4 px-3 py-2 rounded-full text-xs font-bold backdrop-blur-sm border transition-all ${
+                <div className={`absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 px-2 sm:px-3 py-1 sm:py-1.5 md:py-2 rounded-full text-xs font-bold backdrop-blur-sm border transition-all ${
                   currentQuestionData.difficulty === 'easy'
                     ? 'bg-gradient-to-r from-green-500/80 to-green-600/80 text-white border-green-400/50'
                     : currentQuestionData.difficulty === 'medium'
@@ -518,33 +518,33 @@ export default function HinduWisdomMillionaire() {
               <div className="relative z-10 text-center">
                 {isLoading ? (
                   <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400 mx-auto mb-4"></div>
-                    <p className="text-orange-600 dark:text-orange-400 text-lg">{t.consultingForces}</p>
+                    <div className="animate-spin rounded-full h-8 sm:h-10 md:h-12 w-8 sm:w-10 md:w-12 border-b-2 border-orange-400 mx-auto mb-3 sm:mb-4"></div>
+                    <p className="text-orange-600 dark:text-orange-400 text-sm sm:text-base md:text-lg">{t.consultingForces}</p>
                   </div>
                 ) : gameActive && currentQuestionData ? (
-                  <h2 className="text-xl md:text-3xl font-semibold leading-relaxed text-foreground">
+                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold leading-relaxed text-foreground px-2 sm:px-4">
                     {currentQuestionData.question}
                   </h2>
                 ) : (
                   <div className="text-center">
-                    <p className="text-2xl md:text-3xl leading-relaxed mb-6 font-bold">
+                    <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed mb-4 sm:mb-6 font-bold px-2">
                       {t.welcomeTitle}
                     </p>
-                    <p className="text-lg mb-6 text-muted-foreground leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 text-muted-foreground leading-relaxed px-2">
                       {t.welcomeDescription}
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
-                      <div className="bg-gradient-to-r from-orange-50/60 to-purple-50/60 dark:from-orange-950/20 dark:to-purple-950/20 p-3 rounded-xl border border-orange-300/30">
-                        <p className="text-orange-600 dark:text-orange-400 font-semibold">{t.vedicAstrology}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-2xl mx-auto px-2">
+                      <div className="bg-gradient-to-r from-orange-50/60 to-purple-50/60 dark:from-orange-950/20 dark:to-purple-950/20 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-orange-300/30">
+                        <p className="text-orange-600 dark:text-orange-400 font-semibold text-xs sm:text-sm md:text-base">{t.vedicAstrology}</p>
                       </div>
-                      <div className="bg-gradient-to-r from-purple-50/60 to-pink-50/60 dark:from-purple-950/20 dark:to-pink-950/20 p-3 rounded-xl border border-purple-300/30">
-                        <p className="text-purple-600 dark:text-purple-400 font-semibold">{t.hinduGods}</p>
+                      <div className="bg-gradient-to-r from-purple-50/60 to-pink-50/60 dark:from-purple-950/20 dark:to-pink-950/20 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-purple-300/30">
+                        <p className="text-purple-600 dark:text-purple-400 font-semibold text-xs sm:text-sm md:text-base">{t.hinduGods}</p>
                       </div>
-                      <div className="bg-gradient-to-r from-green-50/60 to-emerald-50/60 dark:from-green-950/20 dark:to-emerald-950/20 p-3 rounded-xl border border-green-300/30">
-                        <p className="text-green-600 dark:text-green-400 font-semibold">{t.sacredTexts}</p>
+                      <div className="bg-gradient-to-r from-green-50/60 to-emerald-50/60 dark:from-green-950/20 dark:to-emerald-950/20 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-green-300/30">
+                        <p className="text-green-600 dark:text-green-400 font-semibold text-xs sm:text-sm md:text-base">{t.sacredTexts}</p>
                       </div>
-                      <div className="bg-gradient-to-r from-pink-50/60 to-rose-50/60 dark:from-pink-950/20 dark:to-rose-950/20 p-3 rounded-xl border border-pink-300/30">
-                        <p className="text-pink-600 dark:text-pink-400 font-semibold">{t.festivals}</p>
+                      <div className="bg-gradient-to-r from-pink-50/60 to-rose-50/60 dark:from-pink-950/20 dark:to-rose-950/20 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-pink-300/30">
+                        <p className="text-pink-600 dark:text-pink-400 font-semibold text-xs sm:text-sm md:text-base">{t.festivals}</p>
                       </div>
                     </div>
                   </div>
@@ -554,7 +554,7 @@ export default function HinduWisdomMillionaire() {
 
             {/* Enhanced Answers Grid */}
             {gameActive && currentQuestionData && !isLoading && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                 {currentQuestionData.answers.map((answer, index) => {
                   const isHidden = hiddenAnswers.includes(index);
 
@@ -562,9 +562,9 @@ export default function HinduWisdomMillionaire() {
                     return (
                       <div
                         key={index}
-                        className="group relative p-6 rounded-2xl font-semibold text-left transition-all duration-300 transform opacity-30 bg-gray-400/20 border-2 border-gray-400/30 cursor-not-allowed backdrop-blur-sm"
+                        className="group relative p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl font-semibold text-left transition-all duration-300 transform opacity-30 bg-gray-400/20 border-2 border-gray-400/30 cursor-not-allowed backdrop-blur-sm min-h-[48px] sm:min-h-[56px] md:min-h-[64px]"
                       >
-                        <span className="relative z-10 text-gray-500 line-through">{answer}</span>
+                        <span className="relative z-10 text-gray-500 line-through text-sm sm:text-base md:text-lg">{answer}</span>
                       </div>
                     );
                   }
@@ -574,7 +574,7 @@ export default function HinduWisdomMillionaire() {
                       key={index}
                       onClick={() => selectAnswer(index)}
                       disabled={selectedAnswer !== null}
-                      className={`group relative p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 active:scale-95 overflow-hidden backdrop-blur-sm min-h-[56px] sm:min-h-[64px] md:min-h-[70px] w-full touch-manipulation ${
+                      className={`group relative p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl font-semibold text-left transition-all duration-300 transform hover:scale-105 active:scale-95 overflow-hidden backdrop-blur-sm min-h-[48px] sm:min-h-[56px] md:min-h-[64px] lg:min-h-[70px] w-full touch-manipulation ${
                         selectedAnswer === index
                           ? 'bg-gradient-to-r from-orange-500 to-purple-600 text-white border-2 border-orange-400 shadow-lg shadow-orange-500/30'
                           : selectedAnswer !== null && index === currentQuestionData.correct
@@ -595,31 +595,31 @@ export default function HinduWisdomMillionaire() {
 
             {/* Enhanced Lifelines - Mobile Optimized */}
             {gameActive && (
-              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
                 <button
                   onClick={useFiftyFifty}
                   disabled={!lifelines.fiftyFifty}
-                  className="group relative px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg border border-purple-300/30 overflow-hidden min-h-[44px] touch-manipulation"
+                  className="group relative px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg border border-purple-300/30 overflow-hidden min-h-[40px] sm:min-h-[44px] touch-manipulation"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                  <span className="relative z-10 text-sm sm:text-base">🎯 {t.fiftyFifty}</span>
+                  <span className="relative z-10 text-xs sm:text-sm md:text-base">🎯 {t.fiftyFifty}</span>
                 </button>
               </div>
             )}
 
             {/* Enhanced Controls - Mobile Optimized */}
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-6">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
               {!gameActive ? (
                 <button
                   onClick={startGame}
-                  className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 md:px-12 py-4 sm:py-6 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-lg sm:text-xl font-black rounded-xl sm:rounded-2xl shadow-2xl shadow-orange-500/40 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden min-h-[56px] touch-manipulation w-full sm:w-auto max-w-sm"
+                  className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 md:px-8 lg:px-12 py-3 sm:py-4 md:py-5 lg:py-6 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-base sm:text-lg md:text-xl font-black rounded-lg sm:rounded-xl lg:rounded-2xl shadow-2xl shadow-orange-500/40 transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden min-h-[48px] sm:min-h-[56px] touch-manipulation w-full sm:w-auto max-w-xs sm:max-w-sm"
                 >
                   {/* Animated background shimmer */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                   <span className="relative flex items-center gap-2 sm:gap-3 text-center">
-                    <span className="animate-bounce text-base sm:text-lg">🎁</span>
-                    <span className="text-sm sm:text-lg">{t.beginJourney}</span>
-                    <span className="text-yellow-400 animate-pulse text-base sm:text-lg">✨</span>
+                    <span className="animate-bounce text-sm sm:text-base md:text-lg">🎁</span>
+                    <span className="text-sm sm:text-base md:text-lg">{t.beginJourney}</span>
+                    <span className="text-yellow-400 animate-pulse text-sm sm:text-base md:text-lg">✨</span>
                   </span>
                   {/* Glowing border effect */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-purple-500 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
@@ -628,50 +628,50 @@ export default function HinduWisdomMillionaire() {
                 <>
                   <button
                     onClick={newGame}
-                    className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl sm:rounded-2xl font-semibold hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-purple-300/30 overflow-hidden min-h-[48px] touch-manipulation"
+                    className="group relative px-3 sm:px-4 md:px-6 lg:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg sm:rounded-xl lg:rounded-2xl font-semibold hover:from-purple-400 hover:to-purple-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-purple-300/30 overflow-hidden min-h-[44px] sm:min-h-[48px] touch-manipulation"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                    <span className="relative z-10 text-sm sm:text-base">🔄 {t.newGame}</span>
+                    <span className="relative z-10 text-xs sm:text-sm md:text-base">🔄 {t.newGame}</span>
                   </button>
                   <button
                     onClick={walkAway}
-                    className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl sm:rounded-2xl font-semibold hover:from-red-400 hover:to-red-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-red-300/30 overflow-hidden min-h-[48px] touch-manipulation"
+                    className="group relative px-3 sm:px-4 md:px-6 lg:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg sm:rounded-xl lg:rounded-2xl font-semibold hover:from-red-400 hover:to-red-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border border-red-300/30 overflow-hidden min-h-[44px] sm:min-h-[48px] touch-manipulation"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                    <span className="relative z-10 text-sm sm:text-base">🚶 {t.walkAway}</span>
+                    <span className="relative z-10 text-xs sm:text-sm md:text-base">🚶 {t.walkAway}</span>
                   </button>
                 </>
               )}
             </div>
 
             {/* Enhanced Stats with Instagram-style design - Mobile Optimized */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center">
-              <div className="group relative bg-gradient-to-br from-orange-500/20 to-orange-600/20 backdrop-blur-md rounded-2xl p-4 border border-orange-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 text-center">
+              <div className="group relative bg-gradient-to-br from-orange-500/20 to-orange-600/20 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 border border-orange-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 <div className="relative z-10">
-                  <div className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-1">{questionsAnswered}</div>
-                  <div className="text-sm text-orange-600/80 dark:text-orange-400/80 font-medium">{t.questionsAnswered}</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-orange-600 dark:text-orange-400 mb-0.5 sm:mb-1">{questionsAnswered}</div>
+                  <div className="text-xs sm:text-sm text-orange-600/80 dark:text-orange-400/80 font-medium">{t.questionsAnswered}</div>
                 </div>
               </div>
-              <div className="group relative bg-gradient-to-br from-purple-500/20 to-purple-600/20 backdrop-blur-md rounded-2xl p-4 border border-purple-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
+              <div className="group relative bg-gradient-to-br from-purple-500/20 to-purple-600/20 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 border border-purple-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 <div className="relative z-10">
-                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">{currentStreak}</div>
-                  <div className="text-sm text-purple-600/80 dark:text-purple-400/80 font-medium">{t.currentStreak}</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 dark:text-purple-400 mb-0.5 sm:mb-1">{currentStreak}</div>
+                  <div className="text-xs sm:text-sm text-purple-600/80 dark:text-purple-400/80 font-medium">{t.currentStreak}</div>
                 </div>
               </div>
-              <div className="group relative bg-gradient-to-br from-green-500/20 to-green-600/20 backdrop-blur-md rounded-2xl p-4 border border-green-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
+              <div className="group relative bg-gradient-to-br from-green-500/20 to-green-600/20 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 border border-green-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 <div className="relative z-10">
-                  <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">₹{formatMoney(bestScore)}</div>
-                  <div className="text-sm text-green-600/80 dark:text-green-400/80 font-medium">{t.bestScore}</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-green-600 dark:text-green-400 mb-0.5 sm:mb-1">₹{formatMoney(bestScore)}</div>
+                  <div className="text-xs sm:text-sm text-green-600/80 dark:text-green-400/80 font-medium">{t.bestScore}</div>
                 </div>
               </div>
-              <div className="group relative bg-gradient-to-br from-pink-500/20 to-pink-600/20 backdrop-blur-md rounded-2xl p-4 border border-pink-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
+              <div className="group relative bg-gradient-to-br from-pink-500/20 to-pink-600/20 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 border border-pink-300/40 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 <div className="relative z-10">
-                  <div className="text-2xl font-bold text-pink-600 dark:text-pink-400 mb-1">{wisdomLevel.title[language]}</div>
-                  <div className="text-sm text-pink-600/80 dark:text-pink-400/80 font-medium">{t.wisdomLevel}</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-pink-600 dark:text-pink-400 mb-0.5 sm:mb-1">{wisdomLevel.title[language]}</div>
+                  <div className="text-xs sm:text-sm text-pink-600/80 dark:text-pink-400/80 font-medium">{t.wisdomLevel}</div>
                 </div>
               </div>
             </div>
@@ -681,8 +681,8 @@ export default function HinduWisdomMillionaire() {
 
       {/* Welcome Modal */}
       {showWelcomeModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
-          <div className="relative bg-card/95 backdrop-blur-xl p-8 rounded-3xl max-w-2xl w-full border-2 border-orange-300/50 shadow-2xl shadow-orange-500/20 overflow-hidden">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-3 sm:p-4 md:p-6">
+          <div className="relative bg-card/95 backdrop-blur-xl p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl max-w-sm sm:max-w-lg md:max-w-2xl w-full border-2 border-orange-300/50 shadow-2xl shadow-orange-500/20 overflow-hidden max-h-[90vh] overflow-y-auto">
             {/* Background gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-50/80 via-purple-50/60 to-pink-50/40 dark:from-orange-950/30 dark:via-purple-950/20 dark:to-pink-950/15"></div>
 
@@ -753,7 +753,7 @@ export default function HinduWisdomMillionaire() {
               <div className="flex justify-center">
                 <button
                   onClick={beginGameAfterModal}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-base sm:text-lg font-bold rounded-xl sm:rounded-2xl shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden min-h-[48px] w-full sm:w-auto touch-manipulation"
+                  className="group relative px-3 sm:px-4 md:px-6 lg:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 hover:from-orange-600 hover:via-purple-700 hover:to-pink-600 text-white text-sm sm:text-base md:text-lg font-bold rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden min-h-[44px] sm:min-h-[48px] w-full sm:w-auto max-w-xs sm:max-w-sm touch-manipulation"
                 >
                   {/* Animated shimmer effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
