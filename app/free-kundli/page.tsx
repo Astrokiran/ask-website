@@ -49,35 +49,39 @@ export default function KundliRoutePage() {
             </div>
 
             {/* Sale Description */}
-            <div className="max-w-4xl mx-auto bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl border-4 border-dashed border-yellow-400 mb-6">
-              <p className="text-xl font-bold text-yellow-800 dark:text-yellow-200 leading-relaxed">
+            <div className="max-w-3xl mx-auto bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl border-4 border-dashed border-yellow-400 mb-6">
+              <p className="text-lg font-bold text-yellow-800 dark:text-yellow-200 leading-relaxed mb-4">
                 Get your complete detailed kundli report worth ₹1000 absolutely FREE! Includes Vedic birth chart, planetary positions, doshas, yogas, and personalized astrological predictions.
               </p>
 
-              <div className="grid md:grid-cols-2 gap-4 mt-4">
-                <div className="space-y-2">
-                  <p className="font-semibold text-yellow-800 dark:text-yellow-200">✅ Complete Vedic Birth Chart Analysis</p>
-                  <p className="font-semibold text-yellow-800 dark:text-yellow-200">✅ Detailed Planetary Positions & Effects</p>
-                  <p className="font-semibold text-yellow-800 dark:text-yellow-200">✅ Dosha Analysis (Mangal, Kaal Sarpa, etc.)</p>
-                </div>
-                <div className="space-y-2">
-                  <p className="font-semibold text-yellow-800 dark:text-yellow-200">✅ Beneficial Yogas & Their Impact</p>
-                  <p className="font-semibold text-yellow-800 dark:text-yellow-200">✅ Personalized Astrological Predictions</p>
-                  <p className="font-semibold text-yellow-800 dark:text-yellow-200">✅ Career, Health & Relationship Insights</p>
-                </div>
+              <div className="grid md:grid-cols-3 gap-2 mb-4">
+                <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-200">✅ Birth Chart Analysis</p>
+                <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-200">✅ Planetary Positions</p>
+                <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-200">✅ Dosha Analysis</p>
+              </div>
+
+              {/* CTA Button */}
+              <div className="text-center">
+                <button
+                  onClick={() => document.getElementById('kundli-form')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-black text-lg rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105 animate-pulse"
+                >
+                  🎁 CLAIM FREE KUNDLI NOW!
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </button>
               </div>
             </div>
 
             <div className="flex justify-center">
               <div className="h-2 w-32 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-full animate-pulse"></div>
             </div>
-
-            <p className="text-red-600 font-black text-lg mt-4 animate-pulse">
-              🔥 Hurry! Fill the form below to claim your FREE ₹1000 Kundli Report!
-            </p>
           </div>
         </div>
-        <KundliPage />
+        <div id="kundli-form">
+          <KundliPage />
+        </div>
       </div>
     </div>
   );

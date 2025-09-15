@@ -7,7 +7,13 @@ import { ThemeProvider } from "@/components/theme-provider"
 import OrganizationSchema from "@/components/schema/OrganizationSchema"
 import LocalBusinessSchema from "@/components/schema/LocalBusinessSchema"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+  display: 'swap',
+  fallback: ['system-ui', 'arial'],
+  adjustFontFallback: false,
+  preload: true
+})
 
 
 export const metadata: Metadata = {
