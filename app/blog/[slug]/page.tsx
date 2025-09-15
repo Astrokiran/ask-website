@@ -1,7 +1,5 @@
 import { Metadata } from 'next'
-import { BlogPostPage } from '@/components/BlogPostPage'
-import { NavBar } from "@/components/nav-bar"
-import { Footer } from "@/components/footer"
+import BlogPostPage from '@/components/BlogPostPage'
 
 type BlogPageProps = {
   params: { slug: string }
@@ -28,11 +26,5 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 }
 
 export default function Page({ params }: BlogPageProps) {
-  return (
-    <>
-      <NavBar />
-      <BlogPostPage slug={params.slug} />
-      <Footer />
-    </>
-  );
+  return <BlogPostPage slug={params.slug} />;
 }

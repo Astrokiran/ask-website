@@ -29,6 +29,9 @@ export function Footer() {
               <Link href="/horoscopes" className="block text-sm text-gray-400 hover:text-white">
                 Daily Horoscope
               </Link>
+              <Link href="/blog" className="block text-sm text-gray-400 hover:text-white">
+                Blogs
+              </Link>
               <Link href="/#astrologers" className="block text-sm text-gray-400 hover:text-white">
                 Our Astrologers
               </Link>
@@ -47,8 +50,8 @@ export function Footer() {
               <Link href="/horoscopes" className="block text-sm text-gray-400 hover:text-white">
                 Horoscope Reading
               </Link>
-              <Link href="#" className="block text-sm text-gray-400 hover:text-white">
-                Kundli Analysis
+              <Link href="/blog" className="block text-sm text-gray-400 hover:text-white">
+                Blogs
               </Link>
               <Link href="#" className="block text-sm text-gray-400 hover:text-white">
                 Numerology

@@ -109,30 +109,42 @@ export default function BlogListPage() {
   const authorNames = authors.map(author => author.name);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Dynamic Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-transparent to-purple-50/30 dark:from-orange-950/20 dark:via-transparent dark:to-purple-950/10"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.15)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.08)_0%,transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.1)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.05)_0%,transparent_50%)]"></div>
+
+      {/* Floating Elements */}
+      <div className="absolute top-20 left-10 w-4 h-4 bg-orange-400 rounded-full animate-pulse opacity-60"></div>
+      <div className="absolute top-40 right-20 w-6 h-6 bg-purple-400 rounded-full animate-pulse opacity-40"></div>
+      <div className="absolute bottom-20 left-20 w-3 h-3 bg-orange-300 rounded-full animate-pulse opacity-50"></div>
+
       <NavBar />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-indigo-50 via-background to-purple-50 dark:from-indigo-950 dark:via-background dark:to-purple-950 py-20">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-200 dark:bg-purple-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-indigo-200 dark:bg-indigo-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        </div>
+      <section className="relative py-20 lg:py-32">
 
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-extrabold text-foreground tracking-tight mb-6">
-              Astrology Blog
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-8">
+              <span className="bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 bg-clip-text text-transparent">
+                Cosmic Blog
+              </span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
               Discover expert astrology insights, vedic wisdom, horoscope tips, and spiritual guidance for your cosmic journey. Dive deep into the mysteries of the universe with our comprehensive guides.
             </p>
           </div>
 
           {/* Featured Post Hero */}
           {featuredPosts.length > 0 && (
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Featured Article</h2>
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl lg:text-4xl font-bold mb-10 text-center">
+                <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
+                  ✨ Featured Cosmic Article
+                </span>
+              </h2>
               <FeaturedBlogCard post={featuredPosts[0]} />
             </div>
           )}
@@ -140,8 +152,8 @@ export default function BlogListPage() {
       </section>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Sidebar Navigation */}
           <BlogSidebarToggle
             tags={tags}
@@ -167,15 +179,17 @@ export default function BlogListPage() {
             <div id="blog-results">
           {/* Results Header */}
           {blogData && !isLoading && (
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-12">
               <div>
-                <h2 className="text-2xl font-bold text-foreground">
-                  {searchQuery || filters.tag || filters.author ? 'Search Results' : 'Latest Articles'}
+                <h2 className="text-3xl lg:text-4xl font-bold">
+                  <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
+                    {searchQuery || filters.tag || filters.author ? 'Search Results' : 'Latest Cosmic Articles'}
+                  </span>
                 </h2>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-muted-foreground mt-3 text-lg">
                   {blogData.total === 0
-                    ? 'No articles found'
-                    : `Showing ${((blogData.currentPage - 1) * POSTS_PER_PAGE) + 1}-${Math.min(blogData.currentPage * POSTS_PER_PAGE, blogData.total)} of ${blogData.total} articles`
+                    ? 'No articles found in the cosmic archives'
+                    : `Showing ${((blogData.currentPage - 1) * POSTS_PER_PAGE) + 1}-${Math.min(blogData.currentPage * POSTS_PER_PAGE, blogData.total)} of ${blogData.total} cosmic articles`
                   }
                 </p>
               </div>
@@ -205,11 +219,15 @@ export default function BlogListPage() {
 
             {/* Featured Posts Section */}
             {featuredPosts.length > 1 && (
-              <section className="mt-20">
-                <h2 className="text-3xl font-bold text-foreground mb-8 text-center">More Featured Articles</h2>
+              <section className="mt-24">
+                <h2 className="text-4xl lg:text-5xl font-bold mb-12 text-center">
+                  <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
+                    ✨ More Cosmic Insights
+                  </span>
+                </h2>
                 <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
                   {featuredPosts.slice(1, 4).map((post) => (
-                    <div key={post.slug} className="transform hover:scale-105 transition-transform duration-300">
+                    <div key={post.slug} className="transform hover:scale-105 transition-transform duration-500">
                       <FeaturedBlogCard post={post} />
                     </div>
                   ))}

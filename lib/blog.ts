@@ -44,7 +44,15 @@ const getField = (obj: any, path: string[], defaultValue: any = null) =>
 const mapEntryToBlogPost = (item: Entry<any>): BlogPostPreview => {
   const heroImageUrl = getField(item, ['fields', 'heroImage', 'fields', 'file', 'url']);
   const authorEntry = getField(item, ['fields', 'author']);
-  const authorPictureUrl = getField(authorEntry, ['fields', 'picture', 'fields', 'file', 'url']);
+
+  // Extract author picture with proper path
+  let authorPictureUrl = '';
+  if (authorEntry && authorEntry.fields && authorEntry.fields.picture) {
+    const pictureAsset = authorEntry.fields.picture;
+    if (pictureAsset.fields && pictureAsset.fields.file && pictureAsset.fields.file.url) {
+      authorPictureUrl = pictureAsset.fields.file.url;
+    }
+  }
 
   return {
     title: item.fields.title as string,
@@ -181,29 +189,10 @@ export const getRelatedPosts = async (
  */
 export const getBlogTags = async (): Promise<Array<{ id: string; name: string; count: number }>> => {
   try {
-    const response = await client.getEntries({
-      content_type: 'blogTag',
-      limit: 1000,
-    });
-
-    // Get tag usage counts
-    const tagCounts = await Promise.all(
-      response.items.map(async (tag) => {
-        const postsResponse = await client.getEntries({
-          content_type: 'blogpost',
-          'fields.tags.sys.id': tag.sys.id,
-          limit: 0, // Just get count
-        });
-
-        return {
-          id: tag.sys.id,
-          name: tag.fields.name as string,
-          count: postsResponse.total,
-        };
-      })
-    );
-
-    return tagCounts.filter(tag => tag.count > 0).sort((a, b) => b.count - a.count);
+    // Since blogTag content type doesn't exist, return empty array
+    // This can be implemented when the blogTag content type is created in Contentful
+    console.log('blogTag content type not found, returning empty tags array');
+    return [];
   } catch (error) {
     console.error('Error fetching blog tags:', error);
     return [];
@@ -276,7 +265,14 @@ export const getBlogAuthors = async (): Promise<Array<{ name: string; count: num
       const authorEntry = getField(item, ['fields', 'author']);
       if (authorEntry) {
         const authorName = getField(authorEntry, ['fields', 'name']);
-        const authorAvatar = getField(authorEntry, ['fields', 'picture', 'fields', 'file', 'url']);
+        // Extract author avatar with proper path
+        let authorAvatar = '';
+        if (authorEntry.fields && authorEntry.fields.picture) {
+          const pictureAsset = authorEntry.fields.picture;
+          if (pictureAsset.fields && pictureAsset.fields.file && pictureAsset.fields.file.url) {
+            authorAvatar = pictureAsset.fields.file.url;
+          }
+        }
 
         if (authorName) {
           const existing = authorMap.get(authorName) || { count: 0 };

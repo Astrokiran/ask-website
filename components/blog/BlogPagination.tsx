@@ -53,30 +53,30 @@ export function BlogPagination({
 
   return (
     <nav
-      className="flex items-center justify-center space-x-1 mt-12"
+      className="flex items-center justify-center space-x-1 sm:space-x-2 lg:space-x-3 mt-12 sm:mt-16"
       aria-label="Blog pagination"
     >
       {/* Previous button */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={!hasPrevPage}
-        className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-muted-foreground bg-card border border-border rounded-lg hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-bold bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         aria-label="Go to previous page"
       >
         <ChevronLeft className="h-4 w-4" />
-        <span className="ml-1 hidden sm:inline">Previous</span>
+        <span className="hidden sm:inline">Previous</span>
       </button>
 
       {/* Page numbers */}
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center space-x-2">
         {pageNumbers.map((pageNumber, index) => {
           if (pageNumber === '...') {
             return (
               <span
                 key={index}
-                className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-muted-foreground"
+                className="relative inline-flex items-center px-3 py-2 text-sm font-bold text-orange-500"
               >
-                ...
+                ✨
               </span>
             );
           }
@@ -87,10 +87,10 @@ export function BlogPagination({
             <button
               key={pageNumber}
               onClick={() => onPageChange(pageNumber as number)}
-              className={`relative inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+              className={`relative inline-flex items-center px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
                 isCurrentPage
-                  ? 'bg-primary text-primary-foreground border border-primary'
-                  : 'text-muted-foreground bg-card border border-border hover:bg-muted hover:text-foreground'
+                  ? 'bg-gradient-to-r from-orange-500 to-purple-600 text-white'
+                  : 'bg-card/80 backdrop-blur-sm text-muted-foreground border-2 border-orange-200/50 dark:border-orange-800/50 hover:bg-orange-100/50 dark:hover:bg-orange-900/30 hover:text-orange-600 hover:border-orange-300'
               }`}
               aria-label={`Go to page ${pageNumber}`}
               aria-current={isCurrentPage ? 'page' : undefined}
@@ -105,10 +105,10 @@ export function BlogPagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={!hasNextPage}
-        className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-muted-foreground bg-card border border-border rounded-lg hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-bold bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         aria-label="Go to next page"
       >
-        <span className="mr-1 hidden sm:inline">Next</span>
+        <span className="hidden sm:inline">Next</span>
         <ChevronRight className="h-4 w-4" />
       </button>
     </nav>

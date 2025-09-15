@@ -13,8 +13,8 @@ function BlogGridSkeleton() {
   return (
     <div className="grid gap-8 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="bg-card rounded-xl border border-border overflow-hidden animate-pulse">
-          <div className="h-48 bg-muted" />
+        <div key={i} className="relative bg-card/80 backdrop-blur-sm rounded-2xl border border-orange-200/30 dark:border-orange-800/30 overflow-hidden animate-pulse shadow-xl">
+          <div className="h-48 bg-gradient-to-br from-orange-100/50 to-purple-100/50 dark:from-orange-900/30 dark:to-purple-900/30" />
           <div className="p-6 space-y-4">
             <div className="flex gap-4">
               <div className="h-4 w-20 bg-muted rounded" />
@@ -39,25 +39,18 @@ function BlogGridSkeleton() {
 
 function EmptyState() {
   return (
-    <div className="text-center py-16">
-      <div className="mx-auto w-32 h-32 bg-muted rounded-full flex items-center justify-center mb-6">
-        <svg
-          className="w-16 h-16 text-muted-foreground"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-          />
-        </svg>
+    <div className="text-center py-20">
+      <div className="mx-auto w-32 h-32 bg-gradient-to-br from-orange-400/20 to-purple-500/20 rounded-full flex items-center justify-center mb-8 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-purple-500/20 rounded-full blur-xl"></div>
+        <div className="relative text-6xl">✨</div>
       </div>
-      <h3 className="text-xl font-semibold text-foreground mb-2">No blog posts found</h3>
-      <p className="text-muted-foreground max-w-md mx-auto">
-        We couldn't find any blog posts matching your criteria. Try adjusting your search or filters.
+      <h3 className="text-2xl lg:text-3xl font-bold mb-4">
+        <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
+          No Cosmic Articles Found
+        </span>
+      </h3>
+      <p className="text-muted-foreground max-w-md mx-auto text-lg">
+        The cosmic archives don't contain any articles matching your search. Try exploring different topics or clearing your filters.
       </p>
     </div>
   );
@@ -65,29 +58,22 @@ function EmptyState() {
 
 function ErrorState({ error }: { error: string }) {
   return (
-    <div className="text-center py-16">
-      <div className="mx-auto w-32 h-32 bg-destructive/10 rounded-full flex items-center justify-center mb-6">
-        <svg
-          className="w-16 h-16 text-destructive"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-          />
-        </svg>
+    <div className="text-center py-20">
+      <div className="mx-auto w-32 h-32 bg-gradient-to-br from-red-400/20 to-orange-500/20 rounded-full flex items-center justify-center mb-8 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-full blur-xl"></div>
+        <div className="relative text-6xl">⚠️</div>
       </div>
-      <h3 className="text-xl font-semibold text-foreground mb-2">Oops! Something went wrong</h3>
-      <p className="text-muted-foreground max-w-md mx-auto mb-6">{error}</p>
+      <h3 className="text-2xl lg:text-3xl font-bold mb-4">
+        <span className="bg-gradient-to-r from-red-500 to-orange-600 bg-clip-text text-transparent">
+          Cosmic Connection Lost
+        </span>
+      </h3>
+      <p className="text-muted-foreground max-w-md mx-auto mb-8 text-lg">{error}</p>
       <button
         onClick={() => window.location.reload()}
-        className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
       >
-        Try Again
+        <span>Reconnect to the Cosmos</span>
       </button>
     </div>
   );
@@ -107,7 +93,7 @@ export function BlogGrid({ posts, isLoading = false, error = null }: BlogGridPro
   }
 
   return (
-    <div className="grid gap-8 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-8 md:gap-6 lg:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
         <BlogCard key={post.slug} post={post} />
       ))}
