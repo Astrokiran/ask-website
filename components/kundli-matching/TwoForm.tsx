@@ -4,13 +4,13 @@ import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { ServicesSection } from "@/components/services-section";
-import { FormSection } from './components/Formsection'; 
+import { FormSection } from './components/FormSection'; 
 import Image from 'next/image';
 import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 import { Briefcase, Heart, Sparkles, Star } from 'lucide-react';
 
 
-const SectionItem = ({ icon, title, text }) => (
+const SectionItem = ({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) => (
   <div
     className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-sm"
   >

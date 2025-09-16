@@ -101,13 +101,14 @@ const PdfRenderComponent = ({ kundliData }: { kundliData: KundliData }) => {
             
                 {Object.entries(vargaCharts).map(([name, svgString]) => (
                     <div key={name} id={`pdf-varga-${name.replace(/\s+/g, '-')}`}>
-                        {svgString && <div dangerouslySetInnerHTML={{ __html: svgString }} />}
+                        {typeof svgString === 'string' && <div dangerouslySetInnerHTML={{ __html: svgString }} />}
                     </div>
                 ))}
             <div id="pdf-ashtakavarga-chart">
                 {kundliData.ashtakavarga_svg && (
                     <AshtakavargaDetails
                         compositeSvgString={kundliData.ashtakavarga_svg}
+                        tableData={kundliData.ashtakavarga || {}}
                         renderForPdf={true}
                     />
                 )}

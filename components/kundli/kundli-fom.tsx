@@ -25,7 +25,7 @@ interface KundliData {
   remedies: string[];
 }
 
-const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places'];
+const libraries: ("places" | "drawing" | "geometry" | "visualization")[] = ['places'];
 
 export default function KundliPage() { 
   const router = useRouter(); 

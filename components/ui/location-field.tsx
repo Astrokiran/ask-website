@@ -18,6 +18,7 @@ interface LocationFieldProps {
   form: {
     control: Control;
     setValue: UseFormSetValue<any>;
+    getValues: (name: string) => any;
     formState?: {
       errors?: Record<string, any>;
     };
@@ -118,7 +119,7 @@ export default function LocationField({ form, required = true }: LocationFieldPr
       rules={{
         required: required ? "Location is required" : false,
         validate: {
-          hasCoordinates: (currentPlaceValue) => {
+          hasCoordinates: (currentPlaceValue: any) => {
             // If not required and field is empty, it's valid
             if (!required && (!currentPlaceValue || String(currentPlaceValue).trim() === "")) return true;
 

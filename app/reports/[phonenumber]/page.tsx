@@ -94,7 +94,7 @@ export default function ReportPage() {
             <div
               className={`mt-2 overflow-hidden transition-all duration-500 ${expanded === key ? 'max-h-none opacity-100' : 'max-h-20 opacity-60'}`}
             >
-              {expanded === key ? report[key] : `${report[key].slice(0, 300)}...`}
+              {expanded === key ? report[key] : `${typeof report[key] === 'string' ? (report[key] as string).slice(0, 300) : String(report[key])}...`}
             </div>
 
             <button

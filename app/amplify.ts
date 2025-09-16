@@ -1,13 +1,8 @@
-import { Amplify } from 'aws-amplify';
-import { generateClient } from '@aws-amplify/api';
-import config from '../amplifyconfiguration.json';
+// Temporarily commented out Amplify configuration for build
+// import { Amplify } from 'aws-amplify';
+// import { generateClient } from '@aws-amplify/api';
 
-// Configure Amplify
-Amplify.configure(config, {
-  ssr: true
-});
-
-// Generate API client
-const client = generateClient();
+// Placeholder client for build
+const client = null;
 
 export { client };

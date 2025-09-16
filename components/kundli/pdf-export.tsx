@@ -49,7 +49,7 @@ const drawPageHeader = (pdf: jsPDF) => {
 };
 
 const drawPageFooter = (pdf: jsPDF, kundliData: KundliData) => {
-    const totalPages = pdf.internal.getNumberOfPages();
+    const totalPages = (pdf.internal as any).getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
         const footerY = PAGE_HEIGHT - 12;
@@ -116,7 +116,7 @@ const drawBasicAndPanchangDetails = (pdf: jsPDF, kundliData: KundliData) => {
             { label: 'Nakshatra', value: panchang.nakshatra?.name },
             { label: 'Yoga', value: panchang.yoga?.name },
             { label: 'Karana', value: panchang.karana?.name },
-            { lable: 'Ritu', value: panchang.ritu?.name },
+            { label: 'Ritu', value: panchang.ritu?.name },
             { label: 'Samvatsara', value: panchang.samvatsara?.name },
             { label: 'Masa', value: panchang.masa?.name },
             { label: 'Sunrise', value: panchang.sunrise?.time },
@@ -288,9 +288,9 @@ const drawSummaryDetails = (pdf: jsPDF, kundliData: KundliData) => {
     let totalHeight = 20; 
     if (summary?.interpretation) {
         const lines = summary.interpretation.split('\n');
-        lines.forEach(line => {
+        lines.forEach((line: string) => {
             const textLines = pdf.splitTextToSize(line.substring(1).trim(), contentWidth - 5);
-            totalHeight += (textLines.length * 5) + 4; 
+            totalHeight += (textLines.length * 5) + 4;
         });
     }
 

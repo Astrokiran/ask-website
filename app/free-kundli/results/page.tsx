@@ -7,7 +7,6 @@ import { Footer } from '@/components/footer';
 import { ServicesSection } from "@/components/services-section";
 import { LoadingScreen } from "@/components/banners/LoadingScreen";
 import Link from 'next/link';
-import { Api } from 'aws-sdk/clients/apigatewayv2';
 
 // Interfaces
 interface ApiMangalDoshaData {
@@ -446,7 +445,7 @@ export default function ReportDisplayPage() {
             nakshatraLord: p.nakshatra_lord,
             planet_awastha: p.planet_awasta,
             house: p.house,
-            status: p.status,
+            status: (p as any).status || 'normal',
             id: undefined,
             fullDegree: p.degree_dms, 
             normDegree: p.degree,
