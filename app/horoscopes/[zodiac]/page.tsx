@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import { notFound } from "next/navigation";
-import { HoroscopeViewer } from "@/components/daily-horoscope/HoroscopeViewer"; 
+import { HoroscopeViewer } from "@/components/daily-horoscope/HoroscopeViewer";
+import { NavBar } from "@/components/nav-bar";
+import { Footer } from "@/components/footer"; 
 // --- Define API Types (can be in a separate types file) ---
 type HoroscopeCategory = {
   narrative: string;
@@ -77,16 +79,20 @@ export default async function ZodiacHoroscopePage({ params }: HoroscopePageProps
   }
 
   return (
-    <div>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center mb-4">
-          {zodiac} Horoscope Today - Daily Astrology Predictions
-        </h1>
-        <p className="text-lg text-center mb-8 text-gray-600">
-          Get accurate daily horoscope predictions for {zodiac}. Today's forecast for love, career, health, finance, and lucky insights.
-        </p>
-      </div>
-      <HoroscopeViewer initialData={initialData} />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <NavBar />
+      <main>
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-4xl font-semibold text-center mb-4 text-gray-900 dark:text-white">
+            {zodiac} Horoscope Today - Daily Astrology Predictions
+          </h1>
+          <p className="text-lg text-center mb-8 text-gray-600 dark:text-gray-400">
+            Get accurate daily horoscope predictions for {zodiac}. Today's forecast for love, career, health, finance, and lucky insights.
+          </p>
+        </div>
+        <HoroscopeViewer initialData={initialData} />
+      </main>
+      <Footer />
     </div>
   );
 }

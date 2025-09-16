@@ -30,10 +30,7 @@ export default function FeaturedBlogPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Dynamic Background Effects */}
-      <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-orange-50/30 via-transparent to-purple-50/20 dark:from-orange-950/10 dark:via-transparent dark:to-purple-950/5"></div>
-      <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.08)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.04)_0%,transparent_50%)]"></div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
 
       <NavBar />
 
@@ -41,23 +38,21 @@ export default function FeaturedBlogPage() {
       <section className="relative py-20 lg:py-32">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-8">
-              <span className="bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 bg-clip-text text-transparent">
-                Featured Astrology Articles
-              </span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight mb-8 text-gray-900 dark:text-white">
+              Featured Astrology Articles
             </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
-              Discover our handpicked collection of the most insightful and transformative astrology articles. These featured pieces offer deep wisdom on vedic astrology, spiritual guidance, horoscope analysis, and cosmic insights that illuminate your path to self-discovery. Each article has been carefully selected by our expert astrologers for its profound impact and practical applications in daily life.
+            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-8">
+              Discover our handpicked collection of the most insightful and transformative astrology articles. These featured pieces offer deep wisdom on vedic astrology, spiritual guidance, horoscope analysis, and insights that illuminate your path to self-discovery. Each article has been carefully selected by our expert astrologers for its profound impact and practical applications in daily life.
             </p>
             <div className="flex justify-center items-center gap-6 mt-12">
-              <div className="bg-gradient-to-r from-orange-500/10 to-purple-500/10 rounded-full px-6 py-3 border border-orange-300/30">
-                <span className="text-orange-600 dark:text-orange-400 font-semibold flex items-center gap-2">
-                  ⭐ Expert Curated Content
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-full px-6 py-3 border border-blue-200 dark:border-blue-800">
+                <span className="text-blue-600 dark:text-blue-400 font-semibold flex items-center gap-2">
+                  Expert Curated Content
                 </span>
               </div>
-              <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full px-6 py-3 border border-purple-300/30">
-                <span className="text-purple-600 dark:text-purple-400 font-semibold flex items-center gap-2">
-                  🌟 Premium Quality Articles
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-full px-6 py-3 border border-blue-200 dark:border-blue-800">
+                <span className="text-blue-600 dark:text-blue-400 font-semibold flex items-center gap-2">
+                  Premium Quality Articles
                 </span>
               </div>
             </div>
@@ -68,12 +63,10 @@ export default function FeaturedBlogPage() {
       {/* Main Content */}
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-center mb-8">
-            <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-              ✨ Cosmic Wisdom Collection
-            </span>
+          <h2 className="text-3xl lg:text-4xl font-semibold text-center mb-8 text-gray-900 dark:text-white">
+            Wisdom Collection
           </h2>
-          <p className="text-lg text-muted-foreground text-center max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-400 text-center max-w-3xl mx-auto">
             Explore our carefully curated selection of astrology articles that blend ancient vedic wisdom with modern interpretations.
             From detailed birth chart analysis to planetary transit guidance, each article provides actionable insights for your spiritual journey.
           </p>
@@ -83,10 +76,10 @@ export default function FeaturedBlogPage() {
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-card rounded-2xl p-6 animate-pulse">
-                <div className="h-48 bg-muted rounded-xl mb-4"></div>
-                <div className="h-4 bg-muted rounded mb-2"></div>
-                <div className="h-4 bg-muted rounded w-3/4"></div>
+              <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl p-6 animate-pulse">
+                <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-xl mb-4"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
               </div>
             ))
           ) : error ? (
@@ -95,11 +88,11 @@ export default function FeaturedBlogPage() {
             </div>
           ) : featuredPosts.length === 0 ? (
             <div className="col-span-full text-center py-12">
-              <p className="text-muted-foreground text-lg">No featured articles available at the moment.</p>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">No featured articles available at the moment.</p>
             </div>
           ) : (
             featuredPosts.map((post, index) => (
-              <div key={post.slug} className="transform hover:scale-105 transition-transform duration-500">
+              <div key={post.slug} className="transition-transform duration-200 hover:scale-[1.02]">
                 <FeaturedBlogCard post={post} />
               </div>
             ))
@@ -107,26 +100,23 @@ export default function FeaturedBlogPage() {
         </div>
 
         {/* Additional Content Section */}
-        <section className="mt-24 bg-gradient-to-r from-orange-50/50 via-purple-50/30 to-orange-50/50 dark:from-orange-950/20 dark:via-purple-950/10 dark:to-orange-950/20 rounded-3xl p-12">
+        <section className="mt-24 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-12">
           <div className="text-center">
-            <h3 className="text-3xl font-bold mb-6 bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
+            <h3 className="text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
               Why These Articles Are Featured
             </h3>
             <div className="grid md:grid-cols-3 gap-8 mt-12">
               <div className="text-center">
-                <div className="text-4xl mb-4">🔮</div>
-                <h4 className="text-xl font-semibold mb-3 text-orange-600 dark:text-orange-400">Deep Insights</h4>
-                <p className="text-muted-foreground">Each article provides profound astrological insights backed by years of vedic knowledge and practical experience.</p>
+                <h4 className="text-xl font-semibold mb-3 text-blue-600 dark:text-blue-400">Deep Insights</h4>
+                <p className="text-gray-600 dark:text-gray-400">Each article provides profound astrological insights backed by years of vedic knowledge and practical experience.</p>
               </div>
               <div className="text-center">
-                <div className="text-4xl mb-4">⭐</div>
-                <h4 className="text-xl font-semibold mb-3 text-purple-600 dark:text-purple-400">Expert Validation</h4>
-                <p className="text-muted-foreground">All featured content is reviewed and approved by our certified astrologers and spiritual guides.</p>
+                <h4 className="text-xl font-semibold mb-3 text-blue-600 dark:text-blue-400">Expert Validation</h4>
+                <p className="text-gray-600 dark:text-gray-400">All featured content is reviewed and approved by our certified astrologers and spiritual guides.</p>
               </div>
               <div className="text-center">
-                <div className="text-4xl mb-4">🌟</div>
-                <h4 className="text-xl font-semibold mb-3 text-pink-600 dark:text-pink-400">Transformative Impact</h4>
-                <p className="text-muted-foreground">These articles have helped thousands of readers gain clarity and direction in their spiritual journey.</p>
+                <h4 className="text-xl font-semibold mb-3 text-blue-600 dark:text-blue-400">Transformative Impact</h4>
+                <p className="text-gray-600 dark:text-gray-400">These articles have helped thousands of readers gain clarity and direction in their spiritual journey.</p>
               </div>
             </div>
           </div>

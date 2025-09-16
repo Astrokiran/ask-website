@@ -78,8 +78,8 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 200 200">
                 <defs>
                     <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#fbbf24" /> {/* Lighter orange/yellow */}
-                        <stop offset="100%" stopColor="#f97316" /> {/* Brighter orange */}
+                        <stop offset="0%" stopColor="#60a5fa" /> {/* Lighter blue */}
+                        <stop offset="100%" stopColor="#2563eb" /> {/* Brighter blue */}
                     </linearGradient>
                 </defs>
                 <circle className="text-muted/30" strokeWidth="20" stroke="currentColor" fill="transparent" r={radius} cx="100" cy="100" />
@@ -107,7 +107,7 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
                 >
                     0.0
                 </span>
-                <span className="text-xl text-orange-600 dark:text-orange-400">/ {maxScore}</span>
+                <span className="text-xl text-blue-600 dark:text-blue-400">/ {maxScore}</span>
             </div>
         </div>
     );
@@ -127,7 +127,7 @@ const ImageSlideshow: React.FC<{ imageSources: string[] }> = ({ imageSources }) 
     return (
         <div className="flex flex-col items-center text-center">
             <div
-                className="relative w-64 h-64 rounded-xl overflow-hidden border-4 border-orange-500/30 bg-muted/20 flex items-center justify-center shadow-lg"
+                className="relative w-64 h-64 rounded-xl overflow-hidden border-4 border-blue-500/30 bg-muted/20 flex items-center justify-center shadow-lg"
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: 'spring', stiffness: 200 }}
             >
@@ -160,15 +160,15 @@ const KootaCard: React.FC<{ name: string; points: string; maxPoints: string; des
         viewport={{ once: true }}
     >
         <div className="flex flex-col items-center text-center">
-            <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 mb-2">{icon}</div>
+            <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 mb-2">{icon}</div>
             <h4 className="text-lg font-semibold text-foreground mb-1">{name}</h4>
             <div className="w-full bg-muted h-2 rounded-full mb-2 overflow-hidden">
                 <div
-                    className="h-2 bg-orange-500 rounded-full"
+                    className="h-2 bg-blue-500 rounded-full"
                     style={{ width: `${(parseInt(points) / parseInt(maxPoints.replace('/',''))) * 100}%` }}
                 />
             </div>
-            <span className="text-md font-bold text-orange-600 dark:text-orange-400 mb-2">{points}</span>
+            <span className="text-md font-bold text-blue-600 dark:text-blue-400 mb-2">{points}</span>
             <p className="text-xs text-muted-foreground leading-tight">{description}</p>
         </div>
     </div>
@@ -179,7 +179,7 @@ const SectionHeader: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         <h2 className="text-3xl sm:text-4xl font-bold text-foreground relative inline-block">
             {children}
             <span
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full" // Adjusted gradient for header underline
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" // Adjusted gradient for header underline
                 initial={{ width: 0 }}
                 whileInView={{ width: '75%' }}
                 transition={{ duration: 0.8 }}
@@ -206,14 +206,14 @@ const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) =
             whileHover={{ scale: 1.03 }}
             transition={{ type: 'spring', stiffness: 200 }}
         >
-            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-yellow-600 mb-2">{person.name}</h3> {/* Adjusted gradient for text */}
+            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 mb-2">{person.name}</h3> {/* Adjusted gradient for text */}
             <div className="text-left space-y-3 text-sm">
                 <div className="flex justify-between items-center border-b border-border pb-2">
-                    <span className="font-medium text-orange-600 dark:text-orange-400">Birth Details</span>
+                    <span className="font-medium text-blue-600 dark:text-blue-400">Birth Details</span>
                     <span className="text-foreground text-right">{formatDateTime(person.date_of_birth, person.time_of_birth)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="font-medium text-orange-600 dark:text-orange-400">Birth Place</span>
+                    <span className="font-medium text-blue-600 dark:text-blue-400">Birth Place</span>
                     <span className="text-foreground text-right">{person.place_of_birth}</span>
                 </div>
             </div>
@@ -236,7 +236,7 @@ const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) =
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.5 }}
                 >
-                    <Heart className="w-14 h-14 text-orange-500 dark:text-orange-400" fill="currentColor" />
+                    <Heart className="w-14 h-14 text-blue-500 dark:text-blue-400" fill="currentColor" />
                 </div>
                 <div
                     initial={{ opacity: 0, x: 50 }}
@@ -283,7 +283,7 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                     transition={{ duration: 0.5 }}
                 >
                     <div className="flex items-center text-sm text-muted-foreground mb-6">
-                        <a href="/kundli-match" className="hover:text-orange-500 transition-colors">Kundli Matching</a>
+                        <a href="/kundli-match" className="hover:text-blue-500 transition-colors">Kundli Matching</a>
                         <ChevronRight className="h-4 w-4 mx-1" />
                         <span className="font-semibold text-foreground">Matching Report</span>
                     </div>
@@ -301,7 +301,7 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                         className="text-center mb-12"
                         variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }}
                     >
-                        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400 dark:from-orange-400 dark:to-orange-300">
+                        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-400 dark:to-blue-300">
                             Kundli Matching Report
                         </h1>
                     </header>
@@ -333,10 +333,10 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                     </section>
 
                     <section
-                        className={`rounded-2xl p-8 text-center mb-12 border bg-card ${mangalStatus ? 'border-emerald-500/30' : 'border-orange-500/30'}`}
+                        className={`rounded-2xl p-8 text-center mb-12 border bg-card ${mangalStatus ? 'border-emerald-500/30' : 'border-blue-500/30'}`}
                         variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                     >
-                        <div className={`flex items-center justify-center gap-3 text-2xl font-bold ${mangalStatus ? 'text-emerald-600 dark:text-emerald-400' : 'text-orange-600 dark:text-orange-400'}`}>
+                        <div className={`flex items-center justify-center gap-3 text-2xl font-bold ${mangalStatus ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}`}>
                             {mangalStatus ? <CheckCircle /> : <XCircle />}
                             <span>Mangal Dosha Analysis</span>
                         </div>

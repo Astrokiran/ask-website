@@ -118,16 +118,7 @@ export default function BlogListPage() {
   const authorNames = authors.map(author => author.name);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Dynamic Background Effects - desktop only */}
-      <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-orange-50/30 via-transparent to-purple-50/20 dark:from-orange-950/10 dark:via-transparent dark:to-purple-950/5"></div>
-      <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.08)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(251,146,60,0.04)_0%,transparent_50%)]"></div>
-      <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.05)_0%,transparent_50%)] dark:bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.03)_0%,transparent_50%)]"></div>
-
-      {/* Floating Elements - desktop only with reduced animation */}
-      <div className="hidden lg:block absolute top-20 left-10 w-3 h-3 bg-orange-400/50 rounded-full opacity-40"></div>
-      <div className="hidden lg:block absolute top-40 right-20 w-4 h-4 bg-purple-400/50 rounded-full opacity-30"></div>
-      <div className="hidden lg:block absolute bottom-20 left-20 w-2 h-2 bg-orange-300/50 rounded-full opacity-30"></div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
 
       <NavBar />
 
@@ -136,18 +127,16 @@ export default function BlogListPage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-8">
-              <span className="bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 bg-clip-text text-transparent">
-                Astrology Blogs
-              </span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight mb-8 text-gray-900 dark:text-white">
+              Astrology Blogs
             </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6">
               Discover expert astrology insights, vedic wisdom, horoscope tips, and spiritual guidance for your cosmic journey. Dive deep into the mysteries of the universe with our comprehensive guides.
             </p>
-            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6">
               Our astrology blog serves as your gateway to ancient Vedic knowledge and modern spiritual understanding. Explore in-depth articles on planetary movements, birth chart analysis, and cosmic influences that shape your destiny. Learn from certified astrologers who combine traditional wisdom with contemporary insights to guide you through life's challenges and opportunities.
             </p>
-            <p className="text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-base text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-8">
               From beginner-friendly explanations of zodiac signs to advanced techniques in predictive astrology, our content caters to seekers at every level of their spiritual journey. Discover practical remedies, understand planetary transits, and unlock the secrets of your personal horoscope through our carefully curated collection of astrology articles.
             </p>
           </div>
@@ -155,10 +144,8 @@ export default function BlogListPage() {
           {/* Featured Post Hero */}
           {featuredPosts.length > 0 && (
             <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-10 text-center">
-                <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-                  ✨ Featured Astrology Article
-                </span>
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-10 text-center text-gray-900 dark:text-white">
+                Featured Astrology Article
               </h2>
               <FeaturedBlogCard post={featuredPosts[0]} />
             </div>
@@ -196,15 +183,13 @@ export default function BlogListPage() {
           {blogData && !isLoading && (
             <div className="flex items-center justify-between mb-12">
               <div>
-                <h2 className="text-3xl lg:text-4xl font-bold">
-                  <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-                    {searchQuery || filters.tag || filters.author ? 'Search Results' : 'Latest Cosmic Articles'}
-                  </span>
+                <h2 className="text-3xl lg:text-4xl font-semibold text-gray-900 dark:text-white">
+                  {searchQuery || filters.tag || filters.author ? 'Search Results' : 'Latest Articles'}
                 </h2>
-                <p className="text-muted-foreground mt-3 text-lg">
+                <p className="text-gray-600 dark:text-gray-400 mt-3 text-lg">
                   {blogData.total === 0
-                    ? 'No articles found in the cosmic archives'
-                    : `Showing ${((blogData.currentPage - 1) * POSTS_PER_PAGE) + 1}-${Math.min(blogData.currentPage * POSTS_PER_PAGE, blogData.total)} of ${blogData.total} cosmic articles`
+                    ? 'No articles found'
+                    : `Showing ${((blogData.currentPage - 1) * POSTS_PER_PAGE) + 1}-${Math.min(blogData.currentPage * POSTS_PER_PAGE, blogData.total)} of ${blogData.total} articles`
                   }
                 </p>
               </div>
@@ -235,14 +220,12 @@ export default function BlogListPage() {
             {/* Featured Posts Section */}
             {featuredPosts.length > 1 && (
               <section className="mt-24">
-                <h2 className="text-4xl lg:text-5xl font-bold mb-12 text-center">
-                  <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-                    ✨ More Cosmic Insights
-                  </span>
+                <h2 className="text-4xl lg:text-5xl font-semibold mb-12 text-center text-gray-900 dark:text-white">
+                  More Insights
                 </h2>
                 <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
                   {featuredPosts.slice(1, 4).map((post) => (
-                    <div key={post.slug} className="transform hover:scale-105 transition-transform duration-500">
+                    <div key={post.slug} className="transition-transform duration-200 hover:scale-[1.02]">
                       <FeaturedBlogCard post={post} />
                     </div>
                   ))}

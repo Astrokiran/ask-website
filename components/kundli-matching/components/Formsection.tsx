@@ -76,7 +76,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
             </div>
 
             <div>
-                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date of Birth</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                     <FormSelect name="day" value={data.day} onChange={(e) => handleInputChange('day', e.target.value)} options={dayOptions} placeholder="Day" error={!!errors.dob} />
                     <FormSelect name="month" value={data.month} onChange={(e) => handleInputChange('month', e.target.value)} options={monthOptions} placeholder="Month" error={!!errors.dob} />
@@ -86,7 +86,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
             </div>
 
             <div>
-                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Time of Birth</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Time of Birth</label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                     <FormSelect name="hour" value={data.hour} onChange={(e) => handleInputChange('hour', e.target.value)} options={hourOptions} placeholder="Hour" error={!!errors.tob} />
                     <FormSelect name="minute" value={data.minute} onChange={(e) => handleInputChange('minute', e.target.value)} options={minuteOptions} placeholder="Minute" error={!!errors.tob} />
@@ -97,7 +97,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
             </div>
 
             <div>
-                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Place of Birth</label>
+                 <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Place of Birth</label>
                  {isGoogleMapsLoaded ? (
                      <Autocomplete onLoad={onLoadAutocomplete} onPlaceChanged={onPlaceChanged} options={{ types: ['(cities)'] }}>
                          <input
@@ -106,11 +106,11 @@ export const FormSection: React.FC<FormSectionProps> = ({
                             defaultValue={data.pob}
                             onChange={(e) => handleInputChange('pob', e.target.value)}
                             placeholder="Type and select a city"
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-50 border rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 text-sm sm:text-base ${errors.pob ? 'border-red-500 ring-red-200' : 'border-gray-300 focus:border-orange-500 focus:ring-orange-200'}`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-50 dark:bg-gray-700 border rounded-lg focus:outline-none focus:ring-2 transition-colors duration-200 text-sm sm:text-base text-gray-900 dark:text-white ${errors.pob ? 'border-red-500 ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-200 dark:focus:ring-blue-800'}`}
                          />
                      </Autocomplete>
                  ) : (
-                     <input type="text" placeholder="Map is loading..." disabled className="w-full px-3 sm:px-4 py-2 sm:py-2.5 border rounded-lg bg-gray-100 text-sm sm:text-base"/>
+                     <input type="text" placeholder="Map is loading..." disabled className="w-full px-3 sm:px-4 py-2 sm:py-2.5 border rounded-lg bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-sm sm:text-base text-gray-900 dark:text-white"/>
                  )}
                  {errors.pob && <p className="text-red-500 text-xs mt-1">{errors.pob}</p>}
             </div>

@@ -68,11 +68,11 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
   const { sign, date, horoscope } = horoscopeData;
 
   const detailSections = [
-    { title: "Love & Relationships", data: horoscope.love_and_relationships, icon: <Heart className="h-6 w-6 text-red-400" /> },
-    { title: "Career & Finance", data: horoscope.career_and_finance, icon: <Briefcase className="h-6 w-6 text-blue-400" /> },
-    { title: "Emotions & Mind", data: horoscope.emotions_and_mind, icon: <Brain className="h-6 w-6 text-purple-400" /> },
-    { title: "Travel & Movement", data: horoscope.travel_and_movement, icon: <Plane className="h-6 w-6 text-green-400" /> },
-    { title: "Remedies", data: horoscope.remedies, icon: <Wand className="h-6 w-6 text-teal-400" /> },
+    { title: "Love & Relationships", data: horoscope.love_and_relationships, icon: <Heart className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
+    { title: "Career & Finance", data: horoscope.career_and_finance, icon: <Briefcase className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
+    { title: "Emotions & Mind", data: horoscope.emotions_and_mind, icon: <Brain className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
+    { title: "Travel & Movement", data: horoscope.travel_and_movement, icon: <Plane className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
+    { title: "Remedies", data: horoscope.remedies, icon: <Wand className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
   ];
 
   const zodiacImages: Record<string, string> = {
@@ -91,23 +91,19 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
 };
 
   return (
-   <div> 
-    <NavBar />
-    <DailyHoroscopeCta phoneNumber={"918197503574"}/>
-    
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-sans">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 py-8">
         
         {/* Left Sticky Selector */}
         <aside className="lg:col-span-3 lg:sticky lg:top-8 h-fit space-y-6">
   {/* Selector */}
-  <div className="p-6 bg-card rounded-2xl border border shadow-md">
-    <h2 className="text-lg font-bold text-orange-400 mb-4 tracking-wider">SELECT SIGN</h2>
+  <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+    <h2 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4 tracking-wider">SELECT SIGN</h2>
     <Select value={selectedSign} onValueChange={setSelectedSign}>
-      <SelectTrigger className="w-full bg-card border text-lg h-12 shadow-sm">
+      <SelectTrigger className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-lg h-12 shadow-sm">
         <SelectValue placeholder="Select a sign" />
       </SelectTrigger>
-      <SelectContent className="bg-card border text-foreground">
+      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
         {zodiacSigns.map((s) => (
           <SelectItem key={s} value={s} className="text-lg">
             {s}
@@ -140,15 +136,15 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
             >
               {isLoading ? (
                 <div className="flex justify-center items-center h-96">
-                  <Loader2 className="h-16 w-16 animate-spin text-orange-400" />
+                  <Loader2 className="h-16 w-16 animate-spin text-blue-500" />
                 </div>
               ) : (
                 <div className="space-y-8">
                    <div className="text-center">
-                    <h1 className="text-5xl md:text-7xl font-extrabold font-serif text-orange-400 drop-shadow-md">
+                    <h1 className="text-5xl md:text-7xl font-semibold text-blue-600 dark:text-blue-400">
                       {sign}
                     </h1>
-                    <p className="text-muted-foreground mt-2 text-lg">
+                    <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
                       {new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                     </p>
                   </div>
@@ -156,15 +152,15 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
                   {/* Lucky Insights */}
                   <div className="animate-fadeInUp">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                      <InsightCard icon={<Gem className="text-yellow-500"/>} title="Mood" value={horoscope.lucky_insights.mood} />
-                      <InsightCard icon={<Palette className="text-orange-400"/>} title="Lucky Color" value={horoscope.lucky_insights.lucky_color} />
-                      <InsightCard icon={<Hash className="text-amber-500"/>} title="Lucky Number" value={horoscope.lucky_insights.lucky_number.toString()} />
-                      <InsightCard icon={<Clock className="text-orange-300"/>} title="Lucky Time" value={horoscope.lucky_insights.lucky_time} />
+                      <InsightCard icon={<Gem className="text-blue-500 dark:text-blue-400"/>} title="Mood" value={horoscope.lucky_insights.mood} />
+                      <InsightCard icon={<Palette className="text-blue-500 dark:text-blue-400"/>} title="Lucky Color" value={horoscope.lucky_insights.lucky_color} />
+                      <InsightCard icon={<Hash className="text-blue-500 dark:text-blue-400"/>} title="Lucky Number" value={horoscope.lucky_insights.lucky_number.toString()} />
+                      <InsightCard icon={<Clock className="text-blue-500 dark:text-blue-400"/>} title="Lucky Time" value={horoscope.lucky_insights.lucky_time} />
                     </div>
                   </div>
                   
                   {/* Overview */}
-                  <HoroscopeCard title="🔮 Overview" narrative={horoscope.overview.narrative} reason={horoscope.overview.reason} delay={0.3} />
+                  <HoroscopeCard title="Overview" narrative={horoscope.overview.narrative} reason={horoscope.overview.reason} delay={0.3} />
 
                   {/* Details */}
                   <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -185,17 +181,14 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
         </main>
       </div>
     </div>
-       <Footer />
-
-  </div>
   );
 };
 
 // --- Reusable Animated Card Components ---
 const InsightCard: FC<{ icon: ReactNode, title: string, value: string }> = ({ icon, title, value }) => (
-  <div className="p-4 bg-card rounded-xl border border shadow-md hover:shadow-lg transition-all duration-300">
-    <div className="flex justify-center items-center gap-2 mb-1 text-muted-foreground text-sm">{icon}{title}</div>
-    <p className="text-lg font-semibold text-black">{value}</p>
+  <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200">
+    <div className="flex justify-center items-center gap-2 mb-1 text-gray-600 dark:text-gray-400 text-sm">{icon}{title}</div>
+    <p className="text-lg font-semibold text-gray-900 dark:text-white">{value}</p>
   </div>
 );
 
@@ -203,7 +196,7 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
   // Special handling for Overview section
   let overviewContent: ReactNode = narrative;
 
-  if (title === "🔮 Overview") {
+  if (title === "Overview") {
     // Split the narrative into parts
     const [intro, positivePart, negativePart] = narrative.split(/Positive Career Traits:|Negative Career Traits:/);
 
@@ -212,11 +205,11 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
 
     overviewContent = (
       <div className="space-y-4">
-        <p className="text-foreground leading-relaxed">{intro.trim()}</p>
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{intro.trim()}</p>
         {positiveTraits && (
           <div>
-            <h4 className="font-semibold text-green-600">Positive Career Traits:</h4>
-            <ul className="list-disc list-inside text-foreground">
+            <h4 className="font-semibold text-green-600 dark:text-green-400">Positive Career Traits:</h4>
+            <ul className="list-disc list-inside text-gray-600 dark:text-gray-400">
               {positiveTraits.map((trait, i) => (
                 <li key={i}>{trait}</li>
               ))}
@@ -225,8 +218,8 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
         )}
         {negativeTraits && (
           <div>
-            <h4 className="font-semibold text-red-500">Negative Career Traits:</h4>
-            <ul className="list-disc list-inside text-foreground">
+            <h4 className="font-semibold text-red-500 dark:text-red-400">Negative Career Traits:</h4>
+            <ul className="list-disc list-inside text-gray-600 dark:text-gray-400">
               {negativeTraits.map((trait, i) => (
                 <li key={i}>{trait}</li>
               ))}
@@ -239,20 +232,32 @@ const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, dela
 
   return (
     <div
-      className="bg-card rounded-2xl border border shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/25 animate-fadeInUp"
+      className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden transition-all duration-200 hover:shadow-md animate-fadeInUp"
     >
       <div className="p-6">
-        <h3 className="flex items-center gap-3 text-2xl font-bold mb-4 text-black">
+        <h3 className="flex items-center gap-3 text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
           {icon}{title}
         </h3>
-        {overviewContent}
+        {title === "Overview" ? overviewContent : (
+          <div className="text-gray-600 dark:text-gray-400 leading-relaxed prose prose-sm dark:prose-invert max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {narrative}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
       <Accordion type="single" collapsible className="px-6 pb-2">
-        <AccordionItem value="item-1" className="border-orange-200">
-          <AccordionTrigger className="text-muted-foreground hover:text-foreground text-sm">
+        <AccordionItem value="item-1" className="border-gray-200 dark:border-gray-700">
+          <AccordionTrigger className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm">
             Astrological Reason
           </AccordionTrigger>
-          <AccordionContent className="text-muted-foreground pt-2">{reason}</AccordionContent>
+          <AccordionContent className="text-gray-600 dark:text-gray-400 pt-2">
+            <div className="prose prose-sm dark:prose-invert max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {reason}
+              </ReactMarkdown>
+            </div>
+          </AccordionContent>
         </AccordionItem>
       </Accordion>
     </div>

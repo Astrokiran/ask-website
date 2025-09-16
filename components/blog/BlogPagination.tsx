@@ -60,7 +60,7 @@ export function BlogPagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={!hasPrevPage}
-        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-bold bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         aria-label="Go to previous page"
       >
         <ChevronLeft className="h-4 w-4" />
@@ -74,9 +74,9 @@ export function BlogPagination({
             return (
               <span
                 key={index}
-                className="relative inline-flex items-center px-3 py-2 text-sm font-bold text-orange-500"
+                className="relative inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-500 dark:text-gray-400"
               >
-                ✨
+                ...
               </span>
             );
           }
@@ -87,10 +87,10 @@ export function BlogPagination({
             <button
               key={pageNumber}
               onClick={() => onPageChange(pageNumber as number)}
-              className={`relative inline-flex items-center px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+              className={`relative inline-flex items-center px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:scale-[1.02] ${
                 isCurrentPage
-                  ? 'bg-gradient-to-r from-orange-500 to-purple-600 text-white'
-                  : 'bg-card/80 backdrop-blur-sm text-muted-foreground border-2 border-orange-200/50 dark:border-orange-800/50 hover:bg-orange-100/50 dark:hover:bg-orange-900/30 hover:text-orange-600 hover:border-orange-300'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 hover:border-blue-300'
               }`}
               aria-label={`Go to page ${pageNumber}`}
               aria-current={isCurrentPage ? 'page' : undefined}
@@ -105,7 +105,7 @@ export function BlogPagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={!hasNextPage}
-        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-bold bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         aria-label="Go to next page"
       >
         <span className="hidden sm:inline">Next</span>

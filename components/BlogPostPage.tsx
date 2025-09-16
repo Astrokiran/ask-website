@@ -72,9 +72,9 @@ const ReadingProgressBar = () => {
   }, [handleScroll]);
 
   return (
-    <div className="fixed top-0 left-0 z-50 w-full h-1 bg-amber-100/20">
+    <div className="fixed top-0 left-0 z-50 w-full h-1 bg-gray-200 dark:bg-gray-800">
       <div
-        className="h-1 bg-amber-500 transition-all duration-100 ease-out"
+        className="h-1 bg-blue-600 transition-all duration-100 ease-out"
         style={{ width: `${width}%` }}
       />
     </div>
@@ -94,18 +94,18 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
             <div className="sticky top-28 space-y-8">
                 {/* Table of Contents */}
                 {headings.length > 1 && (
-                    <div className="p-6 rounded-2xl border border-orange-200/30 dark:border-orange-800/30 bg-card/50 shadow-lg">
-                        <h3 className="font-bold text-lg text-foreground mb-4 flex items-center">
-                            <BookOpen size={20} className="mr-3 text-orange-500"/>
-                            <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">In this Article</span>
+                    <div className="p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
+                        <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-4 flex items-center">
+                            <BookOpen size={20} className="mr-3 text-blue-600"/>
+                            <span>In this Article</span>
                         </h3>
                         <ul className="space-y-2.5">
                             {headings.map((heading) => (
                                 <li key={heading.slug}>
                                     <a
                                       href={`#${heading.slug}`}
-                                      className={`transition-colors duration-200 text-sm hover:text-orange-500 ${
-                                        activeHeading === heading.slug ? 'font-bold text-orange-500' : 'text-muted-foreground'
+                                      className={`transition-colors duration-200 text-sm hover:text-blue-600 ${
+                                        activeHeading === heading.slug ? 'font-semibold text-blue-600' : 'text-gray-600 dark:text-gray-400'
                                       }`}
                                     >
                                         {heading.text}
@@ -117,15 +117,15 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
                 )}
 
                 {/* Trending Posts */}
-                <div className="p-6 rounded-2xl border border-orange-200/30 dark:border-orange-800/30 bg-card/50 shadow-lg">
-                    <h3 className="font-bold text-lg text-foreground mb-4 flex items-center">
-                        <TrendingUp size={20} className="mr-3 text-orange-500"/>
-                        <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">Trending Now</span>
+                <div className="p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-4 flex items-center">
+                        <TrendingUp size={20} className="mr-3 text-blue-600"/>
+                        <span>Trending Now</span>
                     </h3>
                     <ul className="space-y-3">
                         {trendingPosts.map(post => (
                            <li key={post.title}>
-                             <a href={post.slug} className="group flex justify-between items-center text-sm text-muted-foreground hover:text-orange-500 transition-colors">
+                             <a href={post.slug} className="group flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
                                {post.title}
                                <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity"/>
                              </a>
@@ -135,17 +135,17 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
                 </div>
 
                 {/* Categories */}
-                <div className="p-6 rounded-2xl border border-orange-200/30 dark:border-orange-800/30 bg-card/50 shadow-lg">
-                    <h3 className="font-bold text-lg text-foreground mb-4 flex items-center">
-                        <LayoutGrid size={20} className="mr-3 text-orange-500"/>
-                        <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">Categories</span>
+                <div className="p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-4 flex items-center">
+                        <LayoutGrid size={20} className="mr-3 text-blue-600"/>
+                        <span>Categories</span>
                     </h3>
                     <div className="flex flex-wrap gap-2">
                         {categories.map(cat => (
                            <a
                              key={cat}
                              href="#"
-                             className="text-xs text-foreground bg-orange-100/50 hover:bg-orange-200/50 dark:bg-orange-900/20 dark:hover:bg-orange-800/30 transition-colors rounded-full px-3 py-1.5 font-medium"
+                             className="text-xs text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors rounded-full px-3 py-1.5 font-medium"
                            >
                              {cat}
                            </a>
@@ -167,7 +167,7 @@ const MobileTableOfContents = ({ headings, activeHeading }: { headings: Heading[
             {/* Mobile TOC Button */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-105"
+                className="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 hover:scale-[1.02]"
             >
                 <BookOpen size={20} />
             </button>
@@ -182,15 +182,15 @@ const MobileTableOfContents = ({ headings, activeHeading }: { headings: Heading[
                     />
 
                     {/* Modal */}
-                    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 border-t border-orange-200/30 dark:border-orange-800/30 rounded-t-3xl p-6 max-h-[70vh] overflow-y-auto animate-in slide-in-from-bottom duration-300">
+                    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-800/95 border-t border-gray-200 dark:border-gray-700 rounded-t-3xl p-6 max-h-[70vh] overflow-y-auto animate-in slide-in-from-bottom duration-300">
                         <div className="flex items-center justify-between mb-6">
-                            <h3 className="font-bold text-lg text-foreground flex items-center">
-                                <BookOpen size={20} className="mr-3 text-orange-500"/>
-                                <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">In this Article</span>
+                            <h3 className="font-semibold text-lg text-gray-900 dark:text-white flex items-center">
+                                <BookOpen size={20} className="mr-3 text-blue-600"/>
+                                <span>In this Article</span>
                             </h3>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="w-8 h-8 bg-muted rounded-full flex items-center justify-center hover:bg-muted/80 transition-colors"
+                                className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                             >
                                 <span className="text-lg">×</span>
                             </button>
@@ -204,8 +204,8 @@ const MobileTableOfContents = ({ headings, activeHeading }: { headings: Heading[
                                         onClick={() => setIsOpen(false)}
                                         className={`block p-3 rounded-xl transition-colors duration-200 ${
                                             activeHeading === heading.slug
-                                                ? 'bg-orange-500/10 text-orange-500 font-bold border-l-4 border-orange-500'
-                                                : 'text-muted-foreground hover:text-orange-500 hover:bg-orange-100/20 dark:hover:bg-orange-900/20'
+                                                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 font-semibold border-l-4 border-blue-600'
+                                                : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                         }`}
                                     >
                                         {heading.text}
@@ -331,19 +331,17 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
         const text = Array.isArray(children) ? (children[0] as string) : '';
         const id = slugify(text);
         return (
-          <h2 id={id} className="text-3xl lg:text-4xl font-bold mt-12 mb-6 scroll-mt-28">
-            <span className="bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
+          <h2 id={id} className="text-3xl lg:text-4xl font-semibold mt-12 mb-6 scroll-mt-28 text-gray-900 dark:text-white">
               {children}
-            </span>
           </h2>
         );
       },
-      [BLOCKS.HEADING_3]: (node, children) => <h3 className="text-2xl lg:text-3xl font-semibold mt-8 mb-4 text-foreground">{children}</h3>,
-      [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-6 text-lg leading-relaxed text-foreground">{children}</p>,
-      [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc list-inside mb-6 pl-4 space-y-3 text-lg text-foreground">{children}</ul>,
-      [BLOCKS.OL_LIST]: (node, children) => <ol className="list-decimal list-inside mb-6 pl-4 space-y-3 text-lg text-foreground">{children}</ol>,
-      [BLOCKS.QUOTE]: (node, children) => <blockquote className="border-l-4 border-orange-400 pl-6 py-4 my-8 text-lg italic bg-orange-50/30 dark:bg-orange-950/20 rounded-r-lg text-muted-foreground">{children}</blockquote>,
-      [INLINES.HYPERLINK]: (node, children) => <a href={node.data.uri} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-purple-600 underline font-medium transition-colors duration-200">{children}</a>,
+      [BLOCKS.HEADING_3]: (node, children) => <h3 className="text-2xl lg:text-3xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">{children}</h3>,
+      [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-6 text-lg leading-relaxed text-gray-900 dark:text-white">{children}</p>,
+      [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc list-inside mb-6 pl-4 space-y-3 text-lg text-gray-900 dark:text-white">{children}</ul>,
+      [BLOCKS.OL_LIST]: (node, children) => <ol className="list-decimal list-inside mb-6 pl-4 space-y-3 text-lg text-gray-900 dark:text-white">{children}</ol>,
+      [BLOCKS.QUOTE]: (node, children) => <blockquote className="border-l-4 border-blue-600 pl-6 py-4 my-8 text-lg italic bg-blue-50 dark:bg-blue-900/20 rounded-r-lg text-gray-600 dark:text-gray-400">{children}</blockquote>,
+      [INLINES.HYPERLINK]: (node, children) => <a href={node.data.uri} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">{children}</a>,
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
         const file = node.data.target?.fields?.file;
         const description = node.data.target?.fields?.description;
@@ -365,18 +363,20 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
   };
 
   if (isLoading) return (
-    <div className="min-h-screen bg-background flex justify-center items-center">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
       <div className="text-center">
-        <div className="text-6xl mb-4 animate-pulse">✨</div>
-        <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent animate-pulse">Loading Cosmic Article...</p>
+        <div className="w-16 h-16 bg-blue-600 rounded-full animate-pulse mx-auto mb-4"></div>
+        <p className="text-2xl font-semibold text-gray-900 dark:text-white animate-pulse">Loading Article...</p>
       </div>
     </div>
   );
 
   if (error) return (
-    <div className="min-h-screen bg-background flex justify-center items-center">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
       <div className="text-center">
-        <div className="text-6xl mb-4">⚠️</div>
+        <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-8 h-8 bg-red-600 rounded-full"></div>
+        </div>
         <p className="text-xl font-semibold text-red-600 dark:text-red-400">{error}</p>
       </div>
     </div>
@@ -387,9 +387,7 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-background">
-        {/* Minimal background - desktop only */}
-        <div className="hidden lg:block absolute inset-0 bg-gradient-to-br from-orange-50/20 via-transparent to-purple-50/10 dark:from-orange-950/10 dark:via-transparent dark:to-purple-950/5"></div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
 
         <ReadingProgressBar />
         <div className={`relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 lg:py-24 ${fadeIn}`}>
@@ -401,15 +399,13 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
                 <div className={`w-full lg:w-3/4 ${fadeInUp}`}>
                     {/* Article Header */}
                     <header className="mb-8 lg:mb-12">
-                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
-                            <span className="bg-gradient-to-r from-orange-500 via-purple-600 to-orange-500 bg-clip-text text-transparent">
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6 text-gray-900 dark:text-white">
                                 {post.title}
-                            </span>
                         </h1>
-                        <p className="text-xl lg:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-4xl">
+                        <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-4xl">
                             {post.excerpt}
                         </p>
-                        <div className="flex items-center space-x-4 lg:space-x-6 bg-card/50 border border-orange-200/30 dark:border-orange-800/30 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-lg">
+                        <div className="flex items-center space-x-4 lg:space-x-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-lg">
                             <div className="relative">
                                 {post.author.pictureUrl ? (
                                     <Image
@@ -417,22 +413,22 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
                                         alt={post.author.name}
                                         width={80}
                                         height={80}
-                                        className="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover border-2 border-orange-200 dark:border-orange-800 shadow-lg"
+                                        className="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 shadow-lg"
                                     />
                                 ) : (
-                                    <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-orange-400 to-purple-500 flex items-center justify-center border-2 border-orange-200 dark:border-orange-800 shadow-lg">
-                                        <span className="text-white font-bold text-xl lg:text-2xl">{post.author.name[0]}</span>
+                                    <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-blue-600 flex items-center justify-center border-2 border-gray-200 dark:border-gray-700 shadow-lg">
+                                        <span className="text-white font-semibold text-xl lg:text-2xl">{post.author.name[0]}</span>
                                     </div>
                                 )}
                             </div>
                             <div className="flex-1">
-                                <p className="font-bold text-base lg:text-lg text-foreground mb-1">{post.author.name}</p>
-                                <p className="text-muted-foreground font-medium flex items-center gap-2 text-sm lg:text-base">
-                                    <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                <p className="font-semibold text-base lg:text-lg text-gray-900 dark:text-white mb-1">{post.author.name}</p>
+                                <p className="text-gray-600 dark:text-gray-400 font-medium flex items-center gap-2 text-sm lg:text-base">
+                                    <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
                                     {format(new Date(post.publishDate), 'MMMM dd, yyyy')}
                                 </p>
                                 <div className="mt-2">
-                                    <span className="text-xs bg-gradient-to-r from-orange-500 to-purple-600 text-white px-2 lg:px-3 py-1 rounded-full font-semibold">✨ Expert Author</span>
+                                    <span className="text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-2 lg:px-3 py-1 rounded-full font-semibold">Expert Author</span>
                                 </div>
                             </div>
                         </div>
@@ -441,7 +437,7 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
                     {/* Hero Image */}
                     {post.heroImageUrl && (
                         <figure className={`mb-8 lg:mb-12 relative ${stagger}`}>
-                            <div className="relative rounded-3xl overflow-hidden border border-orange-200/20 dark:border-orange-800/20 shadow-xl">
+                            <div className="relative rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-xl">
                                 <Image
                                     src={`${post.heroImageUrl}?w=1600&h=800&fit=fill&q=85&fm=webp`}
                                     alt={`Hero image for ${post.title}`}
@@ -451,8 +447,8 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
                                     priority={true}
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-                                <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/90 rounded-full px-4 py-2 shadow-lg">
-                                    <p className="text-sm font-semibold text-foreground">✨ Featured Article</p>
+                                <div className="absolute top-6 right-6 bg-white/90 dark:bg-gray-800/90 rounded-full px-4 py-2 shadow-lg">
+                                    <p className="text-sm font-semibold text-gray-900 dark:text-white">Featured Article</p>
                                 </div>
                             </div>
                         </figure>
@@ -460,7 +456,7 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
 
                     {/* Article Body */}
                     <article ref={articleRef} className="prose prose-sm sm:prose-base lg:prose-lg prose-slate max-w-none dark:prose-invert">
-                        <div className="bg-card/30 rounded-xl lg:rounded-2xl p-4 sm:p-6 lg:p-8 border border-orange-200/20 dark:border-orange-800/20 shadow-lg">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl lg:rounded-2xl p-4 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 shadow-lg">
                             {documentToReactComponents(post.content, richTextOptions)}
                         </div>
                     </article>
