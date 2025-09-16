@@ -29,6 +29,17 @@ export function FeaturedAstrologers() {
 
   useEffect(() => {
     setIsLoading(true);
+
+    // Check if Contentful credentials are available
+    const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
+    const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
+
+    if (!spaceId || !accessToken) {
+      console.warn("Contentful credentials not available, using fallback data");
+      setIsLoading(false);
+      return;
+    }
+
     client
       .getEntries<any>({ content_type: "astrologersImages" })
       .then((response) => {
