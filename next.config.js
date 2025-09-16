@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Output configuration for AWS Amplify
-  output: 'standalone',
+  // output: 'standalone',
 
   // Performance optimizations
   swcMinify: true,
