@@ -2,8 +2,11 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useState, useRef } from "react"
-import { Menu, X, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react"
+import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { useAuth } from "@/contexts/AuthContext"
+import { AuthModal } from "@/components/auth/AuthModal"
+import { UserDropdown } from "@/components/auth/UserDropdown"
 
 const whatsappNumber = "+918197503574";
 const message = "Hello, I would like to get an astrology consultation.";
@@ -12,7 +15,9 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const { user, loading } = useAuth()
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -81,6 +86,21 @@ export function NavBar() {
           {/* Fixed Right Side Actions - Desktop */}
           <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
+            {!loading && (
+              user ? (
+                <UserDropdown />
+              ) : (
+                <Button
+                  onClick={() => setShowAuthModal(true)}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>Sign In</span>
+                </Button>
+              )
+            )}
             <a
               href={whatsappLink}
               target="_blank"
@@ -99,6 +119,20 @@ export function NavBar() {
           {/* Fixed Right Side Actions - Mobile/Tablet */}
           <div className="lg:hidden flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
+            {!loading && (
+              user ? (
+                <UserDropdown />
+              ) : (
+                <Button
+                  onClick={() => setShowAuthModal(true)}
+                  variant="outline"
+                  size="sm"
+                  className="p-2"
+                >
+                  <LogIn className="w-4 h-4" />
+                </Button>
+              )
+            )}
             <a
               href={whatsappLink}
               target="_blank"
@@ -184,6 +218,20 @@ export function NavBar() {
                 <span className="group-hover:text-purple-600 transition-colors">Hindu Wisdom Game</span>
               </Link>
 
+              {/* Auth section for mobile */}
+              {!loading && !user && (
+                <button
+                  onClick={() => {
+                    setShowAuthModal(true);
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all duration-200 w-full"
+                >
+                  <span className="text-blue-500">👤</span>
+                  <span className="group-hover:text-blue-600 transition-colors">Sign In / Sign Up</span>
+                </button>
+              )}
+
               {/* Enhanced WhatsApp mobile button */}
               <a
                 href="https://wa.me/+918197503574?text=Hello, I would like to get an astrology consultation."
@@ -204,6 +252,12 @@ export function NavBar() {
         )}
       </div>
       <div className="h-[65px]" />
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </>
   )
 }
