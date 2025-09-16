@@ -41,35 +41,19 @@ export function HeroSection({
   useEffect(() => {
     setIsLoading(true);
 
-    // Check if Contentful credentials are available
-    const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
-    const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
-
-    if (!spaceId || !accessToken) {
-      console.warn("Contentful credentials not available, using fallback data");
-      setIsLoading(false);
-      return;
-    }
-
     // Fetch both hero images and astrologers data
     Promise.all([
       client.getEntries({
         content_type: 'heroimages',
         order: ['fields.order']
-      }).catch(error => {
-        console.error("Error fetching hero images:", error);
-        return { items: [] };
       }),
       client.getEntries({
         content_type: 'astrologersImages'
-      }).catch(error => {
-        console.error("Error fetching astrologers:", error);
-        return { items: [] };
       })
     ])
     .then(([heroResponse, astrologersResponse]) => {
       // Process hero images
-      if (heroResponse.items && heroResponse.items.length > 0) {
+      if (heroResponse.items) {
         const fetchedImageUrls: string[] = heroResponse.items.map((item: any) =>
           `https:${item.fields.image.fields.file.url}?h=600&w=800&q=75&fm=webp`
         );
@@ -93,9 +77,7 @@ export function HeroSection({
         setAstrologersData(fetchedAstrologers);
       }
     })
-    .catch(error => {
-      console.error("Error fetching data from Contentful:", error);
-    })
+    .catch(error => console.error("Error fetching data from Contentful:", error))
     .finally(() => setIsLoading(false));
   }, []);
 
