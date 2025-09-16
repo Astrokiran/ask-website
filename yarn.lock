@@ -7,13 +7,6 @@
   resolved "https://registry.npmjs.org/@alloc/quick-lru/-/quick-lru-5.2.0.tgz"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
-"@aws-amplify/adapter-nextjs@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/adapter-nextjs/-/adapter-nextjs-1.5.1.tgz"
-  integrity sha512-oVgakVkGTvHlcSrnT9hRq4B4lqmIQd0d7ZHmGO2pCOO/hciHLTgYy3zeECKubdMTDoNzLX2pgW0RqswN+3eU3Q==
-  dependencies:
-    aws-jwt-verify "^4.0.1"
-
 "@aws-amplify/analytics@7.0.70":
   version "7.0.70"
   resolved "https://registry.npmjs.org/@aws-amplify/analytics/-/analytics-7.0.70.tgz"
@@ -46,7 +39,7 @@
   dependencies:
     tslib "^2.5.0"
 
-"@aws-amplify/api@^6.3.1", "@aws-amplify/api@6.3.1":
+"@aws-amplify/api@6.3.1":
   version "6.3.1"
   resolved "https://registry.npmjs.org/@aws-amplify/api/-/api-6.3.1.tgz"
   integrity sha512-BDEMhVLX38HVOKQQo/DUxo2wIeddQ8QyNEcHFfzte1wZj2vTQ1fp7PFgrCScS613qetLtJ9q6+cJritxPCd/9w==
@@ -57,7 +50,7 @@
     rxjs "^7.8.1"
     tslib "^2.5.0"
 
-"@aws-amplify/auth@^6.11.1", "@aws-amplify/auth@6.11.1":
+"@aws-amplify/auth@6.11.1":
   version "6.11.1"
   resolved "https://registry.npmjs.org/@aws-amplify/auth/-/auth-6.11.1.tgz"
   integrity sha512-296/HIsohOFAbmg2yKQjk94hqXos4rJ8DkRyfWvv0tFiQZNW/+TLiEovd+Tbw5WUf9wUu9iUcC6zH9I6KG3cCw==
@@ -2117,26 +2110,6 @@
   resolved "https://registry.npmjs.org/@next/env/-/env-14.2.32.tgz"
   integrity sha512-n9mQdigI6iZ/DF6pCTwMKeWgF2e8lg7qgt5M7HXMLtyhZYMnf/u905M18sSpPmHL9MKp9JHo56C6jrD2EvWxng==
 
-"@next/swc-darwin-arm64@14.2.32":
-  version "14.2.32"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.2.32.tgz"
-  integrity sha512-osHXveM70zC+ilfuFa/2W6a1XQxJTvEhzEycnjUaVE8kpUS09lDpiDDX2YLdyFCzoUbvbo5r0X1Kp4MllIOShw==
-
-"@next/swc-darwin-x64@14.2.32":
-  version "14.2.32"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-14.2.32.tgz"
-  integrity sha512-P9NpCAJuOiaHHpqtrCNncjqtSBi1f6QUdHK/+dNabBIXB2RUFWL19TY1Hkhu74OvyNQEYEzzMJCMQk5agjw1Qg==
-
-"@next/swc-linux-arm64-gnu@14.2.32":
-  version "14.2.32"
-  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-14.2.32.tgz"
-  integrity sha512-v7JaO0oXXt6d+cFjrrKqYnR2ubrD+JYP7nQVRZgeo5uNE5hkCpWnHmXm9vy3g6foMO8SPwL0P3MPw1c+BjbAzA==
-
-"@next/swc-linux-arm64-musl@14.2.32":
-  version "14.2.32"
-  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-14.2.32.tgz"
-  integrity sha512-tA6sIKShXtSJBTH88i0DRd6I9n3ZTirmwpwAqH5zdJoQF7/wlJXR8DkPmKwYl5mFWhEKr5IIa3LfpMW9RRwKmQ==
-
 "@next/swc-linux-x64-gnu@14.2.32":
   version "14.2.32"
   resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.2.32.tgz"
@@ -2146,21 +2119,6 @@
   version "14.2.32"
   resolved "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-14.2.32.tgz"
   integrity sha512-OHHC81P4tirVa6Awk6eCQ6RBfWl8HpFsZtfEkMpJ5GjPsJ3nhPe6wKAJUZ/piC8sszUkAgv3fLflgzPStIwfWg==
-
-"@next/swc-win32-arm64-msvc@14.2.32":
-  version "14.2.32"
-  resolved "https://registry.npmjs.org/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-14.2.32.tgz"
-  integrity sha512-rORQjXsAFeX6TLYJrCG5yoIDj+NKq31Rqwn8Wpn/bkPNy5rTHvOXkW8mLFonItS7QC6M+1JIIcLe+vOCTOYpvg==
-
-"@next/swc-win32-ia32-msvc@14.2.32":
-  version "14.2.32"
-  resolved "https://registry.npmjs.org/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-14.2.32.tgz"
-  integrity sha512-jHUeDPVHrgFltqoAqDB6g6OStNnFxnc7Aks3p0KE0FbwAvRg6qWKYF5mSTdCTxA3axoSAUwxYdILzXJfUwlHhA==
-
-"@next/swc-win32-x64-msvc@14.2.32":
-  version "14.2.32"
-  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.2.32.tgz"
-  integrity sha512-2N0lSoU4GjfLSO50wvKpMQgKd4HdI2UHEhQPPPnlgfBJlOgJxkjpkYBqzk08f1gItBB6xF/n+ykso2hgxuydsA==
 
 "@next/third-parties@^15.2.3":
   version "15.3.3"
@@ -3957,11 +3915,6 @@ aws-crt@>=1.0.0:
     mqtt "^4.3.8"
     process "^0.11.10"
 
-aws-jwt-verify@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/aws-jwt-verify/-/aws-jwt-verify-4.0.1.tgz"
-  integrity sha512-kzvi71eD3w/mCpYRUY7cz6DX4bfYihGdI2yV3FYQ2JuZZenqAqDPz0gWj0ew6vlAtdEVBNb7p+Dm2TAIxpVYMA==
-
 axios@^1.11.0, axios@^1.7.4:
   version "1.12.1"
   resolved "https://registry.npmjs.org/axios/-/axios-1.12.1.tgz"
@@ -4773,11 +4726,6 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
-
-fsevents@~2.3.2:
-  version "2.3.3"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
-  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
   version "1.1.2"
@@ -5854,7 +5802,7 @@ next-themes@^0.4.4:
   resolved "https://registry.npmjs.org/next-themes/-/next-themes-0.4.4.tgz"
   integrity sha512-LDQ2qIOJF0VnuVrrMSMLrWGjRMkq+0mpgl6e0juCLqdJ+oo8Q84JRWT6Wh11VDQKkMMe+dVzDKLWs5n87T+PkQ==
 
-"next@^13.0.0 || ^14.0.0 || ^15.0.0", next@^14.2.16, "next@>=13.5.0 <16.0.0":
+"next@^13.0.0 || ^14.0.0 || ^15.0.0", next@^14.2.16:
   version "14.2.32"
   resolved "https://registry.npmjs.org/next/-/next-14.2.32.tgz"
   integrity sha512-fg5g0GZ7/nFc09X8wLe6pNSU8cLWbLRG3TZzPJ1BJvi2s9m7eF991se67wliM9kR5yLHRkyGKU49MMx58s3LJg==
