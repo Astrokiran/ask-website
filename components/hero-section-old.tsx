@@ -2,7 +2,7 @@
 
 import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { client } from "./featured-astrologers"; // Reuse the Contentful client
 
@@ -127,7 +127,7 @@ export function HeroSection({
                 Chat with Astrologer
               </motion.a>
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Right Image Carousel */}
           <motion.div

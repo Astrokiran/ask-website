@@ -446,7 +446,7 @@ export default function ReportDisplayPage() {
             nakshatraLord: p.nakshatra_lord,
             planet_awastha: p.planet_awasta,
             house: p.house,
-            status: p.status,
+            status: "",
             id: undefined,
             fullDegree: p.degree_dms, 
             normDegree: p.degree,

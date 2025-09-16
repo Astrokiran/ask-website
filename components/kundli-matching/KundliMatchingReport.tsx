@@ -72,8 +72,6 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
     return (
         <div
             className="relative w-48 h-48 mx-auto md:mx-0 flex-shrink-0"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         >
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 200 200">
                 <defs>
@@ -92,9 +90,7 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
                     r={radius}
                     cx="100"
                     cy="100"
-                    initial={{ strokeDashoffset: circumference }}
-                    animate={{ strokeDashoffset: circumference - (percentage / 100) * circumference }}
-                    transition={{ duration: 1.8, ease: "easeOut", delay: 0.3 }}
+                    style={{ strokeDashoffset: circumference - (percentage / 100) * circumference }}
                 />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-foreground">

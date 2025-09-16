@@ -17,7 +17,7 @@ export default function RecentBlogPage() {
       try {
         setIsLoading(true);
         // Get recent posts sorted by publication date
-        const data = await getBlogPosts(1, 20, { sortBy: 'publishedAt', sortOrder: 'desc' });
+        const data = await getBlogPosts(1, 20, {});
         setRecentPosts(data.posts);
       } catch (e) {
         console.error("Failed to load recent posts:", e);

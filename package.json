@@ -9,9 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@aws-amplify/adapter-nextjs": "^1.5.1",
-    "@aws-amplify/api": "^6.3.1",
-    "@aws-amplify/auth": "^6.11.1",
     "@aws-sdk/client-dynamodb": "^3.751.0",
     "@aws-sdk/client-s3": "^3.832.0",
     "@aws-sdk/credential-providers": "^3.835.0",

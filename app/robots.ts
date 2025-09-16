@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/admin/', '/amplify/'],
+      disallow: ['/api/', '/admin/'],
     },
     sitemap: 'https://astrokiran.com/sitemap.xml',
   }
