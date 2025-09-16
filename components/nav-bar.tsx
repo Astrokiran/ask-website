@@ -28,52 +28,49 @@ export function NavBar() {
 
   return (
     <>
-      <div className="fixed top-0 w-full max-w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 z-[9999] text-xl shadow-sm overflow-hidden">
+      <div className="fixed top-0 w-full max-w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 z-[9999] text-xl shadow-sm">
 
         <nav className="relative flex items-center justify-between p-3 sm:p-4 w-full max-w-7xl mx-auto gap-2 overflow-hidden">
           {/* Fixed Logo - never shrinks */}
           <Link href="/" className="flex-shrink-0">
-            <div className="flex items-center gap-2 group transition-all duration-300 hover:scale-105">
-              {/* Enhanced logo with glow effect */}
-              <div className="relative">
-                <img src="/ask-logo.png" alt="Astrokiran Logo" className="w-12 h-12 transition-all duration-300 group-hover:drop-shadow-lg" />
-              </div>
-              <span className="font-semibold text-gray-900 dark:text-white transition-all duration-300 whitespace-nowrap">
+            <div className="flex items-center gap-2">
+              <img src="/ask-logo.png" alt="Astrokiran Logo" className="w-12 h-12" />
+              <span className="font-semibold text-gray-900 dark:text-white whitespace-nowrap">
                 Astrokiran
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center flex-1 min-w-0 mx-4">
+          {/* Desktop and Tablet Navigation */}
+          <div className="hidden md:flex items-center flex-1 min-w-0 mx-2 sm:mx-4">
             <div
               ref={scrollContainerRef}
               className="flex items-center gap-1 overflow-x-auto nav-scroll w-full min-w-0"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-            <Link href="/free-kundli" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Free Kundli</span>
+            <Link href="/free-kundli" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Free Kundli
             </Link>
-             <Link href="/kundli-match" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Kundli Matching</span>
+            <Link href="/kundli-match" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Kundli Matching
             </Link>
-            <Link href="/horoscopes" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Daily Horoscope</span>
+            <Link href="/horoscopes" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Daily Horoscope
             </Link>
-            <Link href="/blog" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Blogs</span>
+            <Link href="/blog" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Blogs
             </Link>
-            <Link href="/#astrologers" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Our Astrologers</span>
+            <Link href="/#astrologers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Our Astrologers
             </Link>
-            <Link href="/#services" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Services</span>
+            <Link href="/#services" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Services
             </Link>
-            <Link href="/pricing" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Pricing</span>
+            <Link href="/pricing" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Pricing
             </Link>
-            <Link href="/games/hindu-wisdom-millionaire" className="group relative text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 whitespace-nowrap flex-shrink-0">
-              <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Games</span>
+            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+              Games
             </Link>
             </div>
           </div>
@@ -85,7 +82,7 @@ export function NavBar() {
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-[#25D366] text-white px-3 py-2 rounded-lg hover:bg-[#22c55e] transition-all duration-200 whitespace-nowrap text-sm font-medium"
+              className="flex items-center gap-2 bg-[#25D366] text-white px-3 py-2 rounded-lg hover:bg-[#22c55e] whitespace-nowrap text-sm font-medium"
             >
               <img
                 src="/social.png"
@@ -97,7 +94,7 @@ export function NavBar() {
           </div>
 
           {/* Fixed Right Side Actions - Mobile/Tablet */}
-          <div className="lg:hidden flex items-center gap-2 flex-shrink-0">
+          <div className="md:hidden flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
             <a
               href={whatsappLink}
@@ -113,7 +110,7 @@ export function NavBar() {
             </a>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -122,7 +119,7 @@ export function NavBar() {
 
         {/* Enhanced Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-orange-200/20 shadow-xl max-h-[70vh] overflow-y-auto relative z-[9998]">
+          <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-orange-200/20 shadow-xl max-h-[70vh] overflow-y-auto relative z-[9998]">
             <div className="relative flex flex-col p-4 space-y-2">
                <Link
                 href="/free-kundli"

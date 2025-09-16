@@ -1,69 +1,79 @@
 "use client"
 
+import { NavBar } from "@/components/nav-bar"
+import { Footer } from "@/components/footer"
 import KundliPage from '@/components/kundli/kundli-fom'
 
 export default function KundliRoutePage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-12">
-        {/* Clean Header Section */}
-        <div className="text-center mb-12">
-          <div className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-lg font-medium text-sm mb-6">
-            Complimentary Report
-          </div>
+    <div className="w-full max-w-full">
+      <div className="min-h-screen w-full max-w-full overflow-x-hidden">
+        <NavBar />
+        <main className="w-full max-w-full">
+          <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <div className="w-full max-w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+              {/* Clean Header Section */}
+              <div className="text-center mb-8 sm:mb-12">
+                <div className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 sm:px-4 py-2 rounded-lg font-medium text-xs sm:text-sm mb-4 sm:mb-6">
+                  Complimentary Report
+                </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-900 dark:text-white mb-4">
-            Get Your Complete Kundli Report
-          </h1>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 dark:text-white mb-4 px-4">
+                  Get Your Complete Kundli Report
+                </h1>
 
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8">
-            Receive a comprehensive kundli report including Vedic birth chart, planetary positions, doshas, yogas, and personalized astrological predictions.
-          </p>
-
-          {/* Features */}
-          <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">What's Included:</h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <p className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
-                  Complete Vedic Birth Chart Analysis
+                <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
+                  Receive a comprehensive kundli report including Vedic birth chart, planetary positions, doshas, yogas, and personalized astrological predictions.
                 </p>
-                <p className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
-                  Detailed Planetary Positions & Effects
-                </p>
-                <p className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
-                  Dosha Analysis (Mangal, Kaal Sarpa, etc.)
+
+                {/* Features */}
+                <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg sm:rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm mb-6 sm:mb-8">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">What's Included:</h3>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="space-y-2 sm:space-y-3">
+                      <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
+                        Complete Vedic Birth Chart Analysis
+                      </p>
+                      <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
+                        Detailed Planetary Positions & Effects
+                      </p>
+                      <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
+                        Dosha Analysis (Mangal, Kaal Sarpa, etc.)
+                      </p>
+                    </div>
+                    <div className="space-y-2 sm:space-y-3">
+                      <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
+                        Beneficial Yogas & Their Impact
+                      </p>
+                      <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
+                        Personalized Astrological Predictions
+                      </p>
+                      <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
+                        Career, Health & Relationship Insights
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm px-4">
+                  Fill the form below to generate your kundli report
                 </p>
               </div>
-              <div className="space-y-2">
-                <p className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
-                  Beneficial Yogas & Their Impact
-                </p>
-                <p className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
-                  Personalized Astrological Predictions
-                </p>
-                <p className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
-                  Career, Health & Relationship Insights
-                </p>
+
+              <div id="kundli-form">
+                <KundliPage />
               </div>
             </div>
           </div>
-
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Fill the form below to generate your kundli report
-          </p>
-        </div>
-
-        <div id="kundli-form">
-          <KundliPage />
-        </div>
+        </main>
+        <Footer />
       </div>
     </div>
   );

@@ -35,6 +35,8 @@ export interface BlogFilters {
   search?: string;
   tag?: string;
   author?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
 }
 
 // --- HELPER FUNCTIONS ---
@@ -84,7 +86,7 @@ export const getBlogPosts = async (
     // Build query parameters
     const queryParams: any = {
       content_type: 'blogpost',
-      order: ['-fields.publishDate'],
+      order: ['-fields.publishDate'] as any,
       include: 2,
       limit,
       skip,
@@ -134,7 +136,7 @@ export const getFeaturedPosts = async (): Promise<BlogPostPreview[]> => {
   try {
     const response = await client.getEntries({
       content_type: 'blogpost',
-      order: ['-fields.publishDate'],
+      order: ['-fields.publishDate'] as any,
       include: 2,
       limit: 3,
     });
@@ -159,7 +161,7 @@ export const getRelatedPosts = async (
       // If no tags, just get latest posts excluding current
       const response = await client.getEntries({
         content_type: 'blogpost',
-        order: ['-fields.publishDate'],
+        order: ['-fields.publishDate'] as any,
         include: 2,
         limit: limit + 1,
         'fields.slug[ne]': currentSlug,
@@ -170,7 +172,7 @@ export const getRelatedPosts = async (
     // Get posts with similar tags
     const response = await client.getEntries({
       content_type: 'blogpost',
-      order: ['-fields.publishDate'],
+      order: ['-fields.publishDate'] as any,
       include: 2,
       limit: limit + 1,
       'fields.slug[ne]': currentSlug,
@@ -206,9 +208,9 @@ export const getBlogArchives = async (): Promise<Array<{ year: number; months: A
   try {
     const response = await client.getEntries({
       content_type: 'blogpost',
-      order: ['-fields.publishDate'],
+      order: ['-fields.publishDate'] as any,
       limit: 1000,
-      select: 'fields.publishDate',
+      select: 'fields.publishDate' as any,
     });
 
     const archiveMap = new Map<number, Map<string, number>>();
@@ -256,7 +258,7 @@ export const getBlogAuthors = async (): Promise<Array<{ name: string; count: num
       content_type: 'blogpost',
       include: 2,
       limit: 1000,
-      select: 'fields.author',
+      select: 'fields.author' as any,
     });
 
     const authorMap = new Map<string, { count: number; avatar?: string }>();

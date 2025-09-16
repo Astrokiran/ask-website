@@ -615,55 +615,84 @@ export default function HinduWisdomMillionaire() {
 
       {/* Welcome Modal */}
       {showWelcomeModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl max-w-2xl w-full border border-gray-200 dark:border-gray-700 shadow-sm max-h-[90vh] overflow-y-auto">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 lg:p-6 pt-20 sm:pt-8 lg:pt-0">
+          <div className="bg-white dark:bg-gray-800 p-3 sm:p-6 lg:p-8 rounded-lg sm:rounded-xl w-full max-w-[95vw] sm:max-w-md lg:max-w-2xl xl:max-w-3xl border border-gray-200 dark:border-gray-700 shadow-2xl max-h-[96vh] sm:max-h-[90vh] overflow-y-auto my-2 sm:my-0">
+            <div className="text-center mb-3 sm:mb-6">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-blue-100 dark:bg-blue-950/30 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 lg:mb-4">
+                <span className="text-xl sm:text-2xl lg:text-3xl">🕉️</span>
+              </div>
+              <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold mb-1 sm:mb-2 lg:mb-3 text-gray-900 dark:text-white px-2">
                 {language === 'hi' ? 'स्वागत है, साधक!' : 'Welcome, Seeker!'}
               </h2>
+              <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-400 px-2">
+                {language === 'hi' ? 'अपनी ज्ञान यात्रा शुरू करने के लिए तैयार हों' : 'Prepare to embark on your journey of wisdom'}
+              </p>
             </div>
 
-            <div className="space-y-6 mb-8">
-              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
-                <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
-                  {language === 'hi' ? 'ज्ञान की यात्रा' : 'Journey of Wisdom'}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+            <div className="space-y-2 sm:space-y-3 lg:space-y-4 xl:space-y-6 mb-4 sm:mb-6 lg:mb-8">
+              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-blue-200 dark:border-blue-800">
+                <div className="flex items-center mb-1 sm:mb-2">
+                  <span className="text-base sm:text-lg mr-2 flex-shrink-0">🎯</span>
+                  <h3 className="font-semibold text-blue-600 dark:text-blue-400 text-xs sm:text-sm lg:text-base">
+                    {language === 'hi' ? 'ज्ञान की यात्रा' : 'Journey of Wisdom'}
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-400 leading-tight sm:leading-relaxed">
                   {language === 'hi'
                     ? 'इस खेल में आप धन नहीं, बल्कि ज्ञान अर्जित करते हैं। प्रत्येक सही उत्तर आपको आध्यात्मिक ज्ञान की नई ऊंचाइयों तक पहुंचाता है।'
                     : 'In this game, you earn Wisdom, not money. Each correct answer elevates you to new heights of spiritual knowledge and understanding.'}
                 </p>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
-                <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
-                  {language === 'hi' ? 'ज्ञान के स्तर' : 'Wisdom Levels'}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-blue-200 dark:border-blue-800">
+                <div className="flex items-center mb-1 sm:mb-2">
+                  <span className="text-base sm:text-lg mr-2 flex-shrink-0">📚</span>
+                  <h3 className="font-semibold text-blue-600 dark:text-blue-400 text-xs sm:text-sm lg:text-base">
+                    {language === 'hi' ? 'ज्ञान के स्तर' : 'Wisdom Levels'}
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-400 leading-tight sm:leading-relaxed">
                   {language === 'hi'
                     ? 'साधक से शुरू करके ज्ञानी गुरु तक - आपकी यात्रा हिंदू दर्शन, ज्योतिष, और पवित्र शास्त्रों के माध्यम से होगी।'
                     : 'Progress from Seeker to Enlightened Master - your journey through Hindu philosophy, astrology, and sacred scriptures awaits.'}
                 </p>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
-                <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
-                  {language === 'hi' ? 'खेल के नियम' : 'Game Rules'}
-                </h3>
-                <ul className="text-gray-600 dark:text-gray-400 space-y-1 text-sm">
-                  <li>• {language === 'hi' ? '15 प्रश्न, प्रत्येक के लिए 60 सेकंड' : '15 questions, 60 seconds each'}</li>
-                  <li>• {language === 'hi' ? '50:50 जीवनरेखा का उपयोग करें' : 'Use the 50:50 lifeline wisely'}</li>
-                  <li>• {language === 'hi' ? 'भाषा बदलना बिल्कुल मुफ्त है!' : 'Language switching is completely free!'}</li>
+              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-blue-200 dark:border-blue-800">
+                <div className="flex items-center mb-1 sm:mb-2">
+                  <span className="text-base sm:text-lg mr-2 flex-shrink-0">⚡</span>
+                  <h3 className="font-semibold text-blue-600 dark:text-blue-400 text-xs sm:text-sm lg:text-base">
+                    {language === 'hi' ? 'खेल के नियम' : 'Game Rules'}
+                  </h3>
+                </div>
+                <ul className="text-gray-600 dark:text-gray-400 space-y-0.5 sm:space-y-1 text-xs sm:text-sm leading-tight sm:leading-relaxed">
+                  <li className="flex items-start">
+                    <span className="w-1 h-1 bg-blue-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
+                    <span>{language === 'hi' ? '15 प्रश्न, प्रत्येक के लिए 60 सेकंड' : '15 questions, 60 seconds each'}</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1 h-1 bg-blue-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
+                    <span>{language === 'hi' ? '50:50 जीवनरेखा का बुद्धिमानी से उपयोग करें' : 'Use the 50:50 lifeline wisely'}</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1 h-1 bg-blue-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
+                    <span>{language === 'hi' ? 'भाषा बदलना बिल्कुल मुफ्त है!' : 'Language switching is completely free!'}</span>
+                  </li>
                 </ul>
               </div>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center pt-2">
               <button
                 onClick={beginGameAfterModal}
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[48px] w-full sm:w-auto max-w-sm"
+                className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm sm:text-base lg:text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] min-h-[44px] sm:min-h-[48px] lg:min-h-[56px] max-w-full sm:max-w-xs lg:max-w-sm mx-auto flex items-center justify-center"
               >
-                <span>{language === 'hi' ? 'ज्ञान यात्रा शुरू करें' : 'Begin Wisdom Quest'}</span>
+                <span className="flex items-center">
+                  <span className="mr-1.5 sm:mr-2">🚀</span>
+                  <span className="text-center">
+                    {language === 'hi' ? 'ज्ञान यात्रा शुरू करें' : 'Begin Wisdom Quest'}
+                  </span>
+                </span>
               </button>
             </div>
           </div>

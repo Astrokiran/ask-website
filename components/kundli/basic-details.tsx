@@ -36,7 +36,7 @@ interface BasicDetailsProps {
 }
 
 
-const DetailCard = ({ title, details }) => {
+const DetailCard = ({ title, details }: { title: string; details: any[] }) => {
   if (!Array.isArray(details) || details.length === 0) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
@@ -91,7 +91,7 @@ const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
       let value = 'N/A';
       switch (label) {
         case 'Name':
-          value = apiData.name || 'N/A';
+          value = (apiData as any).name || 'N/A';
           break;
         case 'Date of Birth':
           value = apiData.birth_info?.date_of_birth || 'N/A';

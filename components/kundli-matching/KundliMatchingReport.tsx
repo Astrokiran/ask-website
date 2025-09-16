@@ -10,12 +10,14 @@ interface KootaDetail {
     max_points: number;
     description: string;
 }
+
 interface MangalDoshaAnalysis {
     is_compatible: boolean;
     report: string;
     groom_status: string;
     bride_status: string;
 }
+
 interface KundliMatchingData {
     total_points_obtained: number;
     maximum_points: number;
@@ -23,12 +25,14 @@ interface KundliMatchingData {
     mangal_dosha_analysis: MangalDoshaAnalysis;
     koota_details: { [key: string]: KootaDetail };
 }
+
 interface PersonDetails {
     name: string;
     date_of_birth: string;
     time_of_birth: string;
     place_of_birth: string;
 }
+
 interface InputData {
     groom: PersonDetails;
     bride: PersonDetails;
@@ -55,11 +59,13 @@ const useAnimatedCounter = (to: number) => {
         }, 300);
         return () => clearTimeout(timer);
     }, [to]);
+
     useEffect(() => {
         if (ref.current) {
             ref.current.textContent = count.toFixed(1);
         }
     }, [count]);
+
     return ref;
 };
 
@@ -90,16 +96,16 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
                     r={radius}
                     cx="100"
                     cy="100"
-                    style={{ strokeDashoffset: circumference - (percentage / 100) * circumference }}
+                    style={{
+                        strokeDashoffset: circumference - (percentage / 100) * circumference,
+                        transition: 'stroke-dashoffset 1.8s ease-out 0.3s'
+                    }}
                 />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-foreground">
                 <span
                     ref={animatedCounterRef}
                     className="text-5xl font-extrabold"
-                    initial={{ scale: 0.8 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.5 }}
                 >
                     0.0
                 </span>
@@ -124,18 +130,12 @@ const ImageSlideshow: React.FC<{ imageSources: string[] }> = ({ imageSources }) 
         <div className="flex flex-col items-center text-center">
             <div
                 className="relative w-64 h-64 rounded-xl overflow-hidden border-4 border-blue-500/30 bg-muted/20 flex items-center justify-center shadow-lg"
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: 'spring', stiffness: 200 }}
             >
                     <img
                         key={currentIndex}
                         src={imageSources[currentIndex]}
                         alt="Kundli Matching"
                         className="absolute w-full h-full object-cover"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.7 }}
                     />
             </div>
             <p className="mt-4 text-sm text-muted-foreground max-w-xs">
@@ -149,11 +149,6 @@ const ImageSlideshow: React.FC<{ imageSources: string[] }> = ({ imageSources }) 
 const KootaCard: React.FC<{ name: string; points: string; maxPoints: string; description: string; icon: React.ReactNode }> = ({ name, points, maxPoints, description, icon }) => (
     <div
         className="bg-card/90 backdrop-blur-md border border rounded-lg p-4 shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        viewport={{ once: true }}
     >
         <div className="flex flex-col items-center text-center">
             <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 mb-2">{icon}</div>
@@ -176,9 +171,6 @@ const SectionHeader: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             {children}
             <span
                 className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" // Adjusted gradient for header underline
-                initial={{ width: 0 }}
-                whileInView={{ width: '75%' }}
-                transition={{ duration: 0.8 }}
             />
         </h2>
     </div>
@@ -199,8 +191,6 @@ const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) =
     const DetailCard: React.FC<{ person: PersonDetails }> = ({ person }) => (
         <div
             className="bg-card border border rounded-2xl shadow-lg w-full text-center p-6"
-            whileHover={{ scale: 1.03 }}
-            transition={{ type: 'spring', stiffness: 200 }}
         >
             <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 mb-2">{person.name}</h3> {/* Adjusted gradient for text */}
             <div className="text-left space-y-3 text-sm">
@@ -220,24 +210,15 @@ const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) =
         <div className="mb-12">
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
                 <div
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
                     className="w-full md:w-5/12"
                 >
                     <DetailCard person={groom} />
                 </div>
                 <div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.5 }}
                 >
                     <Heart className="w-14 h-14 text-blue-500 dark:text-blue-400" fill="currentColor" />
                 </div>
                 <div
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
                     className="w-full md:w-5/12"
                 >
                     <DetailCard person={bride} />
@@ -274,9 +255,6 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
         <div className="bg-background text-foreground min-h-screen p-4 sm:p-6 lg:p-10 font-sans">
             <div className="max-w-7xl mx-auto">
                 <div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
                 >
                     <div className="flex items-center text-sm text-muted-foreground mb-6">
                         <a href="/kundli-match" className="hover:text-blue-500 transition-colors">Kundli Matching</a>
@@ -289,13 +267,9 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
 
                 <div
                     className="bg-card/70 backdrop-blur-xl border border rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl"
-                    initial="hidden"
-                    animate="visible"
-                    variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.3 } } }}
                 >
                     <header
                         className="text-center mb-12"
-                        variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }}
                     >
                         <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-400 dark:to-blue-300">
                             Kundli Matching Report
@@ -304,7 +278,6 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
 
                     <section
                         className="py-8 mb-12"
-                        variants={{ hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } }}
                     >
                         <SectionHeader>Final Compatibility Score</SectionHeader>
                         <div className="flex flex-col md:flex-row items-center justify-evenly gap-8 md:gap-16 mt-6">
@@ -320,9 +293,6 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                         {/* Conclusion Text below */}
                         <p 
                             className="mt-10 text-center text-lg font-medium text-foreground max-w-3xl mx-auto"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
                         >
                             {reportData.conclusion}
                         </p>
@@ -330,7 +300,6 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
 
                     <section
                         className={`rounded-2xl p-8 text-center mb-12 border bg-card ${mangalStatus ? 'border-emerald-500/30' : 'border-blue-500/30'}`}
-                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
                     >
                         <div className={`flex items-center justify-center gap-3 text-2xl font-bold ${mangalStatus ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}`}>
                             {mangalStatus ? <CheckCircle /> : <XCircle />}
@@ -342,7 +311,6 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                     </section>
 
                     <section
-                        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
                     >
                         <SectionHeader>Ashtakoota Breakdown</SectionHeader>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
