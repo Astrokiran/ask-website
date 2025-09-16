@@ -106,26 +106,26 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
                         <div className="w-full h-96 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse" />
                     ) : tableData ? (
                         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 sm:p-4 overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 min-w-[600px]">
-                                <thead className="bg-gray-50 dark:bg-gray-700">
+                            <table className="w-full text-sm text-left border-collapse min-w-[700px]">
+                                <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 min-w-[80px]">Rashi</th>
+                                        <th scope="col" className="px-1 sm:px-3 py-3 text-left font-medium whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 w-[80px]">Rashi</th>
                                         {PLANET_KEYS.map(p => (
-                                            <th key={p} scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider min-w-[50px] whitespace-nowrap">{p.slice(0, 2)}</th>
+                                            <th key={p} scope="col" className="px-1 sm:px-2 py-3 text-center font-medium whitespace-nowrap w-[45px]">{p.slice(0, 2)}</th>
                                         ))}
-                                        <th scope="col" className="px-2 sm:px-4 py-2 sm:py-3 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider min-w-[60px]">Total</th>
+                                        <th scope="col" className="px-1 sm:px-3 py-3 text-center font-medium whitespace-nowrap w-[55px]">Total</th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody className="bg-white dark:bg-gray-800">
                                     {SIGN_NAMES.map((signName, index) => (
-                                        <tr key={signName} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                            <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white sticky left-0 bg-white dark:bg-gray-800 z-10 min-w-[80px]">{signName}</td>
+                                        <tr key={signName} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap font-medium text-blue-600 dark:text-blue-400 sticky left-0 bg-white dark:bg-gray-800 z-10 w-[80px] text-xs sm:text-sm">{signName}</td>
                                             {PLANET_KEYS.map(planet => (
-                                                <td key={`${planet}-${index}`} className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-center text-gray-600 dark:text-gray-400 min-w-[50px]">
+                                                <td key={`${planet}-${index}`} className="px-1 sm:px-2 py-3 whitespace-nowrap text-center text-gray-900 dark:text-white w-[45px] text-xs sm:text-sm">
                                                     {tableData.bhinna_ashtakavarga[planet]?.[index] ?? '-'}
                                                 </td>
                                             ))}
-                                            <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-center font-semibold text-blue-600 dark:text-blue-400 min-w-[60px]">
+                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap text-center font-semibold text-blue-600 dark:text-blue-400 w-[55px] text-xs sm:text-sm">
                                                 {tableData.sarvashtakavarga?.[index] ?? '-'}
                                             </td>
                                         </tr>

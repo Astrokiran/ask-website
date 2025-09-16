@@ -173,35 +173,47 @@ export default function HinduWisdomMillionairePage() {
                 <NavBar />
                 <main role="main" aria-label="Hindu Wisdom Millionaire Game" className="flex-1">
                     <article>
-                        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-12">
+                        {/* Header Section */}
+                        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-4 sm:py-6">
                             <div className="max-w-4xl mx-auto px-4 text-center">
-                                <h1 className="text-4xl md:text-5xl font-semibold mb-6 text-gray-900 dark:text-white">
-                                    Hindu Wisdom Millionaire - Ultimate Vedic Knowledge Quiz Game
+                                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-gray-900 dark:text-white">
+                                    Hindu Wisdom Millionaire
                                 </h1>
-                                <p className="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                            </div>
+                        </header>
+
+                        {/* Main Game Component - moved to top */}
+                        <section aria-label="Interactive Hindu Wisdom Quiz Game" className="mb-8 sm:mb-12">
+                            <HinduWisdomMillionaire />
+                        </section>
+
+                        {/* Informational Content - moved below game */}
+                        <section className="bg-white dark:bg-gray-800 py-8 sm:py-12">
+                            <div className="max-w-4xl mx-auto px-4 text-center">
+                                <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
+                                    Ultimate Vedic Knowledge Quiz Game
+                                </h2>
+                                <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
                                     Embark on an enlightening journey through ancient Hindu wisdom with our comprehensive quiz game. Test your knowledge of Vedic astrology, Hindu mythology, sacred scriptures, and spiritual teachings. This interactive millionaire-style game challenges you with 15 carefully crafted questions spanning the vast depths of Hindu philosophy, from basic concepts to advanced spiritual insights.
                                 </p>
-                                <p className="text-base text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                                <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 leading-relaxed">
                                     Whether you're a spiritual seeker beginning your journey or a devoted practitioner of Hindu traditions, this game offers an engaging way to deepen your understanding of principles, divine narratives, and timeless wisdom. Progress through different wisdom levels - from Seeker to Enlightened Master - as you demonstrate your mastery of topics including Vedic astrology, Hindu gods and goddesses, ancient scriptures like the Bhagavad Gita and Ramayana, cultural festivals, philosophical concepts, and practical spiritual applications.
                                 </p>
-                                <div className="grid md:grid-cols-3 gap-6 mt-8">
-                                    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">15 Challenging Questions</h3>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">Progressive difficulty levels testing your Hindu knowledge comprehensively</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600 shadow-sm">
+                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2 text-sm sm:text-base">15 Challenging Questions</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Progressive difficulty levels testing your Hindu knowledge comprehensively</p>
                                     </div>
-                                    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">Wisdom Levels</h3>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">Advance from Seeker to Enlightened Master based on your performance</p>
+                                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600 shadow-sm">
+                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2 text-sm sm:text-base">Wisdom Levels</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Advance from Seeker to Enlightened Master based on your performance</p>
                                     </div>
-                                    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">Bilingual Support</h3>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">Play in both English and Hindi for better understanding</p>
+                                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600 shadow-sm">
+                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2 text-sm sm:text-base">Bilingual Support</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Play in both English and Hindi for better understanding</p>
                                     </div>
                                 </div>
                             </div>
-                        </header>
-                        <section aria-label="Interactive Hindu Wisdom Quiz Game" className="h-full">
-                            <HinduWisdomMillionaire />
                         </section>
                     </article>
                 </main>

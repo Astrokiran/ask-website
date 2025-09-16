@@ -122,39 +122,19 @@ export default function BlogListPage() {
 
       <NavBar />
 
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-32">
-
+      {/* Header Section */}
+      <section className="relative py-4 sm:py-6 lg:py-8">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight mb-8 text-gray-900 dark:text-white">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-4 text-gray-900 dark:text-white">
               Astrology Blogs
             </h1>
-            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6">
-              Discover expert astrology insights, vedic wisdom, horoscope tips, and spiritual guidance for your cosmic journey. Dive deep into the mysteries of the universe with our comprehensive guides.
-            </p>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6">
-              Our astrology blog serves as your gateway to ancient Vedic knowledge and modern spiritual understanding. Explore in-depth articles on planetary movements, birth chart analysis, and cosmic influences that shape your destiny. Learn from certified astrologers who combine traditional wisdom with contemporary insights to guide you through life's challenges and opportunities.
-            </p>
-            <p className="text-base text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-8">
-              From beginner-friendly explanations of zodiac signs to advanced techniques in predictive astrology, our content caters to seekers at every level of their spiritual journey. Discover practical remedies, understand planetary transits, and unlock the secrets of your personal horoscope through our carefully curated collection of astrology articles.
-            </p>
           </div>
-
-          {/* Featured Post Hero */}
-          {featuredPosts.length > 0 && (
-            <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl lg:text-4xl font-semibold mb-10 text-center text-gray-900 dark:text-white">
-                Featured Astrology Article
-              </h2>
-              <FeaturedBlogCard post={featuredPosts[0]} />
-            </div>
-          )}
         </div>
       </section>
 
-      {/* Main Content */}
-      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      {/* Main Content - moved to top */}
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Sidebar Navigation */}
           <BlogSidebarToggle
@@ -235,6 +215,33 @@ export default function BlogListPage() {
           </div>
         </div>
       </main>
+
+      {/* Hero Content Section - moved below main content */}
+      <section className="relative py-8 sm:py-12 lg:py-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-4 sm:mb-6">
+              Discover expert astrology insights, vedic wisdom, horoscope tips, and spiritual guidance for your cosmic journey. Dive deep into the mysteries of the universe with our comprehensive guides.
+            </p>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-4 sm:mb-6">
+              Our astrology blog serves as your gateway to ancient Vedic knowledge and modern spiritual understanding. Explore in-depth articles on planetary movements, birth chart analysis, and cosmic influences that shape your destiny. Learn from certified astrologers who combine traditional wisdom with contemporary insights to guide you through life's challenges and opportunities.
+            </p>
+            <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed">
+              From beginner-friendly explanations of zodiac signs to advanced techniques in predictive astrology, our content caters to seekers at every level of their spiritual journey. Discover practical remedies, understand planetary transits, and unlock the secrets of your personal horoscope through our carefully curated collection of astrology articles.
+            </p>
+          </div>
+
+          {/* Featured Post Hero */}
+          {featuredPosts.length > 0 && (
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-6 sm:mb-10 text-center text-gray-900 dark:text-white">
+                Featured Astrology Article
+              </h2>
+              <FeaturedBlogCard post={featuredPosts[0]} />
+            </div>
+          )}
+        </div>
+      </section>
 
       <Footer />
     </div>
