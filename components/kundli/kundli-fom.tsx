@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavBar } from '@/components/nav-bar'; 
-import { Footer } from '@/components/footer';
 import { useRouter } from 'next/navigation'; 
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { ServicesSection } from "@/components/services-section"
@@ -436,20 +434,19 @@ export default function KundliPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 font-sans">
-      <NavBar />
 
 
-      <main className="flex-grow container mx-auto px-3 sm:px-4 py-4 sm:py-8 flex items-center justify-center">
-        <div className="w-full max-w-6xl bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-lg overflow-hidden lg:flex border border-gray-200 dark:border-gray-700 mx-2 sm:mx-0">
-          <div className="p-4 sm:p-6 md:p-8 lg:w-3/5 flex flex-col justify-center lg:border-r border-gray-200 dark:border-gray-700">
-            <h1 className="text-xl sm:text-2xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-6 text-center px-2">
+      <main className="flex-grow w-full max-w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex items-center justify-center">
+        <div className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-lg overflow-hidden lg:flex border border-gray-200 dark:border-gray-700">
+          <div className="p-6 sm:p-8 md:p-10 lg:w-3/5 flex flex-col justify-center lg:border-r border-gray-200 dark:border-gray-700">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 text-center">
               Free Kundli Generation
             </h1>
-            <p className="text-xs sm:text-base text-gray-600 dark:text-gray-400 text-center mb-4 sm:mb-8 px-2">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-6 sm:mb-8">
               Enter your birth details to unlock insights into your destiny.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
                   Full Name
@@ -460,7 +457,7 @@ export default function KundliPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                  className={`w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                     errors['name'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                   }`}
                   placeholder="Enter your name"
@@ -477,7 +474,7 @@ export default function KundliPage() {
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                  className={`w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                     errors['gender'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                   }`}
                 >
@@ -492,13 +489,13 @@ export default function KundliPage() {
                 <label htmlFor="dob" className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
                   Date of Birth
                 </label>
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4">
                   <select
                     id="dob_day"
                     name="dob_day"
                     value={selectedDay}
                     onChange={(e) => handleDatePartChange('day', e.target.value)}
-                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                    className={`w-full px-2 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
@@ -512,7 +509,7 @@ export default function KundliPage() {
                     name="dob_month"
                     value={selectedMonth}
                     onChange={(e) => handleDatePartChange('month', e.target.value)}
-                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                    className={`w-full px-2 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
@@ -526,7 +523,7 @@ export default function KundliPage() {
                     name="dob_year"
                     value={selectedYear}
                     onChange={(e) => handleDatePartChange('year', e.target.value)}
-                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                    className={`w-full px-2 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
@@ -543,64 +540,67 @@ export default function KundliPage() {
                          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
                            Time of Birth
                          </label>
-                         {/* Changed to grid-cols-4 to fit AM/PM */}
-                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-                           <select
-                             id="tob_hour"
-                             name="tob_hour"
-                             value={selectedHour}
-                             onChange={(e) => handleTimePartChange('hour', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                             }`}
-                           >
+                         <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-4 sm:gap-3">
+                           <div className="grid grid-cols-2 gap-2 sm:contents">
+                             <select
+                               id="tob_hour"
+                               name="tob_hour"
+                               value={selectedHour}
+                               onChange={(e) => handleTimePartChange('hour', e.target.value)}
+                               className={`w-full px-3 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                                 errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                               }`}
+                             >
                              <option value="">Hour</option>
                              {hourOptions.map(hour => (
                                <option key={hour} value={hour}>{hour}</option>
                              ))}
-                           </select>
-                           <select
-                             id="tob_minute"
-                             name="tob_minute"
-                             value={selectedMinute}
-                             onChange={(e) => handleTimePartChange('minute', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                             }`}
-                           >
+                             </select>
+                             <select
+                               id="tob_minute"
+                               name="tob_minute"
+                               value={selectedMinute}
+                               onChange={(e) => handleTimePartChange('minute', e.target.value)}
+                               className={`w-full px-3 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                                 errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                               }`}
+                             >
                              <option value="">Minute</option>
                              {minuteOptions.map(minute => (
                                <option key={minute} value={minute}>{minute}</option>
                              ))}
-                           </select>
-                           <select
-                             id="tob_second"
-                             name="tob_second"
-                             value={selectedSecond}
-                             onChange={(e) => handleTimePartChange('second', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                             }`}
-                           >
+                             </select>
+                           </div>
+                           <div className="grid grid-cols-2 gap-2 sm:contents">
+                             <select
+                               id="tob_second"
+                               name="tob_second"
+                               value={selectedSecond}
+                               onChange={(e) => handleTimePartChange('second', e.target.value)}
+                               className={`w-full px-3 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                                 errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                               }`}
+                             >
                              <option value="">Second (Optional)</option>
                              {secondOptions.map(second => (
                                <option key={second} value={second}>{second}</option>
                              ))}
-                           </select>
-                           <select
-                             id="tob_ampm"
-                             name="tob_ampm"
-                             value={selectedAmPm}
-                             onChange={(e) => handleTimePartChange('ampm', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                               errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                             }`}
-                           >
+                             </select>
+                             <select
+                               id="tob_ampm"
+                               name="tob_ampm"
+                               value={selectedAmPm}
+                               onChange={(e) => handleTimePartChange('ampm', e.target.value)}
+                               className={`w-full px-3 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                                 errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                               }`}
+                             >
                              <option value="AM">AM</option>
                              <option value="PM">PM</option>
-                           </select>
+                             </select>
+                           </div>
                          </div>
-                         {errors['tob'] && <p className="text-red-500 text-xs mt-1 col-span-2 sm:col-span-4">{errors['tob']}</p>}
+                         {errors['tob'] && <p className="text-red-500 text-xs mt-2">{errors['tob']}</p>}
                        </div>
 
               <div className="relative" ref={pobSuggestionsRef}>
@@ -621,21 +621,21 @@ export default function KundliPage() {
                       name="pob"
                       defaultValue={formData.pob}
                       onChange={handleChange}
-                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                      className={`w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                         errors['pob'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                       }`}
                       placeholder="Type and select your city"
                     />
                   </Autocomplete>
                 ) : (
-                  <input type="text" id="pob" name="pob" value={formData.pob} onChange={handleChange} placeholder="Enter place of birth (Maps loading...)" className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${errors['pob'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} />
+                  <input type="text" id="pob" name="pob" value={formData.pob} onChange={handleChange} placeholder="Enter place of birth (Maps loading...)" className={`w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${errors['pob'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} />
                 )}
                 {errors['pob'] && <p className="text-red-500 text-xs mt-1">{errors['pob']}</p>}
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 sm:py-4 text-sm sm:text-base rounded-lg font-medium hover:bg-blue-700 transition duration-200 ease-in-out shadow-lg hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed mt-4 sm:mt-6"
+                className="w-full bg-blue-600 text-white py-4 text-base sm:text-lg rounded-lg font-semibold hover:bg-blue-700 transition duration-200 ease-in-out shadow-lg hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed mt-6 sm:mt-8"
                 disabled={loading}
               >
                 {loading ? (
@@ -670,18 +670,18 @@ export default function KundliPage() {
             </form>
           </div>
 
-          <div className="p-4 sm:p-6 md:p-8 lg:w-2/5 flex flex-col justify-center bg-gray-50 dark:bg-gray-700 lg:rounded-r-xl">
+          <div className="p-6 sm:p-8 md:p-10 lg:w-2/5 flex flex-col justify-center bg-gray-50 dark:bg-gray-700 lg:rounded-r-xl">
             <div className="text-gray-900 dark:text-white">
-                <h2 className="text-lg sm:text-2xl font-semibold mb-2 sm:mb-4 text-center">What is a Kundli?</h2>
-                <p className="mb-2 sm:mb-4 text-xs sm:text-sm text-justify leading-relaxed">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 text-center">What is a Kundli?</h2>
+                <p className="mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                     A Kundli, also known as a Janam Kundali or birth chart, is a fundamental tool in Vedic Astrology. It is an astrological chart prepared based on the exact date, time, and place of an individual's birth. This chart serves as a cosmic map, representing the specific positions of the sun, moon, planets, and other celestial bodies at the moment of birth.
                 </p>
-                <h3 className="text-base sm:text-xl font-medium mb-1 sm:mb-3 text-center">Significance of a Kundli</h3>
-                <p className="mb-2 sm:mb-4 text-xs sm:text-sm text-justify leading-relaxed">
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-medium mb-3 sm:mb-4 text-center">Significance of a Kundli</h3>
+                <p className="mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                     It is believed that the planetary positions at your time of birth influence your personality, characteristics, relationships, career, health, and overall life path. A detailed analysis of the Kundli can provide deep insights into your strengths, weaknesses, potential opportunities, and challenges. It is often used for making important life decisions, understanding compatibility, and identifying remedial measures to mitigate negative planetary influences.
                 </p>
-                <h3 className="text-base sm:text-xl font-medium mb-1 sm:mb-3 text-center">How It's Generated</h3>
-                <p className="text-xs sm:text-sm text-justify leading-relaxed">
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-medium mb-3 sm:mb-4 text-center">How It's Generated</h3>
+                <p className="text-sm sm:text-base leading-relaxed">
                     To create an accurate Kundli, three pieces of information are essential: your full date of birth, the precise time of birth, and the city of birth. Our system uses this data to perform complex astrological calculations, determining the Ascendant (Lagna) and the placement of planets across the 12 houses (Bhavas) of the zodiac, providing you with a personalized astrological blueprint.
                 </p>
             </div>
@@ -691,8 +691,6 @@ export default function KundliPage() {
       </main>
       
       <ServicesSection />
-
-      <Footer />
 
 
       {/* {showLoginModal && (

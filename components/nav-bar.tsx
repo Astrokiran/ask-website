@@ -28,7 +28,7 @@ export function NavBar() {
 
   return (
     <>
-      <div className="fixed top-0 w-full max-w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 z-[9999] text-xl shadow-sm overflow-hidden">
+      <div className="fixed top-0 w-full max-w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 z-[9999] text-xl shadow-sm">
 
         <nav className="relative flex items-center justify-between p-3 sm:p-4 w-full max-w-7xl mx-auto gap-2 overflow-hidden">
           {/* Fixed Logo - never shrinks */}
@@ -41,8 +41,8 @@ export function NavBar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center flex-1 min-w-0 mx-4">
+          {/* Desktop and Tablet Navigation */}
+          <div className="hidden md:flex items-center flex-1 min-w-0 mx-2 sm:mx-4">
             <div
               ref={scrollContainerRef}
               className="flex items-center gap-1 overflow-x-auto nav-scroll w-full min-w-0"
@@ -94,7 +94,7 @@ export function NavBar() {
           </div>
 
           {/* Fixed Right Side Actions - Mobile/Tablet */}
-          <div className="lg:hidden flex items-center gap-2 flex-shrink-0">
+          <div className="md:hidden flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
             <a
               href={whatsappLink}
@@ -110,7 +110,7 @@ export function NavBar() {
             </a>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -119,7 +119,7 @@ export function NavBar() {
 
         {/* Enhanced Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-orange-200/20 shadow-xl max-h-[70vh] overflow-y-auto relative z-[9998]">
+          <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-orange-200/20 shadow-xl max-h-[70vh] overflow-y-auto relative z-[9998]">
             <div className="relative flex flex-col p-4 space-y-2">
                <Link
                 href="/free-kundli"

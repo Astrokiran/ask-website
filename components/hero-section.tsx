@@ -144,19 +144,19 @@ export function HeroSection({
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">India's Most Trusted Astrology Platform</span>
               </div>
 
-              <h1 className="text-2xl lg:text-4xl font-bold leading-tight mb-6 text-gray-900 dark:text-white">
+              <h1 className="text-2xl lg:text-4xl font-bold leading-tight mb-6 text-gray-900 dark:text-white lg:whitespace-nowrap">
                 {title}
               </h1>
 
               {/* Enhanced subtitle with effects */}
               <div className="relative mb-8">
-                <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium mb-4">
+                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium mb-4">
                   {subtitle}
                 </p>
                 <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-4">
                   Experience authentic Vedic astrology consultations with India's most trusted platform. Our certified astrologers provide personalized insights into your life's journey, offering comprehensive analysis of your birth chart, planetary positions, and cosmic influences that shape your destiny.
                 </p>
-                <p className="text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
                   Whether you seek guidance on relationships, career decisions, health concerns, or spiritual growth, our expert astrologers combine ancient wisdom with modern understanding to illuminate your path forward with clarity and confidence.
                 </p>
                 {/* Accent line under subtitle */}

@@ -194,48 +194,48 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
       </div>
 
       {/* ================== PLANETS TABLE ================== */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-5 pb-3 border-b border-gray-200 dark:border-gray-700 border-gray-200 dark:border-gray-700">Planets</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 transition-all duration-200 hover:shadow-sm">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-5 pb-3 border-b border-gray-200 dark:border-gray-700">Planets</h3>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left border-collapse">
+          <table className="w-full text-sm text-left border-collapse min-w-[1000px]">
             <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th className="px-4 py-3">Planet</th>
-                <th className="px-4 py-3">Sign</th>
-                <th className="px-4 py-3">Sign Lord</th>
-                <th className="px-4 py-3">Nakshatra</th>
-                <th className="px-4 py-3">Naksh Lord</th>
-                <th className="px-4 py-3">Degree</th>
-                <th className="px-4 py-3">Retro(R)</th>
-                <th className="px-4 py-3">Combust</th>
-                <th className="px-4 py-3">Avastha</th>
-                <th className="px-4 py-3">House</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 min-w-[80px]">Planet</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[70px]">Sign</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[90px]">Sign Lord</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[120px]">Nakshatra</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[110px]">Naksh Lord</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[80px]">Degree</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[70px]">Retro(R)</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[80px]">Combust</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[90px]">Avastha</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[60px]">House</th>
+                <th className="px-2 sm:px-4 py-3 whitespace-nowrap min-w-[80px]">Status</th>
               </tr>
             </thead>
             <tbody>
               {planetaryPositions.map((p, index) => (
                 <tr
                   key={index}
-                  className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <td className="px-4 py-3 font-medium text-blue-600 dark:text-blue-400 whitespace-nowrap">
+                  <td className="px-2 sm:px-4 py-3 font-medium text-blue-600 dark:text-blue-400 whitespace-nowrap sticky left-0 bg-white dark:bg-gray-800 z-10 min-w-[80px]">
                     {p.name}
                   </td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{p.sign}</td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">{p.signLord}</td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">{p.nakshatra}</td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">{p.nakshatraLord}</td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap">
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white font-medium whitespace-nowrap min-w-[70px]">{p.sign}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[90px]">{p.signLord}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[120px]">{p.nakshatra}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[110px]">{p.nakshatraLord}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[80px]">
                     {p.fullDegree}
                   </td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[70px]">
                     {p.isRetro === "true" ? "Retro" : "Direct"}
                   </td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">{p.is_planet_set ? "Yes" : "No"}</td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">{p.planet_awastha}</td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">{p.house?.toString()}</td>
-                  <td className="px-4 py-3 text-gray-900 dark:text-white">{p.status}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[80px]">{p.is_planet_set ? "Yes" : "No"}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[90px]">{p.planet_awastha}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[60px]">{p.house?.toString()}</td>
+                  <td className="px-2 sm:px-4 py-3 text-gray-900 dark:text-white whitespace-nowrap min-w-[80px]">{p.status}</td>
                 </tr>
               ))}
             </tbody>

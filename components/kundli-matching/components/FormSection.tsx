@@ -77,7 +77,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
     }, [data.pob]);
 
     return (
-        <div className="space-y-5" >
+        <div className="space-y-5 sm:space-y-6">
             <div >
                 <FormInput
                     label="Full Name"
@@ -90,7 +90,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
 
             <div >
                 <label className="block text-sm font-medium text-foreground mb-1">Date of Birth</label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
                     <FormSelect name="day" value={data.day} onChange={(e) => handleInputChange('day', e.target.value)} options={dayOptions} placeholder="Day" error={!!errors.dob} />
                     <FormSelect name="month" value={data.month} onChange={(e) => handleInputChange('month', e.target.value)} options={monthOptions} placeholder="Month" error={!!errors.dob} />
                     <FormSelect name="year" value={data.year} onChange={(e) => handleInputChange('year', e.target.value)} options={yearOptions} placeholder="Year" error={!!errors.dob} />
@@ -100,13 +100,17 @@ export const FormSection: React.FC<FormSectionProps> = ({
 
             <div >
                 <label className="block text-sm font-medium text-foreground mb-1">Time of Birth</label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <FormSelect name="hour" value={data.hour} onChange={(e) => handleInputChange('hour', e.target.value)} options={hourOptions} placeholder="Hour" error={!!errors.tob} />
-                    <FormSelect name="minute" value={data.minute} onChange={(e) => handleInputChange('minute', e.target.value)} options={minuteOptions} placeholder="Minute" error={!!errors.tob} />
-                    <FormSelect name="second" value={data.second} onChange={(e) => handleInputChange('second', e.target.value)} options={secondOptions} placeholder="Second" />
-                    <FormSelect name="ampm" value={data.ampm} onChange={(e) => handleInputChange('ampm', e.target.value)} options={[{ value: 'AM', label: 'AM' }, { value: 'PM', label: 'PM' }]} error={!!errors.tob} />
+                <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 md:grid-cols-4 sm:gap-3">
+                    <div className="grid grid-cols-2 gap-2 sm:contents">
+                        <FormSelect name="hour" value={data.hour} onChange={(e) => handleInputChange('hour', e.target.value)} options={hourOptions} placeholder="Hour" error={!!errors.tob} />
+                        <FormSelect name="minute" value={data.minute} onChange={(e) => handleInputChange('minute', e.target.value)} options={minuteOptions} placeholder="Minute" error={!!errors.tob} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 sm:contents">
+                        <FormSelect name="second" value={data.second} onChange={(e) => handleInputChange('second', e.target.value)} options={secondOptions} placeholder="Second" />
+                        <FormSelect name="ampm" value={data.ampm} onChange={(e) => handleInputChange('ampm', e.target.value)} options={[{ value: 'AM', label: 'AM' }, { value: 'PM', label: 'PM' }]} error={!!errors.tob} />
+                    </div>
                 </div>
-                {errors.tob && <p className="text-red-500 text-xs mt-1">{errors.tob}</p>}
+                {errors.tob && <p className="text-red-500 text-xs mt-2">{errors.tob}</p>}
             </div>
 
             <div >
