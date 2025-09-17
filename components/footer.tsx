@@ -73,7 +73,7 @@ export function Footer() {
             <h3 className="font-medium text-gray-900 dark:text-white mb-4">Contact Us</h3>
             <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
               <p className="leading-relaxed">235 13th Cross, Hoysala Nagar 2nd Stage, Indiranagar, Bangalore North, Karnataka, India, 560038</p>
-              <p className="break-all">contact@astrokiran.com</p>
+              <a href="mailto:contact@astrokiran.com" className="break-all text-orange-600 dark:text-orange-400 hover:underline">contact@astrokiran.com</a>
               <p>+918197503574</p>
             </div>
           </div>
