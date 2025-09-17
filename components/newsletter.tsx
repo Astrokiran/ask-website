@@ -13,7 +13,7 @@ export function Newsletter() {
             placeholder="Enter your email"
             className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
           />
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white whitespace-nowrap">Subscribe</Button>
+          <Button className="bg-orange-600 hover:bg-orange-700 text-white whitespace-nowrap">Subscribe</Button>
         </form>
       </div>
     </div>

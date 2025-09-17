@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,11 +9,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
-import { LogOut, User, Settings } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const UserDropdown: React.FC = () => {
   const { user, logout } = useAuth();
+  const [imageLoadStatus, setImageLoadStatus] = React.useState<'loading' | 'loaded' | 'error'>('loading');
 
   const handleLogout = async () => {
     try {
@@ -24,7 +25,15 @@ export const UserDropdown: React.FC = () => {
     }
   };
 
+
   if (!user) return null;
+
+  // Debug user data
+  console.log('User data:', {
+    displayName: user.displayName,
+    photoURL: user.photoURL,
+    email: user.email
+  });
 
   const getInitials = (name: string) => {
     return name
@@ -40,20 +49,31 @@ export const UserDropdown: React.FC = () => {
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
-            <AvatarFallback className="text-xs">
-              {user.displayName ? getInitials(user.displayName) : 'U'}
-            </AvatarFallback>
+            <AvatarImage
+              src={user.photoURL || ''}
+              alt={user.displayName || user.email || 'User'}
+              onLoadingStatusChange={setImageLoadStatus}
+            />
+            {imageLoadStatus !== 'loaded' && (
+              <AvatarFallback className="text-xs bg-blue-500 text-white">
+                {user.displayName ? getInitials(user.displayName) : user.email ? user.email[0].toUpperCase() : 'U'}
+              </AvatarFallback>
+            )}
           </Avatar>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <div className="flex items-center space-x-2 p-2">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
-            <AvatarFallback className="text-xs">
-              {user.displayName ? getInitials(user.displayName) : 'U'}
-            </AvatarFallback>
+            <AvatarImage
+              src={user.photoURL || ''}
+              alt={user.displayName || user.email || 'User'}
+            />
+            {imageLoadStatus !== 'loaded' && (
+              <AvatarFallback className="text-xs bg-blue-500 text-white">
+                {user.displayName ? getInitials(user.displayName) : user.email ? user.email[0].toUpperCase() : 'U'}
+              </AvatarFallback>
+            )}
           </Avatar>
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
@@ -64,15 +84,6 @@ export const UserDropdown: React.FC = () => {
             </p>
           </div>
         </div>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
-        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />

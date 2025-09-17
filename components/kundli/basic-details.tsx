@@ -54,8 +54,8 @@ const DetailCard = ({ title, details }: { title: string; details: any[] }) => {
             key={index}
             className="grid grid-cols-2 gap-4 items-center py-2.5 px-3 rounded-lg transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 group"
           >
-            <dt className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 break-words">{detail.label}</dt>
-            <dd className="text-sm text-gray-900 dark:text-white font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300 text-right break-words">{detail.value}</dd>
+            <dt className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 break-words">{detail.label}</dt>
+            <dd className="text-sm text-gray-900 dark:text-white font-medium group-hover:text-orange-700 dark:group-hover:text-orange-300 text-right break-words">{detail.value}</dd>
           </div>
         ))}
       </div>

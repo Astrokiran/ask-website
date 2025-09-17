@@ -81,13 +81,13 @@ export function BlogSearch({
           value={searchQuery}
           onChange={handleSearchChange}
           placeholder={placeholder}
-          className="block w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-3 sm:py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 shadow-sm text-base sm:text-lg"
+          className="block w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-3 sm:py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-200 shadow-sm text-base sm:text-lg"
           disabled={isLoading}
         />
         {searchQuery && (
           <button
             onClick={clearSearch}
-            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors"
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 dark:text-gray-400 hover:text-orange-600 transition-colors"
             aria-label="Clear search"
           >
             <X className="h-5 w-5" />
@@ -99,7 +99,7 @@ export function BlogSearch({
       <div className="flex items-center justify-between">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="inline-flex items-center gap-3 px-6 py-3 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]"
+          className="inline-flex items-center gap-3 px-6 py-3 text-sm font-semibold bg-orange-600 hover:bg-orange-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]"
         >
           <Filter className="h-4 w-4" />
           <span>Filters</span>
@@ -113,7 +113,7 @@ export function BlogSearch({
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors underline"
+            className="text-sm font-medium text-orange-600 hover:text-orange-700 transition-colors underline"
           >
             Clear all filters
           </button>
@@ -134,8 +134,8 @@ export function BlogSearch({
                   onClick={() => handleTagChange('')}
                   className={`px-4 py-2 text-sm font-medium rounded-lg border transition-all duration-200 ${
                     !selectedTag
-                      ? 'bg-blue-600 text-white border-transparent shadow-sm'
-                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 hover:border-blue-300'
+                      ? 'bg-orange-600 text-white border-transparent shadow-sm'
+                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600 hover:border-orange-300'
                   }`}
                 >
                   All Topics
@@ -146,8 +146,8 @@ export function BlogSearch({
                     onClick={() => handleTagChange(tag.id)}
                     className={`px-4 py-2 text-sm font-medium rounded-lg border transition-all duration-200 ${
                       selectedTag === tag.id
-                        ? 'bg-blue-600 text-white border-transparent shadow-sm'
-                        : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 hover:border-blue-300'
+                        ? 'bg-orange-600 text-white border-transparent shadow-sm'
+                        : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600 hover:border-orange-300'
                     }`}
                   >
                     {tag.name} ({tag.count})
@@ -166,7 +166,7 @@ export function BlogSearch({
               <select
                 value={selectedAuthor}
                 onChange={(e) => handleAuthorChange(e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 shadow-sm"
+                className="block w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-200 shadow-sm"
               >
                 <option value="">All Authors</option>
                 {authors.map((author) => (

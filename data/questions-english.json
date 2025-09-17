@@ -79,6 +79,46 @@
       "correct": 1,
       "category": "Philosophy",
       "difficulty": "hard"
+    },
+    {
+      "id": 11,
+      "question": "Which planet is considered the most auspicious in Vedic astrology?",
+      "answers": ["A: Mars", "B: Jupiter", "C: Venus", "D: Mercury"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "id": 12,
+      "question": "Who is the author of the ancient text 'Yoga Sutras'?",
+      "answers": ["A: Sage Vyasa", "B: Sage Valmiki", "C: Sage Patanjali", "D: Adi Shankaracharya"],
+      "correct": 2,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "id": 13,
+      "question": "Which festival celebrates the victory of good over evil with the burning of effigies?",
+      "answers": ["A: Diwali", "B: Holi", "C: Dussehra", "D: Karva Chauth"],
+      "correct": 2,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "id": 14,
+      "question": "What are the four main goals of human life in Hindu philosophy called?",
+      "answers": ["A: Purusharthas", "B: Ashramas", "C: Varnas", "D: Gunas"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "id": 15,
+      "question": "Which Hindu god is known as 'Nataraja' - the cosmic dancer?",
+      "answers": ["A: Lord Vishnu", "B: Lord Brahma", "C: Lord Shiva", "D: Lord Indra"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
     }
   ]
 }

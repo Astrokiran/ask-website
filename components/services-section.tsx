@@ -60,7 +60,7 @@ export function ServicesSection() {
 
                   {/* Icon Container */}
                   <div className="relative mb-6">
-                    <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg">
+                    <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg">
                       <service.icon className="w-8 h-8 text-white" />
                     </div>
 
@@ -69,7 +69,7 @@ export function ServicesSection() {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-200">
                       {service.title}
                     </h3>
                     <p className="text-muted-foreground leading-relaxed mb-4 sm:mb-6 text-base sm:text-lg">
@@ -79,9 +79,9 @@ export function ServicesSection() {
 
                   {/* CTA Link */}
                   <Link href={service.href} className="mt-auto">
-                    <div className="group/link inline-flex items-center gap-3 text-blue-500 hover:text-blue-600 font-medium text-base sm:text-lg transition-all duration-200 hover:translate-x-1">
+                    <div className="group/link inline-flex items-center gap-3 text-orange-500 hover:text-orange-600 font-medium text-base sm:text-lg transition-all duration-200 hover:translate-x-1">
                       Explore Service
-                      <div className="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center group-hover/link:bg-blue-100 dark:group-hover/link:bg-blue-900/40 transition-colors duration-200">
+                      <div className="w-8 h-8 bg-orange-50 dark:bg-orange-900/20 rounded-full flex items-center justify-center group-hover/link:bg-orange-100 dark:group-hover/link:bg-orange-900/40 transition-colors duration-200">
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
@@ -89,7 +89,7 @@ export function ServicesSection() {
 
                   {/* Popular Badge for first service */}
                   {index === 0 && (
-                    <div className="absolute -top-4 -right-4 bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                    <div className="absolute -top-4 -right-4 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
                       Most Popular
                     </div>
                   )}

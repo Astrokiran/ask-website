@@ -277,7 +277,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     <div>
                         {/* <UserStatus isLoggedIn={isLoggedIn} userName={kundliData?.data?.name} onLogout={handleLogout} /> */}
                         <div className="flex items-center text-xs sm:text-sm text-gray-500 mt-1">
-                            <a href="/free-kundli" className="hover:text-indigo-600">Free Kundli</a>
+                            <a href="/free-kundli" className="hover:text-orange-600">Free Kundli</a>
                             <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 mx-1" />
                             <span className="font-semibold text-gray-700">Kundli Details</span>
                         </div>
@@ -299,7 +299,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     <div className="border-b border-gray-200 dark:border-gray-700">
                         <nav className="-mb-px flex space-x-1 sm:space-x-4 overflow-x-auto p-1 sm:p-2">
                             {tabs.map((tab) => (
-                                <button key={tab} onClick={() => setActiveTab(tab)} className={`whitespace-nowrap py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400'}`}>
+                                <button key={tab} onClick={() => setActiveTab(tab)} className={`whitespace-nowrap py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab ? 'bg-orange-600 text-white shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:text-orange-600 dark:hover:text-orange-400'}`}>
                                     {tab}
                                 </button>
                             ))}

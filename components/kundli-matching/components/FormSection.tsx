@@ -123,7 +123,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
                             defaultValue={data.pob}
                             onChange={(e) => handleInputChange('pob', e.target.value)}
                             placeholder="Type and select a city"
-                            className={`w-full px-4 py-2 bg-muted border rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 text-foreground ${errors.pob ? 'border-destructive ring-destructive/20' : 'border-input focus:border-orange-500 focus:ring-orange-200'}`}
+                            className={`w-full px-4 py-2 bg-muted border rounded-lg focus:outline-none focus:ring-2 hover:border-orange-300 transition-colors duration-300 text-foreground ${errors.pob ? 'border-destructive ring-destructive/20' : 'border-input focus:border-orange-500 focus:ring-orange-200'}`}
                          />
                      </Autocomplete>
                  ) : (

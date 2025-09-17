@@ -46,14 +46,14 @@ const getQuestions = (language: Language): Question[] => {
 
 // Categories with translations
 const categories = {
-  "Vedic Astrology": { color: "#2563eb", name: { en: "Vedic Astrology", hi: "वैदिक ज्योतिष" } },
-  "Hindu Gods": { color: "#1d4ed8", name: { en: "Hindu Gods", hi: "हिंदू देवता" } },
-  "Hindu Goddesses": { color: "#3b82f6", name: { en: "Hindu Goddesses", hi: "हिंदू देवियां" } },
-  "Mythology": { color: "#1e40af", name: { en: "Mythology", hi: "पुराण" } },
-  "Scriptures": { color: "#2563eb", name: { en: "Scriptures", hi: "शास्त्र" } },
-  "Festivals": { color: "#1d4ed8", name: { en: "Festivals", hi: "त्योहार" } },
-  "Culture": { color: "#3b82f6", name: { en: "Culture", hi: "संस्कृति" } },
-  "Philosophy": { color: "#1e40af", name: { en: "Philosophy", hi: "दर्शन" } }
+  "Vedic Astrology": { color: "#ea580c", name: { en: "Vedic Astrology", hi: "वैदिक ज्योतिष" } },
+  "Hindu Gods": { color: "#dc2626", name: { en: "Hindu Gods", hi: "हिंदू देवता" } },
+  "Hindu Goddesses": { color: "#f97316", name: { en: "Hindu Goddesses", hi: "हिंदू देवियां" } },
+  "Mythology": { color: "#c2410c", name: { en: "Mythology", hi: "पुराण" } },
+  "Scriptures": { color: "#ea580c", name: { en: "Scriptures", hi: "शास्त्र" } },
+  "Festivals": { color: "#dc2626", name: { en: "Festivals", hi: "त्योहार" } },
+  "Culture": { color: "#f97316", name: { en: "Culture", hi: "संस्कृति" } },
+  "Philosophy": { color: "#c2410c", name: { en: "Philosophy", hi: "दर्शन" } }
 };
 
 const wisdomLevels: WisdomLevel[] = [
@@ -379,9 +379,9 @@ export default function HinduWisdomMillionaire() {
           {/* Language Toggle and Badge */}
           <div className="flex flex-col items-center gap-4 mb-6">
             <LanguageToggle currentLanguage={language} onLanguageChange={setLanguage} />
-            <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-full px-4 py-2 max-w-sm">
-              <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-              <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 truncate">{t.categories}</span>
+            <div className="inline-flex items-center gap-2 bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 rounded-full px-4 py-2 max-w-sm">
+              <span className="w-2 h-2 bg-orange-600 rounded-full"></span>
+              <span className="text-sm font-semibold text-orange-600 dark:text-orange-400 truncate">{t.categories}</span>
             </div>
           </div>
 
@@ -393,11 +393,11 @@ export default function HinduWisdomMillionaire() {
             <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto mb-2 px-4">
               {t.subtitle}
             </p>
-            <p className="text-sm text-blue-600 dark:text-blue-400 px-4">
+            <p className="text-sm text-orange-600 dark:text-orange-400 px-4">
               {t.description}
             </p>
             {/* Accent line under subtitle */}
-            <div className="w-24 h-0.5 bg-blue-600 rounded-full mx-auto mt-4"></div>
+            <div className="w-24 h-0.5 bg-orange-600 rounded-full mx-auto mt-4"></div>
           </div>
         </div>
 
@@ -420,11 +420,11 @@ export default function HinduWisdomMillionaire() {
                     key={levelIndex}
                     className={`flex justify-between items-center p-3 rounded-lg border transition-all duration-200 text-sm ${
                       isCurrent
-                        ? 'bg-blue-600 text-white border-blue-600 font-semibold'
+                        ? 'bg-orange-600 text-white border-orange-600 font-semibold'
                         : isCompleted
                         ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800 text-green-600 dark:text-green-400'
                         : isMilestone
-                        ? 'border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400'
+                        ? 'border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400'
                         : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                     }`}
                   >
@@ -440,7 +440,7 @@ export default function HinduWisdomMillionaire() {
           <div className="lg:col-span-3 order-1 lg:order-2 space-y-3 sm:space-y-4 md:space-y-6">
             {gameActive && (
               <div className="flex flex-wrap justify-center sm:justify-between items-center gap-4">
-                <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 px-4 py-2 rounded-full font-semibold text-blue-600 dark:text-blue-400 text-sm">
+                <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 px-4 py-2 rounded-full font-semibold text-orange-600 dark:text-orange-400 text-sm">
                   {t.question} {currentQuestion + 1}
                 </div>
                 <div
@@ -477,8 +477,8 @@ export default function HinduWisdomMillionaire() {
               <div className="text-center w-full">
                 {isLoading ? (
                   <div className="text-center">
-                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-blue-600 dark:text-blue-400 text-base">{t.consultingForces}</p>
+                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-600 mx-auto mb-4"></div>
+                    <p className="text-orange-600 dark:text-orange-400 text-base">{t.consultingForces}</p>
                   </div>
                 ) : gameActive && currentQuestionData ? (
                   <h2 className="text-xl lg:text-2xl font-semibold leading-relaxed text-gray-900 dark:text-white px-4">
@@ -493,17 +493,17 @@ export default function HinduWisdomMillionaire() {
                       {t.welcomeDescription}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto px-2">
-                      <div className="bg-blue-50 dark:bg-blue-950/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm">{t.vedicAstrology}</p>
+                      <div className="bg-orange-50 dark:bg-orange-950/20 p-3 rounded-lg border border-orange-200 dark:border-orange-800">
+                        <p className="text-orange-600 dark:text-orange-400 font-semibold text-sm">{t.vedicAstrology}</p>
                       </div>
-                      <div className="bg-blue-50 dark:bg-blue-950/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm">{t.hinduGods}</p>
+                      <div className="bg-orange-50 dark:bg-orange-950/20 p-3 rounded-lg border border-orange-200 dark:border-orange-800">
+                        <p className="text-orange-600 dark:text-orange-400 font-semibold text-sm">{t.hinduGods}</p>
                       </div>
-                      <div className="bg-blue-50 dark:bg-blue-950/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm">{t.sacredTexts}</p>
+                      <div className="bg-orange-50 dark:bg-orange-950/20 p-3 rounded-lg border border-orange-200 dark:border-orange-800">
+                        <p className="text-orange-600 dark:text-orange-400 font-semibold text-sm">{t.sacredTexts}</p>
                       </div>
-                      <div className="bg-blue-50 dark:bg-blue-950/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm">{t.festivals}</p>
+                      <div className="bg-orange-50 dark:bg-orange-950/20 p-3 rounded-lg border border-orange-200 dark:border-orange-800">
+                        <p className="text-orange-600 dark:text-orange-400 font-semibold text-sm">{t.festivals}</p>
                       </div>
                     </div>
                   </div>
@@ -534,16 +534,16 @@ export default function HinduWisdomMillionaire() {
                       onClick={() => selectAnswer(index)}
                       disabled={selectedAnswer !== null}
                       className={`p-4 rounded-lg font-semibold text-left transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] min-h-[64px] w-full flex items-center border ${
-                        selectedAnswer === index
-                          ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                          : selectedAnswer !== null && index === currentQuestionData.correct
+                        selectedAnswer !== null && index === currentQuestionData.correct
                           ? 'bg-green-600 text-white border-green-600 shadow-sm'
-                          : selectedAnswer !== null && selectedAnswer !== index && selectedAnswer !== currentQuestionData.correct
+                          : selectedAnswer === index && selectedAnswer !== currentQuestionData.correct
                           ? 'bg-red-600 text-white border-red-600 shadow-sm'
+                          : selectedAnswer !== null && selectedAnswer !== index && selectedAnswer !== currentQuestionData.correct
+                          ? 'bg-gray-400 text-white border-gray-400 shadow-sm opacity-60'
                           : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-900 dark:text-white shadow-sm hover:shadow-md'
                       }`}
                     >
-                      <span className="text-base leading-snug">{String.fromCharCode(65 + index)}. {answer}</span>
+                      <span className="text-base leading-snug">{answer}</span>
                     </button>
                   );
                 })}
@@ -556,7 +556,7 @@ export default function HinduWisdomMillionaire() {
                 <button
                   onClick={useFiftyFifty}
                   disabled={!lifelines.fiftyFifty}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md border border-blue-600 min-h-[48px]"
+                  className="px-6 py-3 bg-orange-600 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-700 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md border border-orange-600 min-h-[48px]"
                 >
                   <span className="text-sm">{t.fiftyFifty}</span>
                 </button>
@@ -568,7 +568,7 @@ export default function HinduWisdomMillionaire() {
               {!gameActive ? (
                 <button
                   onClick={startGame}
-                  className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[56px] w-full sm:w-auto max-w-sm"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white text-lg font-semibold rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[56px] w-full sm:w-auto max-w-sm"
                 >
                   <span>{t.beginJourney}</span>
                 </button>
@@ -593,11 +593,11 @@ export default function HinduWisdomMillionaire() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]">
-                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-1">{questionsAnswered}</div>
+                <div className="text-2xl font-semibold text-orange-600 dark:text-orange-400 mb-1">{questionsAnswered}</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">{t.questionsAnswered}</div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]">
-                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-1">{currentStreak}</div>
+                <div className="text-2xl font-semibold text-orange-600 dark:text-orange-400 mb-1">{currentStreak}</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">{t.currentStreak}</div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]">
@@ -605,7 +605,7 @@ export default function HinduWisdomMillionaire() {
                 <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">{t.bestScore}</div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]">
-                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-1">{wisdomLevel.title[language]}</div>
+                <div className="text-2xl font-semibold text-orange-600 dark:text-orange-400 mb-1">{wisdomLevel.title[language]}</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">{t.wisdomLevel}</div>
               </div>
             </div>
@@ -618,7 +618,7 @@ export default function HinduWisdomMillionaire() {
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 lg:p-6 pt-20 sm:pt-8 lg:pt-0">
           <div className="bg-white dark:bg-gray-800 p-3 sm:p-6 lg:p-8 rounded-lg sm:rounded-xl w-full max-w-[95vw] sm:max-w-md lg:max-w-2xl xl:max-w-3xl border border-gray-200 dark:border-gray-700 shadow-2xl max-h-[96vh] sm:max-h-[90vh] overflow-y-auto my-2 sm:my-0">
             <div className="text-center mb-3 sm:mb-6">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-blue-100 dark:bg-blue-950/30 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 lg:mb-4">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-orange-100 dark:bg-orange-950/30 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 lg:mb-4">
                 <span className="text-xl sm:text-2xl lg:text-3xl">🕉️</span>
               </div>
               <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold mb-1 sm:mb-2 lg:mb-3 text-gray-900 dark:text-white px-2">
@@ -630,10 +630,10 @@ export default function HinduWisdomMillionaire() {
             </div>
 
             <div className="space-y-2 sm:space-y-3 lg:space-y-4 xl:space-y-6 mb-4 sm:mb-6 lg:mb-8">
-              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-blue-200 dark:border-blue-800">
+              <div className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-orange-200 dark:border-orange-800">
                 <div className="flex items-center mb-1 sm:mb-2">
                   <span className="text-base sm:text-lg mr-2 flex-shrink-0">🎯</span>
-                  <h3 className="font-semibold text-blue-600 dark:text-blue-400 text-xs sm:text-sm lg:text-base">
+                  <h3 className="font-semibold text-orange-600 dark:text-orange-400 text-xs sm:text-sm lg:text-base">
                     {language === 'hi' ? 'ज्ञान की यात्रा' : 'Journey of Wisdom'}
                   </h3>
                 </div>
@@ -644,10 +644,10 @@ export default function HinduWisdomMillionaire() {
                 </p>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-blue-200 dark:border-blue-800">
+              <div className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-orange-200 dark:border-orange-800">
                 <div className="flex items-center mb-1 sm:mb-2">
                   <span className="text-base sm:text-lg mr-2 flex-shrink-0">📚</span>
-                  <h3 className="font-semibold text-blue-600 dark:text-blue-400 text-xs sm:text-sm lg:text-base">
+                  <h3 className="font-semibold text-orange-600 dark:text-orange-400 text-xs sm:text-sm lg:text-base">
                     {language === 'hi' ? 'ज्ञान के स्तर' : 'Wisdom Levels'}
                   </h3>
                 </div>
@@ -658,24 +658,24 @@ export default function HinduWisdomMillionaire() {
                 </p>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-blue-200 dark:border-blue-800">
+              <div className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-2 sm:p-3 lg:p-4 xl:p-6 border border-orange-200 dark:border-orange-800">
                 <div className="flex items-center mb-1 sm:mb-2">
                   <span className="text-base sm:text-lg mr-2 flex-shrink-0">⚡</span>
-                  <h3 className="font-semibold text-blue-600 dark:text-blue-400 text-xs sm:text-sm lg:text-base">
+                  <h3 className="font-semibold text-orange-600 dark:text-orange-400 text-xs sm:text-sm lg:text-base">
                     {language === 'hi' ? 'खेल के नियम' : 'Game Rules'}
                   </h3>
                 </div>
                 <ul className="text-gray-600 dark:text-gray-400 space-y-0.5 sm:space-y-1 text-xs sm:text-sm leading-tight sm:leading-relaxed">
                   <li className="flex items-start">
-                    <span className="w-1 h-1 bg-blue-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
+                    <span className="w-1 h-1 bg-orange-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
                     <span>{language === 'hi' ? '15 प्रश्न, प्रत्येक के लिए 60 सेकंड' : '15 questions, 60 seconds each'}</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 bg-blue-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
+                    <span className="w-1 h-1 bg-orange-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
                     <span>{language === 'hi' ? '50:50 जीवनरेखा का बुद्धिमानी से उपयोग करें' : 'Use the 50:50 lifeline wisely'}</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="w-1 h-1 bg-blue-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
+                    <span className="w-1 h-1 bg-orange-500 rounded-full mr-2 flex-shrink-0 mt-1.5"></span>
                     <span>{language === 'hi' ? 'भाषा बदलना बिल्कुल मुफ्त है!' : 'Language switching is completely free!'}</span>
                   </li>
                 </ul>
@@ -685,7 +685,7 @@ export default function HinduWisdomMillionaire() {
             <div className="flex justify-center pt-2">
               <button
                 onClick={beginGameAfterModal}
-                className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm sm:text-base lg:text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] min-h-[44px] sm:min-h-[48px] lg:min-h-[56px] max-w-full sm:max-w-xs lg:max-w-sm mx-auto flex items-center justify-center"
+                className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm sm:text-base lg:text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] min-h-[44px] sm:min-h-[48px] lg:min-h-[56px] max-w-full sm:max-w-xs lg:max-w-sm mx-auto flex items-center justify-center"
               >
                 <span className="flex items-center">
                   <span className="mr-1.5 sm:mr-2">🚀</span>
@@ -723,7 +723,7 @@ export default function HinduWisdomMillionaire() {
                 </div>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800 mb-6">
+              <div className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-4 border border-orange-200 dark:border-orange-800 mb-6">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {language === 'hi'
                     ? 'आपका ज्ञान स्तर: ' + getWisdomLevel(questionsAnswered).title[language]
@@ -776,7 +776,7 @@ export default function HinduWisdomMillionaire() {
             </div>
 
             {/* Stats card */}
-            <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800 mb-6">
+            <div className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-4 border border-orange-200 dark:border-orange-800 mb-6">
               <p className="text-sm text-center text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                 {gameOverData.stats}
               </p>
@@ -784,7 +784,7 @@ export default function HinduWisdomMillionaire() {
 
             <button
               onClick={newGame}
-              className="w-full px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[48px]"
+              className="w-full px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white text-lg font-semibold rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[48px]"
             >
               <span>{t.continueJourney}</span>
             </button>

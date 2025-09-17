@@ -22,7 +22,7 @@ export default function Pricing() {
           <div className="relative group hover:scale-[1.02] transition-transform duration-200">
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-8 h-full transition-all duration-200 hover:shadow-md">
               <div className="text-center mb-8">
-                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">5 min</div>
+                <div className="text-2xl font-semibold text-orange-600 dark:text-orange-400 mb-2">5 min</div>
                 <div className="flex items-baseline justify-center">
                   <span className="text-4xl font-semibold text-gray-900 dark:text-white">₹51</span>
                 </div>
@@ -31,7 +31,7 @@ export default function Pricing() {
 
               <ul className="space-y-4 mb-8">
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -39,7 +39,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Quick Overview</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -47,7 +47,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">One Question</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -57,7 +57,7 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md"
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
                 onClick={() => window.open(whatsappLink, '_blank')}
               >
                 Book on WhatsApp
@@ -68,7 +68,7 @@ export default function Pricing() {
           <div className="relative group hover:scale-[1.02] transition-transform duration-200">
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-8 h-full transition-all duration-200 hover:shadow-md">
               <div className="text-center mb-8">
-                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">10 min</div>
+                <div className="text-2xl font-semibold text-orange-600 dark:text-orange-400 mb-2">10 min</div>
                 <div className="flex items-baseline justify-center">
                   <span className="text-4xl font-semibold text-gray-900 dark:text-white">₹199</span>
                 </div>
@@ -77,7 +77,7 @@ export default function Pricing() {
 
               <ul className="space-y-4 mb-8">
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -85,7 +85,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Detailed Reading</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -93,7 +93,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Multiple Questions</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -103,7 +103,7 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md"
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
                 onClick={() => window.open(whatsappLink, '_blank')}
               >
                 Book on WhatsApp
@@ -112,13 +112,13 @@ export default function Pricing() {
           </div>
 
           <div className="relative group hover:scale-[1.02] transition-transform duration-200">
-            <div className="rounded-xl border border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/20 p-8 h-full transition-all duration-200 shadow-lg">
-              <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-6 py-2 text-sm font-medium rounded-lg shadow-sm">
+            <div className="rounded-xl border border-orange-200 dark:border-orange-700 bg-orange-50 dark:bg-orange-900/20 p-8 h-full transition-all duration-200 shadow-lg">
+              <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-orange-600 text-white px-6 py-2 text-sm font-medium rounded-lg shadow-sm">
                 Most Popular
               </span>
 
               <div className="text-center mb-8">
-                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">20 min</div>
+                <div className="text-2xl font-semibold text-orange-600 dark:text-orange-400 mb-2">20 min</div>
                 <div className="flex items-baseline justify-center">
                   <span className="text-4xl font-semibold text-gray-900 dark:text-white">₹399</span>
                 </div>
@@ -127,7 +127,7 @@ export default function Pricing() {
 
               <ul className="space-y-4 mb-8">
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -135,7 +135,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Comprehensive Analysis</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -143,7 +143,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">In-depth Discussion</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -151,7 +151,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Future Predictions</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -161,7 +161,7 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md"
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
                 onClick={() => window.open(whatsappLink, '_blank')}
               >
                 Book on WhatsApp
@@ -172,7 +172,7 @@ export default function Pricing() {
           <div className="relative group hover:scale-[1.02] transition-transform duration-200">
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-8 h-full transition-all duration-200 hover:shadow-md">
               <div className="text-center mb-8">
-                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">30 min</div>
+                <div className="text-2xl font-semibold text-orange-600 dark:text-orange-400 mb-2">30 min</div>
                 <div className="flex items-baseline justify-center">
                   <span className="text-4xl font-semibold text-gray-900 dark:text-white">₹599</span>
                 </div>
@@ -181,7 +181,7 @@ export default function Pricing() {
 
               <ul className="space-y-4 mb-8">
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -189,7 +189,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Complete Reading</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -197,7 +197,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Multiple Topics</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -205,7 +205,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Detailed Predictions</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -213,7 +213,7 @@ export default function Pricing() {
                   <span className="text-gray-900 dark:text-white">Follow-up Support</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
@@ -223,7 +223,7 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md"
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
                 onClick={() => window.open(whatsappLink, '_blank')}
               >
                 Book on WhatsApp
@@ -239,7 +239,7 @@ export default function Pricing() {
               Book your consultation now and get personalized astrological guidance from our expert astrologers
             </p>
             <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-6 px-12 text-lg rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]"
+              className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-6 px-12 text-lg rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]"
               onClick={() => window.open(whatsappLink, '_blank')}
             >
               <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">

@@ -42,7 +42,7 @@ export const WhatsAppCtaBanner: React.FC<WhatsAppCtaBannerProps> = ({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm sm:text-base rounded-lg shadow-sm hover:scale-[1.02] transition-all duration-200"
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium text-sm sm:text-base rounded-lg shadow-sm hover:scale-[1.02] transition-all duration-200"
           >
             <WhatsAppIcon />
             {buttonText}

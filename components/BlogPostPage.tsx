@@ -74,7 +74,7 @@ const ReadingProgressBar = () => {
   return (
     <div className="fixed top-0 left-0 z-50 w-full h-1 bg-gray-200 dark:bg-gray-800">
       <div
-        className="h-1 bg-blue-600 transition-all duration-100 ease-out"
+        className="h-1 bg-orange-600 transition-all duration-100 ease-out"
         style={{ width: `${width}%` }}
       />
     </div>
@@ -96,7 +96,7 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
                 {headings.length > 1 && (
                     <div className="p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
                         <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-4 flex items-center">
-                            <BookOpen size={20} className="mr-3 text-blue-600"/>
+                            <BookOpen size={20} className="mr-3 text-orange-600"/>
                             <span>In this Article</span>
                         </h3>
                         <ul className="space-y-2.5">
@@ -104,8 +104,8 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
                                 <li key={heading.slug}>
                                     <a
                                       href={`#${heading.slug}`}
-                                      className={`transition-colors duration-200 text-sm hover:text-blue-600 ${
-                                        activeHeading === heading.slug ? 'font-semibold text-blue-600' : 'text-gray-600 dark:text-gray-400'
+                                      className={`transition-colors duration-200 text-sm hover:text-orange-600 ${
+                                        activeHeading === heading.slug ? 'font-semibold text-orange-600' : 'text-gray-600 dark:text-gray-400'
                                       }`}
                                     >
                                         {heading.text}
@@ -119,13 +119,13 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
                 {/* Trending Posts */}
                 <div className="p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
                     <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-4 flex items-center">
-                        <TrendingUp size={20} className="mr-3 text-blue-600"/>
+                        <TrendingUp size={20} className="mr-3 text-orange-600"/>
                         <span>Trending Now</span>
                     </h3>
                     <ul className="space-y-3">
                         {trendingPosts.map(post => (
                            <li key={post.title}>
-                             <a href={post.slug} className="group flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
+                             <a href={post.slug} className="group flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 transition-colors">
                                {post.title}
                                <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity"/>
                              </a>
@@ -137,7 +137,7 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
                 {/* Categories */}
                 <div className="p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
                     <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-4 flex items-center">
-                        <LayoutGrid size={20} className="mr-3 text-blue-600"/>
+                        <LayoutGrid size={20} className="mr-3 text-orange-600"/>
                         <span>Categories</span>
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -145,7 +145,7 @@ const LeftSidebar = ({ headings, activeHeading }: { headings: Heading[], activeH
                            <a
                              key={cat}
                              href="#"
-                             className="text-xs text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors rounded-full px-3 py-1.5 font-medium"
+                             className="text-xs text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors rounded-full px-3 py-1.5 font-medium"
                            >
                              {cat}
                            </a>
@@ -167,7 +167,7 @@ const MobileTableOfContents = ({ headings, activeHeading }: { headings: Heading[
             {/* Mobile TOC Button */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 hover:scale-[1.02]"
+                className="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-orange-600 hover:bg-orange-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 hover:scale-[1.02]"
             >
                 <BookOpen size={20} />
             </button>
@@ -185,7 +185,7 @@ const MobileTableOfContents = ({ headings, activeHeading }: { headings: Heading[
                     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-800/95 border-t border-gray-200 dark:border-gray-700 rounded-t-3xl p-6 max-h-[70vh] overflow-y-auto animate-in slide-in-from-bottom duration-300">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="font-semibold text-lg text-gray-900 dark:text-white flex items-center">
-                                <BookOpen size={20} className="mr-3 text-blue-600"/>
+                                <BookOpen size={20} className="mr-3 text-orange-600"/>
                                 <span>In this Article</span>
                             </h3>
                             <button
@@ -204,8 +204,8 @@ const MobileTableOfContents = ({ headings, activeHeading }: { headings: Heading[
                                         onClick={() => setIsOpen(false)}
                                         className={`block p-3 rounded-xl transition-colors duration-200 ${
                                             activeHeading === heading.slug
-                                                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 font-semibold border-l-4 border-blue-600'
-                                                : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                                                ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 font-semibold border-l-4 border-orange-600'
+                                                : 'text-gray-600 dark:text-gray-400 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20'
                                         }`}
                                     >
                                         {heading.text}
@@ -340,8 +340,8 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
       [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-6 text-lg leading-relaxed text-gray-900 dark:text-white">{children}</p>,
       [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc list-inside mb-6 pl-4 space-y-3 text-lg text-gray-900 dark:text-white">{children}</ul>,
       [BLOCKS.OL_LIST]: (node, children) => <ol className="list-decimal list-inside mb-6 pl-4 space-y-3 text-lg text-gray-900 dark:text-white">{children}</ol>,
-      [BLOCKS.QUOTE]: (node, children) => <blockquote className="border-l-4 border-blue-600 pl-6 py-4 my-8 text-lg italic bg-blue-50 dark:bg-blue-900/20 rounded-r-lg text-gray-600 dark:text-gray-400">{children}</blockquote>,
-      [INLINES.HYPERLINK]: (node, children) => <a href={node.data.uri} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">{children}</a>,
+      [BLOCKS.QUOTE]: (node, children) => <blockquote className="border-l-4 border-orange-600 pl-6 py-4 my-8 text-lg italic bg-orange-50 dark:bg-orange-900/20 rounded-r-lg text-gray-600 dark:text-gray-400">{children}</blockquote>,
+      [INLINES.HYPERLINK]: (node, children) => <a href={node.data.uri} target="_blank" rel="noopener noreferrer" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline font-medium transition-colors duration-200">{children}</a>,
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
         const file = node.data.target?.fields?.file;
         const description = node.data.target?.fields?.description;
@@ -365,7 +365,7 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
   if (isLoading) return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
       <div className="text-center">
-        <div className="w-16 h-16 bg-blue-600 rounded-full animate-pulse mx-auto mb-4"></div>
+        <div className="w-16 h-16 bg-orange-600 rounded-full animate-pulse mx-auto mb-4"></div>
         <p className="text-2xl font-semibold text-gray-900 dark:text-white animate-pulse">Loading Article...</p>
       </div>
     </div>
@@ -416,7 +416,7 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
                                         className="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 shadow-lg"
                                     />
                                 ) : (
-                                    <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-blue-600 flex items-center justify-center border-2 border-gray-200 dark:border-gray-700 shadow-lg">
+                                    <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-orange-600 flex items-center justify-center border-2 border-gray-200 dark:border-gray-700 shadow-lg">
                                         <span className="text-white font-semibold text-xl lg:text-2xl">{post.author.name[0]}</span>
                                     </div>
                                 )}
@@ -424,11 +424,11 @@ export default function BlogPostPage({ slug }: BlogPostPageProps) {
                             <div className="flex-1">
                                 <p className="font-semibold text-base lg:text-lg text-gray-900 dark:text-white mb-1">{post.author.name}</p>
                                 <p className="text-gray-600 dark:text-gray-400 font-medium flex items-center gap-2 text-sm lg:text-base">
-                                    <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                                    <span className="w-2 h-2 bg-orange-600 rounded-full"></span>
                                     {format(new Date(post.publishDate), 'MMMM dd, yyyy')}
                                 </p>
                                 <div className="mt-2">
-                                    <span className="text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-2 lg:px-3 py-1 rounded-full font-semibold">Expert Author</span>
+                                    <span className="text-xs bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 px-2 lg:px-3 py-1 rounded-full font-semibold">Expert Author</span>
                                 </div>
                             </div>
                         </div>

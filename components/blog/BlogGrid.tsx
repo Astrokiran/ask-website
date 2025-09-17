@@ -73,7 +73,7 @@ function ErrorState({ error }: { error: string }) {
       <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto mb-8 text-lg">{error}</p>
       <button
         onClick={() => window.location.reload()}
-        className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]"
       >
         <span>Try Again</span>
       </button>

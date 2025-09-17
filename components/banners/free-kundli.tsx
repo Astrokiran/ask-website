@@ -25,7 +25,7 @@ export const FreeKundliCtaSection = () => {
 
                 <button
                     onClick={handleRedirect}
-                    className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 font-medium text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800"
+                    className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 font-medium text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-orange-200 dark:focus:ring-orange-800"
                 >
                     Generate Your Free Kundli
                     <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />

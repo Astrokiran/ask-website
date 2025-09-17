@@ -26,17 +26,17 @@ const SectionItem = ({ icon, title, text }: { icon: React.ReactNode; title: stri
 
 const kundaliSections = [
   {
-    icon: <Briefcase className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
+    icon: <Briefcase className="h-6 w-6 text-orange-600 dark:text-orange-400" />,
     title: "In Business",
     text: "Just like a marriage, a business partnership thrives on trust, balance, and cooperation. Kundali matching can show whether partners share compatible energies for decision-making, financial growth, and handling challenges. It reduces the chances of conflict and helps align visions for long-term success.",
   },
   {
-    icon: <Heart className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
+    icon: <Heart className="h-6 w-6 text-orange-600 dark:text-orange-400" />,
     title: "In Relationships",
     text: "For friendships, love, or family ties, Kundali matching highlights emotional compatibility, communication styles, and mutual understanding. It helps strengthen bonds by identifying potential areas of friction early on, so they can be addressed with awareness.",
   },
   {
-    icon: <Sparkles className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
+    icon: <Sparkles className="h-6 w-6 text-orange-600 dark:text-orange-400" />,
     title: "In Short",
     text: "Kundali matching acts like a cosmic compatibility test ensuring harmony, reducing conflicts, and enhancing the chances of prosperity and happiness in both business and personal life.",
   },
@@ -243,13 +243,13 @@ export default function KundliMatchingPage() {
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as 'man' | 'woman')}
-                        className={`${activeTab === tab.id ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'}
+                        className={`${activeTab === tab.id ? 'text-orange-600 dark:text-orange-400' : 'text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400'}
                             w-1/2 py-3 sm:py-4 text-center font-semibold text-base sm:text-lg transition-colors duration-200 relative focus:outline-none`}
                       >
                         {tab.label}
                         {activeTab === tab.id && (
                           <div
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"
+                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-600"
                           />
                         )}
                       </button>
@@ -282,7 +282,7 @@ export default function KundliMatchingPage() {
 
                     <button
                       type="submit"
-                      className="w-full mt-6 sm:mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-3 rounded-lg font-semibold transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                      className="w-full mt-6 sm:mt-8 bg-orange-600 hover:bg-orange-700 text-white py-2.5 sm:py-3 rounded-lg font-semibold transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                       disabled={loading}
                     >
                       {loading ? 'Calculating...' : 'Match Kundli'}
@@ -298,7 +298,7 @@ export default function KundliMatchingPage() {
                     <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-white leading-tight">
                       Kundali Matching: Unlock Success in Relationships
                     </h2>
-                    <Star className="h-8 w-8 text-blue-600 dark:text-blue-400 hidden md:block" />
+                    <Star className="h-8 w-8 text-orange-600 dark:text-orange-400 hidden md:block" />
                   </div>
                   <p className="text-foreground leading-relaxed text-sm md:text-base mb-6">
                     Kundali matching, also known as horoscope compatibility, is not just for marriage—it can also be a powerful guide in business partnerships and personal relationships. By analyzing the planetary positions in two individuals’ birth charts, Kundali matching helps reveal compatibility, strengths, and challenges between them.

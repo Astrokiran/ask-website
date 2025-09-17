@@ -2,10 +2,11 @@
 
 import { useState, useEffect, FC, ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { ApiResponse } from "@/app/horoscopes/[zodiac]/page"; 
+import { ApiResponse } from "@/app/horoscopes/[zodiac]/page";
 import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
 import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
+import { createClient } from 'contentful';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -26,12 +27,31 @@ import {
 } from "@/components/ui/accordion";
 import { Loader2, Gem, Palette, Hash, Clock, Brain, Plane, Wand, Heart, Briefcase } from 'lucide-react';
 
+// --- Contentful Client Initialization ---
+const client = createClient({
+  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || '',
+  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || '',
+});
+
+// --- Interface for zodiac signs ---
+interface ZodiacSign {
+  name: string;
+  imageUrl: string;
+}
+
+const zodiacOrder = [
+  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+];
+
 // --- The Main Interactive Component ---
 export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData }) => {
   const router = useRouter();
   const [selectedSign, setSelectedSign] = useState<string>(initialData.sign);
   const [horoscopeData, setHoroscopeData] = useState<ApiResponse>(initialData);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [zodiacImages, setZodiacImages] = useState<Record<string, string>>({});
+  const [imagesLoading, setImagesLoading] = useState<boolean>(true);
 
   const zodiacSigns = [
     "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
@@ -68,27 +88,55 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
   const { sign, date, horoscope } = horoscopeData;
 
   const detailSections = [
-    { title: "Love & Relationships", data: horoscope.love_and_relationships, icon: <Heart className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
-    { title: "Career & Finance", data: horoscope.career_and_finance, icon: <Briefcase className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
-    { title: "Emotions & Mind", data: horoscope.emotions_and_mind, icon: <Brain className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
-    { title: "Travel & Movement", data: horoscope.travel_and_movement, icon: <Plane className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
-    { title: "Remedies", data: horoscope.remedies, icon: <Wand className="h-6 w-6 text-blue-500 dark:text-blue-400" /> },
+    { title: "Love & Relationships", data: horoscope.love_and_relationships, icon: <Heart className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
+    { title: "Career & Finance", data: horoscope.career_and_finance, icon: <Briefcase className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
+    { title: "Emotions & Mind", data: horoscope.emotions_and_mind, icon: <Brain className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
+    { title: "Travel & Movement", data: horoscope.travel_and_movement, icon: <Plane className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
+    { title: "Remedies", data: horoscope.remedies, icon: <Wand className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
   ];
 
-  const zodiacImages: Record<string, string> = {
-  Aries: "/aries2.jpg",
-  Taurus: "/taurus2.jpg",
-  Gemini: "/gemini2.jpg",
-  Cancer: "/cancer2.jpg",
-  Leo: "/leo2.jpg",
-  Virgo: "/virgo2.jpg",
-  Libra: "/libra2.jpg",
-  Scorpio: "/scorpio2.jpg",
-  Sagittarius: "/sagrititus2.jpg",
-  Capricorn: "/capricorn2.jpg",
-  Aquarius: "/aquarius.jpg",
-  Pisces: "/pisces2.jpg",
-};
+  // Fetch zodiac images from CMS
+  useEffect(() => {
+    const fetchZodiacImages = async () => {
+      setImagesLoading(true);
+      try {
+        const response = await client.getEntries<any>({
+          content_type: 'zodiacSigns'
+        });
+
+        if (response.items) {
+          const imagesMap: Record<string, string> = {};
+          response.items.forEach((item: any) => {
+            const signName = item.fields.signName;
+            const imageUrl = `https:${item.fields.image.fields.file.url}`;
+            imagesMap[signName] = imageUrl;
+          });
+          setZodiacImages(imagesMap);
+        }
+      } catch (error) {
+        console.error("Error fetching zodiac images from CMS:", error);
+        // Fallback to default images if CMS fails
+        setZodiacImages({
+          Aries: "/aries2.jpg",
+          Taurus: "/taurus2.jpg",
+          Gemini: "/gemini2.jpg",
+          Cancer: "/cancer2.jpg",
+          Leo: "/leo2.jpg",
+          Virgo: "/virgo2.jpg",
+          Libra: "/libra2.jpg",
+          Scorpio: "/scorpio2.jpg",
+          Sagittarius: "/sagrititus2.jpg",
+          Capricorn: "/capricorn2.jpg",
+          Aquarius: "/aquarius.jpg",
+          Pisces: "/pisces2.jpg",
+        });
+      } finally {
+        setImagesLoading(false);
+      }
+    };
+
+    fetchZodiacImages();
+  }, []);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-sans">
@@ -98,7 +146,7 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
         <aside className="lg:col-span-3 lg:sticky lg:top-8 h-fit space-y-6">
   {/* Selector */}
   <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
-    <h2 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4 tracking-wider">SELECT SIGN</h2>
+    <h2 className="text-lg font-semibold text-orange-600 dark:text-orange-400 mb-4 tracking-wider">SELECT SIGN</h2>
     <Select value={selectedSign} onValueChange={setSelectedSign}>
       <SelectTrigger className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-lg h-12 shadow-sm">
         <SelectValue placeholder="Select a sign" />
@@ -119,11 +167,17 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
       key={selectedSign}
       className="flex justify-center animate-fadeInUp"
     >
-      <img
-        src={zodiacImages[selectedSign]}
-        alt={selectedSign}
-  className="w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 object-contain drop-shadow-lg"
-      />
+      {imagesLoading ? (
+        <div className="w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 flex items-center justify-center">
+          <Loader2 className="h-16 w-16 animate-spin text-orange-500" />
+        </div>
+      ) : (
+        <img
+          src={zodiacImages[selectedSign] || "/default-zodiac.png"}
+          alt={selectedSign}
+          className="w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 object-contain drop-shadow-lg"
+        />
+      )}
     </div>
   )}
 </aside>
@@ -136,12 +190,12 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
             >
               {isLoading ? (
                 <div className="flex justify-center items-center h-96">
-                  <Loader2 className="h-16 w-16 animate-spin text-blue-500" />
+                  <Loader2 className="h-16 w-16 animate-spin text-orange-500" />
                 </div>
               ) : (
                 <div className="space-y-8">
                    <div className="text-center">
-                    <h1 className="text-5xl md:text-7xl font-semibold text-blue-600 dark:text-blue-400">
+                    <h1 className="text-5xl md:text-7xl font-semibold text-orange-600 dark:text-orange-400">
                       {sign}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
@@ -152,10 +206,10 @@ export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData 
                   {/* Lucky Insights */}
                   <div className="animate-fadeInUp">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                      <InsightCard icon={<Gem className="text-blue-500 dark:text-blue-400"/>} title="Mood" value={horoscope.lucky_insights.mood} />
-                      <InsightCard icon={<Palette className="text-blue-500 dark:text-blue-400"/>} title="Lucky Color" value={horoscope.lucky_insights.lucky_color} />
-                      <InsightCard icon={<Hash className="text-blue-500 dark:text-blue-400"/>} title="Lucky Number" value={horoscope.lucky_insights.lucky_number.toString()} />
-                      <InsightCard icon={<Clock className="text-blue-500 dark:text-blue-400"/>} title="Lucky Time" value={horoscope.lucky_insights.lucky_time} />
+                      <InsightCard icon={<Gem className="text-orange-500 dark:text-orange-400"/>} title="Mood" value={horoscope.lucky_insights.mood} />
+                      <InsightCard icon={<Palette className="text-orange-500 dark:text-orange-400"/>} title="Lucky Color" value={horoscope.lucky_insights.lucky_color} />
+                      <InsightCard icon={<Hash className="text-orange-500 dark:text-orange-400"/>} title="Lucky Number" value={horoscope.lucky_insights.lucky_number.toString()} />
+                      <InsightCard icon={<Clock className="text-orange-500 dark:text-orange-400"/>} title="Lucky Time" value={horoscope.lucky_insights.lucky_time} />
                     </div>
                   </div>
                   

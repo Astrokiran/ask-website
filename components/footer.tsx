@@ -13,7 +13,7 @@ export function Footer() {
               <span className="font-semibold text-foreground">Astrokiran</span>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-              <strong className="text-blue-600 dark:text-blue-400">Trusted by 40,000+ WhatsApp Users</strong><br/>
+              <strong className="text-orange-600 dark:text-orange-400">Trusted by 40,000+ WhatsApp Users</strong><br/>
               Authentic Astrological Guidance<br/>
               Expert Predictions & Insights<br/>
               Discover your cosmic path today!
@@ -25,25 +25,25 @@ export function Footer() {
               Quick Access
             </h3>
             <div className="space-y-2">
-              <Link href="/free-kundli" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/free-kundli" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Free Kundli
               </Link>
-              <Link href="/kundli-match" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/kundli-match" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Kundli Matching
               </Link>
-              <Link href="/horoscopes" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/horoscopes" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Daily Horoscope
               </Link>
-              <Link href="/blog" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/blog" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Blogs
               </Link>
-              <Link href="/#astrologers" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/#astrologers" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Our Astrologers
               </Link>
-              <Link href="/#services" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/#services" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Services
               </Link>
-              <Link href="/pricing" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/pricing" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Pricing
               </Link>
             </div>
@@ -54,16 +54,16 @@ export function Footer() {
               Our Expertise
             </h3>
             <div className="space-y-2">
-              <Link href="/horoscopes" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/horoscopes" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Horoscope Reading
               </Link>
-              <Link href="/free-kundli" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/free-kundli" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Kundli Analysis
               </Link>
-              <Link href="/kundli-match" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/kundli-match" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Compatibility Matching
               </Link>
-              <Link href="/blog" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/blog" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Astrological Insights
               </Link>
             </div>
@@ -81,16 +81,16 @@ export function Footer() {
           <div>
             <h3 className="font-medium text-gray-900 dark:text-white mb-4">Corporate Info</h3>
             <div className="space-y-2">
-              <Link href="/terms" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/terms" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Terms & Conditions
               </Link>
-              <Link href="/disclaimer" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/disclaimer" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Disclaimer
               </Link>
-              <Link href="/pricing-policy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/pricing-policy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Pricing Policy
               </Link>
-              <Link href="/privacy-policy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-1">
+              <Link href="/privacy-policy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1">
                 Privacy Policy
               </Link>
             </div>
@@ -100,10 +100,10 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-600 dark:text-gray-400">© 2024 Astrokiran. All rights reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <Link href="https://www.facebook.com/profile.php?id=61573395667162" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <Link href="https://www.facebook.com/profile.php?id=61573395667162" className="text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
               <Facebook className="w-5 h-5" />
             </Link>
-            <Link href="https://www.instagram.com/ask.astrokiran/?hl=en" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <Link href="https://www.instagram.com/ask.astrokiran/?hl=en" className="text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
               <Instagram className="w-5 h-5" />
             </Link>
           </div>
