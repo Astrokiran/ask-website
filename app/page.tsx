@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/testimonials"
 import { Newsletter } from "@/components/newsletter"
 import { Footer } from "@/components/footer"
 import { ReportGeneration } from "@/components/report-generation"
+import { FaqSection } from "@/components/faq-section"
 
 export const metadata: Metadata = {
   title: "Free ₹1000 Kundli, Tarot & Astrology Services - Astrokiran",
@@ -31,6 +32,7 @@ export default function Home() {
           <ServicesSection />
           <FeaturedAstrologers />
           <ReportGeneration />
+          <FaqSection />
           {/* <StatsSection /> */}
           {/* <Testimonials /> */}
           {/* <Newsletter /> */}

@@ -50,8 +50,8 @@ export function NavBar() {
           <div className="hidden md:flex items-center flex-1 min-w-0 mx-2 sm:mx-4">
             <div
               ref={scrollContainerRef}
-              className="flex items-center gap-1 overflow-x-auto nav-scroll w-full min-w-0"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              className="flex items-center gap-1 overflow-x-auto nav-scroll w-full"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', paddingRight: '20px' }}
             >
             <Link href="/free-kundli" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Free Kundli
@@ -66,7 +66,7 @@ export function NavBar() {
               Blogs
             </Link>
             <Link href="/#astrologers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
-              Our Astrologers
+             Astrologers
             </Link>
             <Link href="/#services" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Services
@@ -74,7 +74,7 @@ export function NavBar() {
             <Link href="/pricing" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Pricing
             </Link>
-            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0 mr-4">
               Games
             </Link>
             </div>

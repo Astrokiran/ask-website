@@ -225,7 +225,7 @@ export function HeroSection({
         {/* Desktop Hero Content - Only visible on desktop */}
         <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center w-full">
 
-          {/* Left Content */}
+          {/* Left Side - Main Content */}
           <div className="relative z-10 text-center lg:text-left">
             {/* Enhanced title with multiple effects */}
             <div className="animate-fadeInUp mb-8">
@@ -235,35 +235,35 @@ export function HeroSection({
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">India's Most Trusted Astrology Platform</span>
               </div>
 
-              <h1 className="text-2xl lg:text-4xl font-bold leading-tight mb-6 text-gray-900 dark:text-white lg:whitespace-nowrap">
+              <h1 className="text-xl lg:text-3xl font-bold leading-tight mb-4 text-gray-900 dark:text-white lg:whitespace-nowrap">
                 {title}
               </h1>
 
               {/* Enhanced subtitle with effects */}
-              <div className="relative mb-8">
-                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium mb-4">
+              <div className="relative mb-6">
+                <p className="text-sm lg:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium mb-3">
                   {subtitle}
                 </p>
-                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-4">
+                <p className="text-sm lg:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-3">
                   Experience authentic Vedic astrology consultations with India's most trusted platform. Our certified astrologers provide personalized insights into your life's journey, offering comprehensive analysis of your birth chart, planetary positions, and cosmic influences that shape your destiny.
                 </p>
-                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                <p className="text-sm lg:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
                   Whether you seek guidance on relationships, career decisions, health concerns, or spiritual growth, our expert astrologers combine ancient wisdom with modern understanding to illuminate your path forward with clarity and confidence.
                 </p>
                 {/* Accent line under subtitle */}
-                <div className="w-24 h-0.5 bg-gray-300 dark:bg-gray-600 mx-auto lg:mx-0 mt-4"></div>
+                <div className="w-20 h-0.5 bg-gray-300 dark:bg-gray-600 mx-auto lg:mx-0 mt-3"></div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               {/* Enhanced primary button */}
               <button
                 onClick={handleRedirect}
-                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white text-lg font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
+                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white text-base font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
               >
-                <span className="flex items-center gap-3">
+                <span className="flex items-center gap-2">
                   Get your Kundli for Free
-                  <ChevronRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
+                  <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </span>
               </button>
 
@@ -272,117 +272,107 @@ export function HeroSection({
                 href="https://wa.me/918197503574?text=Hi,%20I%20would%20like%20to%20consult%20with%20an%20astrologer"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-900 dark:text-white text-lg font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
+                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-900 dark:text-white text-base font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
               >
-                <span className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516"/>
                   </svg>
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">First Call: ₹51</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium text-sm">First Call: ₹51</span>
                   <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded-full">Special</span>
                 </span>
               </a>
             </div>
           </div>
 
-          {/* Right Astrologer Slideshow */}
-          <div className="relative">
-            <div className="relative h-[500px] lg:h-[600px] group">
-              {/* Subtle shadow effect */}
-              <div className="absolute inset-0 bg-gray-100/50 dark:bg-gray-800/50 rounded-3xl blur-2xl opacity-60"></div>
+          {/* Right Side - Large Astrologer Images with Slider Controls */}
+          <div className="relative flex flex-col items-center justify-center space-y-6">
+            {/* Astrologer Images Section - Larger and Rounded */}
+            {astrologersData.length > 0 && (
+              <div className="flex flex-col items-center space-y-4">
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Meet Our Expert Astrologers</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Experienced Vedic astrology specialists</p>
+                </div>
 
-              {/* Main Astrologer Container */}
-              <div className="relative h-full w-full rounded-3xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 shadow-xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-                {astrologersData.length > 0 && (
-                  <div key={currentAstrologerIndex} className="h-full flex flex-col">
-                    {/* Astrologer Image */}
-                    <div className="relative flex-1">
+                {/* Large Astrologer Image with Navigation */}
+                <div className="relative flex items-center justify-center">
+                  {/* Previous Button */}
+                  <button
+                    onClick={handlePrevAstrologer}
+                    className="absolute left-0 z-10 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
+                  >
+                    <ChevronLeft className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                  </button>
+
+                  {/* Main Astrologer Display */}
+                  <div key={currentAstrologerIndex} className="flex flex-col items-center mx-16">
+                    <div className="relative">
                       <img
                         src={astrologersData[currentAstrologerIndex]?.image}
                         alt={astrologersData[currentAstrologerIndex]?.name}
-                        className="h-full w-full object-cover transition-all duration-1000"
+                        className="w-32 h-32 lg:w-40 lg:h-40 object-cover object-center rounded-full border-4 border-orange-300 dark:border-orange-700 shadow-2xl transition-all duration-1000 hover:scale-105"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.onerror = null;
+                          target.src = '/astrologer.png';
+                        }}
                       />
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-
-                      {/* Floating Badge */}
-                      <div className="absolute top-6 right-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Expert Astrologer</p>
-                      </div>
-
-                      {/* Navigation Buttons */}
-                      <button
-                        onClick={handlePrevAstrologer}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors z-10"
-                      >
-                        <ChevronLeft className="w-5 h-5 text-white" />
-                      </button>
-                      <button
-                        onClick={handleNextAstrologer}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors z-10"
-                      >
-                        <ChevronRight className="w-5 h-5 text-white" />
-                      </button>
+                      {/* Decorative ring around image */}
+                      <div className="absolute inset-0 rounded-full border-2 border-orange-200/50 dark:border-orange-800/50 animate-pulse"></div>
                     </div>
 
-                    {/* Astrologer Info Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/60 to-transparent text-white">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h3 className="text-2xl font-bold mb-1">
-                            {astrologersData[currentAstrologerIndex]?.name}
-                          </h3>
-                          <p className="text-orange-300 font-medium mb-2">
-                            {astrologersData[currentAstrologerIndex]?.title}
-                          </p>
-                          <div className="flex items-center gap-4 text-sm">
-                            <div className="flex items-center gap-1">
-                              <Star className="w-4 h-4 text-yellow-400" />
-                              <span>{astrologersData[currentAstrologerIndex]?.stats.Experience} Years</span>
-                            </div>
-                            <div className="h-4 w-px bg-white/30"></div>
-                            <span>{astrologersData[currentAstrologerIndex]?.stats.languages}</span>
-                          </div>
-                        </div>
-                        <Avatar className="w-16 h-16 border-2 border-white/30">
-                          <AvatarImage src={astrologersData[currentAstrologerIndex]?.image} />
-                          <AvatarFallback className="bg-gradient-to-br from-orange-400 to-purple-500 text-white font-bold">
-                            {astrologersData[currentAstrologerIndex]?.name?.substring(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
+                    {/* Astrologer Info */}
+                    <div className="text-center mt-4">
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                        {astrologersData[currentAstrologerIndex]?.name}
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        {astrologersData[currentAstrologerIndex]?.title}
+                      </p>
+                      <div className="flex items-center justify-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                        <span>Exp: {astrologersData[currentAstrologerIndex]?.stats.Experience}</span>
+                        <span>•</span>
+                        <span>{astrologersData[currentAstrologerIndex]?.stats.languages}</span>
+                      </div>
+
+                      {/* Star rating */}
+                      <div className="flex items-center justify-center gap-1 mt-2">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                        ))}
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">4.8</span>
                       </div>
                     </div>
                   </div>
-                )}
 
-                {/* Fallback to hero images if no astrologers */}
-                {astrologersData.length === 0 && heroImages.length > 0 && (
-                  <img
-                    key={currentImageIndex}
-                    src={heroImages[currentImageIndex]}
-                    alt={`Cosmic imagery ${currentImageIndex + 1}`}
-                    className="h-full w-full object-cover transition-all duration-1000"
-                  />
+                  {/* Next Button */}
+                  <button
+                    onClick={handleNextAstrologer}
+                    className="absolute right-0 z-10 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
+                  >
+                    <ChevronRight className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                  </button>
+                </div>
+
+                {/* Indicators */}
+                {astrologersData.length > 1 && (
+                  <div className="flex space-x-2 mt-4">
+                    {astrologersData.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentAstrologerIndex(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                          index === currentAstrologerIndex
+                            ? 'bg-orange-500 scale-110'
+                            : 'bg-gray-300 dark:bg-gray-600 hover:bg-orange-300 dark:hover:bg-orange-700'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
-
-              {/* Astrologer Navigation Indicators */}
-              {astrologersData.length > 1 && (
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
-                  {astrologersData.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentAstrologerIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                        index === currentAstrologerIndex
-                          ? 'bg-orange-500'
-                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
-                      }`}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
         {/* End Desktop Hero Content */}

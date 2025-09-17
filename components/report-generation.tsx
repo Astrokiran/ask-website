@@ -61,12 +61,12 @@ export function ReportGeneration() {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="relative h-[400px] rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
+          <div className="relative flex justify-center">
+            <div className="relative rounded-lg overflow-hidden shadow-sm w-48 md:w-56 lg:w-80">
               <img
                 src="/report.png"
                 alt="Kundli Report Sample"
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.02]"
+                className="w-full h-auto transition-transform duration-300 hover:scale-[1.02]"
               />
             </div>
           </div>
