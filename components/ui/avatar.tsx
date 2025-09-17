@@ -20,14 +20,44 @@ Avatar.displayName = "Avatar"
 
 const AvatarImage = React.forwardRef<
   HTMLImageElement,
-  React.ImgHTMLAttributes<HTMLImageElement>
->(({ className, ...props }, ref) => (
-  <img
-    ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
-    {...props}
-  />
-))
+  React.ImgHTMLAttributes<HTMLImageElement> & {
+    onLoadingStatusChange?: (status: 'loading' | 'loaded' | 'error') => void;
+  }
+>(({ className, onLoadingStatusChange, ...props }, ref) => {
+  const [imageStatus, setImageStatus] = React.useState<'loading' | 'loaded' | 'error'>('loading');
+
+  React.useEffect(() => {
+    if (props.src) {
+      setImageStatus('loading');
+      onLoadingStatusChange?.(
+        'loading');
+    }
+  }, [props.src, onLoadingStatusChange]);
+
+  const handleLoad = React.useCallback(() => {
+    setImageStatus('loaded');
+    onLoadingStatusChange?.('loaded');
+  }, [onLoadingStatusChange]);
+
+  const handleError = React.useCallback(() => {
+    setImageStatus('error');
+    onLoadingStatusChange?.('error');
+  }, [onLoadingStatusChange]);
+
+  if (!props.src || imageStatus === 'error') {
+    return null;
+  }
+
+  return (
+    <img
+      ref={ref}
+      className={cn("aspect-square h-full w-full object-cover", className)}
+      onLoad={handleLoad}
+      onError={handleError}
+      {...props}
+    />
+  );
+})
 AvatarImage.displayName = "AvatarImage"
 
 const AvatarFallback = React.forwardRef<

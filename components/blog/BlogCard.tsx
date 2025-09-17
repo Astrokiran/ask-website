@@ -44,7 +44,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
         {/* Tags */}
         {post.tags && post.tags.length > 0 && (
           <div className="absolute top-4 left-4">
-            <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm">
+            <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium bg-orange-600 text-white shadow-sm">
               {post.tags[0]}
             </span>
           </div>
@@ -80,7 +80,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
 
         {/* Read more link */}
         <div className="mt-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]">
             <span>Read More</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
           </div>
@@ -124,7 +124,7 @@ export function FeaturedBlogCard({ post }: { post: BlogPostPreview }) {
         {/* Tags */}
         {post.tags && post.tags.length > 0 && (
           <div className="mb-4">
-            <span className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white shadow-sm">
+            <span className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-orange-600 text-white shadow-sm">
               {post.tags[0]}
             </span>
           </div>
@@ -157,7 +157,7 @@ export function FeaturedBlogCard({ post }: { post: BlogPostPreview }) {
         </p>
 
         {/* Read more */}
-        <div className="inline-flex items-center gap-3 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]">
+        <div className="inline-flex items-center gap-3 px-6 py-3 bg-orange-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02]">
           <span>Read Full Article</span>
           <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
         </div>

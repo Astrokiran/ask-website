@@ -82,8 +82,8 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 200 200">
                 <defs>
                     <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#60a5fa" /> {/* Lighter blue */}
-                        <stop offset="100%" stopColor="#2563eb" /> {/* Brighter blue */}
+                        <stop offset="0%" stopColor="#fb923c" /> {/* Lighter orange */}
+                        <stop offset="100%" stopColor="#ea580c" /> {/* Brighter orange */}
                     </linearGradient>
                 </defs>
                 <circle className="text-muted/30" strokeWidth="20" stroke="currentColor" fill="transparent" r={radius} cx="100" cy="100" />
@@ -109,7 +109,7 @@ const ScoreGauge: React.FC<{ score: number; maxScore: number }> = ({ score, maxS
                 >
                     0.0
                 </span>
-                <span className="text-xl text-blue-600 dark:text-blue-400">/ {maxScore}</span>
+                <span className="text-xl text-orange-600 dark:text-orange-400">/ {maxScore}</span>
             </div>
         </div>
     );
@@ -129,7 +129,7 @@ const ImageSlideshow: React.FC<{ imageSources: string[] }> = ({ imageSources }) 
     return (
         <div className="flex flex-col items-center text-center">
             <div
-                className="relative w-64 h-64 rounded-xl overflow-hidden border-4 border-blue-500/30 bg-muted/20 flex items-center justify-center shadow-lg"
+                className="relative w-64 h-64 rounded-xl overflow-hidden border-4 border-orange-500/30 bg-muted/20 flex items-center justify-center shadow-lg"
             >
                     <img
                         key={currentIndex}
@@ -151,15 +151,15 @@ const KootaCard: React.FC<{ name: string; points: string; maxPoints: string; des
         className="bg-card/90 backdrop-blur-md border border rounded-lg p-4 shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
     >
         <div className="flex flex-col items-center text-center">
-            <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 mb-2">{icon}</div>
+            <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 mb-2">{icon}</div>
             <h4 className="text-lg font-semibold text-foreground mb-1">{name}</h4>
             <div className="w-full bg-muted h-2 rounded-full mb-2 overflow-hidden">
                 <div
-                    className="h-2 bg-blue-500 rounded-full"
+                    className="h-2 bg-orange-500 rounded-full"
                     style={{ width: `${(parseInt(points) / parseInt(maxPoints.replace('/',''))) * 100}%` }}
                 />
             </div>
-            <span className="text-md font-bold text-blue-600 dark:text-blue-400 mb-2">{points}</span>
+            <span className="text-md font-bold text-orange-600 dark:text-orange-400 mb-2">{points}</span>
             <p className="text-xs text-muted-foreground leading-tight">{description}</p>
         </div>
     </div>
@@ -170,7 +170,7 @@ const SectionHeader: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         <h2 className="text-3xl sm:text-4xl font-bold text-foreground relative inline-block">
             {children}
             <span
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" // Adjusted gradient for header underline
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full" // Adjusted gradient for header underline
             />
         </h2>
     </div>
@@ -192,14 +192,14 @@ const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) =
         <div
             className="bg-card border border rounded-2xl shadow-lg w-full text-center p-6"
         >
-            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 mb-2">{person.name}</h3> {/* Adjusted gradient for text */}
+            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-orange-400 mb-2">{person.name}</h3> {/* Adjusted gradient for text */}
             <div className="text-left space-y-3 text-sm">
                 <div className="flex justify-between items-center border-b border-border pb-2">
-                    <span className="font-medium text-blue-600 dark:text-blue-400">Birth Details</span>
+                    <span className="font-medium text-orange-600 dark:text-orange-400">Birth Details</span>
                     <span className="text-foreground text-right">{formatDateTime(person.date_of_birth, person.time_of_birth)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="font-medium text-blue-600 dark:text-blue-400">Birth Place</span>
+                    <span className="font-medium text-orange-600 dark:text-orange-400">Birth Place</span>
                     <span className="text-foreground text-right">{person.place_of_birth}</span>
                 </div>
             </div>
@@ -216,7 +216,7 @@ const MatchSummaryHeader: React.FC<{ inputData: InputData }> = ({ inputData }) =
                 </div>
                 <div
                 >
-                    <Heart className="w-14 h-14 text-blue-500 dark:text-blue-400" fill="currentColor" />
+                    <Heart className="w-14 h-14 text-orange-500 dark:text-orange-400" fill="currentColor" />
                 </div>
                 <div
                     className="w-full md:w-5/12"
@@ -257,7 +257,7 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                 <div
                 >
                     <div className="flex items-center text-sm text-muted-foreground mb-6">
-                        <a href="/kundli-match" className="hover:text-blue-500 transition-colors">Kundli Matching</a>
+                        <a href="/kundli-match" className="hover:text-orange-500 transition-colors">Kundli Matching</a>
                         <ChevronRight className="h-4 w-4 mx-1" />
                         <span className="font-semibold text-foreground">Matching Report</span>
                     </div>
@@ -271,7 +271,7 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                     <header
                         className="text-center mb-12"
                     >
-                        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-400 dark:to-blue-300">
+                        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400 dark:from-orange-400 dark:to-orange-300">
                             Kundli Matching Report
                         </h1>
                     </header>
@@ -299,9 +299,9 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                     </section>
 
                     <section
-                        className={`rounded-2xl p-8 text-center mb-12 border bg-card ${mangalStatus ? 'border-emerald-500/30' : 'border-blue-500/30'}`}
+                        className={`rounded-2xl p-8 text-center mb-12 border bg-card ${mangalStatus ? 'border-emerald-500/30' : 'border-orange-500/30'}`}
                     >
-                        <div className={`flex items-center justify-center gap-3 text-2xl font-bold ${mangalStatus ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400'}`}>
+                        <div className={`flex items-center justify-center gap-3 text-2xl font-bold ${mangalStatus ? 'text-emerald-600 dark:text-emerald-400' : 'text-orange-600 dark:text-orange-400'}`}>
                             {mangalStatus ? <CheckCircle /> : <XCircle />}
                             <span>Mangal Dosha Analysis</span>
                         </div>

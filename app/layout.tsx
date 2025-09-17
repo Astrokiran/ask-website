@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import OrganizationSchema from "@/components/schema/OrganizationSchema"
 import LocalBusinessSchema from "@/components/schema/LocalBusinessSchema"
 import { ServiceWorker } from "@/components/performance/ServiceWorker"
+import { AuthProvider } from "@/contexts/AuthContext"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -65,9 +67,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="w-full max-w-full min-h-screen overflow-x-hidden">
-            {children}
-          </div>
+          <AuthProvider>
+            <div className="w-full max-w-full min-h-screen overflow-x-hidden">
+              {children}
+            </div>
+            <Toaster />
+          </AuthProvider>
         </ThemeProvider>
         <ServiceWorker />
         <GoogleAnalytics gaId="G-97R5TTNY4G" />

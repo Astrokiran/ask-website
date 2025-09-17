@@ -23,7 +23,7 @@ export function Testimonials() {
               <p className="text-gray-600 dark:text-gray-300 mb-4">{testimonial.content}</p>
               <div className="flex items-center gap-3">
                 <Avatar>
-                  <AvatarFallback className="bg-blue-600 text-white">HC</AvatarFallback>
+                  <AvatarFallback className="bg-orange-600 text-white">HC</AvatarFallback>
                 </Avatar>
                 <div className="text-sm text-gray-600 dark:text-gray-400">{testimonial.author}</div>
               </div>

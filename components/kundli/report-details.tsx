@@ -33,7 +33,7 @@ interface ZodiacImageMap {
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode; imageUrl?: string | null; }> = ({ title, icon, children, imageUrl }) => (
   <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 transition-all duration-200 hover:shadow-sm overflow-hidden">
     <h3 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-      <span className="text-blue-600 dark:text-blue-400 mr-3">{icon}</span>
+      <span className="text-orange-600 dark:text-orange-400 mr-3">{icon}</span>
       {title}
     </h3>
     {/* Responsive container for content and image */}
@@ -91,7 +91,7 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
         return (
             <div className="min-h-screen p-8 flex items-center justify-center">
                 <p className="text-lg text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                    <Bot size={20} className="text-blue-600 dark:text-blue-400 animate-pulse" />
+                    <Bot size={20} className="text-orange-600 dark:text-orange-400 animate-pulse" />
                     Preparing your astrological report...
                 </p>
             </div>
@@ -105,11 +105,11 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
         ul: ({ node, ...props }: any) => <ul className="list-disc list-inside space-y-3 mb-4" {...props} />,
         li: ({ node, ...props }: any) => (
             <li className="flex items-start">
-                <Sparkles size={15} className="text-blue-600 dark:text-blue-400 mr-3 mt-1.5 flex-shrink-0" />
+                <Sparkles size={15} className="text-orange-600 dark:text-orange-400 mr-3 mt-1.5 flex-shrink-0" />
                 <span>{props.children}</span>
             </li>
         ),
-        strong: ({ node, ...props }: any) => <strong className="font-semibold text-blue-600 dark:text-blue-400" {...props} />,
+        strong: ({ node, ...props }: any) => <strong className="font-semibold text-orange-600 dark:text-orange-400" {...props} />,
     };
 
     const { report } = kundliData;

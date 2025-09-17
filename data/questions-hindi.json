@@ -79,6 +79,46 @@
       "correct": 1,
       "category": "Philosophy",
       "difficulty": "hard"
+    },
+    {
+      "id": 11,
+      "question": "वैदिक ज्योतिष में कौन सा ग्रह सबसे शुभ माना जाता है?",
+      "answers": ["अ: मंगल", "ब: बृहस्पति", "स: शुक्र", "द: बुध"],
+      "correct": 1,
+      "category": "Vedic Astrology",
+      "difficulty": "medium"
+    },
+    {
+      "id": 12,
+      "question": "प्राचीन ग्रंथ 'योग सूत्र' के लेखक कौन हैं?",
+      "answers": ["अ: महर्षि व्यास", "ब: महर्षि वाल्मीकि", "स: महर्षि पतंजलि", "द: आदि शंकराचार्य"],
+      "correct": 2,
+      "category": "Scriptures",
+      "difficulty": "hard"
+    },
+    {
+      "id": 13,
+      "question": "कौन सा त्योहार पुतले जलाकर बुराई पर अच्छाई की जीत मनाता है?",
+      "answers": ["अ: दिवाली", "ब: होली", "स: दशहरा", "द: करवा चौथ"],
+      "correct": 2,
+      "category": "Festivals",
+      "difficulty": "easy"
+    },
+    {
+      "id": 14,
+      "question": "हिंदू दर्शन में मानव जीवन के चार मुख्य लक्ष्य क्या कहलाते हैं?",
+      "answers": ["अ: पुरुषार्थ", "ब: आश्रम", "स: वर्ण", "द: गुण"],
+      "correct": 0,
+      "category": "Philosophy",
+      "difficulty": "medium"
+    },
+    {
+      "id": 15,
+      "question": "कौन से हिंदू देवता को 'नटराज' - ब्रह्मांडीय नर्तक के रूप में जाना जाता है?",
+      "answers": ["अ: भगवान विष्णु", "ब: भगवान ब्रह्मा", "स: भगवान शिव", "द: भगवान इंद्र"],
+      "correct": 2,
+      "category": "Hindu Gods",
+      "difficulty": "medium"
     }
   ]
 }

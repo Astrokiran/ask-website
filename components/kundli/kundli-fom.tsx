@@ -455,7 +455,7 @@ export default function KundliPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                     errors['name'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                   }`}
                   placeholder="Enter your name"
@@ -472,7 +472,7 @@ export default function KundliPage() {
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                     errors['gender'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                   }`}
                 >
@@ -493,7 +493,7 @@ export default function KundliPage() {
                     name="dob_day"
                     value={selectedDay}
                     onChange={(e) => handleDatePartChange('day', e.target.value)}
-                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
@@ -507,7 +507,7 @@ export default function KundliPage() {
                     name="dob_month"
                     value={selectedMonth}
                     onChange={(e) => handleDatePartChange('month', e.target.value)}
-                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
@@ -521,7 +521,7 @@ export default function KundliPage() {
                     name="dob_year"
                     value={selectedYear}
                     onChange={(e) => handleDatePartChange('year', e.target.value)}
-                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                    className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
@@ -545,7 +545,7 @@ export default function KundliPage() {
                              name="tob_hour"
                              value={selectedHour}
                              onChange={(e) => handleTimePartChange('hour', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                                errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                              }`}
                            >
@@ -559,7 +559,7 @@ export default function KundliPage() {
                              name="tob_minute"
                              value={selectedMinute}
                              onChange={(e) => handleTimePartChange('minute', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                                errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                              }`}
                            >
@@ -573,7 +573,7 @@ export default function KundliPage() {
                              name="tob_second"
                              value={selectedSecond}
                              onChange={(e) => handleTimePartChange('second', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                                errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                              }`}
                            >
@@ -587,7 +587,7 @@ export default function KundliPage() {
                              name="tob_ampm"
                              value={selectedAmPm}
                              onChange={(e) => handleTimePartChange('ampm', e.target.value)}
-                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                             className={`w-full px-1 sm:px-4 py-2.5 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                                errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                              }`}
                            >
@@ -616,7 +616,7 @@ export default function KundliPage() {
                       name="pob"
                       defaultValue={formData.pob}
                       onChange={handleChange}
-                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                         errors['pob'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                       }`}
                       placeholder="Type and select your city"
@@ -630,7 +630,7 @@ export default function KundliPage() {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 sm:py-4 text-sm sm:text-base rounded-lg font-medium hover:bg-blue-700 transition duration-200 ease-in-out shadow-lg hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed mt-4 sm:mt-6"
+                className="w-full bg-orange-600 text-white py-3 sm:py-4 text-sm sm:text-base rounded-lg font-medium hover:bg-orange-700 transition duration-200 ease-in-out shadow-lg hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed mt-4 sm:mt-6"
                 disabled={loading}
               >
                 {loading ? (

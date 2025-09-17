@@ -119,13 +119,13 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
                                 <tbody className="bg-white dark:bg-gray-800">
                                     {SIGN_NAMES.map((signName, index) => (
                                         <tr key={signName} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap font-medium text-blue-600 dark:text-blue-400 sticky left-0 bg-white dark:bg-gray-800 z-10 w-[80px] text-xs sm:text-sm">{signName}</td>
+                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap font-medium text-orange-600 dark:text-orange-400 sticky left-0 bg-white dark:bg-gray-800 z-10 w-[80px] text-xs sm:text-sm">{signName}</td>
                                             {PLANET_KEYS.map(planet => (
                                                 <td key={`${planet}-${index}`} className="px-1 sm:px-2 py-3 whitespace-nowrap text-center text-gray-900 dark:text-white w-[45px] text-xs sm:text-sm">
                                                     {tableData.bhinna_ashtakavarga[planet]?.[index] ?? '-'}
                                                 </td>
                                             ))}
-                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap text-center font-semibold text-blue-600 dark:text-blue-400 w-[55px] text-xs sm:text-sm">
+                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap text-center font-semibold text-orange-600 dark:text-orange-400 w-[55px] text-xs sm:text-sm">
                                                 {tableData.sarvashtakavarga?.[index] ?? '-'}
                                             </td>
                                         </tr>

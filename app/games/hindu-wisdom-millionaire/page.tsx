@@ -201,15 +201,15 @@ export default function HinduWisdomMillionairePage() {
                                 </p>
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                                     <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600 shadow-sm">
-                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2 text-sm sm:text-base">15 Challenging Questions</h3>
+                                        <h3 className="font-semibold text-orange-600 dark:text-orange-400 mb-2 text-sm sm:text-base">15 Challenging Questions</h3>
                                         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Progressive difficulty levels testing your Hindu knowledge comprehensively</p>
                                     </div>
                                     <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600 shadow-sm">
-                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2 text-sm sm:text-base">Wisdom Levels</h3>
+                                        <h3 className="font-semibold text-orange-600 dark:text-orange-400 mb-2 text-sm sm:text-base">Wisdom Levels</h3>
                                         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Advance from Seeker to Enlightened Master based on your performance</p>
                                     </div>
                                     <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600 shadow-sm">
-                                        <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2 text-sm sm:text-base">Bilingual Support</h3>
+                                        <h3 className="font-semibold text-orange-600 dark:text-orange-400 mb-2 text-sm sm:text-base">Bilingual Support</h3>
                                         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Play in both English and Hindi for better understanding</p>
                                     </div>
                                 </div>

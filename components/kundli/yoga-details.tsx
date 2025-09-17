@@ -100,20 +100,20 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
 
               <div className="space-y-3 text-sm text-gray-900 dark:text-white">
                 <div>
-                  <span className="font-medium text-blue-600 dark:text-blue-400">Significance: </span>
+                  <span className="font-medium text-orange-600 dark:text-orange-400">Significance: </span>
                   <span>{yoga.significance}</span>
                 </div>
 
                 {yoga.planets_involved && yoga.planets_involved.length > 0 && (
                   <div>
-                    <span className="font-medium text-blue-600 dark:text-blue-400">Planets Involved: </span>
+                    <span className="font-medium text-orange-600 dark:text-orange-400">Planets Involved: </span>
                     <span>{yoga.planets_involved.join(', ')}</span>
                   </div>
                 )}
 
                 {yoga.houses_involved && yoga.houses_involved.length > 0 && (
                   <div>
-                    <span className="font-medium text-blue-600 dark:text-blue-400">Houses Involved: </span>
+                    <span className="font-medium text-orange-600 dark:text-orange-400">Houses Involved: </span>
                     <span>{yoga.houses_involved.join(', ')}</span>
                   </div>
                 )}
@@ -121,7 +121,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
 
               {yoga.effects && yoga.effects.length > 0 && (
                 <div className="mt-4">
-                  <h5 className="font-medium text-blue-600 dark:text-blue-400 mb-2">Effects:</h5>
+                  <h5 className="font-medium text-orange-600 dark:text-orange-400 mb-2">Effects:</h5>
                   <ul className="list-disc list-inside text-gray-900 dark:text-white space-y-1 text-sm">
                     {yoga.effects.map((effect, effectIndex) => (
                       <li key={effectIndex}>{effect}</li>
@@ -141,7 +141,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
       {/* Yoga Summary Section */}
       <div className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-xl border border-gray-200 dark:border-gray-700 mb-12">
         <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-3 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-3 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Yoga Summary
@@ -149,7 +149,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           <div className="flex items-center bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
             <div className="mr-4">
-              <p className="text-3xl font-semibold text-blue-600 dark:text-blue-400">{yoga_summary.total_yogas}</p>
+              <p className="text-3xl font-semibold text-orange-600 dark:text-orange-400">{yoga_summary.total_yogas}</p>
             </div>
             <div>
               <p className="font-medium text-gray-900 dark:text-white">Total Yogas Detected</p>
@@ -157,7 +157,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
           </div>
           <div className="flex items-center bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
             <div className="mr-4">
-               <p className="text-xl font-semibold text-blue-600 dark:text-blue-400">{yoga_summary.most_significant || 'N/A'}</p>
+               <p className="text-xl font-semibold text-orange-600 dark:text-orange-400">{yoga_summary.most_significant || 'N/A'}</p>
             </div>
             <div>
               <p className="font-medium text-gray-900 dark:text-white">Most Significant Yoga</p>

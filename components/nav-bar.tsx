@@ -2,8 +2,11 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useState, useRef } from "react"
-import { Menu, X, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react"
+import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { useAuth } from "@/contexts/AuthContext"
+import { AuthModal } from "@/components/auth/AuthModal"
+import { UserDropdown } from "@/components/auth/UserDropdown"
 
 const whatsappNumber = "+918197503574";
 const message = "Hello, I would like to get an astrology consultation.";
@@ -12,7 +15,9 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const { user, loading } = useAuth()
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -48,28 +53,28 @@ export function NavBar() {
               className="flex items-center gap-1 overflow-x-auto nav-scroll w-full min-w-0"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-            <Link href="/free-kundli" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/free-kundli" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Free Kundli
             </Link>
-            <Link href="/kundli-match" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/kundli-match" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Kundli Matching
             </Link>
-            <Link href="/horoscopes" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/horoscopes" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Daily Horoscope
             </Link>
-            <Link href="/blog" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/blog" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Blogs
             </Link>
-            <Link href="/#astrologers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/#astrologers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Our Astrologers
             </Link>
-            <Link href="/#services" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/#services" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Services
             </Link>
-            <Link href="/pricing" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/pricing" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Pricing
             </Link>
-            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Games
             </Link>
             </div>
@@ -78,6 +83,21 @@ export function NavBar() {
           {/* Fixed Right Side Actions - Desktop */}
           <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
+            {!loading && (
+              user ? (
+                <UserDropdown />
+              ) : (
+                <Button
+                  onClick={() => setShowAuthModal(true)}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>Sign In</span>
+                </Button>
+              )
+            )}
             <a
               href={whatsappLink}
               target="_blank"
@@ -96,6 +116,20 @@ export function NavBar() {
           {/* Fixed Right Side Actions - Mobile/Tablet */}
           <div className="md:hidden flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
+            {!loading && (
+              user ? (
+                <UserDropdown />
+              ) : (
+                <Button
+                  onClick={() => setShowAuthModal(true)}
+                  variant="outline"
+                  size="sm"
+                  className="p-2"
+                >
+                  <LogIn className="w-4 h-4" />
+                </Button>
+              )
+            )}
             <a
               href={whatsappLink}
               target="_blank"
@@ -149,11 +183,11 @@ export function NavBar() {
 
               <Link
                 href="/#astrologers"
-                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all duration-200"
+                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <span className="text-blue-500">👨‍🏫</span>
-                <span className="group-hover:text-blue-600 transition-colors">Find Astrologers</span>
+                <span className="text-orange-500">👨‍🏫</span>
+                <span className="group-hover:text-orange-600 transition-colors">Find Astrologers</span>
               </Link>
               <Link
                 href="/#services"
@@ -181,6 +215,20 @@ export function NavBar() {
                 <span className="group-hover:text-purple-600 transition-colors">Hindu Wisdom Game</span>
               </Link>
 
+              {/* Auth section for mobile */}
+              {!loading && !user && (
+                <button
+                  onClick={() => {
+                    setShowAuthModal(true);
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200 w-full"
+                >
+                  <span className="text-orange-500">👤</span>
+                  <span className="group-hover:text-orange-600 transition-colors">Sign In / Sign Up</span>
+                </button>
+              )}
+
               {/* Enhanced WhatsApp mobile button */}
               <a
                 href="https://wa.me/+918197503574?text=Hello, I would like to get an astrology consultation."
@@ -201,6 +249,12 @@ export function NavBar() {
         )}
       </div>
       <div className="h-[65px]" />
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </>
   )
 }

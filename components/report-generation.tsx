@@ -8,7 +8,7 @@ export function ReportGeneration() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Clean Header */}
         <div className="text-center mb-16">
-          <div className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-lg font-medium text-sm mb-6">
+          <div className="inline-block bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-lg font-medium text-sm mb-6">
             Complimentary Report
           </div>
 
@@ -45,7 +45,7 @@ export function ReportGeneration() {
                     "Career, Health & Relationship Insights"
                   ].map((item, index) => (
                     <li key={item} className="flex items-center text-gray-600 dark:text-gray-400 text-sm">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></div>
+                      <div className="w-2 h-2 bg-orange-600 rounded-full mr-3 flex-shrink-0"></div>
                       {item}
                     </li>
                   ))}
@@ -53,7 +53,7 @@ export function ReportGeneration() {
               </div>
 
               <Link href="/free-kundli">
-                <Button className="w-full group bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg px-8 py-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02] flex items-center justify-center gap-3">
+                <Button className="w-full group bg-orange-600 hover:bg-orange-700 text-white font-medium text-lg px-8 py-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02] flex items-center justify-center gap-3">
                   Generate Your Kundli
                   <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
                 </Button>

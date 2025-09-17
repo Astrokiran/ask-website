@@ -60,7 +60,7 @@ export function BlogPagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={!hasPrevPage}
-        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold bg-orange-600 hover:bg-orange-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         aria-label="Go to previous page"
       >
         <ChevronLeft className="h-4 w-4" />
@@ -89,8 +89,8 @@ export function BlogPagination({
               onClick={() => onPageChange(pageNumber as number)}
               className={`relative inline-flex items-center px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:scale-[1.02] ${
                 isCurrentPage
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 hover:border-blue-300'
+                  ? 'bg-orange-600 text-white'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600 hover:border-orange-300'
               }`}
               aria-label={`Go to page ${pageNumber}`}
               aria-current={isCurrentPage ? 'page' : undefined}
@@ -105,7 +105,7 @@ export function BlogPagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={!hasNextPage}
-        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+        className="relative inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold bg-orange-600 hover:bg-orange-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         aria-label="Go to next page"
       >
         <span className="hidden sm:inline">Next</span>

@@ -52,12 +52,12 @@ const ProgressBar: React.FC<{ value: number; colorClass: string }> = ({ value, c
 );
 
 const InfoBlock: React.FC<{ title: string; content: string }> = ({ title, content }) => (
-  <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
-    <h4 className="font-semibold text-blue-800 flex items-center mb-1">
+  <div className="bg-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
+    <h4 className="font-semibold text-orange-800 flex items-center mb-1">
       <Info className="w-5 h-5 mr-2" />
       {title}
     </h4>
-    <p className="text-sm text-blue-700">{content}</p>
+    <p className="text-sm text-orange-700">{content}</p>
   </div>
 );
 
