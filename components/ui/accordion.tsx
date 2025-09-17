@@ -5,11 +5,10 @@ import { cn } from "@/lib/utils"
 
 interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "single" | "multiple"
-  collapsible?: boolean
 }
 
 const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
-  ({ className, children, ...props }, ref) => (
+  ({ className, children, type, ...props }, ref) => (
     <div ref={ref} className={cn("", className)} {...props}>
       {children}
     </div>
