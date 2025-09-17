@@ -136,9 +136,9 @@ export function HeroSection({
         {/* Mobile Services Cards - Only visible on mobile */}
         <div className="block lg:hidden">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Choose Your Service
-            </h1>
+            </h2>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
               Get personalized insights and guidance from expert astrologers
             </p>

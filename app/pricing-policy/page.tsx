@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 
 export const metadata: Metadata = {
-  title: "Pricing Policy - Astrokiran Astrology Service Pricing & Payment Terms",
+  title: "Pricing Policy - Astrokiran Payment Terms",
   description: "Learn about Astrokiran's pricing policy, payment schedules, price matching, and terms of service. WhatsApp consultations from ₹50-500 per session.",
   keywords: ["pricing policy", "astrology pricing", "payment terms", "consultation fees", "whatsapp astrology cost"],
   alternates: {

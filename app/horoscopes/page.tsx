@@ -7,7 +7,7 @@ import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope"
 export const metadata: Metadata = {
   title: "Daily Horoscope - Rashi Predictions for All Signs",
   description: "Read your daily horoscope predictions for all 12 zodiac signs. Get accurate rashi forecasts, love, career, and health predictions updated daily by expert astrologers.",
-  keywords: ["daily horoscope", "rashi predictions", "zodiac signs", "astrology predictions", "horoscope today"],
+  keywords: ["daily horoscope", "horoscopes", "rashi predictions", "zodiac signs", "astrology predictions", "horoscope today", "free horoscopes", "daily horoscope reading"],
   alternates: {
     canonical: "https://astrokiran.com/horoscopes",
   },

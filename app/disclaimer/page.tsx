@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 
 export const metadata: Metadata = {
-  title: "Disclaimer - Astrokiran Astrology Service Disclaimers",
+  title: "Disclaimer - Astrokiran Astrology Services",
   description: "Important disclaimer about Astrokiran's astrology services. Read about service limitations, entertainment purposes, and professional advice guidelines.",
   keywords: ["astrology disclaimer", "service limitations", "entertainment purposes", "professional advice"],
   alternates: {

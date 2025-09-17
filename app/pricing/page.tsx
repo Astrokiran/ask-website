@@ -4,7 +4,7 @@ import Pricing from "@/components/pricing"
 import { Footer } from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Astrology Services Pricing - Tarot, Palmistry, Numerology & Consultation Rates",
+  title: "Astrology Pricing - Kundli, Tarot & Palmistry Rates",
   description: "Transparent pricing for complete astrology services including FREE ₹1000 kundli, tarot reading, prashna kundali, palmistry, hastrekha, numerology, and WhatsApp consultations across India.",
   keywords: ["astrology pricing", "tarot reading cost", "palmistry rates", "numerology fees", "prashna kundali price", "whatsapp consultation rates", "affordable astrology India"],
   alternates: {

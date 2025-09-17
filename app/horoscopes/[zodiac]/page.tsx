@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: HoroscopePageProps): Promise<
   const zodiac = params.zodiac.charAt(0).toUpperCase() + params.zodiac.slice(1);
 
   return {
-    title: `${zodiac} Horoscope Today - Daily Predictions & Astrology Forecast`,
+    title: `${zodiac} Horoscope Today - Daily Predictions`,
     description: `Get today's ${zodiac} horoscope with accurate daily predictions for love, career, health, and finance. Free daily astrology forecast for ${zodiac} zodiac sign.`,
     keywords: [`${zodiac.toLowerCase()} horoscope`, `${zodiac.toLowerCase()} horoscope today`, `${zodiac.toLowerCase()} daily horoscope`, `${zodiac.toLowerCase()} astrology`, `${zodiac.toLowerCase()} predictions`],
     alternates: {

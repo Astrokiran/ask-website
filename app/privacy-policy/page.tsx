@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Astrokiran Data Protection & Security",
+  title: "Privacy Policy - Astrokiran Data Protection",
   description: "Astrokiran's privacy policy explaining how we collect, use, and protect your personal information for astrology consultations, kundli services, and horoscope readings.",
   keywords: ["privacy policy", "data protection", "astrology privacy", "personal information security"],
   alternates: {

@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions - Astrokiran Astrology Services",
+  title: "Terms & Conditions - Astrokiran Services",
   description: "Read Astrokiran's terms and conditions for astrology services, WhatsApp consultations, kundli generation, and horoscope readings. Complete service terms and policies.",
   keywords: ["astrology terms", "service conditions", "astrokiran policies", "astrology service agreement"],
   alternates: {
