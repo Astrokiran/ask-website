@@ -34,12 +34,12 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
       ...job.tags.map(tag => tag.toLowerCase())
     ],
     alternates: {
-      canonical: `https://astrokiran.com/careers/${job.slug}`,
+      canonical: `https://astrokiran.com/Jobs/${job.slug}`,
     },
     openGraph: {
       title: `${job.title} - ${job.department} | Astrokiran Careers`,
       description: `Join Astrokiran as ${job.title} in ${job.department}. ${job.location} • ${job.type} • ${job.experience}. Apply now!`,
-      url: `https://astrokiran.com/careers/${job.slug}`,
+      url: `https://astrokiran.com/Jobs/${job.slug}`,
       type: 'website',
     }
   };

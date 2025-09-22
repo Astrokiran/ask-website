@@ -142,7 +142,11 @@ export default function JobApplicationModal({ isOpen, onClose, job }: JobApplica
     try {
       // Upload resume to Firebase Storage
       const resumeFile = formData.resume!;
-      const resumeRef = ref(storage, `resumes/${job.id}/${Date.now()}_${resumeFile.name}`);
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        throw new Error('User not authenticated');
+      }
+      const resumeRef = ref(storage, `resumes/${currentUser.uid}/${Date.now()}_${resumeFile.name}`);
 
       setUploadProgress(10);
 

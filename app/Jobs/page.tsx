@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Join our growing team at Astrokiran! Explore exciting career opportunities in astrology, technology, content creation, and customer service. Apply for open positions and grow with India's leading astrology platform.",
   keywords: ["astrokiran careers", "astrology jobs", "tech jobs India", "content writer jobs", "customer service jobs", "remote jobs", "astrology industry careers"],
   alternates: {
-    canonical: "https://astrokiran.com/careers",
+    canonical: "https://astrokiran.com/Jobs",
   },
 }
 
