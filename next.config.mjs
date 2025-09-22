@@ -17,12 +17,12 @@ const nextConfig = {
     return [
       {
         source: '/careers',
-        destination: '/Jobs',
+        destination: '/jobs',
         permanent: true,
       },
       {
         source: '/careers/:slug',
-        destination: '/Jobs/:slug',
+        destination: '/jobs/:slug',
         permanent: true,
       },
     ]

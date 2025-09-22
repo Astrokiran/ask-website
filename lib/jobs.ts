@@ -16,6 +16,7 @@ export interface Job {
   type: string; // full-time, part-time, contract, internship
   experience: string; // entry-level, mid-level, senior-level
   salary?: string;
+  availablePositions?: number;
   description: any; // Rich text from Contentful
   requirements: string[];
   responsibilities: string[];
@@ -35,6 +36,7 @@ export interface JobPreview {
   type: string;
   experience: string;
   salary?: string;
+  availablePositions?: number;
   publishDate: string;
   isActive: boolean;
   applicationDeadline?: string;
@@ -89,6 +91,7 @@ const mapEntryToJobPreview = (item: Entry<any>): JobPreview => {
     type: item.fields.type as string,
     experience: item.fields.experience as string,
     salary: item.fields.salary as string,
+    availablePositions: item.fields.availablePositions as number,
     publishDate: item.fields.publishDate as string,
     isActive: item.fields.isActive as boolean,
     applicationDeadline: item.fields.applicationDeadline as string,
@@ -106,6 +109,7 @@ const mapEntryToJob = (item: Entry<any>): Job => {
     type: item.fields.type as string,
     experience: item.fields.experience as string,
     salary: item.fields.salary as string,
+    availablePositions: item.fields.availablePositions as number,
     description: item.fields.description,
     requirements: item.fields.requirements as string[] || [],
     responsibilities: item.fields.responsibilities as string[] || [],

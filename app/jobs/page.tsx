@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Join our growing team at Astrokiran! Explore exciting career opportunities in astrology, technology, content creation, and customer service. Apply for open positions and grow with India's leading astrology platform.",
   keywords: ["astrokiran careers", "astrology jobs", "tech jobs India", "content writer jobs", "customer service jobs", "remote jobs", "astrology industry careers"],
   alternates: {
-    canonical: "https://astrokiran.com/Jobs",
+    canonical: "https://astrokiran.com/jobs",
   },
 }
 
@@ -45,18 +45,10 @@ export default function CareersPage() {
               </p>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
                   <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">40,000+</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">Active Users</div>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">50+</div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">Team Members</div>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">5+</div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">Years Growth</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
                   <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">Remote</div>

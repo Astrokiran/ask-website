@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin, Building, Clock, Calendar, DollarSign, ArrowLeft, Share2, BookmarkPlus } from 'lucide-react';
+import { MapPin, Building, Clock, Calendar, DollarSign, ArrowLeft, Share2, BookmarkPlus, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -146,6 +146,12 @@ export default function JobDetail({ job, relatedJobs }: JobDetailProps) {
                     <MapPin className="w-4 h-4" />
                     <span>{job.location}</span>
                   </div>
+                  {job.availablePositions && (
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      <span>{job.availablePositions} {job.availablePositions === 1 ? 'opening' : 'openings'}</span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4" />
                     <span>Posted {formatDate(job.publishDate)}</span>
@@ -321,7 +327,7 @@ export default function JobDetail({ job, relatedJobs }: JobDetailProps) {
                     {relatedJobs.filter(relatedJob => relatedJob.id !== job.id).slice(0, 2).map((relatedJob) => (
                       <Link
                         key={relatedJob.id}
-                        href={`/Jobs/${relatedJob.slug}`}
+                        href={`/jobs/${relatedJob.slug}`}
                         className="block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow duration-200"
                       >
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
@@ -336,7 +342,7 @@ export default function JobDetail({ job, relatedJobs }: JobDetailProps) {
                       </Link>
                     ))}
                   </div>
-                  <Link href="/Jobs">
+                  <Link href="/jobs">
                     <Button variant="outline" className="w-full mt-4">
                       View All Jobs
                     </Button>

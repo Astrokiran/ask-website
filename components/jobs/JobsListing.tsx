@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, MapPin, Building, Clock, Filter, ChevronDown, Briefcase } from 'lucide-react';
+import { Search, MapPin, Building, Clock, Filter, ChevronDown, Briefcase, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { getJobs, getJobDepartments, getJobLocations, type JobPreview, type JobFilters } from '@/lib/jobs';
@@ -326,6 +326,12 @@ export default function JobsListing({ initialJobs = [], showFilters = true }: Jo
                       <MapPin className="w-4 h-4" />
                       {job.location}
                     </div>
+                    {job.availablePositions && (
+                      <div className="flex items-center gap-1">
+                        <Users className="w-4 h-4" />
+                        {job.availablePositions} {job.availablePositions === 1 ? 'opening' : 'openings'}
+                      </div>
+                    )}
                     <div className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
                       {formatDate(job.publishDate)}
@@ -358,7 +364,7 @@ export default function JobsListing({ initialJobs = [], showFilters = true }: Jo
                         </p>
                       )}
                     </div>
-                    <Link href={`/Jobs/${job.slug}`}>
+                    <Link href={`/jobs/${job.slug}`}>
                       <Button className="bg-orange-600 hover:bg-orange-700">
                         View Details
                       </Button>
