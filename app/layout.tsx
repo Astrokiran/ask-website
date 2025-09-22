@@ -59,6 +59,7 @@ export default function RootLayout({
       <head>
         <OrganizationSchema />
         <LocalBusinessSchema />
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </head>
       <body className={`${inter.className} min-h-screen w-full overflow-x-hidden`}>
         <ThemeProvider
