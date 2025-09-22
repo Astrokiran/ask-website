@@ -13,6 +13,20 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
   },
+  async redirects() {
+    return [
+      {
+        source: '/careers',
+        destination: '/Jobs',
+        permanent: true,
+      },
+      {
+        source: '/careers/:slug',
+        destination: '/Jobs/:slug',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     return [
       {

@@ -321,7 +321,7 @@ export default function JobDetail({ job, relatedJobs }: JobDetailProps) {
                     {relatedJobs.filter(relatedJob => relatedJob.id !== job.id).slice(0, 2).map((relatedJob) => (
                       <Link
                         key={relatedJob.id}
-                        href={`/careers/${relatedJob.slug}`}
+                        href={`/Jobs/${relatedJob.slug}`}
                         className="block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow duration-200"
                       >
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
@@ -336,7 +336,7 @@ export default function JobDetail({ job, relatedJobs }: JobDetailProps) {
                       </Link>
                     ))}
                   </div>
-                  <Link href="/careers">
+                  <Link href="/Jobs">
                     <Button variant="outline" className="w-full mt-4">
                       View All Jobs
                     </Button>

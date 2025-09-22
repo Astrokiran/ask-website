@@ -358,7 +358,7 @@ export default function JobsListing({ initialJobs = [], showFilters = true }: Jo
                         </p>
                       )}
                     </div>
-                    <Link href={`/careers/${job.slug}`}>
+                    <Link href={`/Jobs/${job.slug}`}>
                       <Button className="bg-orange-600 hover:bg-orange-700">
                         View Details
                       </Button>
