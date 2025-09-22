@@ -74,8 +74,11 @@ export function NavBar() {
             <Link href="/pricing" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Pricing
             </Link>
-            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0 mr-4">
+            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Games
+            </Link>
+            <Link href="/careers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0 mr-4">
+              Careers
             </Link>
             </div>
           </div>
@@ -213,6 +216,15 @@ export function NavBar() {
               >
                 <span className="text-purple-500">🎮</span>
                 <span className="group-hover:text-purple-600 transition-colors">Hindu Wisdom Game</span>
+              </Link>
+
+              <Link
+                href="/careers"
+                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="text-blue-500">💼</span>
+                <span className="group-hover:text-blue-600 transition-colors">Careers</span>
               </Link>
 
               {/* Auth section for mobile */}
