@@ -210,9 +210,7 @@ export default function HinduWisdomMillionaire() {
     setHiddenAnswers([]); // Reset hidden answers for new game
 
     // Small delay to ensure questions are shuffled
-    setTimeout(() => {
-      loadQuestion();
-    }, 100);
+    loadQuestion();
   };
 
   const loadQuestion = () => {
@@ -228,7 +226,7 @@ export default function HinduWisdomMillionaire() {
       setIsLoading(false);
       setSelectedAnswer(null);
       startTimer();
-    }, 1500);
+    }, 200);
   };
 
   const selectAnswer = (answerIndex: number) => {
@@ -255,9 +253,9 @@ export default function HinduWisdomMillionaire() {
           } else {
             endGame(true);
           }
-        }, 2500);
+        }, 600);
       }
-    }, 1200);
+    }, 800);
   };
 
   const getSafeAmount = (): number => {
