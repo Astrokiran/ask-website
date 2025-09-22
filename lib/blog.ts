@@ -193,7 +193,6 @@ export const getBlogTags = async (): Promise<Array<{ id: string; name: string; c
   try {
     // Since blogTag content type doesn't exist, return empty array
     // This can be implemented when the blogTag content type is created in Contentful
-    console.log('blogTag content type not found, returning empty tags array');
     return [];
   } catch (error) {
     console.error('Error fetching blog tags:', error);

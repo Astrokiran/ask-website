@@ -344,10 +344,8 @@ export default function ReportDisplayPage() {
           place_of_birth: params.place_of_birth || fallbackPlace,
         };
 
-        console.log("Sending payload:", JSON.stringify(kundliRequestBody, null, 2));
 
         const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-        console.log("API Base URL:", apiBaseUrl);
 
         const [basicRes,kundliRes, chartsRes, yogasRes,ashatakavargaRes,ashtakavargaDataRes,doshaRes,summaryRes,reportRes] = await Promise.all([
           fetch(`${apiBaseUrl}/api/birth-details`, {
@@ -426,8 +424,6 @@ export default function ReportDisplayPage() {
 
 
 
-        console.log("Kundli Response (raw):", JSON.stringify(kundliResponse, null, 2));
-        console.log("Charts Response (raw):", JSON.stringify(chartsResponse, null, 2));
 
         const mappedData: KundliData = {
           data: {
@@ -485,7 +481,6 @@ export default function ReportDisplayPage() {
           basic_details: basicResponse,
         };
 
-        console.log("Mapped Data (charts):", JSON.stringify(mappedData.charts, null, 2));
         setReportData(mappedData);
       } catch (err) {
         console.error("Error fetching Kundli or Charts details from API:", err);

@@ -28,12 +28,6 @@ export const UserDropdown: React.FC = () => {
 
   if (!user) return null;
 
-  // Debug user data
-  console.log('User data:', {
-    displayName: user.displayName,
-    photoURL: user.photoURL,
-    email: user.email
-  });
 
   const getInitials = (name: string) => {
     return name

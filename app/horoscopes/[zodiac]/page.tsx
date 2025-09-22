@@ -56,7 +56,6 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
     console.error("HOROSCOPE_API_URL environment variable is not set.");
     return null;
   }
-  console.log("the next public horoscope url",apiBaseUrl)
   const apiUrl = `${apiBaseUrl}/api/v1/kundali/horoscope/daily/${sign}`;
   try {
     const response = await fetch(apiUrl, { next: { revalidate: 3600 } });

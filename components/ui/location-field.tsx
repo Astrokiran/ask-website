@@ -94,7 +94,6 @@ export default function LocationField({ form, required = true }: LocationFieldPr
         });
 
         setIsAutocompleteInitialized(true);
-        console.log("Google Places Autocomplete initialized successfully");
       }
     } catch (err) {
       console.error("Error initializing Google Places Autocomplete:", err);
