@@ -296,8 +296,8 @@ export function HeroSection({
                 </div>
 
                 {/* Large Astrologer Image with Navigation */}
-                <div className="relative flex items-center justify-center">
-                  {/* Previous Button */}
+                <div className="relative flex items-center justify-center w-full max-w-md mx-auto">
+                  {/* Previous Button - Fixed Position */}
                   <button
                     onClick={handlePrevAstrologer}
                     className="absolute left-0 z-10 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
@@ -305,8 +305,8 @@ export function HeroSection({
                     <ChevronLeft className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                   </button>
 
-                  {/* Main Astrologer Display */}
-                  <div key={currentAstrologerIndex} className="flex flex-col items-center mx-16">
+                  {/* Main Astrologer Display - Fixed Width Container */}
+                  <div key={currentAstrologerIndex} className="flex flex-col items-center w-64 mx-auto">
                     <div className="relative">
                       <img
                         src={astrologersData[currentAstrologerIndex]?.image}
@@ -323,8 +323,8 @@ export function HeroSection({
                     </div>
 
                     {/* Astrologer Info */}
-                    <div className="text-center mt-4">
-                      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                    <div className="text-center mt-4 w-full">
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1 truncate">
                         {astrologersData[currentAstrologerIndex]?.name}
                       </h4>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
@@ -346,7 +346,7 @@ export function HeroSection({
                     </div>
                   </div>
 
-                  {/* Next Button */}
+                  {/* Next Button - Fixed Position */}
                   <button
                     onClick={handleNextAstrologer}
                     className="absolute right-0 z-10 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110"
