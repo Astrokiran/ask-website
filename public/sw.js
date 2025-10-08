@@ -1,41 +1,45 @@
-const CACHE_NAME = 'astrokiran-v1';
+// Version is auto-generated from build time - ensures cache invalidation on every deploy
+const CACHE_VERSION = Date.now();
+const CACHE_NAME = `astrokiran-v${CACHE_VERSION}`;
+
+// Only cache truly static assets (images, fonts) - NOT HTML/CSS/JS
 const STATIC_CACHE_URLS = [
-  '/',
-  '/blog',
   '/favicon.ico',
 ];
 
-// Install event - cache static assets
+// Install event - minimal caching
 self.addEventListener('install', (event) => {
+  console.log('[SW] Installing new service worker version:', CACHE_VERSION);
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
         return cache.addAll(STATIC_CACHE_URLS);
       })
       .then(() => {
-        self.skipWaiting();
+        self.skipWaiting(); // Activate immediately
       })
   );
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up ALL old caches aggressively
 self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating new service worker version:', CACHE_VERSION);
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
+          // Delete ALL caches, including current one to force fresh fetches
+          console.log('[SW] Deleting old cache:', cacheName);
+          return caches.delete(cacheName);
         })
       );
     }).then(() => {
-      return self.clients.claim();
+      return self.clients.claim(); // Take control immediately
     })
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - NETWORK FIRST strategy (always try network, fallback to cache)
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') return;
@@ -45,53 +49,58 @@ self.addEventListener('fetch', (event) => {
     event.request.url.includes('/api/') ||
     event.request.url.includes('contentful') ||
     event.request.url.includes('google') ||
+    event.request.url.includes('recaptcha') ||
     !event.request.url.startsWith(self.location.origin)
   ) {
     return;
   }
 
+  // NETWORK FIRST: Always fetch from network, only use cache as fallback
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request)
-          .then((fetchResponse) => {
-            // Don't cache if not a valid response
-            if (!fetchResponse || fetchResponse.status !== 200 || fetchResponse.type !== 'basic') {
-              return fetchResponse;
-            }
+    fetch(event.request)
+      .then((networkResponse) => {
+        // Don't cache if not a valid response
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
 
-            // Clone the response
-            const responseToCache = fetchResponse.clone();
+        // Only cache images and fonts (NOT HTML, CSS, JS)
+        const url = event.request.url;
+        const shouldCache =
+          url.includes('.png') ||
+          url.includes('.jpg') ||
+          url.includes('.jpeg') ||
+          url.includes('.webp') ||
+          url.includes('.svg') ||
+          url.includes('.woff') ||
+          url.includes('.woff2') ||
+          url.includes('.ttf');
 
-            // Cache static assets and pages
-            if (
-              event.request.url.includes('.js') ||
-              event.request.url.includes('.css') ||
-              event.request.url.includes('.png') ||
-              event.request.url.includes('.jpg') ||
-              event.request.url.includes('.webp') ||
-              event.request.url.endsWith('/') ||
-              event.request.url.includes('/blog')
-            ) {
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(event.request, responseToCache);
-                });
-            }
-
-            return fetchResponse;
+        if (shouldCache) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
           });
+        }
+
+        return networkResponse;
       })
       .catch(() => {
-        // Fallback for offline
-        return new Response('Offline - Please check your connection', {
-          status: 503,
-          statusText: 'Service Unavailable',
-          headers: new Headers({
-            'Content-Type': 'text/plain',
-          }),
-        });
+        // Network failed - try cache as fallback
+        return caches.match(event.request)
+          .then((cachedResponse) => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            // No cache available - return offline message
+            return new Response('Offline - Please check your connection', {
+              status: 503,
+              statusText: 'Service Unavailable',
+              headers: new Headers({
+                'Content-Type': 'text/plain',
+              }),
+            });
+          });
       })
   );
 });

@@ -61,6 +61,10 @@ export default function RootLayout({
       <head>
         <OrganizationSchema />
         <LocalBusinessSchema />
+        {/* Aggressive anti-cache meta tags */}
+        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Expires" content="0" />
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </head>
       <body className={`${inter.className} min-h-screen w-full overflow-x-hidden`}>

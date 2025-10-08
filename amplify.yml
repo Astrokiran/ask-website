@@ -4,6 +4,7 @@ frontend:
     preBuild:
       commands:
         - npm ci
+        - echo "NEXT_PUBLIC_BUILD_TIME=$(date +%s)" >> .env.production
         - echo "Build ID will be $(date +%s)"
     build:
       commands:
