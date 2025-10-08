@@ -10,6 +10,7 @@ import { ServiceWorker } from "@/components/performance/ServiceWorker"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { Toaster } from "@/components/ui/sonner"
 import { AppDownloadPopup } from "@/components/banners/AppDownloadPopup"
+import { FloatingAppCTA } from "@/components/banners/FloatingAppCTA"
 import { CacheBuster } from "./cache-buster"
 
 const inter = Inter({
@@ -80,6 +81,7 @@ export default function RootLayout({
               {children}
             </div>
             <AppDownloadPopup />
+            <FloatingAppCTA />
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

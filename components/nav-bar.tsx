@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useState, useRef } from "react"
-import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn } from "lucide-react"
+import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn, ChevronDown } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/auth/AuthModal"
@@ -14,7 +14,9 @@ const appDownloadLink = "https://play.google.com/store/apps/details?id=com.astro
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [showExploreDropdown, setShowExploreDropdown] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { user, loading } = useAuth()
 
   const scrollLeft = () => {
@@ -29,11 +31,24 @@ export function NavBar() {
     }
   }
 
+  const handleMouseEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current)
+    }
+    setShowExploreDropdown(true)
+  }
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setShowExploreDropdown(false)
+    }, 150)
+  }
+
   return (
     <>
       <div className="fixed top-0 w-full max-w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 z-[9999] text-xl shadow-sm">
 
-        <nav className="relative flex items-center justify-between p-3 sm:p-4 w-full max-w-7xl mx-auto gap-2 overflow-hidden">
+        <nav className="relative flex items-center justify-between p-3 sm:p-4 w-full max-w-7xl mx-auto gap-2">
           {/* Fixed Logo - never shrinks */}
           <Link href="/" className="flex-shrink-0">
             <div className="flex items-center gap-2">
@@ -45,7 +60,7 @@ export function NavBar() {
           </Link>
 
           {/* Desktop and Tablet Navigation */}
-          <div className="hidden md:flex items-center flex-1 min-w-0 mx-2 sm:mx-4">
+          <div className="hidden md:flex items-center flex-1 min-w-0 mx-2 sm:mx-4 relative">
             <div
               ref={scrollContainerRef}
               className="flex items-center gap-1 overflow-x-auto nav-scroll w-full"
@@ -66,19 +81,54 @@ export function NavBar() {
             <Link href="/#astrologers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
              Astrologers
             </Link>
-            {/* <Link href="/#services" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
-              Services
-            </Link> */}
             <Link href="/pricing" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Pricing
             </Link>
-            <Link href="/games/hindu-wisdom-millionaire" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
-              Games
-            </Link>
-            <Link href="/jobs" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0 mr-4">
-              Jobs
-            </Link>
+            {/* Explore Button */}
+            <button
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onClick={() => setShowExploreDropdown(!showExploreDropdown)}
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0 mr-4"
+            >
+              Explore
+              <ChevronDown className={`w-4 h-4 transition-transform ${showExploreDropdown ? 'rotate-180' : ''}`} />
+            </button>
             </div>
+
+            {/* Explore Dropdown - Outside scroll container */}
+            {showExploreDropdown && (
+              <div
+                className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 py-2 z-[10000]"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Link
+                  href="/music"
+                  className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                  onClick={() => setShowExploreDropdown(false)}
+                >
+                  <span className="mr-2">🎵</span>
+                  <span>Music</span>
+                </Link>
+                <Link
+                  href="/games/hindu-wisdom-millionaire"
+                  className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-950/20 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  onClick={() => setShowExploreDropdown(false)}
+                >
+                  <span className="mr-2">🎮</span>
+                  <span>Games</span>
+                </Link>
+                <Link
+                  href="/jobs"
+                  className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-950/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  onClick={() => setShowExploreDropdown(false)}
+                >
+                  <span className="mr-2">💼</span>
+                  <span>Jobs</span>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Fixed Right Side Actions - Desktop */}
@@ -203,23 +253,39 @@ export function NavBar() {
                 <span className="group-hover:text-pink-600 transition-colors">Pricing</span>
               </Link>
 
-              <Link
-                href="/games/hindu-wisdom-millionaire"
-                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <span className="text-purple-500">🎮</span>
-                <span className="group-hover:text-purple-600 transition-colors">Hindu Wisdom Game</span>
-              </Link>
+              {/* Explore Section */}
+              <div className="border-t border-gray-200 dark:border-gray-700 my-2 pt-2">
+                <div className="px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Explore More
+                </div>
 
-              <Link
-                href="/jobs"
-                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <span className="text-blue-500">💼</span>
-                <span className="group-hover:text-blue-600 transition-colors">Jobs</span>
-              </Link>
+                <Link
+                  href="/music"
+                  className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 transition-all duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <span className="text-red-500">🎵</span>
+                  <span className="group-hover:text-red-600 transition-colors">Music</span>
+                </Link>
+
+                <Link
+                  href="/games/hindu-wisdom-millionaire"
+                  className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <span className="text-purple-500">🎮</span>
+                  <span className="group-hover:text-purple-600 transition-colors">Games</span>
+                </Link>
+
+                <Link
+                  href="/jobs"
+                  className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <span className="text-blue-500">💼</span>
+                  <span className="group-hover:text-blue-600 transition-colors">Jobs</span>
+                </Link>
+              </div>
 
               <button
                 onClick={() => {
