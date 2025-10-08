@@ -4,10 +4,12 @@ frontend:
     preBuild:
       commands:
         - npm ci
+        - echo "Build ID will be $(date +%s)"
     build:
       commands:
         - env | grep -e NODE_ENV -e NEXT_PUBLIC_ -e WEBSITE_CLOUD_ACCESS_KEY_ID -e WEBSITE_CLOUD_SECRET_ACCESS_KEY >> .env.production
         - npm run build
+        - echo "Build completed at $(date)"
   artifacts:
     baseDirectory: .next
     files:
@@ -15,4 +17,16 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/*
+  customHeaders:
+    - pattern: '**/*'
+      headers:
+        - key: 'Cache-Control'
+          value: 'no-cache, no-store, must-revalidate'
+        - key: 'Pragma'
+          value: 'no-cache'
+        - key: 'Expires'
+          value: '0'
+    - pattern: '/_next/static/**/*'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public, max-age=31536000, immutable'

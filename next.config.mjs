@@ -22,12 +22,20 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Apply these headers to all routes
+        // Apply these headers to all routes (HTML pages)
         source: '/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
+            value: 'no-cache, no-store, max-age=0, must-revalidate',
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache',
+          },
+          {
+            key: 'Expires',
+            value: '0',
           },
         ],
       },
