@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { client } from "./featured-astrologers"; // Reuse the Contentful client
+import { redirectToAppStore } from "@/lib/deviceDetection";
 
 interface Astrologer {
   name: string;
@@ -131,18 +132,16 @@ export function HeroSection({
 
       {/* Banner Image at Top - Mobile Only */}
       <div className="relative w-full lg:hidden">
-        <a
-          href="https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full hover:opacity-95 transition-opacity duration-300"
+        <button
+          onClick={redirectToAppStore}
+          className="block w-full hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
             src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
             alt="Download AstroKiran App - Special Offer"
             className="w-full h-auto object-cover"
           />
-        </a>
+        </button>
       </div>
 
       <div className="relative w-full max-w-7xl mx-auto px-3 sm:px-4 py-8 sm:py-12 lg:py-20">
@@ -161,16 +160,7 @@ export function HeroSection({
           <div className="grid grid-cols-2 gap-4 mb-6">
             {/* Quick Connect Card */}
             <button
-              onClick={() => {
-                const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-                if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-                  window.location.href = "https://apps.apple.com/in/app/ask-astrokiran-astrology/id6748694746";
-                } else if (/android/i.test(userAgent)) {
-                  window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-                } else {
-                  window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-                }
-              }}
+              onClick={redirectToAppStore}
               className="group text-left"
             >
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
@@ -418,19 +408,17 @@ export function HeroSection({
       </div>
 
       {/* Banner Image After Hero Section - Desktop Only */}
-      <div className="hidden lg:flex relative w-full justify-center pb-8 lg:pb-12">
-        <a
-          href="https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-3/4 xl:w-2/3 hover:opacity-95 transition-opacity duration-300"
+      <div className="hidden lg:flex relative w-full justify-center pb-8 lg:pb-12 px-4">
+        <button
+          onClick={redirectToAppStore}
+          className="block w-full max-w-4xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
             src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
             alt="Download AstroKiran App - Special Offer"
-            className="w-full h-auto object-cover rounded-xl shadow-lg"
+            className="w-full h-auto object-contain rounded-xl shadow-lg"
           />
-        </a>
+        </button>
       </div>
     </div>
   )

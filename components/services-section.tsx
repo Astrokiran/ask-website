@@ -3,6 +3,7 @@
 import { Sparkles, Moon, Calculator, WalletCardsIcon as Cards, Gem, Home, ArrowRight, BookOpen, Gamepad2, Zap, Stars, UserCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { redirectToAppStore } from "@/lib/deviceDetection"
 
 const services = [
   {
@@ -68,20 +69,7 @@ export function ServicesSection() {
   const handleServiceClick = (e: React.MouseEvent, service: typeof services[0]) => {
     if (service.isExternal) {
       e.preventDefault();
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-
-      // iOS detection
-      if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-        window.location.href = "https://apps.apple.com/in/app/ask-astrokiran-astrology/id6748694746";
-      }
-      // Android detection
-      else if (/android/i.test(userAgent)) {
-        window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-      }
-      // Default fallback (desktop or other)
-      else {
-        window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-      }
+      redirectToAppStore();
     }
   };
 

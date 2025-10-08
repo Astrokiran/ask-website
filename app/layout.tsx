@@ -10,6 +10,7 @@ import { ServiceWorker } from "@/components/performance/ServiceWorker"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { Toaster } from "@/components/ui/sonner"
 import { AppDownloadPopup } from "@/components/banners/AppDownloadPopup"
+import { CacheBuster } from "./cache-buster"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -69,6 +70,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <CacheBuster />
           <AuthProvider>
             <div className="w-full max-w-full min-h-screen overflow-x-hidden">
               {children}

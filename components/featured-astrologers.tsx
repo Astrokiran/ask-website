@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createClient } from "contentful";
+import { redirectToAppStore } from "@/lib/deviceDetection";
 
 // Define a type for the astrologer data
 interface Astrologer {
@@ -184,16 +185,7 @@ export function FeaturedAstrologers() {
                       </div>
                     </div>
                     <button
-                      onClick={() => {
-                        const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-                        if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-                          window.location.href = "https://apps.apple.com/in/app/ask-astrokiran-astrology/id6748694746";
-                        } else if (/android/i.test(userAgent)) {
-                          window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-                        } else {
-                          window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-                        }
-                      }}
+                      onClick={redirectToAppStore}
                       className="w-full bg-white hover:bg-gray-100 text-[#D32F2F] font-bold py-4 px-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 hover:scale-105 flex items-center justify-center gap-3"
                     >
                       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

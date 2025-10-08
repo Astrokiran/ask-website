@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
-
-const APP_DOWNLOAD_LINK = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
+import { redirectToAppStore } from '@/lib/deviceDetection';
 
 export function AppDownloadPopup() {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,7 +30,7 @@ export function AppDownloadPopup() {
   };
 
   const handleDownload = () => {
-    window.open(APP_DOWNLOAD_LINK, '_blank');
+    redirectToAppStore();
     setIsVisible(false);
   };
 

@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { UserDropdown } from "@/components/auth/UserDropdown"
+import { redirectToAppStore } from "@/lib/deviceDetection"
 
 const appDownloadLink = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
 
@@ -223,14 +224,7 @@ export function NavBar() {
               <button
                 onClick={() => {
                   setIsMenuOpen(false);
-                  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-                  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-                    window.location.href = "https://apps.apple.com/in/app/ask-astrokiran-astrology/id6748694746";
-                  } else if (/android/i.test(userAgent)) {
-                    window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-                  } else {
-                    window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
-                  }
+                  redirectToAppStore();
                 }}
                 className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-green-50 dark:hover:bg-green-950/20 transition-all duration-200 w-full text-left"
               >
