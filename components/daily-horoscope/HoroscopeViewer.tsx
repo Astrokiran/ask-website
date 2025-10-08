@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { ApiResponse } from "@/app/horoscopes/[zodiac]/page";
 import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
-import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 import { createClient } from 'contentful';
 
 import ReactMarkdown from 'react-markdown';

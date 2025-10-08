@@ -129,7 +129,21 @@ export function HeroSection({
       <div className="absolute top-20 left-8 w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full opacity-40"></div>
       <div className="absolute bottom-32 right-16 w-3 h-3 bg-gray-200 dark:bg-gray-700 rounded-full opacity-30"></div>
 
-
+      {/* Banner Image at Top - Mobile Only */}
+      <div className="relative w-full lg:hidden">
+        <a
+          href="https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full hover:opacity-95 transition-opacity duration-300"
+        >
+          <img
+            src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
+            alt="Download AstroKiran App - Special Offer"
+            className="w-full h-auto object-cover"
+          />
+        </a>
+      </div>
 
       <div className="relative w-full max-w-7xl mx-auto px-3 sm:px-4 py-8 sm:py-12 lg:py-20">
 
@@ -145,14 +159,46 @@ export function HeroSection({
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-6">
+            {/* Quick Connect Card */}
+            <button
+              onClick={() => {
+                const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+                if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+                  window.location.href = "https://apps.apple.com/in/app/ask-astrokiran-astrology/id6748694746";
+                } else if (/android/i.test(userAgent)) {
+                  window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
+                } else {
+                  window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
+                }
+              }}
+              className="group text-left"
+            >
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-white dark:bg-white rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                    <svg className="w-7 h-7" style={{ color: '#D32F2F' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Quick Connect</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Instant Astrology Help</p>
+                </div>
+              </div>
+            </button>
+
             {/* Free Kundli Card */}
             <a href="/free-kundli" className="group">
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-orange-600 transition-colors">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
+                  <div className="w-12 h-12 bg-white dark:bg-white rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                    <img
+                      src="/astrology.png"
+                      alt="Free Kundli"
+                      className="w-10 h-10"
+                      style={{
+                        filter: 'brightness(0) saturate(100%) invert(24%) sepia(91%) saturate(6539%) hue-rotate(351deg) brightness(88%) contrast(95%)'
+                      }}
+                    />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Free Kundli</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">Birth Chart Analysis</p>
@@ -164,10 +210,15 @@ export function HeroSection({
             <a href="/kundli-match" className="group">
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-pink-600 transition-colors">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
+                  <div className="w-12 h-12 bg-white dark:bg-white rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                    <img
+                      src="/marriage.png"
+                      alt="Kundli Matching"
+                      className="w-10 h-10"
+                      style={{
+                        filter: 'brightness(0) saturate(100%) invert(24%) sepia(91%) saturate(6539%) hue-rotate(351deg) brightness(88%) contrast(95%)'
+                      }}
+                    />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Kundli Match</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">Marriage Compatibility</p>
@@ -179,28 +230,18 @@ export function HeroSection({
             <a href="/horoscopes" className="group">
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-purple-600 transition-colors">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2.5a.5.5 0 01.5.5v2a.5.5 0 01-1 0V3a.5.5 0 01.5-.5zM21 12a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zM12 18.5a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2a.5.5 0 01.5-.5zM5.5 12a.5.5 0 01-.5.5H3a.5.5 0 010-1h2a.5.5 0 01.5.5zM7.5 6.5a.5.5 0 010 .707l-1.414 1.414a.5.5 0 11-.707-.707L6.793 6.5a.5.5 0 01.707 0zM18.207 6.5a.5.5 0 01.707 0 .5.5 0 010 .707L17.5 8.621a.5.5 0 11-.707-.707L18.207 6.5zM17.5 15.879a.5.5 0 01.707.707l1.414 1.414a.5.5 0 01-.707.707L17.5 17.293a.5.5 0 010-.707zM7.5 17.293a.5.5 0 01-.707 0 .5.5 0 010-.707l1.414-1.414a.5.5 0 11.707.707L7.5 17.293zM12 8a4 4 0 100 8 4 4 0 000-8z"/>
-                    </svg>
+                  <div className="w-12 h-12 bg-white dark:bg-white rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                    <img
+                      src="/sunset.png"
+                      alt="Daily Horoscope"
+                      className="w-10 h-10"
+                      style={{
+                        filter: 'brightness(0) saturate(100%) invert(24%) sepia(91%) saturate(6539%) hue-rotate(351deg) brightness(88%) contrast(95%)'
+                      }}
+                    />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Horoscope</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">Daily Predictions</p>
-                </div>
-              </div>
-            </a>
-
-            {/* Blog Card */}
-            <a href="/blog" className="group">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95">
-                <div className="text-center">
-                  <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-green-600 transition-colors">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Blog</h3>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Astrology Articles</p>
                 </div>
               </div>
             </a>
@@ -209,15 +250,18 @@ export function HeroSection({
           {/* CTA Button for mobile */}
           <div className="text-center">
             <a
-              href="https://wa.me/918197503574?text=Hi,%20I%20would%20like%20to%20consult%20with%20an%20astrologer"
+              href="https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+              className="inline-flex flex-col items-center gap-1 bg-[#D32F2F] hover:bg-[#B71C1C] text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95"
             >
-              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516"/>
-              </svg>
-              Talk to Astrologer - ₹51
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                </svg>
+                <span className="font-semibold">Download App</span>
+              </div>
+              <span className="text-xs">Recharge ₹1, Get 5 min FREE (₹250 value)</span>
             </a>
           </div>
         </div>
@@ -244,12 +288,6 @@ export function HeroSection({
                 <p className="text-sm lg:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium mb-3">
                   {subtitle}
                 </p>
-                <p className="text-sm lg:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-3">
-                  Experience authentic Vedic astrology consultations with India's most trusted platform. Our certified astrologers provide personalized insights into your life's journey, offering comprehensive analysis of your birth chart, planetary positions, and cosmic influences that shape your destiny.
-                </p>
-                <p className="text-sm lg:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                  Whether you seek guidance on relationships, career decisions, health concerns, or spiritual growth, our expert astrologers combine ancient wisdom with modern understanding to illuminate your path forward with clarity and confidence.
-                </p>
                 {/* Accent line under subtitle */}
                 <div className="w-20 h-0.5 bg-gray-300 dark:bg-gray-600 mx-auto lg:mx-0 mt-3"></div>
               </div>
@@ -269,18 +307,18 @@ export function HeroSection({
 
               {/* Enhanced secondary button */}
               <a
-                href="https://wa.me/918197503574?text=Hi,%20I%20would%20like%20to%20consult%20with%20an%20astrologer"
+                href="https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-900 dark:text-white text-base font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
+                className="group relative inline-flex flex-col items-center justify-center gap-1 px-6 py-3 bg-[#D32F2F] hover:bg-[#B71C1C] text-white text-base font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-95"
               >
-                <span className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516"/>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
                   </svg>
-                  <span className="text-gray-700 dark:text-gray-300 font-medium text-sm">First Call: ₹51</span>
-                  <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded-full">Special</span>
-                </span>
+                  <span className="font-semibold">Download App</span>
+                </div>
+                <span className="text-xs">Recharge ₹1, Get 5 min FREE (₹250 value)</span>
               </a>
             </div>
           </div>
@@ -377,6 +415,22 @@ export function HeroSection({
         </div>
         {/* End Desktop Hero Content */}
 
+      </div>
+
+      {/* Banner Image After Hero Section - Desktop Only */}
+      <div className="hidden lg:flex relative w-full justify-center pb-8 lg:pb-12">
+        <a
+          href="https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-3/4 xl:w-2/3 hover:opacity-95 transition-opacity duration-300"
+        >
+          <img
+            src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
+            alt="Download AstroKiran App - Special Offer"
+            className="w-full h-auto object-cover rounded-xl shadow-lg"
+          />
+        </a>
       </div>
     </div>
   )

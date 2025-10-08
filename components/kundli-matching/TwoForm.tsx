@@ -4,9 +4,8 @@ import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { ServicesSection } from "@/components/services-section";
-import { FormSection } from './components/FormSection'; 
+import { FormSection } from './components/FormSection';
 import Image from 'next/image';
-import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 import { Briefcase, Heart, Sparkles, Star } from 'lucide-react';
 
 
@@ -85,7 +84,6 @@ const initialFormState: BirthInputState = {
 
 export default function KundliMatchingPage() {
   const router = useRouter();
-  const sharedBanner = <DailyHoroscopeCta phoneNumber={"918197503574"} />;
 
   
   // --- All your existing state and logic hooks remain here ---
@@ -230,7 +228,6 @@ export default function KundliMatchingPage() {
 
   return (
     <div className="w-full font-sans">
-      <DailyHoroscopeCta phoneNumber={"918197503574"}/>
       <main className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 pt-2 sm:pt-4 pb-8 sm:pb-12 md:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-start">
           {/* COLUMN 1: Form Container */}

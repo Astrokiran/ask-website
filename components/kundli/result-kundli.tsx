@@ -10,7 +10,6 @@ import SummaryDetails from './summary-details';
 import ReportDetails from './report-details';
 import DoshaDetails from './dosha-details';
 import AshtakavargaDetails from './Ashtakavarga';
-import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope";
 // Import your enhanced PDF export function and S3 uploader
 import generateKundliPdf from './pdf-export';
 import { uploadPdfToS3 } from './report-pdf';
@@ -248,19 +247,18 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     const tabs = ['Basic', 'Kundli', 'Charts', 'Yogas', 'Ashtakvarga', 'Report'];
     const renderContent = () => {
         if (!kundliData) return <div className="text-center p-10">Please generate a Kundli.</div>;
-        const sharedBanner = <DailyHoroscopeCta phoneNumber={"918197503574"}/>
         switch (activeTab) {
             case 'Basic':
-                return <div>{sharedBanner}{kundliData.basic_details && <BasicDetailsContent kundliData={kundliData.basic_details} />}</div>;
-            case 'Kundli': return <div>{sharedBanner}<KundliTabContent kundliData={kundliData} /></div>;
-            case 'Charts': return <div>{sharedBanner}{kundliData.charts && <ChartDetails kundliData={kundliData.charts} />}</div>;
-            case 'Yogas': return <div>{sharedBanner}{kundliData.yogas && <YogasDetails kundliData={kundliData.yogas} />}</div>;
+                return <div>{kundliData.basic_details && <BasicDetailsContent kundliData={kundliData.basic_details} />}</div>;
+            case 'Kundli': return <div><KundliTabContent kundliData={kundliData} /></div>;
+            case 'Charts': return <div>{kundliData.charts && <ChartDetails kundliData={kundliData.charts} />}</div>;
+            case 'Yogas': return <div>{kundliData.yogas && <YogasDetails kundliData={kundliData.yogas} />}</div>;
             case 'Ashtakvarga':
-                return <div>{sharedBanner}{kundliData && <AshtakavargaDetails compositeSvgString={kundliData.ashtakavarga_svg} tableData={kundliData.ashtakavarga_data} />}</div>;
+                return <div>{kundliData && <AshtakavargaDetails compositeSvgString={kundliData.ashtakavarga_svg} tableData={kundliData.ashtakavarga_data} />}</div>;
             // case 'Dosha':
-            //     return <div>{sharedBanner}{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
+            //     return <div>{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
             // case 'Summary': return <div><SummaryDetails kundliData={kundliData.summary} /></div>
-            case 'Report': return <div>{sharedBanner}{kundliData.report && <ReportDetails kundliData={kundliData.report} />}</div>;
+            case 'Report': return <div>{kundliData.report && <ReportDetails kundliData={kundliData.report} />}</div>;
             default: return <div className="text-center p-10">{activeTab} Coming Soon.</div>;
         }
     };

@@ -8,10 +8,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { UserDropdown } from "@/components/auth/UserDropdown"
 
-const whatsappNumber = "+918197503574";
-const message = "Hello, I would like to get an astrology consultation.";
-const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
+const appDownloadLink = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -102,17 +99,15 @@ export function NavBar() {
               )
             )}
             <a
-              href={whatsappLink}
+              href={appDownloadLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-[#25D366] text-white px-3 py-2 rounded-lg hover:bg-[#22c55e] whitespace-nowrap text-sm font-medium"
+              className="flex items-center gap-2 bg-[#D32F2F] hover:bg-[#B71C1C] text-white px-3 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors"
             >
-              <img
-                src="/social.png"
-                alt="WhatsApp"
-                className="w-4 h-4"
-              />
-              <span>Book Now</span>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+              </svg>
+              <span>Download App</span>
             </a>
           </div>
 
@@ -134,16 +129,14 @@ export function NavBar() {
               )
             )}
             <a
-              href={whatsappLink}
+              href={appDownloadLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center bg-[#25D366] text-white p-2 rounded-lg hover:bg-[#22c55e] transition-all duration-200"
+              className="flex items-center justify-center bg-[#D32F2F] hover:bg-[#B71C1C] text-white p-2 rounded-lg transition-all duration-200"
             >
-              <img
-                src="/social.png"
-                alt="WhatsApp"
-                className="w-5 h-5"
-              />
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+              </svg>
             </a>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -227,6 +220,42 @@ export function NavBar() {
                 <span className="group-hover:text-blue-600 transition-colors">Jobs</span>
               </Link>
 
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+                  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+                    window.location.href = "https://apps.apple.com/in/app/ask-astrokiran-astrology/id6748694746";
+                  } else if (/android/i.test(userAgent)) {
+                    window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
+                  } else {
+                    window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
+                  }
+                }}
+                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-green-50 dark:hover:bg-green-950/20 transition-all duration-200 w-full text-left"
+              >
+                <span className="text-green-500">⚡</span>
+                <span className="group-hover:text-green-600 transition-colors">Quick Connect</span>
+              </button>
+
+              <Link
+                href="/tarot"
+                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="text-purple-500">🔮</span>
+                <span className="group-hover:text-purple-600 transition-colors">Tarot Services</span>
+              </Link>
+
+              <Link
+                href="/astrology-services"
+                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="text-orange-500">✨</span>
+                <span className="group-hover:text-orange-600 transition-colors">Astrology Services</span>
+              </Link>
+
               {/* Auth section for mobile */}
               {!loading && !user && (
                 <button
@@ -241,20 +270,21 @@ export function NavBar() {
                 </button>
               )}
 
-              {/* Enhanced WhatsApp mobile button */}
+              {/* Enhanced App Download mobile button */}
               <a
-                href="https://wa.me/+918197503574?text=Hello, I would like to get an astrology consultation."
+                href={appDownloadLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm bg-[#25D366] text-white px-3 py-2 rounded-lg hover:bg-[#22c55e] transition-all duration-200 font-medium"
+                className="flex flex-col gap-1 text-sm bg-[#D32F2F] hover:bg-[#B71C1C] text-white px-4 py-3 rounded-lg transition-all duration-200 font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <img
-                  src="/social.png"
-                  alt="WhatsApp"
-                  className="w-5 h-5"
-                />
-                <span>Consult on WhatsApp</span>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                  </svg>
+                  <span className="font-semibold">Download App</span>
+                </div>
+                <span className="text-xs">Recharge ₹1, Get 5 min FREE (₹250 value)</span>
               </a>
             </div>
           </div>

@@ -20,10 +20,10 @@ export default function KundliMatchPage() {
         <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8 md:mb-12">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mb-3 sm:mb-4 md:mb-6 text-gray-900 dark:text-white">
-              Kundli Matching for Marriage - Check Compatibility
+              Kundli Matching
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed px-2">
-              Get accurate kundli matching results for marriage compatibility. Check gun milan score and detailed compatibility analysis.
+              Check marriage compatibility with gun milan analysis.
             </p>
           </div>
         </div>

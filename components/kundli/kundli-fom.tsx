@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { ServicesSection } from "@/components/services-section"
-import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
 
 interface BirthDetails {
   name: string;

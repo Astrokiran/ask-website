@@ -1,41 +1,90 @@
-import { Sparkles, Moon, Calculator, WalletCardsIcon as Cards, Gem, Home, ArrowRight, BookOpen, Gamepad2 } from "lucide-react"
+"use client"
+
+import { Sparkles, Moon, Calculator, WalletCardsIcon as Cards, Gem, Home, ArrowRight, BookOpen, Gamepad2, Zap, Stars, UserCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 const services = [
   {
+    title: "Quick Connect",
+    summary: "Connect instantly with expert astrologers via phone, chat, or video for immediate guidance",
+    icon: Zap,
+    href: "/quick-connect",
+    isExternal: true,
+    useWhiteBg: true,
+  },
+  {
     title: "Horoscope Reading",
     summary: "Get your free daily horoscope based on your zodiac sign with personalized insights",
     icon: Moon,
     href: "/horoscopes",
+    customIcon: "/sunset.png"
   },
   {
     title: "Kundli Analysis",
     summary: "Enter your birth details and get a complete free Kundli with planetary positions & predictions",
     icon: Sparkles,
     href: "/free-kundli",
+    customIcon: "/astrology.png"
   },
   {
     title: "Kundli Matching",
     summary: "Check marriage compatibility by entering both partners' birth details for free matching",
     icon: Calculator,
-    href: "/kundli-match"
+    href: "/kundli-match",
+    customIcon: "/marriage.png"
+  },
+  {
+    title: "Tarot Services",
+    summary: "Get personalized tarot card readings from experienced tarot readers for life guidance",
+    icon: Cards,
+    href: "/tarot",
+    customIcon: "/taro.png"
+  },
+  {
+    title: "Astrology Services",
+    summary: "Comprehensive astrology consultations covering career, health, relationships and more",
+    icon: Stars,
+    href: "/astrology-services",
+    customIcon: "/solar-system.png"
   },
   {
     title: "Blogs",
     summary: "Read expert articles on astrology, festivals, remedies and spiritual guidance for free",
     icon: BookOpen,
-    href: "/blog"
+    href: "/blog",
+    customIcon: "/blog.png"
   },
   {
     title: "Games",
     summary: "Play interactive astrology games and take personality quizzes to learn about yourself",
     icon: Gamepad2,
-    href: "/games"
+    href: "/games",
+    customIcon: "/games.png"
   },
 ]
 
 export function ServicesSection() {
+  const handleServiceClick = (e: React.MouseEvent, service: typeof services[0]) => {
+    if (service.isExternal) {
+      e.preventDefault();
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+
+      // iOS detection
+      if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+        window.location.href = "https://apps.apple.com/in/app/ask-astrokiran-astrology/id6748694746";
+      }
+      // Android detection
+      else if (/android/i.test(userAgent)) {
+        window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
+      }
+      // Default fallback (desktop or other)
+      else {
+        window.location.href = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
+      }
+    }
+  };
+
   return (
     <div className="relative py-8 lg:py-12 overflow-hidden" id="services">
       {/* Background Effects */}
@@ -56,11 +105,12 @@ export function ServicesSection() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
           {services.map((service, index) => (
             <Link
               key={service.title}
               href={service.href}
+              onClick={(e) => handleServiceClick(e, service)}
               className="group relative animate-fadeInUp hover:-translate-y-2 transition-all duration-300 cursor-pointer"
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -73,9 +123,26 @@ export function ServicesSection() {
 
                   {/* Icon Container */}
                   <div className="relative mb-4">
-                    <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg mx-auto">
-                      <service.icon className="w-6 h-6 text-white" />
-                    </div>
+                    {(service as any).customIcon ? (
+                      <div className="w-16 h-16 bg-white dark:bg-white rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg mx-auto p-2">
+                        <img
+                          src={(service as any).customIcon}
+                          alt={service.title}
+                          className="w-full h-full object-contain"
+                          style={{
+                            filter: 'brightness(0) saturate(100%) invert(24%) sepia(91%) saturate(6539%) hue-rotate(351deg) brightness(88%) contrast(95%)'
+                          }}
+                        />
+                      </div>
+                    ) : (service as any).useWhiteBg ? (
+                      <div className="w-16 h-16 bg-white dark:bg-white rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg mx-auto">
+                        <service.icon className="w-8 h-8" style={{ color: '#D32F2F' }} />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg mx-auto">
+                        <service.icon className="w-6 h-6 text-white" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Content */}
