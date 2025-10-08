@@ -1,8 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronRight, Download, CheckCircle, XCircle, User, Heart, Gem, BrainCircuit, Magnet, Star, Zap, MessageSquare, Shield, Users, Dna } from 'lucide-react';
-import { WhatsAppCtaBanner } from '@/components/banners/Whatsapp-banner';
-import { DailyHoroscopeCta } from '../banners/Daily-horoscope';
 
 // --- TYPE DEFINITIONS ---
 interface KootaDetail {
@@ -329,7 +327,6 @@ export function MatchingResults({ data: reportData }: { data: KundliMatchingData
                 </div>
 
                 <div className="mt-8 space-y-6">
-                    <DailyHoroscopeCta phoneNumber='918197503574' />
                 </div>
             </div>
         </div>

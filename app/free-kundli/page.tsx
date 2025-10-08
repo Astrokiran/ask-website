@@ -29,35 +29,35 @@ export default function KundliRoutePage() {
 
               {/* Features Section moved below form */}
               <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg sm:rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 text-center">What's Included in Your Free Kundli Report:</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 text-center">What's Included:</h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div className="space-y-2 sm:space-y-3">
                     <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
-                      Complete Vedic Birth Chart Analysis
+                      Birth Chart Analysis
                     </p>
                     <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
-                      Detailed Planetary Positions & Effects
+                      Planetary Positions
                     </p>
                     <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
-                      Dosha Analysis (Mangal, Kaal Sarpa, etc.)
+                      Dosha Analysis
                     </p>
                   </div>
                   <div className="space-y-2 sm:space-y-3">
                     <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
-                      Beneficial Yogas & Their Impact
+                      Yogas & Benefits
                     </p>
                     <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
-                      Personalized Astrological Predictions
+                      Life Predictions
                     </p>
                     <p className="flex items-start text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full mr-2 sm:mr-3 flex-shrink-0 mt-1.5 sm:mt-1"></div>
-                      Career, Health & Relationship Insights
+                      Career & Health Insights
                     </p>
                   </div>
                 </div>

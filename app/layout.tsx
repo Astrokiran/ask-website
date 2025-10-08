@@ -9,6 +9,7 @@ import LocalBusinessSchema from "@/components/schema/LocalBusinessSchema"
 import { ServiceWorker } from "@/components/performance/ServiceWorker"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { Toaster } from "@/components/ui/sonner"
+import { AppDownloadPopup } from "@/components/banners/AppDownloadPopup"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -72,6 +73,7 @@ export default function RootLayout({
             <div className="w-full max-w-full min-h-screen overflow-x-hidden">
               {children}
             </div>
+            <AppDownloadPopup />
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 
-const whatsappLink = "https://wa.me/918197503574?text=Hello, I would like to get an astrology consultation.";
+const appDownloadLink = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
 
 export default function Pricing() {
   return (
@@ -57,10 +57,10 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
-                onClick={() => window.open(whatsappLink, '_blank')}
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-sm hover:shadow-md"
+                onClick={() => window.open(appDownloadLink, '_blank')}
               >
-                Book on WhatsApp
+                Download App
               </Button>
             </div>
           </div>
@@ -103,10 +103,10 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
-                onClick={() => window.open(whatsappLink, '_blank')}
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-sm hover:shadow-md"
+                onClick={() => window.open(appDownloadLink, '_blank')}
               >
-                Book on WhatsApp
+                Download App
               </Button>
             </div>
           </div>
@@ -161,10 +161,10 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
-                onClick={() => window.open(whatsappLink, '_blank')}
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-sm hover:shadow-md"
+                onClick={() => window.open(appDownloadLink, '_blank')}
               >
-                Book on WhatsApp
+                Download App
               </Button>
             </div>
           </div>
@@ -223,10 +223,10 @@ export default function Pricing() {
               </ul>
 
               <Button
-                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-orange-600 hover:bg-orange-700 text-white shadow-sm hover:shadow-md"
-                onClick={() => window.open(whatsappLink, '_blank')}
+                className="w-full py-6 font-medium text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] bg-[#D32F2F] hover:bg-[#B71C1C] text-white shadow-sm hover:shadow-md"
+                onClick={() => window.open(appDownloadLink, '_blank')}
               >
-                Book on WhatsApp
+                Download App
               </Button>
             </div>
           </div>

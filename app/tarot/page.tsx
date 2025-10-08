@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
-import { DailyHoroscopeCta } from "@/components/banners/Daily-horoscope"
 
 export const metadata: Metadata = {
   title: "Tarot Card Reading Services - Expert Tarot Consultation | Astrokiran",
@@ -333,8 +332,6 @@ export default function TarotPage() {
                         </div>
                     </div>
                 </section>
-
-                <DailyHoroscopeCta phoneNumber={"918197503574"} />
             </main>
             <Footer />
         </div>
