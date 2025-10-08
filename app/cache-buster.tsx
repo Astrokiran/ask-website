@@ -1,13 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 // This version is automatically generated during build
 // Uses build time timestamp to ensure unique version on every deploy
-const CURRENT_VERSION = process.env.NEXT_PUBLIC_BUILD_TIME || Date.now().toString();
+// In development, uses a fixed version to prevent infinite reload loops
+const CURRENT_VERSION = process.env.NEXT_PUBLIC_BUILD_TIME || 'dev-mode';
 
 export function CacheBuster() {
+  const hasRunRef = useRef(false);
+
   useEffect(() => {
+    // Prevent running multiple times in development (React StrictMode)
+    if (hasRunRef.current) return;
+    hasRunRef.current = true;
+
+    // Skip in development mode to prevent infinite reloads
+    if (CURRENT_VERSION === 'dev-mode') {
+      console.log('🔧 Cache buster disabled in development mode');
+      return;
+    }
+
     // Run cache check immediately on mount
     const checkAndClearCache = async () => {
       try {
