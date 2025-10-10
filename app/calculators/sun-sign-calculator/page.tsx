@@ -112,7 +112,7 @@ export default function SunSignCalculator() {
     }
 
     try {
-      const response = await fetch('http://localhost:9090/api/v1/kundali/api/calculators/sun-sign', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/calculators/sun-sign`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -43,7 +43,7 @@ export default function NumerologyCalculator() {
       const dayNumber = selectedDay.padStart(2, '0')
       const dateOfBirth = `${dayNumber}/${monthNumber}/${selectedYear}`
 
-      const response = await fetch('http://localhost:9090/api/v1/kundali/api/calculators/numerology', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/calculators/numerology`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

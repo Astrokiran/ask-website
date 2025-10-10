@@ -83,7 +83,7 @@ export default function NakshatraCalculator() {
       const minuteNumber = selectedMinute.padStart(2, '0')
       const timeOfBirth = `${hourNumber}:${minuteNumber}${selectedAmPm}`
 
-      const response = await fetch('http://localhost:9090/api/v1/kundali/api/calculators/nakshatra', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/calculators/nakshatra`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

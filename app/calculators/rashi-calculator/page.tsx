@@ -137,7 +137,7 @@ export default function RashiCalculator() {
     }
 
     try {
-      const response = await fetch('http://localhost:9090/api/v1/kundali/api/calculators/rashi', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/calculators/rashi`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
