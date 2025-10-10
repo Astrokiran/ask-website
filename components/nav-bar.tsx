@@ -75,6 +75,9 @@ export function NavBar() {
             <Link href="/horoscopes" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Daily Horoscope
             </Link>
+            {/* <Link href="/calculators" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
+              Calculators
+            </Link> */}
             <Link href="/blog" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Blogs
             </Link>
@@ -110,6 +113,14 @@ export function NavBar() {
                 >
                   <span className="mr-2">🎵</span>
                   <span>Music</span>
+                </Link>
+                <Link
+                  href="/calculators"
+                  className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                  onClick={() => setShowExploreDropdown(false)}
+                >
+                  <span className="mr-2">🧮</span>
+                  <span>Calculators</span>
                 </Link>
                 <Link
                   href="/games/hindu-wisdom-millionaire"
@@ -229,6 +240,15 @@ export function NavBar() {
               </Link>
 
               <Link
+                href="/calculators"
+                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-pink-50 dark:hover:bg-pink-950/20 transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="text-pink-500">🧮</span>
+                <span className="group-hover:text-pink-600 transition-colors">Calculators</span>
+              </Link>
+
+              <Link
                 href="/#astrologers"
                 className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/20 transition-all duration-200"
                 onClick={() => setIsMenuOpen(false)}
@@ -258,6 +278,15 @@ export function NavBar() {
                 <div className="px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Explore More
                 </div>
+
+                <Link
+                  href="/calculators"
+                  className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 transition-all duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <span className="text-red-500">🎵</span>
+                  <span className="group-hover:text-red-600 transition-colors">Calculators</span>
+                </Link>
 
                 <Link
                   href="/music"
