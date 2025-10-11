@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { NavBar } from '@/components/nav-bar'
 import { Footer } from '@/components/footer'
-import { Heart, Calculator, Star, Sparkles, TrendingUp, Calendar, Sun, Moon, Hash, Flame, Clock, AlertCircle, Car, Sunrise, Smartphone } from 'lucide-react'
+import { Heart, Calculator, Star, Sparkles, TrendingUp, Calendar, Sun, Moon, Hash, Flame, Clock, AlertCircle, Car, Sunrise, Smartphone, Shield, Zap } from 'lucide-react'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -81,6 +81,24 @@ const otherCalculators = [
     color: "text-purple-500",
     bgColor: "bg-purple-50 dark:bg-purple-950/20",
     borderColor: "border-purple-200 dark:border-purple-800",
+  },
+  {
+    title: "Mangal Dosha Calculator",
+    description: "Check for Mars affliction in your birth chart",
+    icon: Shield,
+    href: "/calculators/mangal-dosha-calculator",
+    color: "text-red-500",
+    bgColor: "bg-red-50 dark:bg-red-950/20",
+    borderColor: "border-red-200 dark:border-red-800",
+  },
+  {
+    title: "Kaal Sarp Dosha Calculator",
+    description: "Identify serpent dosha and its type in your chart",
+    icon: Zap,
+    href: "/calculators/kaal-sarp-dosha-calculator",
+    color: "text-violet-500",
+    bgColor: "bg-violet-50 dark:bg-violet-950/20",
+    borderColor: "border-violet-200 dark:border-violet-800",
   },
   {
     title: "Vehicle Number Numerology",
