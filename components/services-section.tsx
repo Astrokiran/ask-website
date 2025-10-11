@@ -82,7 +82,7 @@ export function ServicesSection() {
         {/* Header Section */}
         <div className="text-center mb-8 animate-fadeInUp">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-            Complementary Astrological Services
+            Complimentary Astrological Services
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Discover your destiny through our comprehensive astrological services crafted by expert astrologers

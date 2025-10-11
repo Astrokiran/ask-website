@@ -150,9 +150,6 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
     }));
   }, [selectedMahaIndex, mahaRows]);
 
-  const curMD = mahaRows[0];
-  const curAD = curMD?.sub_periods?.[0];
-
   return (
     <div id="kundli-tab-content-section" className="space-y-6">
       {/* ================== TOP: South + North Charts ================== */}
@@ -242,42 +239,6 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           </table>
         </div>
       </div>
-
-      {/* ================== CURRENT DASHA DETAILS ================== */}
-      {curMD && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-5 pb-3 border-b border-gray-200 dark:border-gray-700 border-gray-200 dark:border-gray-700">
-            Current Dasha Details
-          </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
-              <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Mahadasha
-              </h4>
-              <p className="text-gray-900 dark:text-white"><span className="font-medium text-orange-600 dark:text-orange-400">Planet:</span> {curMD.planet}</p>
-              <p className="text-gray-900 dark:text-white"><span className="font-medium text-orange-600 dark:text-orange-400">Start Date:</span> {formatDate(curMD.start)}</p>
-              <p className="text-gray-900 dark:text-white"><span className="font-medium text-orange-600 dark:text-orange-400">End Date:</span> {formatDate(curMD.end)}</p>
-              {curMD.sub_periods?.length ? (
-                <p className="text-gray-900 dark:text-white">
-                  <span className="font-medium text-orange-600 dark:text-orange-400">Total Years:</span> {curMD.sub_periods[0].duration_years}
-                </p>
-              ) : null}
-            </div>
-
-            {curAD && (
-              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
-                <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                  Antardasha
-                </h4>
-                <p className="text-gray-900 dark:text-white"><span className="font-medium text-orange-600 dark:text-orange-400">Planet:</span> {curAD.planet}</p>
-                <p className="text-gray-900 dark:text-white"><span className="font-medium text-orange-600 dark:text-orange-400">Start Date:</span> {formatDate(curAD.start_date)}</p>
-                <p className="text-gray-900 dark:text-white"><span className="font-medium text-orange-600 dark:text-orange-400">End Date:</span> {formatDate(curAD.end_date)}</p>
-                <p className="text-gray-900 dark:text-white"><span className="font-medium text-orange-600 dark:text-orange-400">Duration (Years):</span> {curAD.duration_years}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* ================== VIMSHOTTARI DASHA ================== */}
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
