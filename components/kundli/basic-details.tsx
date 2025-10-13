@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 interface EnhancedPanchangaDetails {
@@ -37,11 +38,12 @@ interface BasicDetailsProps {
 
 
 const DetailCard = ({ title, details }: { title: string; details: any[] }) => {
+  const { t } = useTranslation();
   if (!Array.isArray(details) || details.length === 0) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">{title}</h3>
-        <p className="text-gray-600 dark:text-gray-400">No details available.</p>
+        <p className="text-gray-600 dark:text-gray-400">{t('basicDetails.noDetailsAvailable')}</p>
       </div>
     );
   }
@@ -64,6 +66,7 @@ const DetailCard = ({ title, details }: { title: string; details: any[] }) => {
 };
 
 const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
+  const { t } = useTranslation();
   let displayBasicDetails, displayPanchangDetails;
 
   // Updated to remove the "Place" field
@@ -89,79 +92,99 @@ const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
     // Process Basic Details
     displayBasicDetails = basicDetailLabels.map((label) => {
       let value = 'N/A';
+      let translatedLabel = label;
       switch (label) {
         case 'Name':
           value = (apiData as any).name || 'N/A';
+          translatedLabel = t('basicDetails.name');
           break;
         case 'Date of Birth':
           value = apiData.birth_info?.date_of_birth || 'N/A';
+          translatedLabel = t('basicDetails.dateOfBirth');
           break;
         case 'Time of Birth':
           value = apiData.birth_info?.time_of_birth || 'N/A';
+          translatedLabel = t('basicDetails.timeOfBirth');
           break;
         case 'Place of Birth':
           value = apiData.birth_info?.place_of_birth || 'N/A';
+          translatedLabel = t('basicDetails.placeOfBirth');
           break;
         case 'Latitude':
           value = apiData.birth_info?.latitude?.toFixed(4) || 'N/A';
+          translatedLabel = t('basicDetails.latitude');
           break;
         case 'Longitude':
           value = apiData.birth_info?.longitude?.toFixed(4) || 'N/A';
+          translatedLabel = t('basicDetails.longitude');
           break;
         case 'Timezone':
           value = apiData.birth_info?.timezone || 'N/A';
+          translatedLabel = t('basicDetails.timezone');
           break;
         default:
           break;
       }
-      return { label, value };
+      return { label: translatedLabel, value };
     });
 
     // Process Panchang Details
     displayPanchangDetails = panchangDetailLabels.map((label) => {
       let value = 'N/A';
+      let translatedLabel = label;
       if (apiData.enhanced_panchanga) {
         const panchang = apiData.enhanced_panchanga;
         switch (label) {
           case 'Tithi':
             value = panchang.tithi?.name ? `${panchang.tithi.name} (${panchang.tithi.paksha})` : 'N/A';
+            translatedLabel = t('basicDetails.tithi');
             break;
           case 'Nakshatra':
             value = panchang.nakshatra?.name ? `${panchang.nakshatra.name}` : 'N/A';
+            translatedLabel = t('basicDetails.nakshatra');
             break;
           case 'Yoga':
             value = panchang.yoga?.name ? `${panchang.yoga.name} (till ${panchang.yoga.end_time})` : 'N/A';
+            translatedLabel = t('basicDetails.yoga');
             break;
           case 'Karana':
             value = panchang.karana?.name || 'N/A';
+            translatedLabel = t('basicDetails.karana');
             break;
           case 'Vaara':
             value = panchang.vaara?.name || 'N/A';
+            translatedLabel = t('basicDetails.vaara');
             break;
           case 'Masa':
             // Updated to show masa type (Nija/Adhika)
             value = panchang.masa?.name ? `${panchang.masa.name} (${panchang.masa.type})` : 'N/A';
+            translatedLabel = t('basicDetails.masa');
             break;
           case 'Ritu':
             value = panchang.ritu?.name || 'N/A';
+            translatedLabel = t('basicDetails.ritu');
             break;
           case 'Samvatsara':
             value = panchang.samvatsara?.name || 'N/A';
+            translatedLabel = t('basicDetails.samvatsara');
             break;
           case 'Sunrise':
             value = panchang.sunrise?.time || 'N/A';
+            translatedLabel = t('basicDetails.sunrise');
             break;
           case 'Sunset':
             value = panchang.sunset?.time || 'N/A';
+            translatedLabel = t('basicDetails.sunset');
             break;
           case 'Day Duration':
             value = panchang.day_duration ? `${panchang.day_duration.hours} hours` : 'N/A';
+            translatedLabel = t('basicDetails.dayDuration');
             break;
           default:
             break;
         }
       }
-      return { label, value };
+      return { label: translatedLabel, value };
     });
   } else {
     displayBasicDetails = basicDetailLabels.map((label) => ({ label, value: 'N/A' }));
@@ -169,15 +192,15 @@ const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
   }
 
   return (
-    // <div 
-    //   id="basic-details-content-section" 
+    // <div
+    //   id="basic-details-content-section"
     //   className="mt-6 p-6 rounded-lg bg-cover bg-center"
     //   style={{ backgroundImage: "url('/om-image.png')" }}
     // >
     <div id="basic-details-content-section" className="mt-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <DetailCard title="Basic Details" details={displayBasicDetails} />
-        <DetailCard title="Panchang Details" details={displayPanchangDetails} />
+        <DetailCard title={t('basicDetails.title')} details={displayBasicDetails} />
+        <DetailCard title={t('basicDetails.panchangTitle')} details={displayPanchangDetails} />
         {/* <div className="bg-white rounded-xl shadow-lg border transform transition-all hover:scale-[1.01] duration-300 overflow-hidden">
           {/* <img src="/.png" alt="Lord Ganesha" className="w-full h-full object-cover" /> */}
         {/* </div>  */}

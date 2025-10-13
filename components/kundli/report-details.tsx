@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 // --- FIX: Import contentful from a CDN to resolve the error ---
 import { createClient } from 'contentful';
 import { Sun, Moon, Home, Star, Sparkles, Dna, Bot } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // --- Contentful Client Initialization ---
 // Make sure to set these environment variables in your project
@@ -61,6 +62,7 @@ const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
 // --- MAIN REPORT COMPONENT ---
 
 const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
+    const { t } = useTranslation();
     // --- State for storing zodiac images from CMS and loading status ---
     const [zodiacImageMap, setZodiacImageMap] = useState<ZodiacImageMap>({});
     const [isCmsLoading, setIsCmsLoading] = useState(true);
@@ -92,7 +94,7 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
             <div className="min-h-screen p-8 flex items-center justify-center">
                 <p className="text-lg text-gray-600 dark:text-gray-400 flex items-center gap-2">
                     <Bot size={20} className="text-orange-600 dark:text-orange-400 animate-pulse" />
-                    Preparing your astrological report...
+                    {t('reportDetails.preparing')}
                 </p>
             </div>
         );
@@ -136,9 +138,13 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
                         const sign = getSignFromContent(content);
                         const imageUrl = sign ? zodiacImageMap[sign] : null;
 
+                        const lagnaKey = t('reportDetails.lagna');
+                        const rashiKey = t('reportDetails.rashi');
                         const icons: { [key: string]: React.ReactNode } = {
                             'Lagna': <Sun size={24} />,
                             'Rashi': <Moon size={24} />,
+                            [lagnaKey]: <Sun size={24} />,
+                            [rashiKey]: <Moon size={24} />,
                         };
                         const iconKey = Object.keys(icons).find(key => title.includes(key));
                         const icon = iconKey ? icons[iconKey] : <Star size={24} />;
@@ -155,7 +161,7 @@ const ReportDetails: React.FC<ReportProps> = ({ kundliData }) => {
 
                 <footer className="text-center mt-10 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 py-4 rounded-xl">
                     <p>
-                        This report offers a foundational analysis of your birth chart. For personalized insights, consult a professional astrologer.
+                        {t('reportDetails.footerText')}
                     </p>
                 </footer>
             </div>

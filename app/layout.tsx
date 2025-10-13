@@ -4,6 +4,7 @@ import "./globals.css"
 import type React from "react"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { ThemeProvider } from "@/components/theme-provider"
+import { I18nProvider } from "@/components/providers/I18nProvider"
 import OrganizationSchema from "@/components/schema/OrganizationSchema"
 import LocalBusinessSchema from "@/components/schema/LocalBusinessSchema"
 import { ServiceWorker } from "@/components/performance/ServiceWorker"
@@ -69,22 +70,24 @@ export default function RootLayout({
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </head>
       <body className={`${inter.className} min-h-screen w-full overflow-x-hidden`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <CacheBuster />
-          <AuthProvider>
-            <div className="w-full max-w-full min-h-screen overflow-x-hidden">
-              {children}
-            </div>
-            <AppDownloadPopup />
-            <FloatingAppCTA />
-            <Toaster />
-          </AuthProvider>
-        </ThemeProvider>
+        <I18nProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <CacheBuster />
+            <AuthProvider>
+              <div className="w-full max-w-full min-h-screen overflow-x-hidden">
+                {children}
+              </div>
+              <AppDownloadPopup />
+              <FloatingAppCTA />
+              <Toaster />
+            </AuthProvider>
+          </ThemeProvider>
+        </I18nProvider>
         <ServiceWorker />
         <GoogleAnalytics gaId="G-97R5TTNY4G" />
       </body>

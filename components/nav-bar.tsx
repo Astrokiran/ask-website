@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useState, useRef } from "react"
 import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn, ChevronDown } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { LanguageSelector } from "@/components/ui/language-selector"
 import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { UserDropdown } from "@/components/auth/UserDropdown"
@@ -144,6 +145,7 @@ export function NavBar() {
 
           {/* Fixed Right Side Actions - Desktop */}
           <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+            <LanguageSelector />
             <ThemeToggle />
             {!loading && (
               user ? (
@@ -175,6 +177,7 @@ export function NavBar() {
 
           {/* Fixed Right Side Actions - Mobile/Tablet */}
           <div className="md:hidden flex items-center gap-2 flex-shrink-0">
+            <LanguageSelector />
             <ThemeToggle />
             {!loading && (
               user ? (
