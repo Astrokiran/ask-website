@@ -14,7 +14,7 @@ import { CircularProgress, Box } from '@mui/material';
 import { Star, Briefcase, Languages, IndianRupee } from 'lucide-react';
 
 // The new public API endpoint
-const GUIDES_API_URL = 'https://devazstg.astrokiran.com/auth/api/v1/public/guide/all';
+const GUIDES_API_URL = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL || 'https://devazstg.astrokiran.com/auth';
 
 // A reusable component to display a single guide in a card format
 const GuideCard = ({ guide }) => {
@@ -74,7 +74,7 @@ export const GuidesListPage = () => {
     useEffect(() => {
         const fetchGuides = async () => {
             try {
-                const response = await fetch(GUIDES_API_URL);
+                const response = await fetch(`${GUIDES_API_URL}/api/v1/public/guide/all`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }

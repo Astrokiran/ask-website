@@ -1,4 +1,4 @@
-// file: app/guides/page.tsx
+// file: app/astrologers/page.tsx
 
 "use client"; // <-- This is crucial for using hooks like useState
 
@@ -8,7 +8,7 @@ import { NavBar } from "@/components/nav-bar"
 import { GuideCard } from '@/components/guides/GuideCard'; // Adjust the import path
 import type { Guide } from '@/types/guide'; // Import the type
 
-const GUIDES_API_URL = 'https://devazstg.astrokiran.com/auth/api/v1/public/guide/all';
+const GUIDES_API_URL = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL || 'https://devazstg.astrokiran.com/auth';
 
 export default function GuidesListPage() {
     // Typed state: guides is an array of Guide objects
@@ -19,7 +19,7 @@ export default function GuidesListPage() {
     useEffect(() => {
         const fetchGuides = async () => {
             try {
-                const response = await fetch(GUIDES_API_URL);
+                const response = await fetch(`${GUIDES_API_URL}/api/v1/public/guide/all`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
