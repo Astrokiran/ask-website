@@ -165,18 +165,59 @@
     "generateNew": "Generate a new Kundli"
   },
   "ashtakavarga": {
-    "title": "Ashtakavarga",
+    "title": "Ashtakavarga Analysis",
     "sarvashtakavarga": "Sarvashtakavarga",
     "bhinnaAshtakavarga": "Bhinna Ashtakavarga",
-    "sun": "Sun",
-    "moon": "Moon",
-    "mars": "Mars",
-    "mercury": "Mercury",
-    "jupiter": "Jupiter",
-    "venus": "Venus",
-    "saturn": "Saturn",
+    "rashi": "Rashi",
+    "sun": "Su",
+    "moon": "Mo",
+    "mars": "Ma",
+    "mercury": "Me",
+    "jupiter": "Ju",
+    "venus": "Ve",
+    "saturn": "Sa",
     "total": "Total",
     "house": "House",
-    "notAvailable": "Ashtakavarga data not available."
+    "notAvailable": "Ashtakavarga data not available.",
+    "tableNotAvailable": "Table data not available.",
+    "chartNotAvailable": "Chart data not available.",
+    "infoCards": {
+      "whatIsAshtakavarga": {
+        "title": "What is Ashtakavarga?",
+        "content": "Ashtakavarga is a unique system in Vedic astrology for evaluating a planet's strength. It assigns points (Bindus) to houses based on planetary positions, providing a nuanced score. 'Ashta' means eight, referring to the seven planets plus the Ascendant (Lagna) as points of reference."
+      },
+      "howCalculated": {
+        "title": "How It's Calculated & Used",
+        "content": "The system generates a Sarvashtakavarga (SAV) score for each house by totaling the benefic points given by the eight sources. This score indicates the house's overall strength and potential to deliver results.",
+        "listItems": [
+          "A score <strong>above 30 Bindus</strong> is considered very strong, promising auspicious results.",
+          "A score between <strong>25 and 30</strong> is good and indicates favorable conditions.",
+          "A score <strong>below 25</strong> suggests weakness, pointing to potential challenges in that area of life."
+        ]
+      },
+      "benefitsInPredictions": {
+        "title": "Benefits in Predictions",
+        "content": "Astrologers use Ashtakavarga to make precise predictions and recommendations. It helps to:",
+        "listItems": [
+          "<strong>Assess House Strength:</strong> Quickly identify which areas of life (career, wealth, relationships) are fortified or vulnerable.",
+          "<strong>Time Events:</strong> Pinpoint favorable periods by analyzing planetary transits over high-scoring houses.",
+          "<strong>Refine Judgements:</strong> Determine if a planet will act as a benefic or malefic in a specific chart, beyond its natural tendencies."
+        ]
+      }
+    },
+    "signs": {
+      "Aries": "Aries",
+      "Taurus": "Taurus",
+      "Gemini": "Gemini",
+      "Cancer": "Cancer",
+      "Leo": "Leo",
+      "Virgo": "Virgo",
+      "Libra": "Libra",
+      "Scorpio": "Scorpio",
+      "Sagittarius": "Sagittarius",
+      "Capricorn": "Capricorn",
+      "Aquarius": "Aquarius",
+      "Pisces": "Pisces"
+    }
   }
 }

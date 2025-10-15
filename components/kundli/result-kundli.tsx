@@ -291,7 +291,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                         </div>
                         {/* <div className="mt-2"><AutoUploadStatusIndicator /></div> */}
                     </div>
-                    <div className="flex gap-2 sm:gap-3 self-start sm:self-auto">
+                    {/* Temporarily commented out - PDF download feature under maintenance */}
+                    {/* <div className="flex gap-2 sm:gap-3 self-start sm:self-auto">
                         <button
                             onClick={handleDownloadPdf}
                             disabled={!kundliData || isProcessingPdf || loadingLogout}
@@ -301,7 +302,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                             <span className="hidden sm:inline">{isProcessingPdf && pdfTask === 'download' ? t('resultPage.downloading') : t('resultPage.downloadPdf')}</span>
                             <span className="sm:hidden">{t('resultPage.pdf')}</span>
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                     <div className="border-b border-gray-200 dark:border-gray-700">
