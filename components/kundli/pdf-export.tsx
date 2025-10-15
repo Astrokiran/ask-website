@@ -17,7 +17,7 @@ interface PdfExportOptions {
 const MARGIN = 15;
 const PAGE_WIDTH = 210;
 const PAGE_HEIGHT = 297;
-const PAGE_CONTENT_END = PAGE_HEIGHT - 25; 
+const PAGE_CONTENT_END = PAGE_HEIGHT - 25;
 const CONTENT_HEIGHT = PAGE_HEIGHT - MARGIN * 2;
 const COLOR_PRIMARY = '#C53030'; // A deep red
 const COLOR_ACCENT = '#FBBF24'; // A warm yellow/gold
@@ -29,6 +29,7 @@ const TABLE_HEADER_BG = '#374151';
 // --- HELPER FUNCTIONS FOR DRAWING ---
 
 let currentY = 0; // Use a global Y position tracker within the module
+
 
 const checkAndAddPage = (pdf: jsPDF, requiredHeight = 0) => {
     if (currentY + requiredHeight > PAGE_CONTENT_END) {
@@ -211,7 +212,7 @@ const drawDoshaDetails = (pdf: jsPDF, kundliData: KundliData) => {
     if (!dosha) return;
 
     const contentWidth = PAGE_WIDTH - 2 * MARGIN;
-    
+
     // Manglik Dosha
     if (dosha.mangal_dosha) {
         checkAndAddPage(pdf, 25); // Check if enough space for the section
@@ -220,7 +221,7 @@ const drawDoshaDetails = (pdf: jsPDF, kundliData: KundliData) => {
         pdf.setFontSize(10).setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
         pdf.setFont("helvetica", "normal").text(dosha.mangal_dosha.is_present ? `${dosha.mangal_dosha.manglik_status}` : "Not Present", MARGIN + 25, currentY);
         currentY += 7;
-        
+
         const reportLines = pdf.splitTextToSize(dosha.mangal_dosha.manglik_report, contentWidth);
         const textHeight = reportLines.length * 5; // Estimate height
         checkAndAddPage(pdf, textHeight); // ADDED: Check before drawing text
@@ -236,9 +237,11 @@ const drawDoshaDetails = (pdf: jsPDF, kundliData: KundliData) => {
         pdf.setFontSize(10).setFont("helvetica", "bold").text("Status:", MARGIN, currentY);
         pdf.setFont("helvetica", "normal").text(dosha.kalasarpa_dosha.is_present ? `Present (${dosha.kalasarpa_dosha.name})` : "Not Present", MARGIN + 20, currentY);
         currentY += 7;
-        
+
         if (dosha.kalasarpa_dosha.is_present) {
-            const reportLines = pdf.splitTextToSize(dosha.kalasarpa_dosha.report.report, contentWidth);
+            // Handle both nested report.report and direct report structures
+            const reportText = dosha.kalasarpa_dosha.report?.report || dosha.kalasarpa_dosha.report || "No additional details available.";
+            const reportLines = pdf.splitTextToSize(reportText, contentWidth);
             const textHeight = reportLines.length * 5;
             checkAndAddPage(pdf, textHeight); // ADDED: Check before drawing text
             pdf.text(reportLines, MARGIN, currentY);
@@ -262,12 +265,12 @@ const drawYogaDetails = (pdf: jsPDF, kundliData: KundliData) => {
         const descLines = pdf.splitTextToSize(`Description: ${yoga.description}`, contentWidth);
         const effectsLines = pdf.splitTextToSize(`Effects: ${yoga.effects.join(', ')}`, contentWidth);
         const requiredHeight = titleHeight + (descLines.length * 5) + (effectsLines.length * 5) + 14;
-        
+
         checkAndAddPage(pdf, requiredHeight);
 
-        pdf.setTextColor(COLOR_PRIMARY); 
+        pdf.setTextColor(COLOR_PRIMARY);
         pdf.setFontSize(14).setFont("helvetica", "bold").text(yoga.name, MARGIN, currentY);
-        
+
         pdf.setTextColor(COLOR_TEXT_MUTED);
         pdf.setFontSize(10).setFont("helvetica", "normal").text(`Strength: ${yoga.strength}`, PAGE_WIDTH - MARGIN, currentY, { align: 'right' });
         currentY += titleHeight;
@@ -275,7 +278,7 @@ const drawYogaDetails = (pdf: jsPDF, kundliData: KundliData) => {
         pdf.setTextColor(COLOR_TEXT_DARK);
         pdf.text(descLines, MARGIN, currentY);
         currentY += descLines.length * 5 + 4;
-        
+
         pdf.text(effectsLines, MARGIN, currentY);
         currentY += effectsLines.length * 5 + 10;
     });
@@ -285,7 +288,7 @@ const drawSummaryDetails = (pdf: jsPDF, kundliData: KundliData) => {
     const summary = kundliData?.summary;
     const contentWidth = PAGE_WIDTH - 2 * MARGIN;
 
-    let totalHeight = 20; 
+    let totalHeight = 20;
     if (summary?.interpretation) {
         const lines = summary.interpretation.split('\n');
         lines.forEach((line: string) => {
@@ -295,7 +298,7 @@ const drawSummaryDetails = (pdf: jsPDF, kundliData: KundliData) => {
     }
 
     checkAndAddPage(pdf, totalHeight);
-    
+
     drawSectionTitle(pdf, "Summary & Interpretations");
 
     if (!summary || !summary.interpretation) {
@@ -306,7 +309,7 @@ const drawSummaryDetails = (pdf: jsPDF, kundliData: KundliData) => {
     }
 
     pdf.setTextColor(COLOR_TEXT_DARK).setFontSize(10).setFont("helvetica", "normal");
-    
+
     // Split the interpretation by newlines to process each line individually
     const lines = summary.interpretation.split('\n');
 
@@ -329,7 +332,7 @@ const drawSummaryDetails = (pdf: jsPDF, kundliData: KundliData) => {
             const requiredHeight = textLines.length * 5;
 
             // checkAndAddPage(pdf, requiredHeight); // Ensure paragraph fits
-            
+
             pdf.text(textLines, MARGIN, currentY);
             currentY += requiredHeight + 6; // Add more space after a paragraph
         }
@@ -484,7 +487,7 @@ const drawReportDetails = (pdf: jsPDF, kundliData: KundliData) => {
     drawPageHeader(pdf);
     currentY = 45;
     drawSectionTitle(pdf, 'Personalized Astrological Report');
-    
+
     // 3. Split the report into sections based on '##' headings, just like in your component
     const sections = reportText.split(/(?=##\s)/).filter(Boolean);
     const contentWidth = PAGE_WIDTH - 2 * MARGIN;
@@ -497,7 +500,7 @@ const drawReportDetails = (pdf: jsPDF, kundliData: KundliData) => {
         const content = section.substring(firstNewline + 1).trim();
 
         // --- Check if there's enough space for the title and some text ---
-        checkAndAddPage(pdf, 20); 
+        checkAndAddPage(pdf, 20);
 
         // --- Draw the section title ---
         pdf.setFontSize(16).setFont("helvetica", "bold").setTextColor(COLOR_PRIMARY);
@@ -537,14 +540,14 @@ const drawReportDetails = (pdf: jsPDF, kundliData: KundliData) => {
 };
 
 const generateKundliPdf = async (
-    kundliData: KundliData, 
+    kundliData: KundliData,
     options: PdfExportOptions = { outputType: 'save' }
 ): Promise<Blob | void> => {
     if (!kundliData) {
         console.error("Kundli data is null, cannot generate PDF.");
         return;
     }
-    
+
     try {
         const pdf = new jsPDF('p', 'mm', 'a4');
         currentY = 45;
@@ -560,16 +563,16 @@ const generateKundliPdf = async (
         currentY = 45;
         drawPlanetsTable(pdf, kundliData);
         drawDashaTable(pdf, kundliData);
-        
+
         // Subsequent Chart Pages
         await drawAshtakavargaChart(pdf, kundliData);
-        await drawVargaCharts(pdf, kundliData);        
+        await drawVargaCharts(pdf, kundliData);
         // Yoga Analysis on its own new page
         pdf.addPage();
         drawPageHeader(pdf);
         currentY = 45;
         drawYogaDetails(pdf, kundliData);
-        
+
         // Dosha Analysis on its own new page
         pdf.addPage();
         drawPageHeader(pdf);
@@ -580,7 +583,7 @@ const generateKundliPdf = async (
         drawSummaryDetails(pdf, kundliData);
         drawReportDetails(pdf, kundliData);
 
-        
+
         drawPageFooter(pdf, kundliData);
 
         // CHANGED: Conditional output logic

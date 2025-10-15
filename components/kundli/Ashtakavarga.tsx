@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // --- CONSTANTS ---
 const SIGN_NAMES = [
@@ -8,31 +9,6 @@ const SIGN_NAMES = [
     "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
 ];
 const PLANET_KEYS = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
-
-const ASHTAKAVARGA_INFO_CONTENT = [
-    {
-        title: "What is Ashtakavarga?",
-        content: "Ashtakavarga is a unique system in Vedic astrology for evaluating a planet's strength. It assigns points (Bindus) to houses based on planetary positions, providing a nuanced score. 'Ashta' means eight, referring to the seven planets plus the Ascendant (Lagna) as points of reference.",
-    },
-    {
-        title: "How It's Calculated & Used",
-        content: "The system generates a Sarvashtakavarga (SAV) score for each house by totaling the benefic points given by the eight sources. This score indicates the house's overall strength and potential to deliver results.",
-        listItems: [
-            "A score <strong>above 30 Bindus</strong> is considered very strong, promising auspicious results.",
-            "A score between <strong>25 and 30</strong> is good and indicates favorable conditions.",
-            "A score <strong>below 25</strong> suggests weakness, pointing to potential challenges in that area of life."
-        ]
-    },
-    {
-        title: "Benefits in Predictions",
-        content: "Astrologers use Ashtakavarga to make precise predictions and recommendations. It helps to:",
-        listItems: [
-            "<strong>Assess House Strength:</strong> Quickly identify which areas of life (career, wealth, relationships) are fortified or vulnerable.",
-            "<strong>Time Events:</strong> Pinpoint favorable periods by analyzing planetary transits over high-scoring houses.",
-            "<strong>Refine Judgements:</strong> Determine if a planet will act as a benefic or malefic in a specific chart, beyond its natural tendencies."
-        ]
-    }
-];
 
 // --- TYPES ---
 interface AshtakavargaData {
@@ -77,6 +53,27 @@ const InfoCard: React.FC<InfoCardProps> = ({ title, content, listItems }) => (
 
 // --- MAIN COMPONENT ---
 const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSvgString, tableData, isLoading = false, renderForPdf = false }) => {
+    const { t } = useTranslation();
+
+    // Get translated info card content
+    const getInfoCardContent = () => {
+        return [
+            {
+                title: t('ashtakavarga.infoCards.whatIsAshtakavarga.title'),
+                content: t('ashtakavarga.infoCards.whatIsAshtakavarga.content'),
+            },
+            {
+                title: t('ashtakavarga.infoCards.howCalculated.title'),
+                content: t('ashtakavarga.infoCards.howCalculated.content'),
+                listItems: t('ashtakavarga.infoCards.howCalculated.listItems', { returnObjects: true }) as string[],
+            },
+            {
+                title: t('ashtakavarga.infoCards.benefitsInPredictions.title'),
+                content: t('ashtakavarga.infoCards.benefitsInPredictions.content'),
+                listItems: t('ashtakavarga.infoCards.benefitsInPredictions.listItems', { returnObjects: true }) as string[],
+            }
+        ];
+    };
 
     if (renderForPdf) {
         // Simple rendering for PDF generation
@@ -95,7 +92,7 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
     return (
         <div className="mt-4 sm:mt-6 p-4 sm:p-0">
             <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-6 sm:mb-8">
-                Ashtakavarga Analysis
+                {t('ashtakavarga.title')}
             </h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
@@ -109,17 +106,21 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
                             <table className="w-full text-sm text-left border-collapse min-w-[700px]">
                                 <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th scope="col" className="px-1 sm:px-3 py-3 text-left font-medium whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 w-[80px]">Rashi</th>
+                                        <th scope="col" className="px-1 sm:px-3 py-3 text-left font-medium whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 w-[80px]">{t('ashtakavarga.rashi')}</th>
                                         {PLANET_KEYS.map(p => (
-                                            <th key={p} scope="col" className="px-1 sm:px-2 py-3 text-center font-medium whitespace-nowrap w-[45px]">{p.slice(0, 2)}</th>
+                                            <th key={p} scope="col" className="px-1 sm:px-2 py-3 text-center font-medium whitespace-nowrap w-[45px]">
+                                                {t(`ashtakavarga.${p.toLowerCase()}`)}
+                                            </th>
                                         ))}
-                                        <th scope="col" className="px-1 sm:px-3 py-3 text-center font-medium whitespace-nowrap w-[55px]">Total</th>
+                                        <th scope="col" className="px-1 sm:px-3 py-3 text-center font-medium whitespace-nowrap w-[55px]">{t('ashtakavarga.total')}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white dark:bg-gray-800">
                                     {SIGN_NAMES.map((signName, index) => (
                                         <tr key={signName} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap font-medium text-orange-600 dark:text-orange-400 sticky left-0 bg-white dark:bg-gray-800 z-10 w-[80px] text-xs sm:text-sm">{signName}</td>
+                                            <td className="px-1 sm:px-3 py-3 whitespace-nowrap font-medium text-orange-600 dark:text-orange-400 sticky left-0 bg-white dark:bg-gray-800 z-10 w-[80px] text-xs sm:text-sm">
+                                                {t(`ashtakavarga.signs.${signName}`)}
+                                            </td>
                                             {PLANET_KEYS.map(planet => (
                                                 <td key={`${planet}-${index}`} className="px-1 sm:px-2 py-3 whitespace-nowrap text-center text-gray-900 dark:text-white w-[45px] text-xs sm:text-sm">
                                                     {tableData.bhinna_ashtakavarga[planet]?.[index] ?? '-'}
@@ -134,7 +135,9 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
                             </table>
                         </div>
                     ) : (
-                         <div className="text-gray-600 dark:text-gray-400 text-center py-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">Table data not available.</div>
+                         <div className="text-gray-600 dark:text-gray-400 text-center py-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
+                            {t('ashtakavarga.tableNotAvailable')}
+                        </div>
                     )}
 
                     {/* --- SVG CHARTS --- */}
@@ -148,13 +151,15 @@ const AshtakavargaAnalysis: React.FC<AshtakavargaAnalysisProps> = ({ compositeSv
                             />
                         </div>
                     ) : (
-                        <div className="text-gray-600 dark:text-gray-400 text-center py-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">Chart data not available.</div>
+                        <div className="text-gray-600 dark:text-gray-400 text-center py-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
+                            {t('ashtakavarga.chartNotAvailable')}
+                        </div>
                     )}
                 </div>
 
                 {/* Right Column: Information Grid */}
                 <div className="grid grid-cols-1 gap-4 sm:gap-6 content-start">
-                    {ASHTAKAVARGA_INFO_CONTENT.map((info) => (
+                    {getInfoCardContent().map((info) => (
                         <InfoCard
                             key={info.title}
                             title={info.title}
