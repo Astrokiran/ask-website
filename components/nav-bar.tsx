@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useState, useRef } from "react"
-import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn, ChevronDown } from "lucide-react"
+import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn, ChevronDown, Gift } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/auth/AuthModal"
@@ -86,6 +86,10 @@ export function NavBar() {
             </Link>
             <Link href="/pricing" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Pricing
+            </Link>
+            <Link href="/offers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
+              <Gift className="w-4 h-4 mr-1" />
+              Offers
             </Link>
             {/* Explore Button */}
             <button
@@ -271,6 +275,14 @@ export function NavBar() {
               >
                 <span className="text-pink-500">💰</span>
                 <span className="group-hover:text-pink-600 transition-colors">Pricing</span>
+              </Link>
+              <Link
+                href="/offers"
+                className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-green-50 dark:hover:bg-green-950/20 transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="text-green-500">🎁</span>
+                <span className="group-hover:text-green-600 transition-colors">Offers & Promotions</span>
               </Link>
 
               {/* Explore Section */}

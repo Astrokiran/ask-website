@@ -13,6 +13,15 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
+    }
+    return config;
+  },
   // Generate unique build ID for cache busting
   generateBuildId: async () => {
     // Use timestamp or git commit hash for unique build ID
