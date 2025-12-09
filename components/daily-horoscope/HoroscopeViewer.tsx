@@ -1,22 +1,14 @@
 "use client";
 
-import { useState, useEffect, FC, ReactNode } from "react";
+import { useState, useEffect, FC } from "react";
 import { useRouter } from "next/navigation";
 import { ApiResponse } from "@/app/horoscopes/[zodiac]/page";
-import { NavBar } from "@/components/nav-bar";
-import { Footer } from "@/components/footer";
+import { useLanguageStore } from '@/stores/languageStore';
+import { LanguageSelector } from '@/components/ui/language-selector';
 import { createClient } from 'contentful';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
   Accordion,
@@ -32,287 +24,448 @@ const client = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || '',
 });
 
-// --- Interface for zodiac signs ---
-interface ZodiacSign {
-  name: string;
-  imageUrl: string;
+// --- Interface for the image data we fetch from Contentful ---
+interface ZodiacImageMap {
+  [key: string]: string; // e.g., { aquarius: 'https://...', leo: 'https://...' }
 }
 
-const zodiacOrder = [
-  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
-  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-];
+// --- Types ---
+interface HoroscopeCategory {
+  narrative: string;
+  reason: string;
+}
+
+interface LuckyInsights {
+  mood: string;
+  lucky_color: string;
+  lucky_number: number;
+  lucky_time: string;
+}
+
+interface HoroscopeDetails {
+  overview: HoroscopeCategory;
+  love_and_relationships: HoroscopeCategory;
+  career_and_finance: HoroscopeCategory;
+  emotions_and_mind: HoroscopeCategory;
+  travel_and_movement: HoroscopeCategory;
+  remedies: HoroscopeCategory;
+  lucky_insights: LuckyInsights;
+}
 
 // --- The Main Interactive Component ---
-export const HoroscopeViewer: FC<{ initialData: ApiResponse }> = ({ initialData }) => {
+export const HoroscopeViewer: FC<{
+  initialData: ApiResponse;
+  zodiacSign: string;
+  currentLanguage: string;
+}> = ({ initialData, zodiacSign, currentLanguage }) => {
   const router = useRouter();
-  const [selectedSign, setSelectedSign] = useState<string>(initialData.sign);
+  const { language } = useLanguageStore();
   const [horoscopeData, setHoroscopeData] = useState<ApiResponse>(initialData);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [zodiacImages, setZodiacImages] = useState<Record<string, string>>({});
-  const [imagesLoading, setImagesLoading] = useState<boolean>(true);
+  const [zodiacImages, setZodiacImages] = useState<ZodiacImageMap>({});
 
   const zodiacSigns = [
     "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
     "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
   ];
 
-  useEffect(() => {
-    if (selectedSign === initialData.sign) {
-      setHoroscopeData(initialData);
-      return;
-    }
-
-    const fetchData = async () => {
-      setIsLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
-      const response = await fetch(`${apiBaseUrl}/api/v1/kundali/horoscope/daily/${selectedSign}`);
-      
-      if (!response.ok) {
-        setIsLoading(false);
-        return;
-      }
-
-      const data: ApiResponse = await response.json();
-      if (data.success) {
-        setHoroscopeData(data);
-        router.push(`/horoscopes/${selectedSign.toLowerCase()}`, { scroll: false });
-      }
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, [selectedSign, initialData, router]);
-
-  const { sign, date, horoscope } = horoscopeData;
-
-  const detailSections = [
-    { title: "Love & Relationships", data: horoscope.love_and_relationships, icon: <Heart className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
-    { title: "Career & Finance", data: horoscope.career_and_finance, icon: <Briefcase className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
-    { title: "Emotions & Mind", data: horoscope.emotions_and_mind, icon: <Brain className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
-    { title: "Travel & Movement", data: horoscope.travel_and_movement, icon: <Plane className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
-    { title: "Remedies", data: horoscope.remedies, icon: <Wand className="h-6 w-6 text-orange-500 dark:text-orange-400" /> },
-  ];
-
-  // Fetch zodiac images from CMS
+  // Fetch zodiac images from Contentful on component mount
   useEffect(() => {
     const fetchZodiacImages = async () => {
-      setImagesLoading(true);
       try {
-        const response = await client.getEntries<any>({
-          content_type: 'zodiacSigns'
+        const response = await client.getEntries({
+          content_type: 'zodiacSigns', // The correct Contentful content type ID
+          include: 2, // Include linked assets
         });
 
-        if (response.items) {
-          const imagesMap: Record<string, string> = {};
-          response.items.forEach((item: any) => {
-            const signName = item.fields.signName;
-            const imageUrl = `https:${item.fields.image.fields.file.url}`;
-            imagesMap[signName] = imageUrl;
-          });
-          setZodiacImages(imagesMap);
-        }
-      } catch (error) {
-        console.error("Error fetching zodiac images from CMS:", error);
-        // Fallback to default images if CMS fails
-        setZodiacImages({
-          Aries: "/aries2.jpg",
-          Taurus: "/taurus2.jpg",
-          Gemini: "/gemini2.jpg",
-          Cancer: "/cancer2.jpg",
-          Leo: "/leo2.jpg",
-          Virgo: "/virgo2.jpg",
-          Libra: "/libra2.jpg",
-          Scorpio: "/scorpio2.jpg",
-          Sagittarius: "/sagrititus2.jpg",
-          Capricorn: "/capricorn2.jpg",
-          Aquarius: "/aquarius.jpg",
-          Pisces: "/pisces2.jpg",
+        const images: ZodiacImageMap = {};
+        response.items.forEach((item: any) => {
+          // Contentful entries have 'signName' and 'image' fields
+          if (item.fields.signName && item.fields.image && item.fields.image.fields?.file?.url) {
+            const sign = item.fields.signName.toLowerCase();
+            images[sign] = `https:${item.fields.image.fields.file.url}`;
+          }
         });
-      } finally {
-        setImagesLoading(false);
+
+        setZodiacImages(images);
+      } catch (error) {
+        console.error('Error fetching zodiac images from Contentful:', error);
       }
     };
 
     fetchZodiacImages();
   }, []);
 
+  // Update horoscope data when language changes
+  useEffect(() => {
+    if (language !== currentLanguage || language !== horoscopeData.language) {
+      fetchHoroscopeData();
+    }
+  }, [language, currentLanguage, horoscopeData.language]);
+
+  const fetchHoroscopeData = async () => {
+    setIsLoading(true);
+    try {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
+      if (!apiBaseUrl) {
+        throw new Error("API URL not configured");
+      }
+
+      const response = await fetch(`${apiBaseUrl}/api/v1/kundali/horoscope/daily/${zodiacSign}?language=${language}`);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+      }
+
+      const data: ApiResponse = await response.json();
+      if (data.success) {
+        setHoroscopeData(data);
+      } else {
+        throw new Error("Invalid response from server");
+      }
+    } catch (error) {
+      console.error("Error fetching horoscope data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const { sign, date, horoscope } = horoscopeData;
+
+  // Zodiac sign translations
+  const getZodiacSignTranslation = (sign: string, lang: string): string => {
+    const zodiacTranslations: { [key: string]: { [lang: string]: string } } = {
+      'Aries': { 'en': 'Aries', 'hi': 'मेष' },
+      'Taurus': { 'en': 'Taurus', 'hi': 'वृषभ' },
+      'Gemini': { 'en': 'Gemini', 'hi': 'मिथुन' },
+      'Cancer': { 'en': 'Cancer', 'hi': 'कर्क' },
+      'Leo': { 'en': 'Leo', 'hi': 'सिंह' },
+      'Virgo': { 'en': 'Virgo', 'hi': 'कन्या' },
+      'Libra': { 'en': 'Libra', 'hi': 'तुला' },
+      'Scorpio': { 'en': 'Scorpio', 'hi': 'वृश्चिक' },
+      'Sagittarius': { 'en': 'Sagittarius', 'hi': 'धनु' },
+      'Capricorn': { 'en': 'Capricorn', 'hi': 'मकर' },
+      'Aquarius': { 'en': 'Aquarius', 'hi': 'कुंभ' },
+      'Pisces': { 'en': 'Pisces', 'hi': 'मीन' }
+    };
+    return zodiacTranslations[sign]?.[lang] || sign;
+  };
+
+  // Planet translations
+  const getPlanetTranslation = (text: string, lang: string): string => {
+    const planetTranslations: { [key: string]: { [lang: string]: string } } = {
+      'Sun': { 'en': 'Sun', 'hi': 'सूर्य' },
+      'Moon': { 'en': 'Moon', 'hi': 'चंद्रमा' },
+      'Mars': { 'en': 'Mars', 'hi': 'मंगल' },
+      'Mercury': { 'en': 'Mercury', 'hi': 'बुध' },
+      'Jupiter': { 'en': 'Jupiter', 'hi': 'गुरु' },
+      'Venus': { 'en': 'Venus', 'hi': 'शुक्र' },
+      'Saturn': { 'en': 'Saturn', 'hi': 'शनि' },
+      'Rahu': { 'en': 'Rahu', 'hi': 'राहु' },
+      'Ketu': { 'en': 'Ketu', 'hi': 'केतु' }
+    };
+
+    let translatedText = text;
+    Object.entries(planetTranslations).forEach(([en, translations]) => {
+      const regex = new RegExp(`\\b${en}\\b`, 'g');
+      translatedText = translatedText.replace(regex, translations[lang] || en);
+    });
+
+    return translatedText;
+  };
+
+  // Translation helper
+  const t = (key: string, fallback: string) => {
+    const translatedSign = getZodiacSignTranslation(sign, language);
+    const translations: { [key: string]: { [lang: string]: string } } = {
+      'horoscope.title': {
+        'en': `${sign} Horoscope Today`,
+        'hi': `${translatedSign} आज का राशिफल`
+      },
+      'horoscope.subtitle': {
+        'en': `Your daily forecast for ${sign}`,
+        'hi': `${translatedSign} के लिए आपका दैनिक पूर्वानुमान`
+      },
+      'sections.overview': {
+        'en': 'Overview',
+        'hi': 'सिंहावलोकन'
+      },
+      'sections.love': {
+        'en': 'Love & Relationships',
+        'hi': 'प्रेम और रिश्ते'
+      },
+      'sections.career': {
+        'en': 'Career & Finance',
+        'hi': 'करियर और वित्त'
+      },
+      'sections.emotions': {
+        'en': 'Emotions & Mind',
+        'hi': 'भावनाएं और मन'
+      },
+      'sections.travel': {
+        'en': 'Travel & Movement',
+        'hi': 'यात्रा और गतिशील'
+      },
+      'sections.remedies': {
+        'en': 'Remedies',
+        'hi': 'उपाय'
+      },
+      'sections.lucky': {
+        'en': 'Lucky Insights',
+        'hi': 'भाग्यशाली अंतर्दृष्टियां'
+      },
+      'loading': {
+        'en': 'Loading...',
+        'hi': 'लोड हो रहा है...'
+      },
+      'lucky.color': {
+        'en': 'Lucky Color',
+        'hi': 'भाग्यशाली रंग'
+      },
+      'lucky.number': {
+        'en': 'Lucky Number',
+        'hi': 'भाग्यशाली अंक'
+      },
+      'lucky.time': {
+        'en': 'Lucky Time',
+        'hi': 'भाग्यशाली समय'
+      },
+      'lucky.mood': {
+        'en': 'Mood',
+        'hi': 'मूड'
+      },
+      'language.current': {
+        'en': 'Language: English',
+        'hi': 'भाषा: हिंदी'
+      }
+    };
+
+    return translations[key]?.[language] || fallback;
+  };
+
+  const detailSections = [
+    {
+      title: t('sections.overview', 'Overview'),
+      data: horoscope.overview,
+      icon: <Brain className="h-6 w-6 text-orange-500 dark:text-orange-400" />
+    },
+    {
+      title: t('sections.love', 'Love & Relationships'),
+      data: horoscope.love_and_relationships,
+      icon: <Heart className="h-6 w-6 text-orange-500 dark:text-orange-400" />
+    },
+    {
+      title: t('sections.career', 'Career & Finance'),
+      data: horoscope.career_and_finance,
+      icon: <Briefcase className="h-6 w-6 text-orange-500 dark:text-orange-400" />
+    },
+    {
+      title: t('sections.emotions', 'Emotions & Mind'),
+      data: horoscope.emotions_and_mind,
+      icon: <Brain className="h-6 w-6 text-orange-500 dark:text-orange-400" />
+    },
+    {
+      title: t('sections.travel', 'Travel & Movement'),
+      data: horoscope.travel_and_movement,
+      icon: <Plane className="h-6 w-6 text-orange-500 dark:text-orange-400" />
+    },
+    {
+      title: t('sections.remedies', 'Remedies'),
+      data: horoscope.remedies,
+      icon: <Wand className="h-6 w-6 text-orange-500 dark:text-orange-400" />
+    },
+  ];
+
+  // Get zodiac icon (using Contentful images with emoji fallback)
+  const getZodiacIcon = (sign: string): { type: 'image' | 'emoji'; content: string } => {
+    const signKey = sign.toLowerCase();
+
+    // Check if we have a Contentful image for this zodiac sign
+    if (zodiacImages[signKey]) {
+      return {
+        type: 'image',
+        content: zodiacImages[signKey]
+      };
+    }
+
+    // Fallback to emoji if no Contentful image
+    const icons: { [key: string]: string } = {
+      "Aries": "♈",
+      "Taurus": "♉",
+      "Gemini": "♊",
+      "Cancer": "♋",
+      "Leo": "♌",
+      "Virgo": "♍",
+      "Libra": "♎",
+      "Scorpio": "♏",
+      "Sagittarius": "♐",
+      "Capricorn": "♑",
+      "Aquarius": "♒",
+      "Pisces": "♓"
+    };
+
+    return {
+      type: 'emoji',
+      content: icons[sign] || "✨"
+    };
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-sans">
-      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 py-8">
-        
-        {/* Left Sticky Selector */}
-        <aside className="lg:col-span-3 lg:sticky lg:top-8 h-fit space-y-6">
-  {/* Selector */}
-  <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
-    <h2 className="text-lg font-semibold text-orange-600 dark:text-orange-400 mb-4 tracking-wider">SELECT SIGN</h2>
-    <Select value={selectedSign} onValueChange={setSelectedSign}>
-      <SelectTrigger className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-lg h-12 shadow-sm">
-        <SelectValue placeholder="Select a sign" />
-      </SelectTrigger>
-      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
-        {zodiacSigns.map((s) => (
-          <SelectItem key={s} value={s} className="text-lg">
-            {s}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  </div>
-
-  {/* Sign Image */}
-  {selectedSign && (
-    <div
-      key={selectedSign}
-      className="flex justify-center animate-fadeInUp"
-    >
-      {imagesLoading ? (
-        <div className="w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 flex items-center justify-center">
-          <Loader2 className="h-16 w-16 animate-spin text-orange-500" />
+      {/* Header with Language Selector */}
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+                {t('horoscope.title', `${sign} Horoscope Today`)}
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                {t('horoscope.subtitle', `Your daily forecast for ${sign}`)} • {date}
+              </p>
+            </div>
+            <LanguageSelector />
+          </div>
         </div>
-      ) : (
-        <img
-          src={zodiacImages[selectedSign] || "/default-zodiac.png"}
-          alt={selectedSign}
-          className="w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 object-contain drop-shadow-lg"
-        />
+      </div>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin text-orange-500 mx-auto mb-4" />
+            <p className="text-gray-600 dark:text-gray-400">
+              {t('loading', 'Loading...')}
+            </p>
+          </div>
+        </div>
       )}
-    </div>
-  )}
-</aside>
 
-        {/* Right Content */}
-        <main className="lg:col-span-9">
-            <div
-              key={selectedSign}
-              className="animate-fadeInUp"
-            >
-              {isLoading ? (
-                <div className="flex justify-center items-center h-96">
-                  <Loader2 className="h-16 w-16 animate-spin text-orange-500" />
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+          {/* Left Sidebar - Sign Selector */}
+          <div className="lg:col-span-1">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-4">
+              {/* Sign Display */}
+              <div className="text-center mb-6">
+                <div className="flex justify-center items-center mb-4">
+                  {(() => {
+                    const icon = getZodiacIcon(sign);
+                    return icon.type === 'image' ? (
+                      <img
+                        src={icon.content}
+                        alt={sign}
+                        className="w-24 h-24 md:w-28 md:h-28 object-contain"
+                      />
+                    ) : (
+                      <div className="text-6xl">
+                        {icon.content}
+                      </div>
+                    );
+                  })()}
                 </div>
-              ) : (
-                <div className="space-y-8">
-                   <div className="text-center">
-                    <h1 className="text-5xl md:text-7xl font-semibold text-orange-600 dark:text-orange-400">
-                      {sign}
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
-                      {new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-                    </p>
-                  </div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {language === 'hi' ? getZodiacSignTranslation(sign, 'hi') : sign}
+                </h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {date}
+                </p>
+              </div>
 
-                  {/* Lucky Insights */}
-                  <div className="animate-fadeInUp">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                      <InsightCard icon={<Gem className="text-orange-500 dark:text-orange-400"/>} title="Mood" value={horoscope.lucky_insights.mood} />
-                      <InsightCard icon={<Palette className="text-orange-500 dark:text-orange-400"/>} title="Lucky Color" value={horoscope.lucky_insights.lucky_color} />
-                      <InsightCard icon={<Hash className="text-orange-500 dark:text-orange-400"/>} title="Lucky Number" value={horoscope.lucky_insights.lucky_number.toString()} />
-                      <InsightCard icon={<Clock className="text-orange-500 dark:text-orange-400"/>} title="Lucky Time" value={horoscope.lucky_insights.lucky_time} />
-                    </div>
-                  </div>
-                  
-                  {/* Overview */}
-                  <HoroscopeCard title="Overview" narrative={horoscope.overview.narrative} reason={horoscope.overview.reason} delay={0.3} />
+              {/* Language Info */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {t('language.current', language === 'hi' ? 'भाषा: हिंदी' : 'Language: English')}
+                </p>
+              </div>
+            </div>
+          </div>
 
-                  {/* Details */}
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                    {detailSections.map((section, index) => (
-                       <HoroscopeCard 
-                          key={section.title}
-                          title={section.title} 
-                          icon={section.icon}
-                          narrative={section.data.narrative} 
-                          reason={section.data.reason} 
-                          delay={0.4 + index * 0.1}
-                        />
-                    ))}
-                  </div>
+          {/* Right Content - Horoscope Details */}
+          <div className="lg:col-span-3 space-y-6">
+            {/* Lucky Insights */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                {t('sections.lucky', 'Lucky Insights')}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                  <Palette className="h-8 w-8 mx-auto mb-2 text-orange-600" />
+                  <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                    {t('lucky.color', 'Lucky Color')}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                    {horoscope.lucky_insights.lucky_color}
+                  </p>
                 </div>
-              )}
+                <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                  <Hash className="h-8 w-8 mx-auto mb-2 text-orange-600" />
+                  <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                    {t('lucky.number', 'Lucky Number')}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                    {horoscope.lucky_insights.lucky_number}
+                  </p>
+                </div>
+                <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                  <Clock className="h-8 w-8 mx-auto mb-2 text-orange-600" />
+                  <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                    {t('lucky.time', 'Lucky Time')}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                    {horoscope.lucky_insights.lucky_time}
+                  </p>
+                </div>
+                <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                  <Gem className="h-8 w-8 mx-auto mb-2 text-orange-600" />
+                  <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                    {t('lucky.mood', 'Mood')}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                    {horoscope.lucky_insights.mood}
+                  </p>
+                </div>
+              </div>
             </div>
-        </main>
-      </div>
-    </div>
-  );
-};
 
-// --- Reusable Animated Card Components ---
-const InsightCard: FC<{ icon: ReactNode, title: string, value: string }> = ({ icon, title, value }) => (
-  <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200">
-    <div className="flex justify-center items-center gap-2 mb-1 text-gray-600 dark:text-gray-400 text-sm">{icon}{title}</div>
-    <p className="text-lg font-semibold text-gray-900 dark:text-white">{value}</p>
-  </div>
-);
-
-const HoroscopeCard: FC<{ title: string, narrative: string, reason: string, delay?: number, icon?: ReactNode }> = ({ title, narrative, reason, delay = 0, icon }) => {
-  // Special handling for Overview section
-  let overviewContent: ReactNode = narrative;
-
-  if (title === "Overview") {
-    // Split the narrative into parts
-    const [intro, positivePart, negativePart] = narrative.split(/Positive Career Traits:|Negative Career Traits:/);
-
-    const positiveTraits = positivePart?.split(",").map(t => t.trim()).filter(Boolean);
-    const negativeTraits = negativePart?.split(",").map(t => t.trim()).filter(Boolean);
-
-    overviewContent = (
-      <div className="space-y-4">
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{intro.trim()}</p>
-        {positiveTraits && (
-          <div>
-            <h4 className="font-semibold text-green-600 dark:text-green-400">Positive Career Traits:</h4>
-            <ul className="list-disc list-inside text-gray-600 dark:text-gray-400">
-              {positiveTraits.map((trait, i) => (
-                <li key={i}>{trait}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {negativeTraits && (
-          <div>
-            <h4 className="font-semibold text-red-500 dark:text-red-400">Negative Career Traits:</h4>
-            <ul className="list-disc list-inside text-gray-600 dark:text-gray-400">
-              {negativeTraits.map((trait, i) => (
-                <li key={i}>{trait}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden transition-all duration-200 hover:shadow-md animate-fadeInUp"
-    >
-      <div className="p-6">
-        <h3 className="flex items-center gap-3 text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
-          {icon}{title}
-        </h3>
-        {title === "Overview" ? overviewContent : (
-          <div className="text-gray-600 dark:text-gray-400 leading-relaxed prose prose-sm dark:prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {narrative}
-            </ReactMarkdown>
-          </div>
-        )}
-      </div>
-      <Accordion type="single" collapsible className="px-6 pb-2">
-        <AccordionItem value="item-1" className="border-gray-200 dark:border-gray-700">
-          <AccordionTrigger className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm">
-            Astrological Reason
-          </AccordionTrigger>
-          <AccordionContent className="text-gray-600 dark:text-gray-400 pt-2">
-            <div className="prose prose-sm dark:prose-invert max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {reason}
-              </ReactMarkdown>
+            {/* Detailed Sections */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <Accordion type="single" collapsible className="space-y-4">
+                {detailSections.map((section, index) => (
+                  <AccordionItem key={index} value={section.title} className="border border-gray-200 dark:border-gray-700">
+                    <AccordionTrigger className="hover:no-underline">
+                      <div className="flex items-center justify-between text-left">
+                        <div className="flex items-center gap-3">
+                          {section.icon}
+                          <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                            {section.title}
+                          </span>
+                        </div>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="space-y-4 pt-4">
+                      <div className="prose prose-gray-600 dark:prose-gray-400 max-w-none">
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border-l-4 border-blue-500">
+                          <p className="text-gray-900 dark:text-white mb-2 font-medium">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                              {language === 'hi' ? getPlanetTranslation(section.data.narrative, 'hi') : section.data.narrative}
+                            </ReactMarkdown>
+                          </p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 italic">
+                            <em>{language === 'hi' ? getPlanetTranslation(section.data.reason, 'hi') : section.data.reason}</em>
+                          </p>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

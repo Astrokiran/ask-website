@@ -63,7 +63,7 @@ export function AppDownloadPopup() {
           >
             <img
               src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
-              alt="Download AstroKiran App - Recharge ₹1, Get 5 min FREE call (₹250 value)"
+              alt="Download AstroKiran App - Get Your Offer Now (₹250 value)"
               className="w-full h-auto object-contain"
             />
           </button>

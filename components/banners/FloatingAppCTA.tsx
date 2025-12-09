@@ -53,7 +53,7 @@ export function FloatingAppCTA() {
               Download App
             </p>
             <p className="text-xs opacity-90 leading-tight">
-              Get 5 Minutes Chat FREE!
+              Get your offer Now
             </p>
           </div>
 

@@ -4,6 +4,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import RasiChartSVG from "./RasiChartSvg"; // Correctly named import
 import type { ChartPlanet, RasiChartData } from "./RasiChartSvg"; // Import types if needed
+import { useTranslation } from 'react-i18next';
 
 
 /* ------------------------------------------------------------------
@@ -104,6 +105,7 @@ function buildChartPlanets(planets?: ApiPlanetDataItem[] | null): ChartPlanet[] 
  * Main Component
  * ------------------------------------------------------------------ */
 const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
+  const { t } = useTranslation();
   const planetaryPositions: ApiPlanetDataItem[] = kundliData?.planets || [];
   const vimshottariDashaData: ApiMahadashaDataItem[] = kundliData?.dasha || [];
   const lagnaSign = kundliData?.lagna?.sign || "Aries";
@@ -158,7 +160,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
         {/* Card 1: Lagna Chart */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700 border-gray-200 dark:border-gray-700 text-center">
-            Lagna / Ascendant / Basic Birth Chart
+            {t('kundliDetails.lagnaChart')}
           </h3>
           <div className="w-full flex justify-center">
             {rasiChartSvgString ? (
@@ -167,7 +169,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                 dangerouslySetInnerHTML={{ __html: rasiChartSvgString }}
               />
             ) : (
-              <div className="text-center text-gray-600 dark:text-gray-400 p-8">Rasi Chart not available.</div>
+              <div className="text-center text-gray-600 dark:text-gray-400 p-8">{t('kundliDetails.rasiChartNotAvailable')}</div>
             )}
           </div>
         </div>
@@ -175,7 +177,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
         {/* Card 2: Navamsa Chart */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700 border-gray-200 dark:border-gray-700 text-center">
-            Navamsa
+            {t('kundliDetails.navamsa')}
           </h3>
           <div className="w-full flex justify-center">
             {navamsaChartSvgString ? (
@@ -184,7 +186,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                 dangerouslySetInnerHTML={{ __html: navamsaChartSvgString }}
               />
             ) : (
-              <div className="text-center text-gray-600 dark:text-gray-400 p-8">Navamsa Chart not available.</div>
+              <div className="text-center text-gray-600 dark:text-gray-400 p-8">{t('kundliDetails.navamsaChartNotAvailable')}</div>
             )}
           </div>
         </div>
@@ -192,22 +194,22 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
 
       {/* ================== PLANETS TABLE ================== */}
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 transition-all duration-200 hover:shadow-sm">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-5 pb-3 border-b border-gray-200 dark:border-gray-700">Planets</h3>
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-5 pb-3 border-b border-gray-200 dark:border-gray-700">{t('kundliDetails.planets')}</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left border-collapse min-w-[1200px]">
             <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 w-[70px]">Planet</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[60px]">Sign</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[80px]">Sign Lord</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[120px] text-center">Nakshatra</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[110px] text-center">Nakshatra Lord</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[100px] text-center">Degree</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[70px] text-center">Retro(R)</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[70px] text-center">Combust</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[80px] text-center">Avastha</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[60px] text-center">House</th>
-                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[70px] text-center">Status</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap sticky left-0 bg-gray-50 dark:bg-gray-700 z-10 w-[70px]">{t('kundliDetails.planet')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[60px]">{t('kundliDetails.sign')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[80px]">{t('kundliDetails.signLord')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[120px] text-center">{t('kundliDetails.nakshatra')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[110px] text-center">{t('kundliDetails.nakshatraLord')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[100px] text-center">{t('kundliDetails.degree')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[70px] text-center">{t('kundliDetails.retro')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[70px] text-center">{t('kundliDetails.combust')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[80px] text-center">{t('kundliDetails.avastha')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[60px] text-center">{t('kundliDetails.house')}</th>
+                <th className="px-1 sm:px-3 py-3 whitespace-nowrap w-[70px] text-center">{t('kundliDetails.status')}</th>
               </tr>
             </thead>
             <tbody>
@@ -227,9 +229,9 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                     {p.fullDegree}
                   </td>
                   <td className="px-1 sm:px-3 py-3 text-gray-900 dark:text-white whitespace-nowrap w-[70px] text-center text-xs sm:text-sm">
-                    {p.isRetro === "true" ? "Retro" : "Direct"}
+                    {p.isRetro === "true" ? t('kundliDetails.retrograde') : t('kundliDetails.direct')}
                   </td>
-                  <td className="px-1 sm:px-3 py-3 text-gray-900 dark:text-white whitespace-nowrap w-[70px] text-center text-xs sm:text-sm">{p.is_planet_set ? "Yes" : "No"}</td>
+                  <td className="px-1 sm:px-3 py-3 text-gray-900 dark:text-white whitespace-nowrap w-[70px] text-center text-xs sm:text-sm">{p.is_planet_set ? t('kundliDetails.yes') : t('kundliDetails.no')}</td>
                   <td className="px-1 sm:px-3 py-3 text-gray-900 dark:text-white whitespace-nowrap w-[80px] text-center text-xs sm:text-sm">{p.planet_awastha}</td>
                   <td className="px-1 sm:px-3 py-3 text-gray-900 dark:text-white whitespace-nowrap w-[60px] text-center text-xs sm:text-sm">{p.house?.toString()}</td>
                   <td className="px-1 sm:px-3 py-3 text-gray-900 dark:text-white whitespace-nowrap w-[70px] text-center text-xs sm:text-sm">{p.status}</td>
@@ -243,7 +245,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
       {/* ================== VIMSHOTTARI DASHA ================== */}
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-200 hover:shadow-sm">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-5 pb-3 border-b border-gray-200 dark:border-gray-700 border-gray-200 dark:border-gray-700">
-          Vimshottari Dasha
+          {t('kundliDetails.vimshottariDasha')}
         </h3>
 
         {/* Tabs */}
@@ -259,7 +261,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
               setSelectedMahaIndex(null);
             }}
           >
-            1&nbsp;Mahadasha
+            1&nbsp;{t('kundliDetails.mahadasha')}
           </button>
           <span className="text-gray-600 dark:text-gray-400">—</span>
           <button
@@ -270,7 +272,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             }`}
             onClick={() => setActiveTab("antardasha")}
           >
-            2&nbsp;Antardasha
+            2&nbsp;{t('kundliDetails.antardasha')}
           </button>
           {/* <span className="text-gray-300">—</span>
           <span className="px-1 text-gray-400">3&nbsp;Pratyantardasha</span>
@@ -284,7 +286,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             className="mb-3 inline-flex items-center gap-1 text-xs font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300"
           >
             <ArrowLeft size={14} />
-            Back to Mahadasha
+            {t('kundliDetails.backToMahadasha')}
           </button>
         )}
 
@@ -293,9 +295,9 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             <table className="w-full text-sm text-left border border rounded-md">
               <thead className="text-xs text-gray-900 dark:text-white uppercase bg-muted/30">
                 <tr>
-                  <th className="px-4 py-3">Planet</th>
-                  <th className="px-4 py-3">Start Date</th>
-                  <th className="px-4 py-3">End Date</th>
+                  <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
+                  <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
+                  <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -309,7 +311,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                       {d.planet}
                     </td>
                     <td className="px-4 py-3 text-gray-900 dark:text-white">
-                      {idx === 0 ? "Birth" : formatDate(d.start)}
+                      {idx === 0 ? t('kundliDetails.birth') : formatDate(d.start)}
                     </td>
                     <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
                       {formatDate(d.end)}
@@ -326,20 +328,20 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           <>
             {selectedMahaIndex != null && (
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Showing Antardasha under{" "}
+                {t('kundliDetails.showingAntardasha')}{" "}
                 <span className="font-semibold text-orange-600 dark:text-orange-400">
                   {mahaRows[selectedMahaIndex]?.planet}
                 </span>{" "}
-                Mahadasha.
+                {t('kundliDetails.mahadasha')}.
               </div>
             )}
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left border border rounded-md">
                 <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-4 py-3">Planet</th>
-                    <th className="px-4 py-3">Start Date</th>
-                    <th className="px-4 py-3">End Date</th>
+                    <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
+                    <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
+                    <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -353,7 +355,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                       </td>
                       <td className="px-4 py-3 text-gray-900 dark:text-white">
                         {row.mahaIdx === 0 && i === 0 && selectedMahaIndex != null
-                          ? "Birth"
+                          ? t('kundliDetails.birth')
                           : formatDate(row.start_date)}
                       </td>
                       <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
@@ -368,7 +370,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                         colSpan={3}
                         className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic"
                       >
-                        No Antardasha data.
+                        {t('kundliDetails.noDashaData')}
                       </td>
                     </tr>
                   )}

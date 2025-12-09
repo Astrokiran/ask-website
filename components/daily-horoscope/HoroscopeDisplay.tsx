@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { createClient } from 'contentful'; // ✨ 1. Import Contentful client
+import { useLanguageStore } from '@/stores/languageStore';
+import { LanguageSelector } from '@/components/ui/language-selector';
+import { createClient } from 'contentful';
 
 // --- Contentful Client Initialization ---
 const client = createClient({
@@ -10,7 +12,7 @@ const client = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || '',
 });
 
-// --- 1. Global Styles (Dark Mode Compatible) ---
+// --- Global Styles (Dark Mode Compatible) ---
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: hsl(var(--background));
@@ -23,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-// --- 2. Data Type Interface (Unchanged) ---
+// --- Data Type Interface ---
 interface ZodiacSign {
   name: string;
   imageUrl: string;
@@ -34,7 +36,26 @@ const zodiacOrder = [
   "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
 ];
 
-// --- 3. Styled Components (Unchanged) ---
+// --- Zodiac sign translations ---
+const getZodiacSignTranslation = (sign: string, lang: string): string => {
+  const zodiacTranslations: { [key: string]: { [lang: string]: string } } = {
+    'Aries': { 'en': 'Aries', 'hi': 'मेष' },
+    'Taurus': { 'en': 'Taurus', 'hi': 'वृषभ' },
+    'Gemini': { 'en': 'Gemini', 'hi': 'मिथुन' },
+    'Cancer': { 'en': 'Cancer', 'hi': 'कर्क' },
+    'Leo': { 'en': 'Leo', 'hi': 'सिंह' },
+    'Virgo': { 'en': 'Virgo', 'hi': 'कन्या' },
+    'Libra': { 'en': 'Libra', 'hi': 'तुला' },
+    'Scorpio': { 'en': 'Scorpio', 'hi': 'वृश्चिक' },
+    'Sagittarius': { 'en': 'Sagittarius', 'hi': 'धनु' },
+    'Capricorn': { 'en': 'Capricorn', 'hi': 'मकर' },
+    'Aquarius': { 'en': 'Aquarius', 'hi': 'कुंभ' },
+    'Pisces': { 'en': 'Pisces', 'hi': 'मीन' }
+  };
+  return zodiacTranslations[sign]?.[lang] || sign;
+};
+
+// --- Styled Components ---
 const Container = styled.div`
   max-width: 1400px;
   margin: 20px auto;
@@ -43,13 +64,25 @@ const Container = styled.div`
   border-radius: 10px;
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+  }
+`;
+
 const Title = styled.h1`
   text-align: center;
   color: hsl(var(--foreground));
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 2em;
   font-weight: 600;
-  margin-bottom: 30px;
+  margin: 0;
   letter-spacing: -0.025em;
 `;
 
@@ -164,43 +197,62 @@ const CardName = styled.h3`
   }
 `;
 
-// Removed ImageZoomContainer, HoverBackgroundImage, DetailsPanel, DetailsText, and MoreButton
-// as we're simplifying the hover effects and making cards directly clickable
+const LoadingSpinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 4px solid hsl(var(--border));
+  border-top: 4px solid hsl(var(--primary));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
 
-// --- 4. HoroscopeDisplay Component (Updated with Data Fetching) ---
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
+// --- HoroscopeDisplay Component ---
 export const HoroscopeDisplay: React.FC = () => {
-  // ✨ 2. Add state for fetched data and loading status
+  const { language } = useLanguageStore();
   const [zodiacSigns, setZodiacSigns] = useState<ZodiacSign[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
     client.getEntries<any>({
-        content_type: 'zodiacSigns' 
-      })
-      .then((response) => {
-        if (response.items) {
-          const fetchedSigns: ZodiacSign[] = response.items.map((item: any) => ({
-            name: item.fields.signName, // 
-            imageUrl: `https:${item.fields.image.fields.file.url}` 
-          }));
-          fetchedSigns.sort((a, b) => {
-            return zodiacOrder.indexOf(a.name) - zodiacOrder.indexOf(b.name);
-          });
-          setZodiacSigns(fetchedSigns);
-        }
-      })
-      .catch(error => console.error("Error fetching data from Contentful:", error))
-      .finally(() => setIsLoading(false));
-  }, []); // Empty array ensures this runs only once on mount
+      content_type: 'zodiacSigns',
+      include: 2
+    })
+    .then((response) => {
+      if (response.items) {
+        const fetchedSigns: ZodiacSign[] = response.items.map((item: any) => ({
+          name: item.fields.signName,
+          imageUrl: `https:${item.fields.image.fields.file.url}`
+        }));
+        fetchedSigns.sort((a, b) => {
+          return zodiacOrder.indexOf(a.name) - zodiacOrder.indexOf(b.name);
+        });
+        setZodiacSigns(fetchedSigns);
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching data from Contentful:", error);
+      // Fallback with default images if CMS fails
+      setZodiacSigns(zodiacOrder.map(sign => ({
+        name: sign,
+        imageUrl: `/zodiac/${sign.toLowerCase()}.png`
+      })));
+    })
+    .finally(() => setIsLoading(false));
+  }, []);
 
-
-  // ✨ 4. Add a loading state for better UX
   if (isLoading) {
     return (
-        <Container>
-            <Title>Loading Zodiac Signs...</Title>
-        </Container>
+      <Container>
+        <LoadingSpinner />
+        <Title>{language === 'hi' ? 'राशिफल लोड हो रहा है...' : 'Loading Zodiac Signs...'}</Title>
+      </Container>
     );
   }
 
@@ -208,13 +260,44 @@ export const HoroscopeDisplay: React.FC = () => {
     <>
       <GlobalStyle />
       <Container>
+        <Header>
+          <Title>
+            {language === 'hi' ? 'दैनिक राशिफल' : 'Daily Horoscope'}
+          </Title>
+          <LanguageSelector />
+        </Header>
         <Grid>
           {zodiacSigns.map((sign) => (
             <CardWrapper key={sign.name}>
-              {/* Card - Now clickable */}
               <Card href={`/horoscopes/${sign.name.toLowerCase()}`}>
-                <CardImage src={sign.imageUrl} alt={sign.name} />
-                <CardName>{sign.name}</CardName>
+                <CardImage
+                  src={sign.imageUrl}
+                  alt={sign.name}
+                  onError={(e) => {
+                    // Fallback to emoji if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent && !parent.querySelector('.emoji-fallback')) {
+                      const emoji = document.createElement('div');
+                      emoji.className = 'emoji-fallback';
+                      emoji.style.fontSize = '60px';
+                      emoji.style.marginBottom = '6px';
+
+                      const emojiMap: { [key: string]: string } = {
+                        "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋",
+                        "Leo": "♌", "Virgo": "♍", "Libra": "♎", "Scorpio": "♏",
+                        "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
+                      };
+
+                      emoji.textContent = emojiMap[sign.name] || "✨";
+                      parent.insertBefore(emoji, target);
+                    }
+                  }}
+                />
+                <CardName>
+                  {language === 'hi' ? getZodiacSignTranslation(sign.name, 'hi') : sign.name}
+                </CardName>
               </Card>
             </CardWrapper>
           ))}

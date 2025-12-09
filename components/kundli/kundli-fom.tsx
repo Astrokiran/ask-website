@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { ServicesSection } from "@/components/services-section"
+import { useLanguageStore } from "@/stores/languageStore"
+import { useTranslation } from 'react-i18next'
 
 interface BirthDetails {
   name: string;
@@ -24,8 +26,10 @@ interface KundliData {
 
 const libraries: ("places" | "drawing" | "geometry" | "visualization")[] = ['places'];
 
-export default function KundliPage() { 
-  const router = useRouter(); 
+export default function KundliPage() {
+  const router = useRouter();
+  const { language } = useLanguageStore(); // Get language from global store
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     gender: '',
@@ -106,10 +110,10 @@ export default function KundliPage() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = t('kundli.errors.nameRequired');
     }
     if (!formData.gender) {
-      newErrors.gender = 'Gender is required';
+      newErrors.gender = t('kundli.errors.genderRequired');
     }
 
     if (!selectedDay || !selectedMonth || !selectedYear) {
@@ -216,6 +220,7 @@ export default function KundliPage() {
       date_of_birth: formattedDobForApi,
       time_of_birth: formattedTobForApi,
       place_of_birth: formData.pob,
+      language: language, // Pass language from global store to API
     };
 
     try {
@@ -414,12 +419,12 @@ export default function KundliPage() {
   const yearOptions = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
   const monthOptions = [
-    { value: '1', label: 'January' }, { value: '2', label: 'February' },
-    { value: '3', label: 'March' }, { value: '4', label: 'April' },
-    { value: '5', label: 'May' }, { value: '6', label: 'June' },
-    { value: '7', label: 'July' }, { value: '8', label: 'August' },
-    { value: '9', label: 'September' }, { value: '10', label: 'October' },
-    { value: '11', label: 'November' }, { value: '12', label: 'December' },
+    { value: '1', label: t('months.january') }, { value: '2', label: t('months.february') },
+    { value: '3', label: t('months.march') }, { value: '4', label: t('months.april') },
+    { value: '5', label: t('months.may') }, { value: '6', label: t('months.june') },
+    { value: '7', label: t('months.july') }, { value: '8', label: t('months.august') },
+    { value: '9', label: t('months.september') }, { value: '10', label: t('months.october') },
+    { value: '11', label: t('months.november') }, { value: '12', label: t('months.december') },
   ];
 
   const hourOptions = Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0'));
@@ -437,16 +442,16 @@ export default function KundliPage() {
         <div className="w-full max-w-none sm:max-w-6xl bg-white dark:bg-gray-800 rounded-none sm:rounded-xl shadow-none sm:shadow-lg overflow-hidden lg:flex border-0 sm:border border-gray-200 dark:border-gray-700">
           <div className="p-3 sm:p-6 md:p-8 lg:w-3/5 flex flex-col justify-center lg:border-r border-gray-200 dark:border-gray-700">
             <h1 className="text-xl sm:text-2xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-6 text-center">
-              Free Kundli Generation
+              {t('kundli.formTitle')}
             </h1>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-4 sm:mb-8">
-              Enter your birth details to unlock insights into your destiny.
+              {t('kundli.formSubtitle')}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
-                  Full Name
+                  {t('kundli.fullName')}
                 </label>
                 <input
                   type="text"
@@ -457,14 +462,14 @@ export default function KundliPage() {
                   className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                     errors['name'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                   }`}
-                  placeholder="Enter your name"
+                  placeholder={t('kundli.fullNamePlaceholder')}
                 />
                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
               </div>
 
               <div>
                 <label htmlFor="gender" className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
-                  Gender
+                  {t('kundli.gender')}
                 </label>
                 <select
                   id="gender"
@@ -475,16 +480,16 @@ export default function KundliPage() {
                     errors['gender'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                   }`}
                 >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                  <option value="">{t('kundli.selectGender')}</option>
+                  <option value="male">{t('kundli.male')}</option>
+                  <option value="female">{t('kundli.female')}</option>
                 </select>
                 {errors['gender'] && <p className="text-red-500 text-xs mt-1">{errors['gender']}</p>}
               </div>
 
               <div>
                 <label htmlFor="dob" className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
-                  Date of Birth
+                  {t('kundli.dateOfBirth')}
                 </label>
                 <div className="grid grid-cols-3 gap-2 sm:gap-3">
                   <select
@@ -496,7 +501,7 @@ export default function KundliPage() {
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
-                    <option value="">Day</option>
+                    <option value="">{t('kundli.day')}</option>
                     {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
                       <option key={day} value={day}>{day}</option>
                     ))}
@@ -510,7 +515,7 @@ export default function KundliPage() {
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
-                    <option value="">Month</option>
+                    <option value="">{t('kundli.month')}</option>
                     {monthOptions.map(month => (
                       <option key={month.value} value={month.value}>{month.label}</option>
                     ))}
@@ -524,7 +529,7 @@ export default function KundliPage() {
                       errors.dob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
-                    <option value="">Year</option>
+                    <option value="">{t('kundli.year')}</option>
                     {yearOptions.map(year => (
                       <option key={year} value={year}>{year}</option>
                     ))}
@@ -535,7 +540,7 @@ export default function KundliPage() {
 
               <div>
                          <label className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
-                           Time of Birth
+                           {t('kundli.timeOfBirth')}
                          </label>
                          {/* First row: Hour, Minute, AM/PM on mobile */}
                          <div className="grid grid-cols-3 gap-2 mb-2">
@@ -548,7 +553,7 @@ export default function KundliPage() {
                                errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                              }`}
                            >
-                             <option value="">Hour</option>
+                             <option value="">{t('kundli.hour')}</option>
                              {hourOptions.map(hour => (
                                <option key={hour} value={hour}>{hour}</option>
                              ))}
@@ -562,7 +567,7 @@ export default function KundliPage() {
                                errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                              }`}
                            >
-                             <option value="">Minute</option>
+                             <option value="">{t('kundli.minute')}</option>
                              {minuteOptions.map(minute => (
                                <option key={minute} value={minute}>{minute}</option>
                              ))}
@@ -591,7 +596,7 @@ export default function KundliPage() {
                                errors.tob ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                              }`}
                            >
-                             <option value="">Second (Optional)</option>
+                             <option value="">{t('kundli.secondOptional')}</option>
                              {secondOptions.map(second => (
                                <option key={second} value={second}>{second}</option>
                              ))}
@@ -602,14 +607,14 @@ export default function KundliPage() {
 
               <div className="relative" ref={pobSuggestionsRef}>
                 <label htmlFor="pob" className="block text-sm font-medium text-gray-900 dark:text-white mb-1">
-                  Place of Birth
+                  {t('kundli.placeOfBirth')}
                 </label>
                 {isLoaded && !loadError ? (
                   <Autocomplete
                     onLoad={onLoadAutocomplete}
                     onPlaceChanged={onPlaceChanged}
                     options={{
-                      types: ['(cities)'], 
+                      types: ['(cities)'],
                     }}
                   >
                     <input
@@ -621,11 +626,11 @@ export default function KundliPage() {
                       className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 transition duration-200 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
                         errors['pob'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                       }`}
-                      placeholder="Type and select your city"
+                      placeholder={t('kundli.placeOfBirthPlaceholder')}
                     />
                   </Autocomplete>
                 ) : (
-                  <input type="text" id="pob" name="pob" value={formData.pob} onChange={handleChange} placeholder="Enter place of birth (Maps loading...)" className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${errors['pob'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} />
+                  <input type="text" id="pob" name="pob" value={formData.pob} onChange={handleChange} placeholder={t('kundli.placeOfBirthLoading')} className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${errors['pob'] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} />
                 )}
                 {errors['pob'] && <p className="text-red-500 text-xs mt-1">{errors['pob']}</p>}
               </div>
@@ -657,10 +662,10 @@ export default function KundliPage() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    Generating Kundli...
+                    {t('kundli.generating')}
                   </span>
                 ) : (
-                  'Generate My Kundli'
+                  t('kundli.generateButton')
                 )}
               </button>
               {errors['form'] && <p className="text-red-500 text-center text-sm mt-2">{errors['form']}</p>}
@@ -669,17 +674,17 @@ export default function KundliPage() {
 
           <div className="p-3 sm:p-6 md:p-8 lg:w-2/5 flex flex-col justify-center bg-gray-50 dark:bg-gray-700 lg:rounded-r-xl">
             <div className="text-gray-900 dark:text-white">
-                <h2 className="text-lg sm:text-2xl font-semibold mb-2 sm:mb-4 text-center">What is a Kundli?</h2>
+                <h2 className="text-lg sm:text-2xl font-semibold mb-2 sm:mb-4 text-center">{t('kundli.whatIsKundli')}</h2>
                 <p className="mb-2 sm:mb-4 text-xs sm:text-sm text-justify leading-relaxed">
-                    A Kundli, also known as a Janam Kundali or birth chart, is a fundamental tool in Vedic Astrology. It is an astrological chart prepared based on the exact date, time, and place of an individual's birth. This chart serves as a cosmic map, representing the specific positions of the sun, moon, planets, and other celestial bodies at the moment of birth.
+                    {t('kundli.kundliDescription')}
                 </p>
-                <h3 className="text-base sm:text-xl font-medium mb-1 sm:mb-3 text-center">Significance of a Kundli</h3>
+                <h3 className="text-base sm:text-xl font-medium mb-1 sm:mb-3 text-center">{t('kundli.significance')}</h3>
                 <p className="mb-2 sm:mb-4 text-xs sm:text-sm text-justify leading-relaxed">
-                    It is believed that the planetary positions at your time of birth influence your personality, characteristics, relationships, career, health, and overall life path. A detailed analysis of the Kundli can provide deep insights into your strengths, weaknesses, potential opportunities, and challenges. It is often used for making important life decisions, understanding compatibility, and identifying remedial measures to mitigate negative planetary influences.
+                    {t('kundli.significanceDescription')}
                 </p>
-                <h3 className="text-base sm:text-xl font-medium mb-1 sm:mb-3 text-center">How It's Generated</h3>
+                <h3 className="text-base sm:text-xl font-medium mb-1 sm:mb-3 text-center">{t('kundli.howGenerated')}</h3>
                 <p className="text-xs sm:text-sm text-justify leading-relaxed">
-                    To create an accurate Kundli, three pieces of information are essential: your full date of birth, the precise time of birth, and the city of birth. Our system uses this data to perform complex astrological calculations, determining the Ascendant (Lagna) and the placement of planets across the 12 houses (Bhavas) of the zodiac, providing you with a personalized astrological blueprint.
+                    {t('kundli.howGeneratedDescription')}
                 </p>
             </div>
         </div>

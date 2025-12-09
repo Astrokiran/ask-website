@@ -2,7 +2,10 @@ import { Metadata } from 'next'
 import { notFound } from "next/navigation";
 import { HoroscopeViewer } from "@/components/daily-horoscope/HoroscopeViewer";
 import { NavBar } from "@/components/nav-bar";
-import { Footer } from "@/components/footer"; 
+import { Footer } from "@/components/footer";
+import { LanguageSelector } from '@/components/ui/language-selector';
+import { HoroscopePageClient } from "@/components/daily-horoscope/HoroscopePageClient";
+
 // --- Define API Types (can be in a separate types file) ---
 type HoroscopeCategory = {
   narrative: string;
@@ -27,6 +30,7 @@ export type ApiResponse = {
   success: boolean;
   sign: string;
   date: string;
+  language: string;
   horoscope: HoroscopeDetails;
 };
 type HoroscopePageProps = {
@@ -34,6 +38,25 @@ type HoroscopePageProps = {
     zodiac: string;
   };
 };
+
+// Zodiac sign translations
+function getZodiacSignTranslation(sign: string, lang: string): string {
+  const zodiacTranslations: { [key: string]: { [lang: string]: string } } = {
+    'Aries': { 'en': 'Aries', 'hi': 'मेष' },
+    'Taurus': { 'en': 'Taurus', 'hi': 'वृषभ' },
+    'Gemini': { 'en': 'Gemini', 'hi': 'मिथुन' },
+    'Cancer': { 'en': 'Cancer', 'hi': 'कर्क' },
+    'Leo': { 'en': 'Leo', 'hi': 'सिंह' },
+    'Virgo': { 'en': 'Virgo', 'hi': 'कन्या' },
+    'Libra': { 'en': 'Libra', 'hi': 'तुला' },
+    'Scorpio': { 'en': 'Scorpio', 'hi': 'वृश्चिक' },
+    'Sagittarius': { 'en': 'Sagittarius', 'hi': 'धनु' },
+    'Capricorn': { 'en': 'Capricorn', 'hi': 'मकर' },
+    'Aquarius': { 'en': 'Aquarius', 'hi': 'कुंभ' },
+    'Pisces': { 'en': 'Pisces', 'hi': 'मीन' }
+  };
+  return zodiacTranslations[sign]?.[lang] || sign;
+}
 
 // Generate metadata for each zodiac page
 export async function generateMetadata({ params }: HoroscopePageProps): Promise<Metadata> {
@@ -50,13 +73,13 @@ export async function generateMetadata({ params }: HoroscopePageProps): Promise<
 }
 
 // --- Data Fetching Function ---
-async function getHoroscopeForSign(sign: string): Promise<ApiResponse | null> {
-const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
+async function getHoroscopeForSign(sign: string, language: string = 'en'): Promise<ApiResponse | null> {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
   if (!apiBaseUrl) {
     console.error("HOROSCOPE_API_URL environment variable is not set.");
     return null;
   }
-  const apiUrl = `${apiBaseUrl}/api/v1/kundali/horoscope/daily/${sign}`;
+  const apiUrl = `${apiBaseUrl}/api/v1/kundali/horoscope/daily/${sign}?language=${language}`;
   try {
     const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
     if (!response.ok) return null;
@@ -71,25 +94,36 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_HOROSCOPE_API_URL;
 // --- The Page Component ---
 export default async function ZodiacHoroscopePage({ params }: HoroscopePageProps) {
   const zodiac = params.zodiac.charAt(0).toUpperCase() + params.zodiac.slice(1);
-  const initialData = await getHoroscopeForSign(zodiac);
 
-  if (!initialData) {
+  // Validate zodiac sign
+  const validSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+  if (!validSigns.includes(zodiac)) {
     notFound();
   }
+
+  // Get language from cookie or default to English
+  const language = 'en'; // You might want to extract this from cookies/headers
+  const initialData = await getHoroscopeForSign(zodiac, language);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <NavBar />
       <main>
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-4xl font-semibold text-center mb-4 text-gray-900 dark:text-white">
-            {zodiac} Horoscope Today - Daily Astrology Predictions
-          </h1>
-          <p className="text-lg text-center mb-8 text-gray-600 dark:text-gray-400">
-            Get accurate daily horoscope predictions for {zodiac}. Today's forecast for love, career, health, finance, and lucky insights.
-          </p>
+          {/* Header with Language Selector */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+            <div>
+              <h1 className="text-4xl font-semibold mb-4 text-gray-900 dark:text-white">
+                {zodiac} Horoscope Today
+              </h1>
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                Get accurate daily horoscope predictions for {zodiac}. Today's forecast for love, career, health, finance, and lucky insights.
+              </p>
+            </div>
+            <LanguageSelector />
+          </div>
         </div>
-        <HoroscopeViewer initialData={initialData} />
+        <HoroscopePageClient zodiac={zodiac} initialData={initialData} />
       </main>
       <Footer />
     </div>

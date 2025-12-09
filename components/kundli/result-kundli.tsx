@@ -13,6 +13,7 @@ import AshtakavargaDetails from './Ashtakavarga';
 // Import your enhanced PDF export function and S3 uploader
 import generateKundliPdf from './pdf-export';
 import { uploadPdfToS3 } from './report-pdf';
+import { useTranslation } from 'react-i18next';
 // --- TYPE DEFINITIONS ---
 interface KundliReportPageProps {
     kundliData: KundliData | null;
@@ -219,6 +220,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     //     }
     // }, [kundliData]);
     
+    const { t } = useTranslation();
+
     const handleDownloadPdf = () => {
         if (!kundliData) {
             alert("No Kundli data available to download.");
@@ -244,9 +247,16 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
     //     // forceLogout();
     //     // setLoadingLogout(false);
     // };
-    const tabs = ['Basic', 'Kundli', 'Charts', 'Yogas', 'Ashtakvarga', 'Report'];
+    const tabs = [
+        { key: 'Basic', label: t('resultPage.tabs.basic') },
+        { key: 'Kundli', label: t('resultPage.tabs.kundli') },
+        { key: 'Charts', label: t('resultPage.tabs.charts') },
+        { key: 'Yogas', label: t('resultPage.tabs.yogas') },
+        { key: 'Ashtakvarga', label: t('resultPage.tabs.ashtakvarga') },
+        { key: 'Report', label: t('resultPage.tabs.report') }
+    ];
     const renderContent = () => {
-        if (!kundliData) return <div className="text-center p-10">Please generate a Kundli.</div>;
+        if (!kundliData) return <div className="text-center p-10">{t('resultPage.pleaseGenerateKundli')}</div>;
         switch (activeTab) {
             case 'Basic':
                 return <div>{kundliData.basic_details && <BasicDetailsContent kundliData={kundliData.basic_details} />}</div>;
@@ -259,7 +269,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
             //     return <div>{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
             // case 'Summary': return <div><SummaryDetails kundliData={kundliData.summary} /></div>
             case 'Report': return <div>{kundliData.report && <ReportDetails kundliData={kundliData.report} />}</div>;
-            default: return <div className="text-center p-10">{activeTab} Coming Soon.</div>;
+            default: return <div className="text-center p-10">{activeTab} {t('resultPage.comingSoon')}</div>;
         }
     };
     // const AutoUploadStatusIndicator = () => {
@@ -275,30 +285,31 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                     <div>
                         {/* <UserStatus isLoggedIn={isLoggedIn} userName={kundliData?.data?.name} onLogout={handleLogout} /> */}
                         <div className="flex items-center text-xs sm:text-sm text-gray-500 mt-1">
-                            <a href="/free-kundli" className="hover:text-orange-600">Free Kundli</a>
+                            <a href="/free-kundli" className="hover:text-orange-600">{t('resultPage.freeKundli')}</a>
                             <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 mx-1" />
-                            <span className="font-semibold text-gray-700">Kundli Details</span>
+                            <span className="font-semibold text-gray-700">{t('resultPage.kundliDetails')}</span>
                         </div>
                         {/* <div className="mt-2"><AutoUploadStatusIndicator /></div> */}
                     </div>
-                    <div className="flex gap-2 sm:gap-3 self-start sm:self-auto">
+                    {/* Temporarily commented out - PDF download feature under maintenance */}
+                    {/* <div className="flex gap-2 sm:gap-3 self-start sm:self-auto">
                         <button
                             onClick={handleDownloadPdf}
                             disabled={!kundliData || isProcessingPdf || loadingLogout}
                             className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 sm:px-4 bg-green-500 text-white rounded-lg shadow-md text-xs sm:text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                             <Download className="h-3 w-3 sm:h-4 sm:w-4" />
-                            <span className="hidden sm:inline">{isProcessingPdf && pdfTask === 'download' ? 'Downloading...' : 'Download PDF'}</span>
-                            <span className="sm:hidden">PDF</span>
+                            <span className="hidden sm:inline">{isProcessingPdf && pdfTask === 'download' ? t('resultPage.downloading') : t('resultPage.downloadPdf')}</span>
+                            <span className="sm:hidden">{t('resultPage.pdf')}</span>
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                     <div className="border-b border-gray-200 dark:border-gray-700">
                         <nav className="-mb-px flex space-x-1 sm:space-x-4 overflow-x-auto p-1 sm:p-2">
                             {tabs.map((tab) => (
-                                <button key={tab} onClick={() => setActiveTab(tab)} className={`whitespace-nowrap py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab ? 'bg-orange-600 text-white shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:text-orange-600 dark:hover:text-orange-400'}`}>
-                                    {tab}
+                                <button key={tab.key} onClick={() => setActiveTab(tab.key)} className={`whitespace-nowrap py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none ${activeTab === tab.key ? 'bg-orange-600 text-white shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:text-orange-600 dark:hover:text-orange-400'}`}>
+                                    {tab.label}
                                 </button>
                             ))}
                         </nav>

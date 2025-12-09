@@ -179,7 +179,7 @@ export function FeaturedAstrologers() {
                       </p>
                       <div className="mt-3 inline-block bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
                         <p className="text-white font-semibold text-sm">
-                          🎁 Special Offer: Recharge ₹1, Get 5 min FREE
+                          🎁 Get Your Offer Now
                         </p>
                         <p className="text-white/80 text-xs">(Worth ₹250)</p>
                       </div>

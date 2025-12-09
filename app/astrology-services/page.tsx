@@ -95,7 +95,7 @@ export default function AstrologyServicesPage() {
                   Limited Time Offer!
                 </p>
                 <p className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Recharge ₹1, Get 5 min FREE consultation
+                 Get Your Offer Now
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
                   (Worth ₹250)

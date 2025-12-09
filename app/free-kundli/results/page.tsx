@@ -7,6 +7,8 @@ import { Footer } from '@/components/footer';
 import { ServicesSection } from "@/components/services-section";
 import { LoadingScreen } from "@/components/banners/LoadingScreen";
 import Link from 'next/link';
+import { LanguageSelector } from '@/components/ui/language-selector';
+import { useLanguageStore } from '@/stores/languageStore';
 
 // Interfaces
 interface ApiMangalDoshaData {
@@ -120,6 +122,7 @@ interface KundliApiInputParams {
   date_of_birth: string;
   time_of_birth: string;
   place_of_birth: string;
+  language?: string; // Optional language parameter
 }
 
 interface KundliApiResponse {
@@ -310,6 +313,7 @@ export default function ReportDisplayPage() {
   const [reportData, setReportData] = useState<KundliData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { language } = useLanguageStore(); // Get language from store
 
   useEffect(() => {
     const fetchKundliDetails = async () => {
@@ -342,6 +346,7 @@ export default function ReportDisplayPage() {
           date_of_birth: formattedDate,
           time_of_birth: formattedTime,
           place_of_birth: params.place_of_birth || fallbackPlace,
+          language: language, // Use current language from store
         };
 
 
@@ -491,7 +496,7 @@ export default function ReportDisplayPage() {
     };
 
     fetchKundliDetails();
-  }, []);
+  }, [language]); // Refetch when language changes
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -516,6 +521,11 @@ export default function ReportDisplayPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <NavBar />
       <main className="flex-grow container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        {/* Language Selector */}
+        <div className="flex justify-end mb-4">
+          <LanguageSelector />
+        </div>
+
         {reportData ? (
           <KundliReportPage kundliData={reportData} />
         ) : (

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useState, useRef } from "react"
 import { Menu, X, MessageCircle, ChevronLeft, ChevronRight, User, LogIn, ChevronDown } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+// import { LanguageSelector } from "@/components/ui/language-selector"
 import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { UserDropdown } from "@/components/auth/UserDropdown"
@@ -75,12 +76,12 @@ export function NavBar() {
             <Link href="/horoscopes" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Daily Horoscope
             </Link>
-            {/* <Link href="/calculators" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
+            <Link href="/calculators" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
               Calculators
-            </Link> */}
-            <Link href="/blog" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
-              Blogs
             </Link>
+            {/* <Link href="/blog" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
+              Blogs
+            </Link> */}
             <Link href="/astrologers" className="text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400 whitespace-nowrap flex-shrink-0">
              Astrologers
             </Link>
@@ -115,12 +116,12 @@ export function NavBar() {
                   <span>Music</span>
                 </Link>
                 <Link
-                  href="/calculators"
+                  href="/blog"
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
                   onClick={() => setShowExploreDropdown(false)}
                 >
                   <span className="mr-2">🧮</span>
-                  <span>Calculators</span>
+                  <span>Blogs</span>
                 </Link>
                 <Link
                   href="/games/hindu-wisdom-millionaire"
@@ -280,12 +281,12 @@ export function NavBar() {
                 </div>
 
                 <Link
-                  href="/calculators"
+                  href="/blog"
                   className="group flex items-center gap-3 text-sm text-foreground px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 transition-all duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <span className="text-red-500">🎵</span>
-                  <span className="group-hover:text-red-600 transition-colors">Calculators</span>
+                  <span className="group-hover:text-red-600 transition-colors">Blogs</span>
                 </Link>
 
                 <Link
@@ -373,7 +374,7 @@ export function NavBar() {
                   </svg>
                   <span className="font-semibold">Download App</span>
                 </div>
-                <span className="text-xs">Recharge ₹1, Get 5 min FREE (₹250 value)</span>
+                <span className="text-xs">Get Your offer Now</span>
               </a>
             </div>
           </div>
