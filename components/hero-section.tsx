@@ -251,7 +251,7 @@ export function HeroSection({
                 </svg>
                 <span className="font-semibold">Download App</span>
               </div>
-              <span className="text-xs">Recharge ₹1, Get 5 min FREE (₹250 value)</span>
+              <span className="text-xs">Get Your offer Now</span>
             </a>
           </div>
         </div>
@@ -308,7 +308,7 @@ export function HeroSection({
                   </svg>
                   <span className="font-semibold">Download App</span>
                 </div>
-                <span className="text-xs">Recharge ₹1, Get 5 min FREE (₹250 value)</span>
+                <span className="text-xs">Get Your offer Now</span>
               </a>
             </div>
           </div>
