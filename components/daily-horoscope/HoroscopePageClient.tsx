@@ -62,6 +62,7 @@ export function HoroscopePageClient({ zodiac, initialData }: HoroscopePageClient
         }
 
         const apiUrl = `${apiBaseUrl}/api/v1/kundali/horoscope/daily/${zodiac}?language=${language}`;
+        console.log(`Fetching horoscope for ${zodiac} in language: ${language}`);
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
@@ -69,6 +70,7 @@ export function HoroscopePageClient({ zodiac, initialData }: HoroscopePageClient
         }
 
         const data: ApiResponse = await response.json();
+        console.log('Received horoscope data:', data);
 
         if (data.success) {
           setHoroscopeData(data);
@@ -79,8 +81,8 @@ export function HoroscopePageClient({ zodiac, initialData }: HoroscopePageClient
         console.error("Error fetching horoscope:", err);
         setError(err instanceof Error ? err.message : "Failed to fetch horoscope data");
 
-        // Keep initial data if available
-        if (initialData && initialData.language !== language) {
+        // Keep initial data if available and it's in the correct language
+        if (initialData && initialData.language === language) {
           setHoroscopeData(initialData);
         }
       } finally {

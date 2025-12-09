@@ -82,7 +82,9 @@ export default async function ZodiacHoroscopePage({ params }: HoroscopePageProps
     notFound();
   }
 
-  const initialData = await getHoroscopeForSign(zodiac);
+  // Get language from cookie or default to English
+  const language = 'en'; // You might want to extract this from cookies/headers
+  const initialData = await getHoroscopeForSign(zodiac, language);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

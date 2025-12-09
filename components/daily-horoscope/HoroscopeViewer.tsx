@@ -97,10 +97,10 @@ export const HoroscopeViewer: FC<{
 
   // Update horoscope data when language changes
   useEffect(() => {
-    if (language !== currentLanguage) {
+    if (language !== currentLanguage || language !== horoscopeData.language) {
       fetchHoroscopeData();
     }
-  }, [language]);
+  }, [language, currentLanguage, horoscopeData.language]);
 
   const fetchHoroscopeData = async () => {
     setIsLoading(true);
@@ -131,16 +131,36 @@ export const HoroscopeViewer: FC<{
 
   const { sign, date, horoscope } = horoscopeData;
 
+  // Zodiac sign translations
+  const getZodiacSignTranslation = (sign: string, lang: string): string => {
+    const zodiacTranslations: { [key: string]: { [lang: string]: string } } = {
+      'Aries': { 'en': 'Aries', 'hi': 'मेष' },
+      'Taurus': { 'en': 'Taurus', 'hi': 'वृषभ' },
+      'Gemini': { 'en': 'Gemini', 'hi': 'मिथुन' },
+      'Cancer': { 'en': 'Cancer', 'hi': 'कर्क' },
+      'Leo': { 'en': 'Leo', 'hi': 'सिंह' },
+      'Virgo': { 'en': 'Virgo', 'hi': 'कन्या' },
+      'Libra': { 'en': 'Libra', 'hi': 'तुला' },
+      'Scorpio': { 'en': 'Scorpio', 'hi': 'वृश्चिक' },
+      'Sagittarius': { 'en': 'Sagittarius', 'hi': 'धनु' },
+      'Capricorn': { 'en': 'Capricorn', 'hi': 'मकर' },
+      'Aquarius': { 'en': 'Aquarius', 'hi': 'कुंभ' },
+      'Pisces': { 'en': 'Pisces', 'hi': 'मीन' }
+    };
+    return zodiacTranslations[sign]?.[lang] || sign;
+  };
+
   // Translation helper
   const t = (key: string, fallback: string) => {
+    const translatedSign = getZodiacSignTranslation(sign, language);
     const translations: { [key: string]: { [lang: string]: string } } = {
       'horoscope.title': {
         'en': `${sign} Horoscope Today`,
-        'hi': `${sign} आज का राशिफल`
+        'hi': `${translatedSign} आज का राशिफल`
       },
       'horoscope.subtitle': {
         'en': `Your daily forecast for ${sign}`,
-        'hi': `${sign} के लिए आपका दैनिक पूर्वानुमान`
+        'hi': `${translatedSign} के लिए आपका दैनिक पूर्वानुमान`
       },
       'sections.overview': {
         'en': 'Overview',
@@ -152,7 +172,7 @@ export const HoroscopeViewer: FC<{
       },
       'sections.career': {
         'en': 'Career & Finance',
-        hi: 'करियर और वित्त'
+        'hi': 'करियर और वित्त'
       },
       'sections.emotions': {
         'en': 'Emotions & Mind',
@@ -173,6 +193,26 @@ export const HoroscopeViewer: FC<{
       'loading': {
         'en': 'Loading...',
         'hi': 'लोड हो रहा है...'
+      },
+      'lucky.color': {
+        'en': 'Lucky Color',
+        'hi': 'भाग्यशाली रंग'
+      },
+      'lucky.number': {
+        'en': 'Lucky Number',
+        'hi': 'भाग्यशाली अंक'
+      },
+      'lucky.time': {
+        'en': 'Lucky Time',
+        'hi': 'भाग्यशाली समय'
+      },
+      'lucky.mood': {
+        'en': 'Mood',
+        'hi': 'मूड'
+      },
+      'language.current': {
+        'en': 'Language: English',
+        'hi': 'भाषा: हिंदी'
       }
     };
 
@@ -310,10 +350,36 @@ export const HoroscopeViewer: FC<{
                 </p>
               </div>
 
+                {/* Sign Display */}
+              <div className="text-center mb-6">
+                <div className="flex justify-center items-center mb-4">
+                  {(() => {
+                    const icon = getZodiacIcon(sign);
+                    return icon.type === 'image' ? (
+                      <img
+                        src={icon.content}
+                        alt={sign}
+                        className="w-24 h-24 md:w-28 md:h-28 object-contain"
+                      />
+                    ) : (
+                      <div className="text-6xl">
+                        {icon.content}
+                      </div>
+                    );
+                  })()}
+                </div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {language === 'hi' ? getZodiacSignTranslation(sign, 'hi') : sign}
+                </h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  {date}
+                </p>
+              </div>
+
               {/* Language Info */}
               <div className="text-center">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {language === 'hi' ? 'भाषा: हिंदी' : 'Language: English'}
+                  {t('language.current', language === 'hi' ? 'भाषा: हिंदी' : 'Language: English')}
                 </p>
               </div>
             </div>
@@ -330,7 +396,7 @@ export const HoroscopeViewer: FC<{
                 <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <Palette className="h-8 w-8 mx-auto mb-2 text-orange-600" />
                   <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
-                    {language === 'hi' ? 'भाग्यशाली रंग' : 'Lucky Color'}
+                    {t('lucky.color', 'Lucky Color')}
                   </p>
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
                     {horoscope.lucky_insights.lucky_color}
@@ -339,7 +405,7 @@ export const HoroscopeViewer: FC<{
                 <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <Hash className="h-8 w-8 mx-auto mb-2 text-orange-600" />
                   <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
-                    {language === 'hi' ? 'भाग्यशाली अंक' : 'Lucky Number'}
+                    {t('lucky.number', 'Lucky Number')}
                   </p>
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
                     {horoscope.lucky_insights.lucky_number}
@@ -348,7 +414,7 @@ export const HoroscopeViewer: FC<{
                 <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <Clock className="h-8 w-8 mx-auto mb-2 text-orange-600" />
                   <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
-                    {language === 'hi' ? 'भाग्यशाली समय' : 'Lucky Time'}
+                    {t('lucky.time', 'Lucky Time')}
                   </p>
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
                     {horoscope.lucky_insights.lucky_time}
@@ -357,7 +423,7 @@ export const HoroscopeViewer: FC<{
                 <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <Gem className="h-8 w-8 mx-auto mb-2 text-orange-600" />
                   <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
-                    {language === 'hi' ? 'मूड' : 'Mood'}
+                    {t('lucky.mood', 'Mood')}
                   </p>
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
                     {horoscope.lucky_insights.mood}
