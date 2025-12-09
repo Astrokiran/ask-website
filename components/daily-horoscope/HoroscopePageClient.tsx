@@ -62,7 +62,6 @@ export function HoroscopePageClient({ zodiac, initialData }: HoroscopePageClient
         }
 
         const apiUrl = `${apiBaseUrl}/api/v1/kundali/horoscope/daily/${zodiac}?language=${language}`;
-        console.log(`Fetching horoscope for ${zodiac} in language: ${language}`);
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
@@ -70,7 +69,6 @@ export function HoroscopePageClient({ zodiac, initialData }: HoroscopePageClient
         }
 
         const data: ApiResponse = await response.json();
-        console.log('Received horoscope data:', data);
 
         if (data.success) {
           setHoroscopeData(data);

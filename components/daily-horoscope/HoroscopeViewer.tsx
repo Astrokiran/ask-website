@@ -74,14 +74,15 @@ export const HoroscopeViewer: FC<{
     const fetchZodiacImages = async () => {
       try {
         const response = await client.getEntries({
-          content_type: 'zodiacImages', // Adjust this to your Contentful content type ID
+          content_type: 'zodiacSigns', // The correct Contentful content type ID
+          include: 2, // Include linked assets
         });
 
         const images: ZodiacImageMap = {};
         response.items.forEach((item: any) => {
-          // Assuming your Contentful entries have a 'sign' field and 'image' field
-          if (item.fields.sign && item.fields.image && item.fields.image.fields?.file?.url) {
-            const sign = item.fields.sign.toLowerCase();
+          // Contentful entries have 'signName' and 'image' fields
+          if (item.fields.signName && item.fields.image && item.fields.image.fields?.file?.url) {
+            const sign = item.fields.signName.toLowerCase();
             images[sign] = `https:${item.fields.image.fields.file.url}`;
           }
         });
@@ -148,6 +149,29 @@ export const HoroscopeViewer: FC<{
       'Pisces': { 'en': 'Pisces', 'hi': 'मीन' }
     };
     return zodiacTranslations[sign]?.[lang] || sign;
+  };
+
+  // Planet translations
+  const getPlanetTranslation = (text: string, lang: string): string => {
+    const planetTranslations: { [key: string]: { [lang: string]: string } } = {
+      'Sun': { 'en': 'Sun', 'hi': 'सूर्य' },
+      'Moon': { 'en': 'Moon', 'hi': 'चंद्रमा' },
+      'Mars': { 'en': 'Mars', 'hi': 'मंगल' },
+      'Mercury': { 'en': 'Mercury', 'hi': 'बुध' },
+      'Jupiter': { 'en': 'Jupiter', 'hi': 'गुरु' },
+      'Venus': { 'en': 'Venus', 'hi': 'शुक्र' },
+      'Saturn': { 'en': 'Saturn', 'hi': 'शनि' },
+      'Rahu': { 'en': 'Rahu', 'hi': 'राहु' },
+      'Ketu': { 'en': 'Ketu', 'hi': 'केतु' }
+    };
+
+    let translatedText = text;
+    Object.entries(planetTranslations).forEach(([en, translations]) => {
+      const regex = new RegExp(`\\b${en}\\b`, 'g');
+      translatedText = translatedText.replace(regex, translations[lang] || en);
+    });
+
+    return translatedText;
   };
 
   // Translation helper
@@ -343,32 +367,6 @@ export const HoroscopeViewer: FC<{
                   })()}
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  {sign}
-                </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  {date}
-                </p>
-              </div>
-
-                {/* Sign Display */}
-              <div className="text-center mb-6">
-                <div className="flex justify-center items-center mb-4">
-                  {(() => {
-                    const icon = getZodiacIcon(sign);
-                    return icon.type === 'image' ? (
-                      <img
-                        src={icon.content}
-                        alt={sign}
-                        className="w-24 h-24 md:w-28 md:h-28 object-contain"
-                      />
-                    ) : (
-                      <div className="text-6xl">
-                        {icon.content}
-                      </div>
-                    );
-                  })()}
-                </div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   {language === 'hi' ? getZodiacSignTranslation(sign, 'hi') : sign}
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -452,11 +450,11 @@ export const HoroscopeViewer: FC<{
                         <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border-l-4 border-blue-500">
                           <p className="text-gray-900 dark:text-white mb-2 font-medium">
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                              {section.data.narrative}
+                              {language === 'hi' ? getPlanetTranslation(section.data.narrative, 'hi') : section.data.narrative}
                             </ReactMarkdown>
                           </p>
                           <p className="text-sm text-gray-600 dark:text-gray-400 italic">
-                            <em>{section.data.reason}</em>
+                            <em>{language === 'hi' ? getPlanetTranslation(section.data.reason, 'hi') : section.data.reason}</em>
                           </p>
                         </div>
                       </div>

@@ -39,6 +39,25 @@ type HoroscopePageProps = {
   };
 };
 
+// Zodiac sign translations
+function getZodiacSignTranslation(sign: string, lang: string): string {
+  const zodiacTranslations: { [key: string]: { [lang: string]: string } } = {
+    'Aries': { 'en': 'Aries', 'hi': 'मेष' },
+    'Taurus': { 'en': 'Taurus', 'hi': 'वृषभ' },
+    'Gemini': { 'en': 'Gemini', 'hi': 'मिथुन' },
+    'Cancer': { 'en': 'Cancer', 'hi': 'कर्क' },
+    'Leo': { 'en': 'Leo', 'hi': 'सिंह' },
+    'Virgo': { 'en': 'Virgo', 'hi': 'कन्या' },
+    'Libra': { 'en': 'Libra', 'hi': 'तुला' },
+    'Scorpio': { 'en': 'Scorpio', 'hi': 'वृश्चिक' },
+    'Sagittarius': { 'en': 'Sagittarius', 'hi': 'धनु' },
+    'Capricorn': { 'en': 'Capricorn', 'hi': 'मकर' },
+    'Aquarius': { 'en': 'Aquarius', 'hi': 'कुंभ' },
+    'Pisces': { 'en': 'Pisces', 'hi': 'मीन' }
+  };
+  return zodiacTranslations[sign]?.[lang] || sign;
+}
+
 // Generate metadata for each zodiac page
 export async function generateMetadata({ params }: HoroscopePageProps): Promise<Metadata> {
   const zodiac = params.zodiac.charAt(0).toUpperCase() + params.zodiac.slice(1);
