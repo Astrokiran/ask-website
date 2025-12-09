@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Interface for a single detected yoga.
@@ -37,10 +38,12 @@ interface YogasDetailsProps {
 }
 
 const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
+  const { t } = useTranslation();
+
   if (!kundliData) {
     return (
       <div className="flex justify-center items-center h-48 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-        <p className="text-gray-600 dark:text-gray-400 text-lg">No yoga data available to display.</p>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">{t('kundli.yogaAnalysis.noData')}</p>
       </div>
     );
   }
@@ -77,10 +80,10 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
     <div className="mt-6">
       <div className="mb-8">
         <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-          Astrological Yogas Analysis
+          {t('kundli.yogaAnalysis.title')}
         </h3>
         <p className="mt-2 text-gray-600 dark:text-gray-400">
-          An analysis of the significant yogas (planetary combinations) in your kundli that influence various aspects of your life.
+          {t('kundli.yogaAnalysis.subtitle')}
         </p>
       </div>
       
@@ -100,20 +103,20 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
 
               <div className="space-y-3 text-sm text-gray-900 dark:text-white">
                 <div>
-                  <span className="font-medium text-orange-600 dark:text-orange-400">Significance: </span>
+                  <span className="font-medium text-orange-600 dark:text-orange-400">{t('kundli.yogaAnalysis.significance')}: </span>
                   <span>{yoga.significance}</span>
                 </div>
 
                 {yoga.planets_involved && yoga.planets_involved.length > 0 && (
                   <div>
-                    <span className="font-medium text-orange-600 dark:text-orange-400">Planets Involved: </span>
+                    <span className="font-medium text-orange-600 dark:text-orange-400">{t('kundli.yogaAnalysis.planetsInvolved')}: </span>
                     <span>{yoga.planets_involved.join(', ')}</span>
                   </div>
                 )}
 
                 {yoga.houses_involved && yoga.houses_involved.length > 0 && (
                   <div>
-                    <span className="font-medium text-orange-600 dark:text-orange-400">Houses Involved: </span>
+                    <span className="font-medium text-orange-600 dark:text-orange-400">{t('kundli.yogaAnalysis.housesInvolved')}: </span>
                     <span>{yoga.houses_involved.join(', ')}</span>
                   </div>
                 )}
@@ -121,7 +124,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
 
               {yoga.effects && yoga.effects.length > 0 && (
                 <div className="mt-4">
-                  <h5 className="font-medium text-orange-600 dark:text-orange-400 mb-2">Effects:</h5>
+                  <h5 className="font-medium text-orange-600 dark:text-orange-400 mb-2">{t('kundli.yogaAnalysis.effects')}:</h5>
                   <ul className="list-disc list-inside text-gray-900 dark:text-white space-y-1 text-sm">
                     {yoga.effects.map((effect, effectIndex) => (
                       <li key={effectIndex}>{effect}</li>
@@ -134,7 +137,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
         </div>
       ) : (
         <div className="flex justify-center items-center h-32 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-600 dark:text-gray-400">No detailed yogas to display.</p>
+          <p className="text-gray-600 dark:text-gray-400">{t('kundli.yogaAnalysis.noDetailedYogas')}</p>
         </div>
       )}
 
@@ -144,7 +147,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-3 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Yoga Summary
+          {t('kundli.yogaAnalysis.summary')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           <div className="flex items-center bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
@@ -152,7 +155,7 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
               <p className="text-3xl font-semibold text-orange-600 dark:text-orange-400">{yoga_summary.total_yogas}</p>
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">Total Yogas Detected</p>
+              <p className="font-medium text-gray-900 dark:text-white">{t('kundli.yogaAnalysis.totalYogas')}</p>
             </div>
           </div>
           <div className="flex items-center bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
@@ -160,20 +163,20 @@ const YogasDetails: React.FC<YogasDetailsProps> = ({ kundliData }) => {
                <p className="text-xl font-semibold text-orange-600 dark:text-orange-400">{yoga_summary.most_significant || 'N/A'}</p>
             </div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">Most Significant Yoga</p>
+              <p className="font-medium text-gray-900 dark:text-white">{t('kundli.yogaAnalysis.mostSignificant')}</p>
             </div>
           </div>
           <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <p className="font-medium text-gray-900 dark:text-white mb-2">Strong Yogas:</p>
-            <p className="text-green-600 dark:text-green-400 font-medium">{yoga_summary.strong_yogas.length > 0 ? yoga_summary.strong_yogas.join(', ') : 'None'}</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-2">{t('kundli.yogaAnalysis.strongYogas')}:</p>
+            <p className="text-green-600 dark:text-green-400 font-medium">{yoga_summary.strong_yogas.length > 0 ? yoga_summary.strong_yogas.join(', ') : t('kundli.yogaAnalysis.none')}</p>
           </div>
           <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <p className="font-medium text-gray-900 dark:text-white mb-2">Moderate Yogas:</p>
-            <p className="text-yellow-600 dark:text-yellow-400 font-medium">{yoga_summary.moderate_yogas.length > 0 ? yoga_summary.moderate_yogas.join(', ') : 'None'}</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-2">{t('kundli.yogaAnalysis.moderateYogas')}:</p>
+            <p className="text-yellow-600 dark:text-yellow-400 font-medium">{yoga_summary.moderate_yogas.length > 0 ? yoga_summary.moderate_yogas.join(', ') : t('kundli.yogaAnalysis.none')}</p>
           </div>
           <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-            <p className="font-medium text-gray-900 dark:text-white mb-2">Weak Yogas:</p>
-            <p className="text-red-600 dark:text-red-400 font-medium">{yoga_summary.weak_yogas.length > 0 ? yoga_summary.weak_yogas.join(', ') : 'None'}</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-2">{t('kundli.yogaAnalysis.weakYogas')}:</p>
+            <p className="text-red-600 dark:text-red-400 font-medium">{yoga_summary.weak_yogas.length > 0 ? yoga_summary.weak_yogas.join(', ') : t('kundli.yogaAnalysis.none')}</p>
           </div>
         </div>
       </div>

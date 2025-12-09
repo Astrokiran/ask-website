@@ -45,6 +45,23 @@
     "doshaAnalysis": "Dosha Analysis",
     "yogasBenefits": "Yogas & Benefits",
     "lifePredictions": "Life Predictions",
+    "yogaAnalysis": {
+      "title": "Astrological Yogas Analysis",
+      "subtitle": "An analysis of the significant yogas (planetary combinations) in your kundli that influence various aspects of your life.",
+      "significance": "Significance",
+      "planetsInvolved": "Planets Involved",
+      "housesInvolved": "Houses Involved",
+      "effects": "Effects",
+      "summary": "Yoga Summary",
+      "totalYogas": "Total Yogas",
+      "mostSignificant": "Most Significant Yoga",
+      "strongYogas": "Strong Yogas",
+      "moderateYogas": "Moderate Yogas",
+      "weakYogas": "Weak Yogas",
+      "noData": "No yoga data available to display.",
+      "noDetailedYogas": "No detailed yogas to display.",
+      "none": "None"
+    },
     "careerHealthInsights": "Career & Health Insights",
     "whatIsKundli": "What is a Kundli?",
     "kundliDescription": "A Kundli, also known as a Janam Kundali or birth chart, is a fundamental tool in Vedic Astrology. It is an astrological chart prepared based on the exact date, time, and place of an individual's birth. This chart serves as a cosmic map, representing the specific positions of the sun, moon, planets, and other celestial bodies at the moment of birth.",
@@ -219,5 +236,24 @@
       "Aquarius": "Aquarius",
       "Pisces": "Pisces"
     }
+  },
+  "horoscope": {
+    "dailyTitle": "Daily Horoscope",
+    "subtitle": "Read your daily horoscope predictions for all 12 zodiac signs",
+    "predictionsDescription": "Daily predictions for love, career, health, and finance.",
+    "whyDailyHoroscopes": "Why Daily Horoscopes?",
+    "ourPredictions": "Our Predictions",
+    "clarityDecisions": "Clarity on important decisions",
+    "favorableChallenging": "Favorable & challenging periods",
+    "prepareOpportunities": "Prepare for opportunities",
+    "spiritualAwareness": "Spiritual awareness",
+    "authenticVedic": "Authentic Vedic astrology",
+    "updatedDaily": "Updated daily",
+    "loveCareerHealth": "Love, career, health & finance",
+    "personalizedGuidance": "Personalized guidance",
+    "zodiacElements": "Zodiac Elements",
+    "fireSigns": "Fire Signs",
+    "waterSigns": "Water Signs",
+    "earthSigns": "Earth Signs"
   }
 }

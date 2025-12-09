@@ -32,45 +32,57 @@ export function HoroscopesPageClient() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
-            Daily predictions for love, career, health, and finance.
+            {t('horoscope.predictionsDescription', 'Daily predictions for love, career, health, and finance.')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8">
           <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-900 dark:text-white">Why Daily Horoscopes?</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-900 dark:text-white">
+              {t('horoscope.whyDailyHoroscopes', 'Why Daily Horoscopes?')}
+            </h2>
             <ul className="list-disc list-inside text-sm sm:text-base text-gray-600 dark:text-gray-400 space-y-2">
-              <li>Clarity on important decisions</li>
-              <li>Favorable & challenging periods</li>
-              <li>Prepare for opportunities</li>
-              <li>Spiritual awareness</li>
+              <li>{t('horoscope.clarityDecisions', 'Clarity on important decisions')}</li>
+              <li>{t('horoscope.favorableChallenging', 'Favorable & challenging periods')}</li>
+              <li>{t('horoscope.prepareOpportunities', 'Prepare for opportunities')}</li>
+              <li>{t('horoscope.spiritualAwareness', 'Spiritual awareness')}</li>
             </ul>
           </div>
 
           <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-900 dark:text-white">Our Predictions</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-900 dark:text-white">
+              {t('horoscope.ourPredictions', 'Our Predictions')}
+            </h2>
             <ul className="list-disc list-inside text-sm sm:text-base text-gray-600 dark:text-gray-400 space-y-2">
-              <li>Authentic Vedic astrology</li>
-              <li>Updated daily</li>
-              <li>Love, career, health & finance</li>
-              <li>Personalized guidance</li>
+              <li>{t('horoscope.authenticVedic', 'Authentic Vedic astrology')}</li>
+              <li>{t('horoscope.updatedDaily', 'Updated daily')}</li>
+              <li>{t('horoscope.loveCareerHealth', 'Love, career, health & finance')}</li>
+              <li>{t('horoscope.personalizedGuidance', 'Personalized guidance')}</li>
             </ul>
           </div>
         </div>
 
         <div className="bg-gray-50 dark:bg-gray-800 p-6 sm:p-8 rounded-xl border border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center text-gray-900 dark:text-white">Zodiac Elements</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center text-gray-900 dark:text-white">
+            {t('horoscope.zodiacElements', 'Zodiac Elements')}
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
-              <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">Fire Signs</h3>
+              <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
+                {t('horoscope.fireSigns', 'Fire Signs')}
+              </h3>
               <p className="text-gray-600 dark:text-gray-400">Aries, Leo, Sagittarius</p>
             </div>
             <div className="text-center">
-              <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">Water Signs</h3>
+              <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
+                {t('horoscope.waterSigns', 'Water Signs')}
+              </h3>
               <p className="text-gray-600 dark:text-gray-400">Cancer, Scorpio, Pisces</p>
             </div>
             <div className="text-center">
-              <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">Earth Signs</h3>
+              <h3 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
+                {t('horoscope.earthSigns', 'Earth Signs')}
+              </h3>
               <p className="text-gray-600 dark:text-gray-400">Taurus, Virgo, Capricorn</p>
             </div>
           </div>

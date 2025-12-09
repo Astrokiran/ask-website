@@ -5,6 +5,7 @@ import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
 import { LanguageSelector } from '@/components/ui/language-selector';
 import { HoroscopePageClient } from "@/components/daily-horoscope/HoroscopePageClient";
+import { ZodiacTitle } from "@/components/daily-horoscope/ZodiacTitle";
 
 // --- Define API Types (can be in a separate types file) ---
 type HoroscopeCategory = {
@@ -113,12 +114,7 @@ export default async function ZodiacHoroscopePage({ params }: HoroscopePageProps
           {/* Header with Language Selector */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
             <div>
-              <h1 className="text-4xl font-semibold mb-4 text-gray-900 dark:text-white">
-                {zodiac} Horoscope Today
-              </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
-                Get accurate daily horoscope predictions for {zodiac}. Today's forecast for love, career, health, finance, and lucky insights.
-              </p>
+              <ZodiacTitle zodiac={zodiac} />
             </div>
             <LanguageSelector />
           </div>
