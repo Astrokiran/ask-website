@@ -264,7 +264,7 @@ export const HoroscopeDisplay: React.FC = () => {
           <Title>
             {language === 'hi' ? 'दैनिक राशिफल' : 'Daily Horoscope'}
           </Title>
-          <LanguageSelector />
+          {/* <LanguageSelector /> */}
         </Header>
         <Grid>
           {zodiacSigns.map((sign) => (

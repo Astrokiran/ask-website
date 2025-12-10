@@ -232,7 +232,7 @@ export const HoroscopeViewer: FC<{
       },
       'lucky.mood': {
         'en': 'Mood',
-        'hi': 'मूड'
+        'hi': 'मनोदशा'
       },
       'language.current': {
         'en': 'Language: English',
@@ -324,7 +324,7 @@ export const HoroscopeViewer: FC<{
                 {t('horoscope.subtitle', `Your daily forecast for ${sign}`)} • {date}
               </p>
             </div>
-            <LanguageSelector />
+            {/* <LanguageSelector /> */}
           </div>
         </div>
       </div>
