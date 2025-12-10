@@ -137,7 +137,7 @@ export function HeroSection({
           className="block w-full hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
-            src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
+            src="https://images.ctfassets.net/53lf7jlviu2d/7K46JkvAl9W35eVnSI9d0Q/d01fa5932197bfac946d07652ee17980/Gemini_Generated_Image_with_logo.jpg"
             alt="Download AstroKiran App - Special Offer"
             className="w-full h-auto object-cover"
           />
@@ -414,7 +414,7 @@ export function HeroSection({
           className="block w-full max-w-4xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
-            src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
+            src="https://images.ctfassets.net/53lf7jlviu2d/7K46JkvAl9W35eVnSI9d0Q/d01fa5932197bfac946d07652ee17980/Gemini_Generated_Image_with_logo.jpg"
             alt="Download AstroKiran App - Special Offer"
             className="w-full h-auto object-contain rounded-xl shadow-lg"
           />

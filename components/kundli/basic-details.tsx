@@ -1,6 +1,70 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+// Samvatsara name translations from English to Hindi
+const samvatsaraTranslations: { [key: string]: string } = {
+  'Prabhava': 'प्रभव',
+  'Vibhava': 'विभव',
+  'Shukla': 'शुक्ल',
+  'Pramodoota': 'प्रमोदूत',
+  'Prajothpatti': 'प्रजोत्पत्ति',
+  'Aangirasa': 'आंगीरस',
+  'Shreemukha': 'श्रीमुख',
+  'Bhaava': 'भाव',
+  'Yuva': 'युव',
+  'Dhaatu': 'धातु',
+  'Eeshwara': 'ईश्वर',
+  'Bahudhanya': 'बहुधान्य',
+  'Pramaadi': 'प्रमादी',
+  'Vikrama': 'विक्रम',
+  'Vishu': 'विषु',
+  'Chitrabhanu': 'चित्रभानु',
+  'Svabhanu': 'स्वभानु',
+  'Taarana': 'तारण',
+  'Paarthiva': 'पार्थिव',
+  'Vyaya': 'व्यय',
+  'Sarvajith': 'सर्वजित',
+  'Sarvadhāri': 'सर्वधारी',
+  'Virodhi': 'विरोधि',
+  'Vikṛti': 'विकृति',
+  'Khara': 'खर',
+  'Nandana': 'नंदन',
+  'Vijaya': 'विजय',
+  'Jaya': 'जय',
+  'Manmatha': 'मन्मथ',
+  'Durmukhi': 'दुर्मुखी',
+  'Hevilambi': 'हेविलंबी',
+  'Vilambi': 'विलंबी',
+  'Vikaari': 'विकारी',
+  'Shaarvari': 'शार्वरी',
+  'Plava': 'प्लव',
+  'Shubhakruth': 'शुभकृत',
+  'Shobhakruth': 'शोभकृत',
+  'Krodhi': 'क्रोधी',
+  'Vishvaavasu': 'विश्वावसु',
+  'Paraabhava': 'पराभव',
+  'Plavanga': 'प्लवंग',
+  'Keelaka': 'कीलक',
+  'Saumya': 'सौम्य',
+  'Saadhaarana': 'साधारण',
+  'Virodhikruth': 'विरोधिकृत',
+  'Paridhāvi': 'परिधावी',
+  'Pramaadeecha': 'प्रमादीच',
+  'Aananda': 'आनंद',
+  'Raakshasa': 'राक्षस',
+  'Nala': 'नल',
+  'Pingala': 'पिंगल',
+  'Kaalayukthi': 'कालयुक्ति',
+  'Siddhārthi': 'सिद्धार्थि',
+  'Raudra': 'रौद्र',
+  'Durmathi': 'दुर्मति',
+  'Dundubhi': 'दुंदुभि',
+  'Rudhirodgaari': 'रुधिरोद्गारी',
+  'Raktaakshi': 'रक्ताक्षि',
+  'Krodhana': 'क्रोधन',
+  'Akshaya': 'अक्षय'
+};
+
 
 interface EnhancedPanchangaDetails {
   tithi: { name: string; number: number; end_time: string; paksha: string; };
@@ -66,7 +130,7 @@ const DetailCard = ({ title, details }: { title: string; details: any[] }) => {
 };
 
 const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   let displayBasicDetails, displayPanchangDetails;
 
   // Updated to remove the "Place" field
@@ -165,7 +229,13 @@ const BasicDetailsContent:React.FC<BasicDetailsProps> = ({ kundliData }) => {
             translatedLabel = t('basicDetails.ritu');
             break;
           case 'Samvatsara':
-            value = panchang.samvatsara?.name || 'N/A';
+            const samvatsaraName = panchang.samvatsara?.name || 'N/A';
+            // Translate to Hindi if language is Hindi and translation exists
+            if (i18n.language === 'hi' && samvatsaraName !== 'N/A' && samvatsaraTranslations[samvatsaraName]) {
+              value = samvatsaraTranslations[samvatsaraName];
+            } else {
+              value = samvatsaraName;
+            }
             translatedLabel = t('basicDetails.samvatsara');
             break;
           case 'Sunrise':

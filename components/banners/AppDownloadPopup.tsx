@@ -62,7 +62,7 @@ export function AppDownloadPopup() {
             className="w-full rounded-2xl overflow-hidden shadow-2xl hover:scale-105 transition-transform duration-300 active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#D32F2F]/50"
           >
             <img
-              src="https://images.ctfassets.net/53lf7jlviu2d/5LmXwfcBez4Z94AmxGIrJ5/303ff1faf4542e379d72d318ca0c2c48/enhancedonerupeebanner.png"
+              src="https://images.ctfassets.net/53lf7jlviu2d/7K46JkvAl9W35eVnSI9d0Q/d01fa5932197bfac946d07652ee17980/Gemini_Generated_Image_with_logo.jpg"
               alt="Download AstroKiran App - Get Your Offer Now (₹250 value)"
               className="w-full h-auto object-contain"
             />
