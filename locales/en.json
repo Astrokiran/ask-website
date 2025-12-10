@@ -181,6 +181,10 @@
     "noKundliData": "No Kundli data found to display.",
     "generateNew": "Generate a new Kundli"
   },
+
+  "charts": {
+    "title": "Astrological Charts"
+  },
   "ashtakavarga": {
     "title": "Ashtakavarga Analysis",
     "sarvashtakavarga": "Sarvashtakavarga",

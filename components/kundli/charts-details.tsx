@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // --- INTERFACES ---
 
@@ -14,6 +15,10 @@ interface ChartDetailsProps {
   kundliData: KundliData;
 }
 
+interface ChartTitleProps {
+  title: string;
+}
+
 // --- MAIN COMPONENT ---
 
 const ChartDetails: React.FC<ChartDetailsProps> = ({ kundliData }) => {
@@ -22,12 +27,15 @@ const ChartDetails: React.FC<ChartDetailsProps> = ({ kundliData }) => {
     navamsa_chart_svg,
     varga_charts_svgs,
   } = kundliData;
+  const { t } = useTranslation();
 
   const otherVargaCharts = varga_charts_svgs ? Object.entries(varga_charts_svgs) : [];
 
   return (
     <div className="mt-6">
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Astrological Charts</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-6 sm:mb-8">
+                {t('charts.title')}
+            </h2>
 
       {/* Main Charts: Rasi (D1) and Navamsa (D9) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
