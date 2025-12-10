@@ -68,33 +68,35 @@ export const HoroscopeViewer: FC<{
     "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
     "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
   ];
+  const normalizeSignKey = (value: string) =>
+  value.trim().toLowerCase();
 
   // Fetch zodiac images from Contentful on component mount
   useEffect(() => {
-    const fetchZodiacImages = async () => {
-      try {
-        const response = await client.getEntries({
-          content_type: 'zodiacSigns', // The correct Contentful content type ID
-          include: 2, // Include linked assets
-        });
+  const fetchZodiacImages = async () => {
+    try {
+      const response = await client.getEntries({
+        content_type: 'zodiacSigns',
+        include: 2,
+      });
 
-        const images: ZodiacImageMap = {};
-        response.items.forEach((item: any) => {
-          // Contentful entries have 'signName' and 'image' fields
-          if (item.fields.signName && item.fields.image && item.fields.image.fields?.file?.url) {
-            const sign = item.fields.signName.toLowerCase();
-            images[sign] = `https:${item.fields.image.fields.file.url}`;
-          }
-        });
+      const images: ZodiacImageMap = {};
+      response.items.forEach((item: any) => {
+        if (item.fields.signName && item.fields.image && item.fields.image.fields?.file?.url) {
+          const key = normalizeSignKey(item.fields.signName);
+          images[key] = `https:${item.fields.image.fields.file.url}`;
+        }
+      });
 
-        setZodiacImages(images);
-      } catch (error) {
-        console.error('Error fetching zodiac images from Contentful:', error);
-      }
-    };
+      setZodiacImages(images);
+    } catch (error) {
+      console.error('Error fetching zodiac images from Contentful:', error);
+    }
+  };
 
-    fetchZodiacImages();
-  }, []);
+  fetchZodiacImages();
+}, []);
+
 
   // Update horoscope data when language changes
   useEffect(() => {
@@ -277,38 +279,42 @@ export const HoroscopeViewer: FC<{
   ];
 
   // Get zodiac icon (using Contentful images with emoji fallback)
-  const getZodiacIcon = (sign: string): { type: 'image' | 'emoji'; content: string } => {
-    const signKey = sign.toLowerCase();
+  const getZodiacIcon = (
+  apiSign: string,
+  routeSign: string
+): { type: 'image' | 'emoji'; content: string } => {
+  // Use the route sign (from URL) as primary key
+  const key = normalizeSignKey(routeSign || apiSign || '');
 
-    // Check if we have a Contentful image for this zodiac sign
-    if (zodiacImages[signKey]) {
-      return {
-        type: 'image',
-        content: zodiacImages[signKey]
-      };
-    }
-
-    // Fallback to emoji if no Contentful image
-    const icons: { [key: string]: string } = {
-      "Aries": "♈",
-      "Taurus": "♉",
-      "Gemini": "♊",
-      "Cancer": "♋",
-      "Leo": "♌",
-      "Virgo": "♍",
-      "Libra": "♎",
-      "Scorpio": "♏",
-      "Sagittarius": "♐",
-      "Capricorn": "♑",
-      "Aquarius": "♒",
-      "Pisces": "♓"
-    };
-
+  // 1️⃣ Try Contentful image
+  if (zodiacImages[key]) {
     return {
-      type: 'emoji',
-      content: icons[sign] || "✨"
+      type: 'image',
+      content: zodiacImages[key],
     };
+  }
+
+  // 2️⃣ Emoji fallback with lowercase keys
+  const icons: { [key: string]: string } = {
+    aries: "♈",
+    taurus: "♉",
+    gemini: "♊",
+    cancer: "♋",
+    leo: "♌",
+    virgo: "♍",
+    libra: "♎",
+    scorpio: "♏",
+    sagittarius: "♐",
+    capricorn: "♑",
+    aquarius: "♒",
+    pisces: "♓",
   };
+
+  return {
+    type: 'emoji',
+    content: icons[key] || "✨",
+  };
+};
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-sans">
@@ -352,7 +358,8 @@ export const HoroscopeViewer: FC<{
               <div className="text-center mb-6">
                 <div className="flex justify-center items-center mb-4">
                   {(() => {
-                    const icon = getZodiacIcon(sign);
+                    // 👇 pass both the API sign and the route param
+                    const icon = getZodiacIcon(sign, zodiacSign);
                     return icon.type === 'image' ? (
                       <img
                         src={icon.content}
