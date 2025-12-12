@@ -28,25 +28,62 @@ interface ApiPlanetDataItem {
   status?: string;
 }
 
-interface ApiAntarSubPeriod {
+interface ApiDashaSubPeriod {
   planet: string;
   start_date: string;
   end_date: string;
   duration_years: number;
+  sub_periods?: ApiDashaSubPeriod[]; // For nested levels (up to 5 levels deep)
 }
 
 interface ApiMahadashaDataItem {
   planet_id?: number;
   planet: string;
-  start: string;
-  end: string;
-  sub_periods?: ApiAntarSubPeriod[];
+  start_date: string;
+  end_date: string;
+  duration_years: number;
+  sub_periods?: ApiDashaSubPeriod[]; // Antar dashas
+}
+
+interface CurrentDashaDetailed {
+  maha_dasha?: {
+    planet: string;
+    start_date: string;
+    end_date: string;
+    duration_years: number;
+  };
+  antar_dasha?: {
+    planet: string;
+    start_date: string;
+    end_date: string;
+    duration_years: number;
+  };
+  pratyantar_dasha?: {
+    planet: string;
+    start_date: string;
+    end_date: string;
+    duration_years: number;
+  };
+  sukshma_dasha?: {
+    planet: string;
+    start_date: string;
+    end_date: string;
+    duration_years: number;
+  };
+  prana_dasha?: {
+    planet: string;
+    start_date: string;
+    end_date: string;
+    duration_years: number;
+  };
 }
 
 interface KundliData {
   planets?: ApiPlanetDataItem[] | null;
   rasiChartData?: RasiChartData;
   dasha?: ApiMahadashaDataItem[] | null;
+  vimshottari_dasha?: ApiMahadashaDataItem[] | null; // New field for the 5-level dasha structure
+  current_dasha_detailed?: CurrentDashaDetailed;
   lagna?: { sign: string; degree: number };
   lagna_degree?: number | null;
   rasi_chart_svg?: string;
@@ -107,7 +144,68 @@ function buildChartPlanets(planets?: ApiPlanetDataItem[] | null): ChartPlanet[] 
 const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
   const { t } = useTranslation();
   const planetaryPositions: ApiPlanetDataItem[] = kundliData?.planets || [];
-  const vimshottariDashaData: ApiMahadashaDataItem[] = kundliData?.dasha || [];
+  // Transform dasha data to ensure consistent format and recursively transform all nested levels
+  const vimshottariDashaData: ApiMahadashaDataItem[] = useMemo(() => {
+    // Use dasha field which now contains the properly transformed 5-level nested structure
+    const dasha = kundliData?.dasha || [];
+    if (!Array.isArray(dasha)) return [];
+
+    console.log('Using dasha field with', dasha.length, 'Maha dashas');
+
+    function transformSubPeriods(periods: any[]): ApiDashaSubPeriod[] {
+      return periods.map((period: any) => ({
+        planet: period.planet,
+        start_date: period.start_date || period.start,
+        end_date: period.end_date || period.end,
+        duration_years: period.duration_years,
+        sub_periods: period.sub_periods ? transformSubPeriods(period.sub_periods) : []
+      }));
+    }
+
+    const transformed = dasha.map((period: any) => ({
+      planet: period.planet,
+      start_date: period.start_date || period.start,
+      end_date: period.end_date || period.end,
+      duration_years: period.duration_years,
+      planet_id: period.planet_id,
+      sub_periods: period.sub_periods ? transformSubPeriods(period.sub_periods) : []
+    }));
+
+    // Check the first Maha Dasha structure in detail
+    if (transformed.length > 0) {
+      const firstMaha = transformed[0];
+      console.log('=== DASHA STRUCTURE DEBUG ===');
+      console.log('First Maha Dasha planet:', firstMaha.planet);
+      console.log('First Maha sub_periods count:', firstMaha.sub_periods?.length || 0);
+
+      if (firstMaha.sub_periods && firstMaha.sub_periods.length > 0) {
+        const firstAntar = firstMaha.sub_periods[0];
+        console.log('First Antar Dasha planet:', firstAntar.planet);
+        console.log('First Antar sub_periods count:', firstAntar.sub_periods?.length || 0);
+
+        if (firstAntar.sub_periods && firstAntar.sub_periods.length > 0) {
+          const firstPratyantar = firstAntar.sub_periods[0];
+          console.log('First Pratyantar Dasha planet:', firstPratyantar.planet);
+          console.log('First Pratyantar sub_periods count:', firstPratyantar.sub_periods?.length || 0);
+
+          if (firstPratyantar.sub_periods && firstPratyantar.sub_periods.length > 0) {
+            const firstSukshma = firstPratyantar.sub_periods[0];
+            console.log('First Sukshma Dasha planet:', firstSukshma.planet);
+            console.log('First Sukshma sub_periods count:', firstSukshma.sub_periods?.length || 0);
+
+            if (firstSukshma.sub_periods && firstSukshma.sub_periods.length > 0) {
+              const firstPrana = firstSukshma.sub_periods[0];
+              console.log('First Prana Dasha planet:', firstPrana.planet);
+              console.log('First Prana sub_periods count:', firstPrana.sub_periods?.length || 0);
+            }
+          }
+        }
+      }
+      console.log('=== END DEBUG ===');
+    }
+
+    return transformed;
+  }, [kundliData]);
   const lagnaSign = kundliData?.lagna?.sign || "Aries";
   const lagnaDegree = kundliData?.lagna?.degree ?? undefined;
   const rasiChartSvgString = kundliData?.rasi_chart_svg;
@@ -118,19 +216,54 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
     [planetaryPositions],
   );
 
-  type TabType = "mahadasa" | "antardasha";
+  type TabType = "mahadasa" | "antardasha" | "pratyantar" | "sukshma" | "prana";
   const [activeTab, setActiveTab] = useState<TabType>("mahadasa");
   const [selectedMahaIndex, setSelectedMahaIndex] = useState<number | null>(null);
+  const [selectedAntarIndex, setSelectedAntarIndex] = useState<number | null>(null);
+  const [selectedPratyantarIndex, setSelectedPratyantarIndex] = useState<number | null>(null);
+  const [selectedSukshmaIndex, setSelectedSukshmaIndex] = useState<number | null>(null);
 
   const handleMahaArrow = useCallback((idx: number) => {
     setSelectedMahaIndex(idx);
+    setSelectedAntarIndex(null);
+    setSelectedPratyantarIndex(null);
+    setSelectedSukshmaIndex(null);
     setActiveTab("antardasha");
   }, []);
 
-  const handleAntarBack = useCallback(() => {
-    setSelectedMahaIndex(null);
-    setActiveTab("mahadasa");
+  const handleAntarArrow = useCallback((idx: number) => {
+    setSelectedAntarIndex(idx);
+    setSelectedPratyantarIndex(null);
+    setSelectedSukshmaIndex(null);
+    setActiveTab("pratyantar");
   }, []);
+
+  const handlePratyantarArrow = useCallback((idx: number) => {
+    setSelectedPratyantarIndex(idx);
+    setSelectedSukshmaIndex(null);
+    setActiveTab("sukshma");
+  }, []);
+
+  const handleSukshmaArrow = useCallback((idx: number) => {
+    setSelectedSukshmaIndex(idx);
+    setActiveTab("prana");
+  }, []);
+
+  const handleBack = useCallback(() => {
+    if (activeTab === "prana") {
+      setActiveTab("sukshma");
+      setSelectedSukshmaIndex(null);
+    } else if (activeTab === "sukshma") {
+      setActiveTab("pratyantar");
+      setSelectedPratyantarIndex(null);
+    } else if (activeTab === "pratyantar") {
+      setActiveTab("antardasha");
+      setSelectedAntarIndex(null);
+    } else if (activeTab === "antardasha") {
+      setActiveTab("mahadasa");
+      setSelectedMahaIndex(null);
+    }
+  }, [activeTab]);
 
   const mahaRows = vimshottariDashaData;
 
@@ -151,6 +284,67 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
       ...sub,
     }));
   }, [selectedMahaIndex, mahaRows]);
+
+  const pratyantarRows = useMemo(() => {
+    if (selectedMahaIndex == null || selectedAntarIndex == null) return [];
+
+    const md = mahaRows[selectedMahaIndex];
+    if (!md?.sub_periods?.[selectedAntarIndex]) return [];
+
+    const ad = md.sub_periods[selectedAntarIndex];
+    const rows = (ad?.sub_periods ?? []).map((sub) => ({
+      mahaIdx: selectedMahaIndex,
+      mahaPlanet: md.planet,
+      antarIdx: selectedAntarIndex,
+      antarPlanet: ad.planet,
+      ...sub,
+    }));
+
+    console.log('Pratyantar rows:', rows);
+    console.log('Selected Maha index:', selectedMahaIndex);
+    console.log('Selected Antar index:', selectedAntarIndex);
+    console.log('Antar dasha:', ad);
+
+    return rows;
+  }, [selectedMahaIndex, selectedAntarIndex, mahaRows]);
+
+  const sukshmaRows = useMemo(() => {
+    if (selectedMahaIndex == null || selectedAntarIndex == null || selectedPratyantarIndex == null) return [];
+
+    const md = mahaRows[selectedMahaIndex];
+    if (!md?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]) return [];
+
+    const pd = md.sub_periods[selectedAntarIndex].sub_periods[selectedPratyantarIndex];
+    return (pd?.sub_periods ?? []).map((sub) => ({
+      mahaIdx: selectedMahaIndex,
+      mahaPlanet: md.planet,
+      antarIdx: selectedAntarIndex,
+      antarPlanet: md.sub_periods[selectedAntarIndex].planet,
+      pratyantarIdx: selectedPratyantarIndex,
+      pratyantarPlanet: pd.planet,
+      ...sub,
+    }));
+  }, [selectedMahaIndex, selectedAntarIndex, selectedPratyantarIndex, mahaRows]);
+
+  const pranaRows = useMemo(() => {
+    if (selectedMahaIndex == null || selectedAntarIndex == null || selectedPratyantarIndex == null || selectedSukshmaIndex == null) return [];
+
+    const md = mahaRows[selectedMahaIndex];
+    if (!md?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]?.sub_periods?.[selectedSukshmaIndex]) return [];
+
+    const sd = md.sub_periods[selectedAntarIndex].sub_periods[selectedPratyantarIndex].sub_periods[selectedSukshmaIndex];
+    return (sd?.sub_periods ?? []).map((sub) => ({
+      mahaIdx: selectedMahaIndex,
+      mahaPlanet: md.planet,
+      antarIdx: selectedAntarIndex,
+      antarPlanet: md.sub_periods[selectedAntarIndex].planet,
+      pratyantarIdx: selectedPratyantarIndex,
+      pratyantarPlanet: md.sub_periods[selectedAntarIndex].sub_periods[selectedPratyantarIndex].planet,
+      sukshmaIdx: selectedSukshmaIndex,
+      sukshmaPlanet: sd.planet,
+      ...sub,
+    }));
+  }, [selectedMahaIndex, selectedAntarIndex, selectedPratyantarIndex, selectedSukshmaIndex, mahaRows]);
 
   return (
     <div id="kundli-tab-content-section" className="space-y-6">
@@ -249,9 +443,9 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
         </h3>
 
         {/* Tabs */}
-        <div className="flex items-center gap-4 text-sm font-semibold mb-4">
+        <div className="flex items-center gap-2 text-sm font-semibold mb-4 flex-wrap">
           <button
-            className={`px-1 pb-1 ${
+            className={`px-2 py-1 ${
               activeTab === "mahadasa"
                 ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
@@ -259,45 +453,80 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             onClick={() => {
               setActiveTab("mahadasa");
               setSelectedMahaIndex(null);
+              setSelectedAntarIndex(null);
+              setSelectedPratyantarIndex(null);
+              setSelectedSukshmaIndex(null);
             }}
           >
-            1&nbsp;{t('kundliDetails.mahadasha')}
+            1&nbsp;{t('Maha')}
           </button>
           <span className="text-gray-600 dark:text-gray-400">—</span>
           <button
-            className={`px-1 pb-1 ${
+            className={`px-2 py-1 ${
               activeTab === "antardasha"
                 ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             }`}
             onClick={() => setActiveTab("antardasha")}
           >
-            2&nbsp;{t('kundliDetails.antardasha')}
+            2&nbsp;{t('Antar')}
           </button>
-          {/* <span className="text-gray-300">—</span>
-          <span className="px-1 text-gray-400">3&nbsp;Pratyantardasha</span>
-          <span className="text-gray-300">—</span>
-          <span className="px-1 text-gray-400">4&nbsp;Sookshmadasha</span> */}
+          <span className="text-gray-600 dark:text-gray-400">—</span>
+          <button
+            className={`px-2 py-1 ${
+              activeTab === "pratyantar"
+                ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
+                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            }`}
+            onClick={() => setActiveTab("pratyantar")}
+          >
+            3&nbsp;{t('Pratyantar')}
+          </button>
+          <span className="text-gray-600 dark:text-gray-400">—</span>
+          <button
+            className={`px-2 py-1 ${
+              activeTab === "sukshma"
+                ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
+                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            }`}
+            onClick={() => setActiveTab("sukshma")}
+          >
+            4&nbsp;{t('Sukshma')}
+          </button>
+          <span className="text-gray-600 dark:text-gray-400">—</span>
+          <button
+            className={`px-2 py-1 ${
+              activeTab === "prana"
+                ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
+                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            }`}
+            onClick={() => setActiveTab("prana")}
+          >
+            5&nbsp;{t('Prana')}
+          </button>
         </div>
 
-        {activeTab === "antardasha" && selectedMahaIndex != null && (
+        {/* Back Button */}
+        {activeTab !== "current" && activeTab !== "mahadasa" && (
           <button
-            onClick={handleAntarBack}
+            onClick={handleBack}
             className="mb-3 inline-flex items-center gap-1 text-xs font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300"
           >
             <ArrowLeft size={14} />
-            {t('kundliDetails.backToMahadasha')}
+            {t('Back')}
           </button>
         )}
 
+        
+        {/* Maha Dasha View */}
         {activeTab === "mahadasa" && (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left border border rounded-md">
               <thead className="text-xs text-gray-900 dark:text-white uppercase bg-muted/30">
                 <tr>
-                  <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
-                  <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
-                  <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
+                  <th className="px-4 py-3">{t('Planet')}</th>
+                  <th className="px-4 py-3">{t('Start Date')}</th>
+                  <th className="px-4 py-3">{t('End Date')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -311,10 +540,10 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                       {d.planet}
                     </td>
                     <td className="px-4 py-3 text-gray-900 dark:text-white">
-                      {idx === 0 ? t('kundliDetails.birth') : formatDate(d.start)}
+                      {idx === 0 ? t('Birth') : formatDate(d.start_date)}
                     </td>
                     <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
-                      {formatDate(d.end)}
+                      {formatDate(d.end_date)}
                       <ChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-400 ml-2" />
                     </td>
                   </tr>
@@ -324,53 +553,203 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           </div>
         )}
 
+        {/* Antar Dasha View */}
         {activeTab === "antardasha" && (
           <>
             {selectedMahaIndex != null && (
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                {t('kundliDetails.showingAntardasha')}{" "}
+                {t('Showing Antar dashas of')}{" "}
                 <span className="font-semibold text-orange-600 dark:text-orange-400">
                   {mahaRows[selectedMahaIndex]?.planet}
                 </span>{" "}
-                {t('kundliDetails.mahadasha')}.
+                {t('Maha Dasha')}
               </div>
             )}
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left border border rounded-md">
                 <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
-                    <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
-                    <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
+                    <th className="px-4 py-3">{t('Planet')}</th>
+                    <th className="px-4 py-3">{t('Start Date')}</th>
+                    <th className="px-4 py-3">{t('End Date')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {antarRows.map((row, i) => (
                     <tr
                       key={i}
-                      className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                      onClick={() => selectedMahaIndex !== null && handleAntarArrow(i)}
                     >
                       <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap">
                         {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.planet)}
                       </td>
                       <td className="px-4 py-3 text-gray-900 dark:text-white">
                         {row.mahaIdx === 0 && i === 0 && selectedMahaIndex != null
-                          ? t('kundliDetails.birth')
+                          ? t('Birth')
                           : formatDate(row.start_date)}
                       </td>
+                      <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
+                        {formatDate(row.end_date)}
+                        {selectedMahaIndex !== null && <ChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-400 ml-2" />}
+                      </td>
+                    </tr>
+                  ))}
+                  {!antarRows.length && (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
+                        {t('No dasha data available')}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {/* Pratyantar Dasha View */}
+        {activeTab === "pratyantar" && (
+          <>
+            {selectedMahaIndex != null && selectedAntarIndex != null && (
+              <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                {t('Showing Pratyantar dashas of')}{" "}
+                <span className="font-semibold text-orange-600 dark:text-orange-400">
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.planet)}-
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.planet)}
+                </span>
+              </div>
+            )}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left border border rounded-md">
+                <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-4 py-3">{t('Planet')}</th>
+                    <th className="px-4 py-3">{t('Start Date')}</th>
+                    <th className="px-4 py-3">{t('End Date')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pratyantarRows.map((row, i) => (
+                    <tr
+                      key={i}
+                      className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                      onClick={() => handlePratyantarArrow(i)}
+                    >
+                      <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap">
+                        {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-{shortPlanet(row.planet)}
+                      </td>
+                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
                       <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
                         {formatDate(row.end_date)}
                         <ChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-400 ml-2" />
                       </td>
                     </tr>
                   ))}
-                  {!antarRows.length && (
+                  {!pratyantarRows.length && (
                     <tr>
-                      <td
-                        colSpan={3}
-                        className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic"
-                      >
-                        {t('kundliDetails.noDashaData')}
+                      <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
+                        {t('No Pratyantar dasha data available')}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {/* Sukshma Dasha View */}
+        {activeTab === "sukshma" && (
+          <>
+            {selectedMahaIndex != null && selectedAntarIndex != null && selectedPratyantarIndex != null && (
+              <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                {t('Showing Sukshma dashas of')}{" "}
+                <span className="font-semibold text-orange-600 dark:text-orange-400">
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.planet)}-
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.planet)}-
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]?.planet)}
+                </span>
+              </div>
+            )}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left border border rounded-md">
+                <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-4 py-3">{t('Planet')}</th>
+                    <th className="px-4 py-3">{t('Start Date')}</th>
+                    <th className="px-4 py-3">{t('End Date')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sukshmaRows.map((row, i) => (
+                    <tr
+                      key={i}
+                      className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                      onClick={() => handleSukshmaArrow(i)}
+                    >
+                      <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap text-xs">
+                        {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-
+                        {shortPlanet(row.pratyantarPlanet)}-{shortPlanet(row.planet)}
+                      </td>
+                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
+                      <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
+                        {formatDate(row.end_date)}
+                        <ChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-400 ml-2" />
+                      </td>
+                    </tr>
+                  ))}
+                  {!sukshmaRows.length && (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
+                        {t('No Sukshma dasha data available')}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {/* Prana Dasha View */}
+        {activeTab === "prana" && (
+          <>
+            {selectedMahaIndex != null && selectedAntarIndex != null && selectedPratyantarIndex != null && selectedSukshmaIndex != null && (
+              <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                {t('Showing Prana dashas of')}{" "}
+                <span className="font-semibold text-orange-600 dark:text-orange-400 text-xs">
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.planet)}-
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.planet)}-
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]?.planet)}-
+                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]?.sub_periods?.[selectedSukshmaIndex]?.planet)}
+                </span>
+              </div>
+            )}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left border border rounded-md">
+                <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-4 py-3">{t('Planet')}</th>
+                    <th className="px-4 py-3">{t('Start Date')}</th>
+                    <th className="px-4 py-3">{t('End Date')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pranaRows.map((row, i) => (
+                    <tr key={i} className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                      <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap text-xs">
+                        {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-
+                        {shortPlanet(row.pratyantarPlanet)}-{shortPlanet(row.sukshmaPlanet)}-{shortPlanet(row.planet)}
+                      </td>
+                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
+                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.end_date)}</td>
+                    </tr>
+                  ))}
+                  {!pranaRows.length && (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
+                        {t('No Prana dasha data available')}
                       </td>
                     </tr>
                   )}
