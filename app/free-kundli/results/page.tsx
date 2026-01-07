@@ -284,6 +284,7 @@ export default function ReportDisplayPage() {
           time_of_birth: formattedTime,
           place_of_birth: params.place_of_birth || fallbackPlace,
           language: language, // Use current language from store
+          dasha_levels: 2, // Request only 2 levels initially (Mahadasha + Antar)
           fields: [
             'name',
             'planets.planet',
@@ -404,6 +405,14 @@ export default function ReportDisplayPage() {
           ashtakavarga_svg: null,
           ashtakavarga_data: null,
           basic_details: basicResponse,
+          // Include request parameters for lazy loading dasha levels
+          kundliRequestParams: {
+            name: params.name || "Unknown",
+            date_of_birth: formattedDate,
+            time_of_birth: formattedTime,
+            place_of_birth: params.place_of_birth || fallbackPlace,
+            language: language,
+          },
         };
 
         setReportData(initialData);

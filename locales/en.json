@@ -149,12 +149,20 @@
     "vimshottariDasha": "Vimshottari Dasha",
     "mahadasha": "Mahadasha",
     "antardasha": "Antardasha",
+    "pratyantar": "Pratyantar",
+    "sukshma": "Sukshma",
     "startDate": "Start Date",
     "endDate": "End Date",
     "birth": "Birth",
+    "back": "Back",
     "backToMahadasha": "Back to Mahadasha",
     "showingAntardasha": "Showing Antardasha under",
-    "noDashaData": "No Antardasha data."
+    "showingPratyantar": "Showing Pratyantar dashas of",
+    "showingSukshma": "Showing Sukshma dashas of",
+    "mahaDasha": "Maha Dasha",
+    "noDashaData": "No Antardasha data.",
+    "noPratyantarDashaData": "No Pratyantar dasha data available",
+    "noSukshmaDashaData": "No Sukshma dasha data available"
   },
   "reportDetails": {
     "preparing": "Preparing your astrological report...",

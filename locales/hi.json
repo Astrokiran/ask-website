@@ -149,12 +149,20 @@
     "vimshottariDasha": "विंशोत्तरी दशा",
     "mahadasha": "महादशा",
     "antardasha": "अंतर्दशा",
+    "pratyantar": "प्रत्यंतर",
+    "sukshma": "सूक्ष्म",
     "startDate": "आरंभ तिथि",
     "endDate": "समाप्ति तिथि",
     "birth": "जन्म",
+    "back": "वापस",
     "backToMahadasha": "महादशा पर वापस जाएं",
     "showingAntardasha": "अंतर्दशा प्रदर्शित कर रहे हैं",
-    "noDashaData": "कोई अंतर्दशा डेटा नहीं।"
+    "showingPratyantar": "प्रत्यंतर दशाएं प्रदर्शित कर रहे हैं",
+    "showingSukshma": "सूक्ष्म दशाएं प्रदर्शित कर रहे हैं",
+    "mahaDasha": "महा दशा",
+    "noDashaData": "कोई अंतर्दशा डेटा नहीं।",
+    "noPratyantarDashaData": "कोई प्रत्यंतर दशा डेटा उपलब्ध नहीं",
+    "noSukshmaDashaData": "कोई सूक्ष्म दशा डेटा उपलब्ध नहीं"
   },
   "reportDetails": {
     "preparing": "आपकी ज्योतिषीय रिपोर्ट तैयार की जा रही है...",

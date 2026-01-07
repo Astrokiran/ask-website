@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import RasiChartSVG from "./RasiChartSvg"; // Correctly named import
 import type { ChartPlanet, RasiChartData } from "./RasiChartSvg"; // Import types if needed
 import { useTranslation } from 'react-i18next';
+import { useLanguageStore } from '@/stores/languageStore';
 
 
 /* ------------------------------------------------------------------
@@ -88,6 +89,14 @@ interface KundliData {
   lagna_degree?: number | null;
   rasi_chart_svg?: string;
   navamsa_chart_svg?: string;
+  // Request parameters for lazy loading dasha levels
+  kundliRequestParams?: {
+    name: string;
+    date_of_birth: string;
+    time_of_birth: string;
+    place_of_birth: string;
+    language?: string;
+  };
 }
 
 interface KundliTabContentProps {
@@ -143,6 +152,15 @@ function buildChartPlanets(planets?: ApiPlanetDataItem[] | null): ChartPlanet[] 
  * ------------------------------------------------------------------ */
 const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
   const { t } = useTranslation();
+  const { language } = useLanguageStore(); // Get current language from store
+
+  // Debug log to check if kundliRequestParams is available
+  useEffect(() => {
+    console.log('KundliTabContent received kundliData:', kundliData);
+    console.log('kundliRequestParams:', kundliData?.kundliRequestParams);
+    console.log('Current language from store:', language);
+  }, [kundliData, language]);
+
   const planetaryPositions: ApiPlanetDataItem[] = kundliData?.planets || [];
   // Transform dasha data to ensure consistent format and recursively transform all nested levels
   const vimshottariDashaData: ApiMahadashaDataItem[] = useMemo(() => {
@@ -216,12 +234,177 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
     [planetaryPositions],
   );
 
-  type TabType = "mahadasa" | "antardasha" | "pratyantar" | "sukshma" | "prana";
+  type TabType = "mahadasa" | "antardasha" | "pratyantar" | "sukshma";
   const [activeTab, setActiveTab] = useState<TabType>("mahadasa");
   const [selectedMahaIndex, setSelectedMahaIndex] = useState<number | null>(null);
   const [selectedAntarIndex, setSelectedAntarIndex] = useState<number | null>(null);
   const [selectedPratyantarIndex, setSelectedPratyantarIndex] = useState<number | null>(null);
   const [selectedSukshmaIndex, setSelectedSukshmaIndex] = useState<number | null>(null);
+
+  // Lazy loading states for dasha levels
+  const [enhancedVimshottariDasha, setEnhancedVimshottariDasha] = useState<ApiMahadashiDataItem[] | null>(null);
+  const [isLoadingPratyantar, setIsLoadingPratyantar] = useState(false);
+  const [isLoadingSukshma, setIsLoadingSukshma] = useState(false);
+  const [pratyantarError, setPratyantarError] = useState<string | null>(null);
+  const [sukshmaError, setSukshmaError] = useState<string | null>(null);
+
+  // Clear enhanced dasha data when language changes to force re-fetch with new language
+  useEffect(() => {
+    console.log('Language changed to:', language, '- Clearing cached dasha data');
+    // Clear the cached enhanced dasha data so it will be re-fetched with new language
+    setEnhancedVimshottariDasha(null);
+    setPratyantarError(null);
+    setSukshmaError(null);
+    // Also reset the selection indices to avoid showing stale data
+    setSelectedMahaIndex(null);
+    setSelectedAntarIndex(null);
+    setSelectedPratyantarIndex(null);
+    setSelectedSukshmaIndex(null);
+    setActiveTab("mahadasa");
+  }, [language]);
+
+  // Function to transform vimshottari_dasha response
+  const transformVimshottariDasha = useCallback((data: any[]): ApiMahadashaDataItem[] => {
+    function transformSubPeriods(periods: any[]): ApiDashaSubPeriod[] {
+      return periods.map((period: any) => ({
+        planet: period.planet,
+        start_date: period.start_date || period.start,
+        end_date: period.end_date || period.end,
+        duration_years: period.duration_years,
+        sub_periods: period.sub_periods ? transformSubPeriods(period.sub_periods) : []
+      }));
+    }
+
+    return data.map((period: any) => ({
+      planet: period.planet,
+      start_date: period.start_date || period.start,
+      end_date: period.end_date || period.end,
+      duration_years: period.duration_years,
+      planet_id: period.planet_id,
+      sub_periods: period.sub_periods ? transformSubPeriods(period.sub_periods) : []
+    }));
+  }, []);
+
+  // Function to fetch Pratyantar Dasha (3 levels)
+  const fetchPratyantarDasha = useCallback(async () => {
+    const requestParams = kundliData.kundliRequestParams;
+    if (!requestParams) {
+      console.warn('No kundliRequestParams available');
+      return;
+    }
+
+    // Check if we already have 3 levels (Pratyantar) in either enhanced or base data
+    const currentData = enhancedVimshottariDasha || vimshottariDashaData;
+    const hasPratyantar = currentData?.some(maha =>
+      maha.sub_periods?.some(antar =>
+        antar.sub_periods && antar.sub_periods.length > 0
+      )
+    );
+
+    if (hasPratyantar) {
+      console.log('Pratyantar data already exists, skipping fetch');
+      return;
+    }
+
+    // Use current language from store instead of potentially stale requestParams
+    const paramsWithCurrentLanguage = {
+      ...requestParams,
+      language: language,
+    };
+
+    console.log('Fetching Pratyantar dasha with params:', paramsWithCurrentLanguage);
+    setIsLoadingPratyantar(true);
+    setPratyantarError(null);
+
+    try {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(`${apiBaseUrl}/api/dasha/pratyantar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(paramsWithCurrentLanguage),
+      });
+
+      if (!response.ok) throw new Error(`Failed to fetch Pratyantar dasha: ${response.status}`);
+
+      const data = await response.json();
+      console.log('Pratyantar API response:', data);
+      // Transform and set the enhanced dasha data (3 levels: Maha + Antar + Pratyantar)
+      const dashaData = data.vimshottari_dasha || data;
+      setEnhancedVimshottariDasha(transformVimshottariDasha(dashaData));
+    } catch (error) {
+      console.error('Error fetching Pratyantar dasha:', error);
+      setPratyantarError(error instanceof Error ? error.message : 'Failed to load Pratyantar dasha');
+    } finally {
+      setIsLoadingPratyantar(false);
+    }
+  }, [kundliData.kundliRequestParams, enhancedVimshottariDasha, vimshottariDashaData, transformVimshottariDasha, language]);
+
+  // Function to fetch Sukshma Dasha (4 levels)
+  const fetchSukshmaDasha = useCallback(async () => {
+    const requestParams = kundliData.kundliRequestParams;
+    if (!requestParams) {
+      console.warn('No kundliRequestParams available');
+      return;
+    }
+
+    // Check if we already have 4 levels (Sukshma) in either enhanced or base data
+    const currentData = enhancedVimshottariDasha || vimshottariDashaData;
+    const hasSukshma = currentData?.some(maha =>
+      maha.sub_periods?.some(antar =>
+        antar.sub_periods?.some(pratyantar =>
+          pratyantar.sub_periods && pratyantar.sub_periods.length > 0
+        )
+      )
+    );
+
+    if (hasSukshma) {
+      console.log('Sukshma data already exists, skipping fetch');
+      return;
+    }
+
+    // Use current language from store instead of potentially stale requestParams
+    const paramsWithCurrentLanguage = {
+      ...requestParams,
+      language: language,
+    };
+
+    console.log('Fetching Sukshma dasha with params:', paramsWithCurrentLanguage);
+    setIsLoadingSukshma(true);
+    setSukshmaError(null);
+
+    try {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(`${apiBaseUrl}/api/dasha/sukshma`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(paramsWithCurrentLanguage),
+      });
+
+      if (!response.ok) throw new Error(`Failed to fetch Sukshma dasha: ${response.status}`);
+
+      const data = await response.json();
+      console.log('Sukshma API response:', data);
+      // Transform and set the enhanced dasha data (4 levels: Maha + Antar + Pratyantar + Sukshma)
+      const dashaData = data.vimshottari_dasha || data;
+      setEnhancedVimshottariDasha(transformVimshottariDasha(dashaData));
+    } catch (error) {
+      console.error('Error fetching Sukshma dasha:', error);
+      setSukshmaError(error instanceof Error ? error.message : 'Failed to load Sukshma dasha');
+    } finally {
+      setIsLoadingSukshma(false);
+    }
+  }, [kundliData.kundliRequestParams, enhancedVimshottariDasha, vimshottariDashaData, transformVimshottariDasha, language]);
+
+  // Load data when tab is clicked
+  const handleTabClick = useCallback((tab: TabType) => {
+    console.log('Tab clicked:', tab);
+    setActiveTab(tab);
+    if (tab === "pratyantar") {
+      fetchPratyantarDasha();
+    } else if (tab === "sukshma") {
+      fetchSukshmaDasha();
+    }
+  }, [fetchPratyantarDasha, fetchSukshmaDasha]);
 
   const handleMahaArrow = useCallback((idx: number) => {
     setSelectedMahaIndex(idx);
@@ -236,24 +419,18 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
     setSelectedPratyantarIndex(null);
     setSelectedSukshmaIndex(null);
     setActiveTab("pratyantar");
-  }, []);
+    fetchPratyantarDasha(); // Trigger lazy load
+  }, [fetchPratyantarDasha]);
 
   const handlePratyantarArrow = useCallback((idx: number) => {
     setSelectedPratyantarIndex(idx);
     setSelectedSukshmaIndex(null);
     setActiveTab("sukshma");
-  }, []);
-
-  const handleSukshmaArrow = useCallback((idx: number) => {
-    setSelectedSukshmaIndex(idx);
-    setActiveTab("prana");
-  }, []);
+    fetchSukshmaDasha(); // Trigger lazy load
+  }, [fetchSukshmaDasha]);
 
   const handleBack = useCallback(() => {
-    if (activeTab === "prana") {
-      setActiveTab("sukshma");
-      setSelectedSukshmaIndex(null);
-    } else if (activeTab === "sukshma") {
+    if (activeTab === "sukshma") {
       setActiveTab("pratyantar");
       setSelectedPratyantarIndex(null);
     } else if (activeTab === "pratyantar") {
@@ -265,7 +442,8 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
     }
   }, [activeTab]);
 
-  const mahaRows = vimshottariDashaData;
+  // Use enhanced data if available, otherwise fall back to initial 2-level data
+  const mahaRows = enhancedVimshottariDasha || vimshottariDashaData;
 
   const antarRows = useMemo(() => {
     if (selectedMahaIndex == null) {
@@ -325,26 +503,6 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
       ...sub,
     }));
   }, [selectedMahaIndex, selectedAntarIndex, selectedPratyantarIndex, mahaRows]);
-
-  const pranaRows = useMemo(() => {
-    if (selectedMahaIndex == null || selectedAntarIndex == null || selectedPratyantarIndex == null || selectedSukshmaIndex == null) return [];
-
-    const md = mahaRows[selectedMahaIndex];
-    if (!md?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]?.sub_periods?.[selectedSukshmaIndex]) return [];
-
-    const sd = md.sub_periods[selectedAntarIndex].sub_periods[selectedPratyantarIndex].sub_periods[selectedSukshmaIndex];
-    return (sd?.sub_periods ?? []).map((sub) => ({
-      mahaIdx: selectedMahaIndex,
-      mahaPlanet: md.planet,
-      antarIdx: selectedAntarIndex,
-      antarPlanet: md.sub_periods[selectedAntarIndex].planet,
-      pratyantarIdx: selectedPratyantarIndex,
-      pratyantarPlanet: md.sub_periods[selectedAntarIndex].sub_periods[selectedPratyantarIndex].planet,
-      sukshmaIdx: selectedSukshmaIndex,
-      sukshmaPlanet: sd.planet,
-      ...sub,
-    }));
-  }, [selectedMahaIndex, selectedAntarIndex, selectedPratyantarIndex, selectedSukshmaIndex, mahaRows]);
 
   return (
     <div id="kundli-tab-content-section" className="space-y-6">
@@ -458,7 +616,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
               setSelectedSukshmaIndex(null);
             }}
           >
-            1&nbsp;{t('Maha')}
+            1&nbsp;{t('kundliDetails.mahadasha')}
           </button>
           <span className="text-gray-600 dark:text-gray-400">—</span>
           <button
@@ -469,7 +627,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             }`}
             onClick={() => setActiveTab("antardasha")}
           >
-            2&nbsp;{t('Antar')}
+            2&nbsp;{t('kundliDetails.antardasha')}
           </button>
           <span className="text-gray-600 dark:text-gray-400">—</span>
           <button
@@ -478,9 +636,10 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                 ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             }`}
-            onClick={() => setActiveTab("pratyantar")}
+            onClick={() => handleTabClick("pratyantar")}
           >
-            3&nbsp;{t('Pratyantar')}
+            3&nbsp;{t('kundliDetails.pratyantar')}
+            {isLoadingPratyantar && <span className="ml-1 text-xs">...</span>}
           </button>
           <span className="text-gray-600 dark:text-gray-400">—</span>
           <button
@@ -489,20 +648,10 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                 ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             }`}
-            onClick={() => setActiveTab("sukshma")}
+            onClick={() => handleTabClick("sukshma")}
           >
-            4&nbsp;{t('Sukshma')}
-          </button>
-          <span className="text-gray-600 dark:text-gray-400">—</span>
-          <button
-            className={`px-2 py-1 ${
-              activeTab === "prana"
-                ? "text-orange-600 dark:text-orange-400 border-b-2 border-orange-500"
-                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-            }`}
-            onClick={() => setActiveTab("prana")}
-          >
-            5&nbsp;{t('Prana')}
+            4&nbsp;{t('kundliDetails.sukshma')}
+            {isLoadingSukshma && <span className="ml-1 text-xs">...</span>}
           </button>
         </div>
 
@@ -513,7 +662,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             className="mb-3 inline-flex items-center gap-1 text-xs font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300"
           >
             <ArrowLeft size={14} />
-            {t('Back')}
+            {t('kundliDetails.back')}
           </button>
         )}
 
@@ -524,9 +673,9 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
             <table className="w-full text-sm text-left border border rounded-md">
               <thead className="text-xs text-gray-900 dark:text-white uppercase bg-muted/30">
                 <tr>
-                  <th className="px-4 py-3">{t('Planet')}</th>
-                  <th className="px-4 py-3">{t('Start Date')}</th>
-                  <th className="px-4 py-3">{t('End Date')}</th>
+                  <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
+                  <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
+                  <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -540,7 +689,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                       {d.planet}
                     </td>
                     <td className="px-4 py-3 text-gray-900 dark:text-white">
-                      {idx === 0 ? t('Birth') : formatDate(d.start_date)}
+                      {idx === 0 ? t('kundliDetails.birth') : formatDate(d.start_date)}
                     </td>
                     <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
                       {formatDate(d.end_date)}
@@ -558,20 +707,20 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           <>
             {selectedMahaIndex != null && (
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                {t('Showing Antar dashas of')}{" "}
+                {t('kundliDetails.showingAntardasha')}{" "}
                 <span className="font-semibold text-orange-600 dark:text-orange-400">
                   {mahaRows[selectedMahaIndex]?.planet}
                 </span>{" "}
-                {t('Maha Dasha')}
+                {t('kundliDetails.mahaDasha')}
               </div>
             )}
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left border border rounded-md">
                 <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-4 py-3">{t('Planet')}</th>
-                    <th className="px-4 py-3">{t('Start Date')}</th>
-                    <th className="px-4 py-3">{t('End Date')}</th>
+                    <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
+                    <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
+                    <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -586,7 +735,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                       </td>
                       <td className="px-4 py-3 text-gray-900 dark:text-white">
                         {row.mahaIdx === 0 && i === 0 && selectedMahaIndex != null
-                          ? t('Birth')
+                          ? t('kundliDetails.birth')
                           : formatDate(row.start_date)}
                       </td>
                       <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
@@ -598,7 +747,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
                   {!antarRows.length && (
                     <tr>
                       <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
-                        {t('No dasha data available')}
+                        {t('kundliDetails.noDashaData')}
                       </td>
                     </tr>
                   )}
@@ -613,7 +762,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           <>
             {selectedMahaIndex != null && selectedAntarIndex != null && (
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                {t('Showing Pratyantar dashas of')}{" "}
+                {t('kundliDetails.showingPratyantar')}{" "}
                 <span className="font-semibold text-orange-600 dark:text-orange-400">
                   {shortPlanet(mahaRows[selectedMahaIndex]?.planet)}-
                   {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.planet)}
@@ -621,40 +770,50 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
               </div>
             )}
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left border border rounded-md">
-                <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th className="px-4 py-3">{t('Planet')}</th>
-                    <th className="px-4 py-3">{t('Start Date')}</th>
-                    <th className="px-4 py-3">{t('End Date')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pratyantarRows.map((row, i) => (
-                    <tr
-                      key={i}
-                      className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
-                      onClick={() => handlePratyantarArrow(i)}
-                    >
-                      <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap">
-                        {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-{shortPlanet(row.planet)}
-                      </td>
-                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
-                      <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
-                        {formatDate(row.end_date)}
-                        <ChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-400 ml-2" />
-                      </td>
-                    </tr>
-                  ))}
-                  {!pratyantarRows.length && (
+              {isLoadingPratyantar ? (
+                <div className="text-center py-8 text-gray-600 dark:text-gray-400">
+                  <p>Loading Pratyantar Dasha...</p>
+                </div>
+              ) : pratyantarError ? (
+                <div className="text-center py-8 text-red-600 dark:text-red-400">
+                  <p>Error: {pratyantarError}</p>
+                </div>
+              ) : (
+                <table className="w-full text-sm text-left border border rounded-md">
+                  <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
-                        {t('No Pratyantar dasha data available')}
-                      </td>
+                      <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
+                      <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
+                      <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {pratyantarRows.map((row, i) => (
+                      <tr
+                        key={i}
+                        className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                        onClick={() => handlePratyantarArrow(i)}
+                      >
+                        <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap">
+                          {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-{shortPlanet(row.planet)}
+                        </td>
+                        <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
+                        <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
+                          {formatDate(row.end_date)}
+                          <ChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-400 ml-2" />
+                        </td>
+                      </tr>
+                    ))}
+                    {!pratyantarRows.length && (
+                      <tr>
+                        <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
+                          {t('kundliDetails.noPratyantarDashaData')}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              )}
             </div>
           </>
         )}
@@ -664,7 +823,7 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
           <>
             {selectedMahaIndex != null && selectedAntarIndex != null && selectedPratyantarIndex != null && (
               <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                {t('Showing Sukshma dashas of')}{" "}
+                {t('kundliDetails.showingSukshma')}{" "}
                 <span className="font-semibold text-orange-600 dark:text-orange-400">
                   {shortPlanet(mahaRows[selectedMahaIndex]?.planet)}-
                   {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.planet)}-
@@ -673,88 +832,47 @@ const KundliTabContent: React.FC<KundliTabContentProps> = ({ kundliData }) => {
               </div>
             )}
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left border border rounded-md">
-                <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th className="px-4 py-3">{t('Planet')}</th>
-                    <th className="px-4 py-3">{t('Start Date')}</th>
-                    <th className="px-4 py-3">{t('End Date')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sukshmaRows.map((row, i) => (
-                    <tr
-                      key={i}
-                      className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
-                      onClick={() => handleSukshmaArrow(i)}
-                    >
-                      <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap text-xs">
-                        {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-
-                        {shortPlanet(row.pratyantarPlanet)}-{shortPlanet(row.planet)}
-                      </td>
-                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
-                      <td className="px-4 py-3 flex justify-between items-center text-gray-900 dark:text-white">
-                        {formatDate(row.end_date)}
-                        <ChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-400 ml-2" />
-                      </td>
-                    </tr>
-                  ))}
-                  {!sukshmaRows.length && (
+              {isLoadingSukshma ? (
+                <div className="text-center py-8 text-gray-600 dark:text-gray-400">
+                  <p>Loading Sukshma Dasha...</p>
+                </div>
+              ) : sukshmaError ? (
+                <div className="text-center py-8 text-red-600 dark:text-red-400">
+                  <p>Error: {sukshmaError}</p>
+                </div>
+              ) : (
+                <table className="w-full text-sm text-left border border rounded-md">
+                  <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
-                        {t('No Sukshma dasha data available')}
-                      </td>
+                      <th className="px-4 py-3">{t('kundliDetails.planet')}</th>
+                      <th className="px-4 py-3">{t('kundliDetails.startDate')}</th>
+                      <th className="px-4 py-3">{t('kundliDetails.endDate')}</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-
-        {/* Prana Dasha View */}
-        {activeTab === "prana" && (
-          <>
-            {selectedMahaIndex != null && selectedAntarIndex != null && selectedPratyantarIndex != null && selectedSukshmaIndex != null && (
-              <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                {t('Showing Prana dashas of')}{" "}
-                <span className="font-semibold text-orange-600 dark:text-orange-400 text-xs">
-                  {shortPlanet(mahaRows[selectedMahaIndex]?.planet)}-
-                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.planet)}-
-                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]?.planet)}-
-                  {shortPlanet(mahaRows[selectedMahaIndex]?.sub_periods?.[selectedAntarIndex]?.sub_periods?.[selectedPratyantarIndex]?.sub_periods?.[selectedSukshmaIndex]?.planet)}
-                </span>
-              </div>
-            )}
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left border border rounded-md">
-                <thead className="text-xs text-gray-600 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th className="px-4 py-3">{t('Planet')}</th>
-                    <th className="px-4 py-3">{t('Start Date')}</th>
-                    <th className="px-4 py-3">{t('End Date')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pranaRows.map((row, i) => (
-                    <tr key={i} className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                      <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap text-xs">
-                        {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-
-                        {shortPlanet(row.pratyantarPlanet)}-{shortPlanet(row.sukshmaPlanet)}-{shortPlanet(row.planet)}
-                      </td>
-                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
-                      <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.end_date)}</td>
-                    </tr>
-                  ))}
-                  {!pranaRows.length && (
-                    <tr>
-                      <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
-                        {t('No Prana dasha data available')}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {sukshmaRows.map((row, i) => (
+                      <tr
+                        key={i}
+                        className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        <td className="px-4 py-3 font-semibold text-orange-600 dark:text-orange-400 whitespace-nowrap text-xs">
+                          {shortPlanet(row.mahaPlanet)}-{shortPlanet(row.antarPlanet)}-
+                          {shortPlanet(row.pratyantarPlanet)}-{shortPlanet(row.planet)}
+                        </td>
+                        <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.start_date)}</td>
+                        <td className="px-4 py-3 text-gray-900 dark:text-white">{formatDate(row.end_date)}</td>
+                      </tr>
+                    ))}
+                    {!sukshmaRows.length && (
+                      <tr>
+                        <td colSpan={3} className="px-4 py-6 text-center text-gray-600 dark:text-gray-400 italic">
+                          {t('kundliDetails.noSukshmaDashaData')}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              )}
             </div>
           </>
         )}
