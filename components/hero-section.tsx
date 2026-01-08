@@ -137,7 +137,7 @@ export function HeroSection({
           className="block w-full hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
-            src="https://images.ctfassets.net/53lf7jlviu2d/4Hk4bQMy8Thli5i56GLN4E/7c2194defbc923f63362d2ea74ed8a23/61b262c9-f92f-44cf-9c50-616e04b69467.jpg"
+            src="https://images.ctfassets.net/53lf7jlviu2d/61sgjb7rMvtJDcDY4kSfvH/9ff829e3acc01444684f3a2f07aee2df/WhatsAppImage2026-01-05at16.22.25.jpeg"
             alt="Download AstroKiran App - Special Offer"
             className="w-full h-auto object-cover"
           />
@@ -414,7 +414,7 @@ export function HeroSection({
           className="block w-full max-w-4xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
-            src="https://images.ctfassets.net/53lf7jlviu2d/4Hk4bQMy8Thli5i56GLN4E/7c2194defbc923f63362d2ea74ed8a23/61b262c9-f92f-44cf-9c50-616e04b69467.jpg"
+            src="https://images.ctfassets.net/53lf7jlviu2d/61sgjb7rMvtJDcDY4kSfvH/9ff829e3acc01444684f3a2f07aee2df/WhatsAppImage2026-01-05at16.22.25.jpeg"
             alt="Download AstroKiran App - Special Offer"
             className="w-full h-auto object-contain rounded-xl shadow-lg"
           />
