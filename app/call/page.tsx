@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -38,7 +38,7 @@ interface ExotelCallState {
   error?: string;
 }
 
-export default function ExotelCallPage() {
+function ExotelCallPageContent() {
   const searchParams = useSearchParams();
 
   // Get URL parameters
@@ -760,5 +760,21 @@ export default function ExotelCallPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// Wrapper component with Suspense boundary
+export default function ExotelCallPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-blue-500" />
+          <p className="text-lg">Loading call interface...</p>
+        </div>
+      </div>
+    }>
+      <ExotelCallPageContent />
+    </Suspense>
   );
 }
