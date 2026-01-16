@@ -13,6 +13,25 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
   },
+  // Webpack configuration to ignore Exotel SDK binary assets
+  webpack: (config, { isServer }) => {
+    // Stub out audio files from Exotel SDK
+    config.module.rules.push({
+      test: /\.(wav|mp3|ogg)$/,
+      include: /node_modules\/@exotel-npm-dev/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'audio/[name][ext]',
+      },
+      parser: {
+        dataUrlCondition: {
+          maxSize: 0,
+        },
+      },
+    });
+
+    return config;
+  },
   // Generate unique build ID for cache busting
   generateBuildId: async () => {
     // Use timestamp or git commit hash for unique build ID

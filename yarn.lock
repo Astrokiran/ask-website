@@ -1991,6 +1991,27 @@
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.4.0.tgz"
   integrity sha512-snKqtPW01tN0ui7yu9rGv69aJXr/a/Ywvl11sUjNtEcRc+ng/mQriFL0wLXMef74iHa/EkftbDzU9F8iFbH+zg==
 
+"@exotel-npm-dev/exotel-ip-calling-crm-websdk@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/@exotel-npm-dev/exotel-ip-calling-crm-websdk/-/exotel-ip-calling-crm-websdk-1.2.2.tgz"
+  integrity sha512-9lvI4E8alowG9+sCU4SLpZpSZsi7dbwaLV8yEFzMKjOjX+TZbOzGhtKmoLCZ98CXkcvXOIx84f/uLMQ5js8qXQ==
+  dependencies:
+    "@exotel-npm-dev/webrtc-client-sdk" "^2.0.1"
+    crypto-js "^4.1.1"
+    uuid "^10.0.0"
+
+"@exotel-npm-dev/webrtc-client-sdk@^2.0.1":
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/@exotel-npm-dev/webrtc-client-sdk/-/webrtc-client-sdk-2.0.5.tgz"
+  integrity sha512-zv8HgnxIJxjmtYbIAgjHlXxSmAlC+NJE2KDWYIsB4HEvSFvkCMkSD+ZVljPGOEv7rawMsK7SdWwwilk59uT2IQ==
+  dependencies:
+    "@exotel-npm-dev/webrtc-core-sdk" "^1.0.24"
+
+"@exotel-npm-dev/webrtc-core-sdk@^1.0.24":
+  version "1.0.24"
+  resolved "https://registry.npmjs.org/@exotel-npm-dev/webrtc-core-sdk/-/webrtc-core-sdk-1.0.24.tgz"
+  integrity sha512-cPsLmd067pjcgfF8bvQ8KmO+QsisYy3TPMB551zyJaWfiRaL0lPNQ13X5N8vx+6BLe0FtOjX/uA2EVMOcrZtEQ==
+
 "@firebase/ai@2.2.1":
   version "2.2.1"
   resolved "https://registry.npmjs.org/@firebase/ai/-/ai-2.2.1.tgz"
@@ -4745,6 +4766,11 @@ cross-spawn@^7.0.0:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+crypto-js@^4.1.1:
+  version "4.2.0"
+  resolved "https://registry.npmjs.org/crypto-js/-/crypto-js-4.2.0.tgz"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
+
 css-color-keywords@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/css-color-keywords/-/css-color-keywords-1.0.0.tgz"
@@ -7204,6 +7230,11 @@ utrie@^1.0.2:
   integrity sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==
   dependencies:
     base64-arraybuffer "^1.0.2"
+
+uuid@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-10.0.0.tgz"
+  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
 
 uuid@^9.0.0, uuid@^9.0.1:
   version "9.0.1"

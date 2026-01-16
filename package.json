@@ -18,6 +18,7 @@
     "@contentful/rich-text-types": "^17.2.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@exotel-npm-dev/exotel-ip-calling-crm-websdk": "^1.2.2",
     "@hookform/resolvers": "^3.9.1",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
