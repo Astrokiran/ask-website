@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState, useRef, Suspense } from 'react';
+import { useEffect, useState, useRef, Suspense, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Phone, PhoneOff, Loader2, User, Hand, Image as ImageIcon } from "lucide-react"
+import { Phone, PhoneOff, Loader2, User, Hand, Image as ImageIcon, MicOff, Mic, Volume2 } from "lucide-react"
 import Image from "next/image"
+import { ImageViewer } from '@/components/ImageViewer/ImageViewer';
 
 // Types for Exotel SDK events
 interface ExotelSDKEvent {
@@ -29,7 +30,9 @@ interface InjectedAppData {
   serviceType?: string;
   language?: string;
   theme?: 'light' | 'dark';
-  [key: string]: any;
+  remainingSeconds?: number;
+  totalSeconds?: number;
+  isPromotional?: boolean;
 }
 
 interface ExotelCallState {
@@ -41,11 +44,10 @@ interface ExotelCallState {
 function ExotelCallPageContent() {
   const searchParams = useSearchParams();
 
-  // Get URL parameters
-  const token = searchParams.get('token') || '';
-  const userId = searchParams.get('user_id') || '';
-  const customerPhone = searchParams.get('customer_phone') || '';
-  const consultationId = searchParams.get('consultation_id') || '';
+  const token = searchParams ? searchParams.get('token') : '';
+  const userId = searchParams ? searchParams.get('user_id') : '';
+  const customerPhone = searchParams ? searchParams.get('customer_phone') : '';
+  const consultationId = searchParams ? searchParams.get('consultation_id') : '';
 
   const [callState, setCallState] = useState<ExotelCallState>({
     status: 'initializing',
@@ -54,10 +56,12 @@ function ExotelCallPageContent() {
 
   const [eventLog, setEventLog] = useState<string[]>([]);
   const [callDuration, setCallDuration] = useState(0);
-
-  // Data injected from mobile app
   const [injectedData, setInjectedData] = useState<InjectedAppData>({});
   const [isWebView, setIsWebView] = useState(false);
+  const [remaining, setRemaining] = useState<number>(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isSpeaker, setIsSpeaker] = useState(false);
+  const [handImageUrl, setHandImageUrl] = useState<string | null>(null);
 
   const crmWebSDKRef = useRef<any>(null);
   const webPhoneRef = useRef<any>(null);
@@ -544,225 +548,172 @@ function ExotelCallPageContent() {
     }
   }, [callState.status]);
 
+  const totalSeconds = injectedData.totalSeconds ?? 1;
+
+  const progressPercent = Math.min(
+    100,
+    Math.max(0, ((totalSeconds - remaining) / totalSeconds) * 100)
+  );
+
+  const formatTime = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
+  };
+
+
+  const handleHandImagesClick = (hand: 'left' | 'right') => {
+    if (hand === 'left') {
+      setHandImageUrl(injectedData.customerHandImages![0])
+    } else {
+      setHandImageUrl(injectedData.customerHandImages![1])
+    }
+  }
+  const toggleMute = useCallback(() => {
+    const next = !isMuted;
+    setIsMuted(next);
+
+    try {
+      // Exotel WebPhone usually supports mute/unmute
+      if (webPhoneRef.current?.MuteCall) {
+        next ? webPhoneRef.current.MuteCall() : webPhoneRef.current.UnmuteCall();
+      }
+    } catch (err) {
+      console.warn("Mute toggle failed:", err);
+    }
+
+    // Notify mobile app
+    sendMessageToApp("toggle_mic", { muted: next });
+
+    if (process.env.NODE_ENV === "development") {
+      addLog("🎙️ Mic toggled", { muted: next });
+    }
+  }, [isMuted, sendMessageToApp, addLog]);
+
+  const toggleSpeaker = useCallback(() => {
+    const next = !isSpeaker;
+    setIsSpeaker(next);
+
+    // Browser usually can't force speaker — delegate to mobile app
+    sendMessageToApp("toggle_speaker", { speaker: next });
+
+    if (process.env.NODE_ENV === "development") {
+      addLog("🔊 Speaker toggled", { speaker: next });
+    }
+  }, [isSpeaker, sendMessageToApp, addLog]);
+  
+  const isDev = process.env.NODE_ENV === "development";
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-4">
-      <div className="max-w-2xl mx-auto pt-8">
-        {/* Header - Customer & Guide Info */}
-        <Card className="mb-6 bg-slate-800 border-slate-700">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-2xl flex items-center gap-2">
-                  <Phone className="h-6 w-6" />
-                  {injectedData.serviceType || 'Consultation'} Call
-                </CardTitle>
-                <CardDescription>
-                  {injectedData.guideName || 'Guide'} consultation with {injectedData.customerName || 'Customer'}
-                </CardDescription>
-              </div>
-              {isWebView && (
-                <div className="px-2 py-1 bg-green-600/20 text-green-400 text-xs rounded-full border border-green-600/30">
-                  WebView
-                </div>
+    <div className="min-h-screen bg-slate-900 flex flex-col">
+      <div className="w-full max-w-5xl mx-auto flex flex-col flex-1">
+
+        {/* Header */}
+        <div className="flex flex-col items-center pt-12 px-6 text-white">
+          <div className="w-28 h-28 rounded-full overflow-hidden bg-slate-700 flex items-center justify-center">
+            {injectedData.customerImage ? (
+              <Image src={injectedData.customerImage} alt="Customer" width={112} height={112} className="object-cover" />
+            ) : (
+              <User className="w-10 h-10 text-slate-400" />
+            )}
+          </div>
+
+          <h2 className="text-xl font-semibold mt-4">{injectedData.customerName || "Customer"}</h2>
+          <p className="text-slate-400 text-sm">In-call</p>
+        </div>
+
+
+
+        <div className='flex flex-col gap-4 items-center w-full justify-center'>
+          {Boolean(injectedData.isPromotional) && (
+            <span className="mt-3 px-3 py-1 text-sm font-medium tracking-wide border border-emerald-500 text-emerald-600 rounded-full bg-emerald-50">
+              PROMOTIONAL
+            </span>
+          )}
+          {injectedData && injectedData.customerHandImages && injectedData.customerHandImages?.length > 0 && (
+            <div className="flex gap-3 px-6 mt-6 w-full max-w-xl">
+              {injectedData.customerHandImages[0] && (
+                <button
+                  onClick={() => handleHandImagesClick('left')}
+                  className="flex-1 border border-blue-500 bg-blue-50 text-blue-600 py-2 rounded-xl font-semibold flex items-center justify-center gap-2"
+                >
+                  <Hand className="w-6 h-6" />
+                  Left Hand
+                </button>
+              )}
+
+              {injectedData.customerHandImages[1] && (
+                <button
+                  onClick={() => handleHandImagesClick('right')}
+                  className="flex-1 border border-green-500 bg-green-50 text-green-600 py-2 rounded-xl font-semibold flex items-center justify-center gap-2"
+                >
+                  <Hand className="w-6 h-6 scale-x-[-1]" />
+                  Right Hand
+                </button>
               )}
             </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Customer & Guide Profiles */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* Customer Info */}
-              <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
-                <div className="flex items-center gap-3">
-                  {injectedData.customerImage ? (
-                    <Image
-                      src={injectedData.customerImage}
-                      alt="Customer"
-                      width={48}
-                      height={48}
-                      className="rounded-full object-cover border-2 border-slate-600"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center">
-                      <User className="h-6 w-6 text-slate-400" />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-slate-400">Customer</p>
-                    <p className="font-semibold truncate">{injectedData.customerName || 'Unknown'}</p>
-                    <p className="text-xs text-slate-500 font-mono">{customerPhone}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Guide Info */}
-              <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
-                <div className="flex items-center gap-3">
-                  {injectedData.guideImage ? (
-                    <Image
-                      src={injectedData.guideImage}
-                      alt="Guide"
-                      width={48}
-                      height={48}
-                      className="rounded-full object-cover border-2 border-blue-600"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center border-2 border-blue-600">
-                      <User className="h-6 w-6 text-blue-400" />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-slate-400">Guide</p>
-                    <p className="font-semibold truncate">{injectedData.guideName || userId}</p>
-                    {injectedData.serviceType && (
-                      <p className="text-xs text-blue-400">{injectedData.serviceType}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
+          )}
+        </div>
+        {isDev && (
+          <div className="px-6 my-4">
+            <div className="bg-black rounded-xl p-3 max-h-48 overflow-y-auto text-xs font-mono text-green-400">
+              {eventLog.length === 0
+                ? "Waiting for events..."
+                : eventLog.map((l, i) => <div key={i}>{l}</div>)}
             </div>
-
-            {/* Call Status & Duration */}
-            <div className="flex items-center justify-between pt-2 border-t border-slate-700">
-              <div className="flex items-center gap-2">
-                <span className="text-slate-400 text-sm">Status:</span>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getStatusColor(callState.status)}`}>
-                  {callState.status.toUpperCase()}
-                </span>
-              </div>
-              {callState.status === 'connected' && (
-                <div className="flex items-center gap-2">
-                  <span className="text-slate-400 text-sm">Duration:</span>
-                  <span className="font-mono text-lg text-green-400">{formatDuration(callDuration)}</span>
-                </div>
-              )}
-            </div>
-
-            {/* Consultation ID */}
-            <div className="text-xs text-slate-500 text-center">
-              Consultation ID: <span className="font-mono">{consultationId}</span>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        )}
+        {/* Spacer */}
+        <div className="flex-1" />
 
         {/* Controls */}
-        <Card className="mb-6 bg-slate-800 border-slate-700">
-          <CardContent className="pt-6">
-            <div className="flex gap-4">
-              {(callState.status === 'initializing' || callState.status === 'registering') && (
-                <Button disabled className="flex-1 bg-yellow-600 h-14 text-lg" size="lg">
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  {callState.status === 'registering' ? 'Registering SIP Device...' : 'Initializing...'}
-                </Button>
-              )}
+        <div className="px-10 mb-6 flex justify-between items-center">
+          <button
+            onClick={toggleMute}
+            className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center"
+          >
+            {isMuted ? <MicOff className="text-red-500" /> : <Mic className="text-white" />}
+          </button>
 
-              {callState.status === 'calling' && (
-                <Button disabled className="flex-1 bg-yellow-600 h-14 text-lg" size="lg">
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Calling Customer...
-                </Button>
-              )}
+          <button
+            onClick={hangup}
+            className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-lg"
+          >
+            <PhoneOff className="text-white w-6 h-6" />
+          </button>
 
-              {callState.status === 'connected' && (
-                <Button
-                  onClick={hangup}
-                  className="flex-1 bg-red-600 hover:bg-red-700 h-14 text-lg"
-                  size="lg"
-                >
-                  <PhoneOff className="mr-2 h-5 w-5" />
-                  Hang Up
-                </Button>
-              )}
+          <button
+            onClick={toggleSpeaker}
+            className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center"
+          >
+            <Volume2 className={isSpeaker ? "text-blue-400" : "text-white"} />
+          </button>
+        </div>
+        <div className="px-6 mb-6 w-full">
+          <div className="bg-slate-800/70 border border-slate-700 rounded-2xl p-4 backdrop-blur">
 
-              {callState.status === 'error' && (
-                <div className="flex-1 bg-red-900/50 text-red-200 p-4 rounded-lg border border-red-700">
-                  Error: {callState.error || 'Unknown error'}
-                </div>
-              )}
-
-              {callState.status === 'ended' && (
-                <div className="flex-1 bg-slate-700 text-slate-300 p-4 rounded-lg text-center">
-                  Call ended - Closing...
-                </div>
-              )}
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm text-slate-400">Time Remaining</p>
+              <p className="text-sm font-mono text-white">
+                {formatTime(remaining)}
+              </p>
             </div>
 
-            {/* Auto-call notice */}
-            {(callState.status === 'initializing' || callState.status === 'registering') && (
-              <div className="mt-4 text-center text-sm text-slate-400">
-                <p>📞 Call will be initiated automatically once registered</p>
-                <p className="text-xs mt-1">Customer: {customerPhone}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Event Log */}
-        <Card className="bg-slate-800 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-lg">Event Log</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-black rounded-lg p-4 h-64 overflow-y-auto font-mono text-xs">
-              {eventLog.length === 0 ? (
-                <p className="text-slate-500">Waiting for events...</p>
-              ) : (
-                eventLog.map((log, index) => (
-                  <div key={index} className="mb-1 text-green-400">
-                    {log}
-                  </div>
-                ))
-              )}
+            {/* Progress bar */}
+            <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-green-500 rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${progressPercent}%` }}
+              />
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Customer Hand Images */}
-        {injectedData.customerHandImages && injectedData.customerHandImages.length > 0 && (
-          <Card className="mt-6 bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Hand className="h-5 w-5 text-purple-400" />
-                Customer Hand Images
-                <span className="text-sm font-normal text-slate-400">
-                  ({injectedData.customerHandImages.length})
-                </span>
-              </CardTitle>
-              <CardDescription>
-                Reference images for palmistry consultation
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                {injectedData.customerHandImages.map((imageUrl, index) => (
-                  <div key={index} className="relative aspect-square bg-slate-900 rounded-lg overflow-hidden border border-slate-700 group">
-                    <Image
-                      src={imageUrl}
-                      alt={`Hand image ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, 400px"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                      <p className="text-xs text-white/80">Image {index + 1}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {injectedData.customerHandImages.length === 0 && (
-                <div className="text-center py-8 text-slate-500">
-                  <ImageIcon className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                  <p>No hand images provided</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
+          </div>
+        </div>
       </div>
+      <ImageViewer isVisible={!!handImageUrl} onClose={() => setHandImageUrl(null)} imageUrl={handImageUrl} />
     </div>
   );
 }
-
 // Wrapper component with Suspense boundary
 export default function ExotelCallPage() {
   return (

@@ -33,13 +33,13 @@ export function redirectToAppStore(): void {
   const ANDROID_PLAY_STORE = "https://play.google.com/store/apps/details?id=com.astrokiran.user&pcampaignid=web_share";
 
   if (isIOS()) {
-    console.log('📱 iOS detected - Redirecting to App Store');
-    window.location.href = IOS_APP_STORE;
+    console.log('📱 iOS detected - Opening App Store');
+    window.open(IOS_APP_STORE, "_blank", "noopener,noreferrer");
   } else if (isAndroid()) {
-    console.log('📱 Android detected - Redirecting to Play Store');
-    window.location.href = ANDROID_PLAY_STORE;
+    console.log('📱 Android detected - Opening Play Store');
+    window.open(ANDROID_PLAY_STORE, "_blank", "noopener,noreferrer");
   } else {
-    console.log('💻 Desktop/Other - Redirecting to Play Store (default)');
-    window.location.href = ANDROID_PLAY_STORE;
+    console.log('💻 Desktop/Other - Opening Play Store (default)');
+    window.open(ANDROID_PLAY_STORE, "_blank", "noopener,noreferrer");
   }
 }
