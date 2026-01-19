@@ -68,22 +68,22 @@ function ExotelCallPageContent() {
   const durationIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const sentEventsRef = useRef<Set<string>>(new Set());
 
-  // Log utility
-  const addLog = (message: string, data?: any) => {
+  // Log utility (memoized)
+  const addLog = useCallback((message: string, data?: any) => {
     const timestamp = new Date().toISOString();
     const logEntry = `[${timestamp}] ${message}${data ? ` ${JSON.stringify(data)}` : ''}`;
     setEventLog(prev => [...prev.slice(-49), logEntry]); // Keep last 50 logs
     console.log(message, data);
-  };
+  }, []);
 
-  // Send message back to mobile app via PostMessage
-  const sendMessageToApp = (type: string, data: any = {}) => {
+  // Send message back to mobile app via PostMessage (memoized)
+  const sendMessageToApp = useCallback((type: string, data: any = {}) => {
     if (isWebView && (window as any).ReactNativeWebView) {
       const message = JSON.stringify({ type, ...data, timestamp: new Date().toISOString() });
       (window as any).ReactNativeWebView.postMessage(message);
       addLog('📤 Sent to app:', { type, data });
     }
-  };
+  }, [isWebView, addLog]);
 
   // Send SDK event to backend with deduplication
   const sendSDKEvent = async (eventType: string, eventData: any = {}) => {
@@ -576,9 +576,9 @@ function ExotelCallPageContent() {
     setIsMuted(next);
 
     try {
-      // Exotel WebPhone usually supports mute/unmute
-      if (webPhoneRef.current?.MuteCall) {
-        next ? webPhoneRef.current.MuteCall() : webPhoneRef.current.UnmuteCall();
+      // Exotel WebPhone SDK provides ToggleMute() method
+      if (webPhoneRef.current?.ToggleMute) {
+        webPhoneRef.current.ToggleMute();
       }
     } catch (err) {
       console.warn("Mute toggle failed:", err);
