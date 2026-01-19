@@ -65,8 +65,8 @@ function ExotelCallPageContent() {
 
   const crmWebSDKRef = useRef<any>(null);
   const webPhoneRef = useRef<any>(null);
-  const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const durationIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const sentEventsRef = useRef<Set<string>>(new Set());
 
   // Log utility
   const addLog = (message: string, data?: any) => {
@@ -85,7 +85,7 @@ function ExotelCallPageContent() {
     }
   };
 
-  // Send SDK event to backend
+  // Send SDK event to backend with deduplication
   const sendSDKEvent = async (eventType: string, eventData: any = {}) => {
     const payload: ExotelSDKEvent = {
       event_type: eventType,
@@ -96,6 +96,18 @@ function ExotelCallPageContent() {
       customer_phone: customerPhone,
       ...eventData,
     };
+
+    // Create a unique key for deduplication based on event_type and consultation_id
+    const deduplicationKey = `${eventType}_${consultationId}`;
+
+    // Check if we've already sent this event type for this consultation
+    if (sentEventsRef.current.has(deduplicationKey)) {
+      console.log('[Webhook] Skipping duplicate event:', deduplicationKey);
+      return;
+    }
+
+    // Mark this event as sent
+    sentEventsRef.current.add(deduplicationKey);
 
     console.log('[Webhook] Sending:', payload);
 
@@ -117,6 +129,8 @@ function ExotelCallPageContent() {
     } catch (error) {
       // Log webhook errors to console only - don't break the call flow
       console.warn('[Webhook] Failed (non-critical):', error);
+      // Remove from sent events on failure so it can be retried
+      sentEventsRef.current.delete(deduplicationKey);
     }
   };
 
@@ -202,15 +216,6 @@ function ExotelCallPageContent() {
         setCallDuration(prev => prev + 1);
       }, 1000);
 
-      // Start heartbeat (fire and forget)
-      if (heartbeatIntervalRef.current) {
-        clearInterval(heartbeatIntervalRef.current);
-      }
-      heartbeatIntervalRef.current = setInterval(() => {
-        sendSDKEvent('heartbeat', { timestamp: new Date().toISOString() })
-          .catch(err => console.warn('Heartbeat webhook failed (ignoring):', err));
-      }, 30000);
-
       sendSDKEvent('call_connected', {
         state: 'connected'
       }).catch(err => console.warn('Connected webhook failed (ignoring):', err));
@@ -224,14 +229,10 @@ function ExotelCallPageContent() {
         message: 'Call has ended'
       });
 
-      // Stop timers
+      // Stop duration timer
       if (durationIntervalRef.current) {
         clearInterval(durationIntervalRef.current);
         durationIntervalRef.current = null;
-      }
-      if (heartbeatIntervalRef.current) {
-        clearInterval(heartbeatIntervalRef.current);
-        heartbeatIntervalRef.current = null;
       }
 
       sendSDKEvent('callEnded', { event: 'callEnded', duration_seconds: callDuration })
@@ -436,6 +437,10 @@ function ExotelCallPageContent() {
         webPhoneRef.current = webPhone;
         addLog('✓ SDK initialized successfully, WebPhone instance ready');
 
+        // Wait for SDK to fully set up before registering SIP device
+        addLog('⏳ Waiting for SDK to be fully ready...');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
         // Register SIP device
         addLog('📝 Registering SIP device...');
         await webPhone.RegisterDevice();
@@ -457,9 +462,6 @@ function ExotelCallPageContent() {
 
     // Cleanup on unmount
     return () => {
-      if (heartbeatIntervalRef.current) {
-        clearInterval(heartbeatIntervalRef.current);
-      }
       if (durationIntervalRef.current) {
         clearInterval(durationIntervalRef.current);
       }
