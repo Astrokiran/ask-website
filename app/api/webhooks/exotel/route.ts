@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Backend service URL - configure in environment variable
-    const BACKEND_URL = process.env.NEXT_PUBLIC_CONSULTATION_SERVICE_URL || 'https://devvm.astrokiran.com/auth';
+    const BACKEND_URL = process.env.NEXT_PUBLIC_CONSULTATION_SERVICE_URL || 'https://devazstg.astrokiran.com/auth';
 
     // Forward the request to the backend service
     const backendUrl = `${BACKEND_URL}/api/v1/webhooks/exotel`;
