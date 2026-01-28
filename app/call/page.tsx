@@ -60,7 +60,7 @@ function ExotelCallPageContent() {
   const [isWebView, setIsWebView] = useState(false);
   const [remaining, setRemaining] = useState<number>(0);
   const [isMuted, setIsMuted] = useState(false);
-  const [isSpeaker, setIsSpeaker] = useState(false);
+  const [isSpeaker, setIsSpeaker] = useState(true);
   const [handImageUrl, setHandImageUrl] = useState<string | null>(null);
 
   const crmWebSDKRef = useRef<any>(null);
@@ -691,10 +691,9 @@ function ExotelCallPageContent() {
             <Volume2 className={isSpeaker ? "text-blue-400" : "text-white"} />
           </button>
         </div>
-        <div className="px-6 mb-6 w-full">
+        {/* <div className="px-6 mb-6 w-full">
           <div className="bg-slate-800/70 border border-slate-700 rounded-2xl p-4 backdrop-blur">
 
-            {/* Header */}
             <div className="flex items-center justify-between mb-3">
               <p className="text-sm text-slate-400">Time Remaining</p>
               <p className="text-sm font-mono text-white">
@@ -702,7 +701,6 @@ function ExotelCallPageContent() {
               </p>
             </div>
 
-            {/* Progress bar */}
             <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
               <div
                 className="h-full bg-green-500 rounded-full transition-all duration-500 ease-out"
@@ -710,7 +708,7 @@ function ExotelCallPageContent() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <ImageViewer isVisible={!!handImageUrl} onClose={() => setHandImageUrl(null)} imageUrl={handImageUrl} />
     </div>
