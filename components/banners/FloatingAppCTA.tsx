@@ -9,6 +9,11 @@ export function FloatingAppCTA() {
   const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
 
+  // Hide on call page
+  if (pathname?.startsWith('/call')) {
+    return null;
+  }
+
   // Reset visibility whenever the route changes
   useEffect(() => {
     setIsVisible(true);

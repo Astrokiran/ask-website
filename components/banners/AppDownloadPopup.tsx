@@ -10,6 +10,11 @@ export function AppDownloadPopup() {
   const [hasShownOnCurrentPage, setHasShownOnCurrentPage] = useState(false);
   const pathname = usePathname();
 
+  // Hide on call page
+  if (pathname?.startsWith('/call')) {
+    return null;
+  }
+
   useEffect(() => {
     setHasShownOnCurrentPage(false);
 
