@@ -6,8 +6,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions - Astrokiran Services",
-  description: "Read Astrokiran's terms and conditions for astrology services, WhatsApp consultations, kundli generation, and horoscope readings. Complete service terms and policies.",
-  keywords: ["astrology terms", "service conditions", "astrokiran policies", "astrology service agreement"],
+  description: "Read Astrokiran's terms and conditions for astrology services, puja ceremonies, WhatsApp consultations, kundli generation, and horoscope readings. Complete service terms and policies.",
+  keywords: ["astrology terms", "service conditions", "astrokiran policies", "astrology service agreement", "puja terms", "online puja service"],
   alternates: {
     canonical: "https://astrokiran.com/terms",
   },
@@ -76,6 +76,56 @@ const TermsPage = () => {
                                     <p className="text-muted-foreground leading-relaxed">
                                         Astrokiran offers comprehensive astrological services including astrology consultations, tarot card reading, prashna kundali, palmistry, hastrekha reading, numerology, kundali milan, detailed horoscope reports, telephone/video consultations, WhatsApp consultations, and a <span className="font-semibold text-blue-600 dark:text-blue-400">FREE kundali worth ₹1000</span>.
                                     </p>
+                                </div>
+
+                                {/* Puja Services Section */}
+                                <div className="mb-10 p-6 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 rounded-2xl border-l-4 border-orange-500 dark:border-orange-400 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] hover:border-orange-400">
+                                    <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center">
+                                        <span className="text-orange-600 dark:text-orange-400 mr-2">🙏</span>
+                                        Puja Services
+                                    </h2>
+                                    <div className="text-muted-foreground space-y-4 leading-relaxed">
+                                        <p>
+                                            Astrokiran offers online puja (pooja) services conducted by qualified Pandits via live video conferencing (Zoom or similar platforms).
+                                        </p>
+
+                                        <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 dark:border-red-400 p-4 rounded-r-lg">
+                                            <h4 className="font-semibold text-red-800 dark:text-red-200 mb-2">⚠️ No Guarantee of Results</h4>
+                                            <p className="text-red-700 dark:text-red-300">
+                                                <strong>We do not guarantee any specific results, outcomes, or benefits from puja services.</strong> Puja and spiritual practices are based on faith, tradition, and individual beliefs. Their effectiveness varies based on numerous factors beyond our control, including individual karma, planetary positions, and personal faith. No astrologer, pandit, or spiritual practitioner can guarantee assured results from any puja or spiritual practice. By booking a puja, you acknowledge that you are availing these services based on your own faith and beliefs, not based on any promise of specific outcomes.
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-white/70 dark:bg-gray-800/70 p-4 rounded-lg border border-orange-200 dark:border-orange-600">
+                                            <h4 className="font-semibold text-foreground mb-3">📋 Booking & Scheduling</h4>
+                                            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                                                <li>Puja bookings require accurate information including full name, date/time/place of birth, Gotra, Nakshatra, and specific requirements.</li>
+                                                <li>The scheduled date and time cannot be changed after payment, except at our sole discretion.</li>
+                                                <li>Astrokiran reserves the right to reschedule due to astrological considerations, pandit unavailability, or force majeure events.</li>
+                                                <li>Attendance is optional. If you choose not to attend, the puja will still be conducted and recorded.</li>
+                                            </ul>
+                                        </div>
+
+                                        <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-400 dark:border-blue-500 p-4 rounded-r-lg">
+                                            <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-2">🎥 Recording & Consent</h4>
+                                            <p className="text-blue-700 dark:text-blue-300">
+                                                All pujas are recorded for quality assurance and customer reference. <strong>By booking a puja, you consent to the recording of the ceremony.</strong> Recordings will be shared via WhatsApp/Email within 3-7 working days and retained for 90 days, after which they are automatically deleted.
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-white/70 dark:bg-gray-800/70 p-4 rounded-lg border border-orange-200 dark:border-orange-600">
+                                            <h4 className="font-semibold text-foreground mb-3">💰 Puja Refund Policy</h4>
+                                            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                                                <li><span className="text-green-600 dark:text-green-400">✓</span> Within 1 hour of booking: Full refund</li>
+                                                <li><span className="text-yellow-600 dark:text-yellow-400">✓</span> More than 48 hours before scheduled puja: 50% refund</li>
+                                                <li><span className="text-red-600 dark:text-red-400">✗</span> Less than 48 hours before scheduled puja: No refund</li>
+                                                <li><span className="text-red-600 dark:text-red-400">✗</span> After puja has commenced or completed: No refund</li>
+                                            </ul>
+                                            <p className="mt-3 text-sm">
+                                                <strong>Important:</strong> No refund will be provided based on perceived outcomes or results not being achieved. In case of service failure attributable to Astrokiran, the sole remedy is a full refund of the amount paid.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* Registration and Eligibility Section */}
@@ -311,7 +361,7 @@ const TermsPage = () => {
 
                                 <div className="text-center">
                                     <p className="text-gray-500 dark:text-gray-400 text-sm italic">
-                                        Last updated: 25th February 2025
+                                        Last updated: 29th January 2026
                                     </p>
                                 </div>
                             </div>

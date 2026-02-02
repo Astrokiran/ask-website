@@ -32,11 +32,6 @@ const nextConfig = {
 
     return config;
   },
-  // Generate unique build ID for cache busting
-  generateBuildId: async () => {
-    // Use timestamp or git commit hash for unique build ID
-    return `build-${Date.now()}`;
-  },
   // Configure headers for proper caching
   async headers() {
     return [
