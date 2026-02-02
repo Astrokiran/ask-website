@@ -74,6 +74,14 @@ interface KundliData {
   ashtakavarga_svg?: string ;
   ashtakavarga_data?: AshtakavargaData | null;
   basic_details?: BirthDetailsApiResponse | null;
+  kp_system?: KPSystemResponse | null; // KP System data
+  kundliRequestParams?: {
+    name: string;
+    date_of_birth: string;
+    time_of_birth: string;
+    place_of_birth: string;
+    language?: string;
+  };
 }
 
 interface KundliApiInputParams {
@@ -246,6 +254,130 @@ interface BirthDetailsApiResponse {
   enhanced_panchanga: EnhancedPanchangaDetails;
 }
 
+// KP System interfaces
+interface KPSystemPlanet {
+  Planet: string;
+  Cusp: number;
+  Sign: string;
+  Sign_Lord: string;
+  Star_Lord: string;
+  Sub_Lord: string;
+}
+
+interface KPSystemCusp {
+  Cusp: number;
+  Degree: number;
+  Sign: string;
+  Sign_Lord: string;
+  Star_Lord: string;
+  Sub_Lord: string;
+}
+
+interface KPRulingPlanetInfo {
+  sign_lord: string;
+  star_lord: string;
+  sub_lord: string;
+}
+
+interface KPRulingPlanets {
+  Mo: KPRulingPlanetInfo;
+  Asc: KPRulingPlanetInfo;
+  "Day Lord": {
+    planet: string;
+  };
+}
+
+interface KPHouseSignificator {
+  strong: string[];
+  medium: string[];
+  weak: string[];
+}
+
+interface KPSystemHouseSignificators {
+  [house: string]: KPHouseSignificator;
+}
+
+interface KPChartData {
+  [house: string]: string[];
+}
+
+// Bhava Chalit types
+interface BhavaCuspInfo {
+  longitude: number;
+  sign: string;
+  degree: number;
+}
+
+interface BhavaCusps {
+  [house: string]: BhavaCuspInfo;
+}
+
+interface BhavaChart {
+  [house: string]: string[];
+}
+
+interface PlanetDetail {
+  longitude: number;
+  bhava_house: number;
+  degree_from_cusp: number;
+  sign: string;
+  degree: number;
+}
+
+interface PlanetDetails {
+  [planet: string]: PlanetDetail;
+}
+
+interface BhavaChalitData {
+  bhava_cusps: BhavaCusps;
+  bhava_chart: BhavaChart;
+  planet_details: PlanetDetails;
+  ascendant_longitude: number;
+  system: string;
+}
+
+interface BhavaHouseStrength {
+  planet_count: number;
+  has_benefics: boolean;
+  has_malefics: boolean;
+  planets: string[];
+}
+
+interface BhavaHouseStrengths {
+  [house: string]: BhavaHouseStrength;
+}
+
+interface ComparisonData {
+  kp_uses: string;
+  bhava_chalit_uses: string;
+  main_difference: string;
+}
+
+interface KPSystemResponse {
+  birth_details: {
+    name: string;
+    date_of_birth: string;
+    time_of_birth: string;
+    place_of_birth: string;
+  };
+  kp_system: {
+    planets_table: KPSystemPlanet[];
+    cusps_table: KPSystemCusp[];
+    ruling_planets: KPRulingPlanets;
+    house_significators: KPSystemHouseSignificators;
+    kp_chart: KPChartData;
+    chart_layout: {
+      [planet: string]: number;
+    };
+    system: string;
+  };
+  bhava_chalit: BhavaChalitData;
+  bhava_house_strengths: BhavaHouseStrengths;
+  comparison: ComparisonData;
+  bhava_chalit_svg?: string;
+  status: string;
+}
+
 export default function ReportDisplayPage() {
   const [reportData, setReportData] = useState<KundliData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -350,7 +482,7 @@ export default function ReportDisplayPage() {
           },
           body: JSON.stringify(kundliRequestBody),
         }),
-        fetch(`${apiBaseUrl}/api/kundli`, {
+        fetch(`${apiBaseUrl}/api/kundli?svg=true`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -405,6 +537,7 @@ export default function ReportDisplayPage() {
           ashtakavarga_svg: null,
           ashtakavarga_data: null,
           basic_details: basicResponse,
+          kp_system: null, // Initialize KP System data as null
           // Include request parameters for lazy loading dasha levels
           kundliRequestParams: {
             name: params.name || "Unknown",
@@ -420,7 +553,7 @@ export default function ReportDisplayPage() {
         // Fetch additional data in background
         try {
           const additionalDataPromises = Promise.all([
-            fetch(`${apiBaseUrl}/api/charts`, {
+            fetch(`${apiBaseUrl}/api/charts?svg=true`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -436,7 +569,7 @@ export default function ReportDisplayPage() {
               },
               body: JSON.stringify(kundliRequestBody),
             }),
-            fetch(`${apiBaseUrl}/api/ashtakavarga-svg`, {
+            fetch(`${apiBaseUrl}/api/ashtakavarga-svg?svg=true`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -460,9 +593,23 @@ export default function ReportDisplayPage() {
               },
               body: JSON.stringify(kundliRequestBody),
             }),
+            fetch(`${apiBaseUrl}/api/kp-bhava-combined?svg=true`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept-Encoding': 'gzip, deflate, br'
+              },
+              body: JSON.stringify({
+                name: kundliRequestBody.name,
+                date_of_birth: kundliRequestBody.date_of_birth,
+                time_of_birth: kundliRequestBody.time_of_birth,
+                place_of_birth: kundliRequestBody.place_of_birth,
+                language: kundliRequestBody.language,
+              }),
+            }),
           ]);
 
-          const [chartsRes, yogasRes, ashatakavargaRes, ashtakavargaDataRes, reportRes] = await additionalDataPromises;
+          const [chartsRes, yogasRes, ashatakavargaRes, ashtakavargaDataRes, reportRes, kpSystemRes] = await additionalDataPromises;
 
           // Check additional API responses
           if (!chartsRes.ok) throw new Error(`Failed to fetch Charts details: ${chartsRes.status} - ${chartsRes.statusText}`);
@@ -477,6 +624,18 @@ export default function ReportDisplayPage() {
           const ashtakavargaDataResponse: AshtakavargaResponse = await ashtakavargaDataRes.json();
           const reportResponse: Report = await reportRes.json();
 
+          // Fetch KP System data (non-blocking, optional)
+          let kpSystemResponse: KPSystemResponse | null = null;
+          if (kpSystemRes.ok) {
+            try {
+              kpSystemResponse = await kpSystemRes.json();
+            } catch (e) {
+              console.warn("Failed to parse KP System response:", e);
+            }
+          } else {
+            console.warn(`KP System API returned status: ${kpSystemRes.status}`);
+          }
+
           // Update with additional data
           const updatedData: KundliData = {
             ...initialData,
@@ -485,6 +644,7 @@ export default function ReportDisplayPage() {
             report: reportResponse,
             ashtakavarga_svg: ashatakavargaSvgText,
             ashtakavarga_data: ashtakavargaDataResponse.ashtakavarga,
+            kp_system: kpSystemResponse,
           };
 
           setReportData(updatedData);

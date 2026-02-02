@@ -181,6 +181,7 @@
       "kundli": "कुंडली",
       "charts": "चार्ट्स",
       "yogas": "योग",
+      "kpSystem": "केपी और भाव",
       "ashtakvarga": "अष्टकवर्ग",
       "report": "रिपोर्ट"
     },
@@ -268,5 +269,12 @@
     "fireSigns": "अग्नि राशियां",
     "waterSigns": "जल राशियां",
     "earthSigns": "पृथ्वी राशियां"
+  },
+  "kpSystem": {
+    "bhavaChalitChart": "भाव चालित चार्ट",
+    "planetaryPositions": "ग्रह स्थिति",
+    "houseCusps": "भाव शिखा",
+    "significantRulingPlanets": "महत्वपूर्ण शासक ग्रह",
+    "houseSignificators": "भाव सूचक"
   }
 }

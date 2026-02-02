@@ -10,6 +10,7 @@ import SummaryDetails from './summary-details';
 import ReportDetails from './report-details';
 import DoshaDetails from './dosha-details';
 import AshtakavargaDetails from './Ashtakavarga';
+import KPSystemDetails from './kp-system-details';
 // Import your enhanced PDF export function and S3 uploader
 import generateKundliPdf from './pdf-export';
 import { uploadPdfToS3 } from './report-pdf';
@@ -252,6 +253,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
         { key: 'Kundli', label: t('resultPage.tabs.kundli') },
         { key: 'Charts', label: t('resultPage.tabs.charts') },
         { key: 'Yogas', label: t('resultPage.tabs.yogas') },
+        { key: 'KP-System', label: t('resultPage.tabs.kpSystem') || 'KP System' },
         { key: 'Ashtakvarga', label: t('resultPage.tabs.ashtakvarga') },
         { key: 'Report', label: t('resultPage.tabs.report') }
     ];
@@ -263,6 +265,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
             case 'Kundli': return <div><KundliTabContent kundliData={kundliData} /></div>;
             case 'Charts': return <div>{kundliData.charts && <ChartDetails kundliData={kundliData.charts} />}</div>;
             case 'Yogas': return <div>{kundliData.yogas && <YogasDetails kundliData={kundliData.yogas} />}</div>;
+            case 'KP-System':
+                return <div>{kundliData.kp_system && <KPSystemDetails kpSystemData={kundliData.kp_system} />}</div>;
             case 'Ashtakvarga':
                 return <div>{kundliData && <AshtakavargaDetails compositeSvgString={kundliData.ashtakavarga_svg} tableData={kundliData.ashtakavarga_data} />}</div>;
             // case 'Dosha':
