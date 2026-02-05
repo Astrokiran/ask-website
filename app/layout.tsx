@@ -10,7 +10,7 @@ import LocalBusinessSchema from "@/components/schema/LocalBusinessSchema"
 import { ServiceWorker } from "@/components/performance/ServiceWorker"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { Toaster } from "@/components/ui/sonner"
-import { AppDownloadPopup } from "@/components/banners/AppDownloadPopup"
+// import { AppDownloadPopup } from "@/components/banners/AppDownloadPopup"
 import { FloatingAppCTA } from "@/components/banners/FloatingAppCTA"
 import { CacheBuster } from "./cache-buster"
 
@@ -82,7 +82,7 @@ export default function RootLayout({
               <div className="w-full max-w-full min-h-screen overflow-x-hidden">
                 {children}
               </div>
-              <AppDownloadPopup />
+              
               <FloatingAppCTA />
               <Toaster />
             </AuthProvider>
