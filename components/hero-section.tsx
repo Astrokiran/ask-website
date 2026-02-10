@@ -137,7 +137,7 @@ export function HeroSection({
           className="block w-full hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
-            src="https://images.ctfassets.net/53lf7jlviu2d/61sgjb7rMvtJDcDY4kSfvH/9ff829e3acc01444684f3a2f07aee2df/WhatsAppImage2026-01-05at16.22.25.jpeg"
+            // src="https://images.ctfassets.net/53lf7jlviu2d/Of3wYMyotChr55qdvNYuU/e7477f8756454088627f86860230ce31/9e347240-6e68-49cf-9859-4e52cc202c53.jpg"
             alt="Download AstroKiran App - Special Offer"
             className="w-full h-auto object-cover"
           />
@@ -414,7 +414,7 @@ export function HeroSection({
           className="block w-full max-w-4xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl hover:opacity-95 transition-opacity duration-300 cursor-pointer border-none bg-transparent p-0"
         >
           <img
-            src="https://images.ctfassets.net/53lf7jlviu2d/61sgjb7rMvtJDcDY4kSfvH/9ff829e3acc01444684f3a2f07aee2df/WhatsAppImage2026-01-05at16.22.25.jpeg"
+            src="https://images.ctfassets.net/53lf7jlviu2d/Of3wYMyotChr55qdvNYuU/e7477f8756454088627f86860230ce31/9e347240-6e68-49cf-9859-4e52cc202c53.jpg"
             alt="Download AstroKiran App - Special Offer"
             className="w-full h-auto object-contain rounded-xl shadow-lg"
           />

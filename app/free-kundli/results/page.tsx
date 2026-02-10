@@ -75,6 +75,9 @@ interface KundliData {
   ashtakavarga_data?: AshtakavargaData | null;
   basic_details?: BirthDetailsApiResponse | null;
   kp_system?: KPSystemResponse | null; // KP System data
+  gochar_data?: GocharResponse | null; // Gochar (Transit) data
+  gochar_date_range_data?: GocharDateRangeResponse | null; // Gochar Date Range data (future)
+  gochar_prev_date_range_data?: GocharDateRangeResponse | null; // Gochar Date Range data (past)
   kundliRequestParams?: {
     name: string;
     date_of_birth: string;
@@ -378,10 +381,120 @@ interface KPSystemResponse {
   status: string;
 }
 
+// Gochar (Transit) Interfaces
+interface GocharCurrentTransit {
+  planet: string;
+  current_sign: string;
+  current_degree: number;
+  house_from_moon: number;
+  house_from_lagna: number;
+  nature: 'excellent' | 'good' | 'neutral' | 'challenging' | 'bad';
+  effect_summary: string;
+  detailed_effect: string;
+  remedies: string[];
+}
+
+interface GocharOverallScore {
+  favorable_planets: number;
+  good_planets: number;
+  neutral_planets: number;
+  challenging_planets: number;
+  total_planets: number;
+  percentage: number;
+  verdict: string;
+  summary: string;
+}
+
+interface GocharLifeAspect {
+  score: number;
+  status: string;
+  influencing_planets: string[];
+  prediction: string;
+  detailed_prediction: string;
+  best_for: string[];
+  avoid: string[];
+  recommendations: string[];
+}
+
+interface GocharLifeAspects {
+  career: GocharLifeAspect;
+  finance: GocharLifeAspect;
+  relationships: GocharLifeAspect;
+  health: GocharLifeAspect;
+  education: GocharLifeAspect;
+}
+
+interface GocharSadeSati {
+  is_active: boolean;
+  name: string;
+  phase: string;
+  house: number;
+  started: string;
+  ends: string;
+  description: string;
+  detailed_description: string;
+  remedies: string[];
+  severity: string;
+}
+
+interface GocharSpecialTransits {
+  sade_sati: GocharSadeSati;
+}
+
+interface GocharRecommendations {
+  do_this_month: string[];
+  avoid_this_month: string[];
+  general_advice: string[];
+  remedies: string[];
+  color_therapy: string;
+  gemstone_suggestion: string;
+  mantra_suggestion: string;
+}
+
+interface GocharAstrologerNotes {
+  key_points: string[];
+  priority_aspects: string[];
+  technical_observations: string[];
+  special_considerations: string[];
+}
+
+interface GocharResponse {
+  analysis_date: string;
+  reference_type: string;
+  birth_chart_reference: {
+    moon_sign: string;
+    moon_sign_hindi: string;
+    moon_lord: string;
+    lagna_sign: string;
+    lagna_sign_hindi: string;
+    lagna_lord: string;
+  };
+  current_transits: { [key: string]: GocharCurrentTransit };
+  overall_score: GocharOverallScore;
+  life_aspects: GocharLifeAspects;
+  special_transits: GocharSpecialTransits;
+  upcoming_transits: any[];
+  recommendations: GocharRecommendations;
+  astrologer_notes: GocharAstrologerNotes;
+}
+
+interface GocharDateRangeResponse {
+  input: {
+    name: string;
+    date_of_birth: string;
+    place_of_birth: string;
+  };
+  start_date: string;
+  end_date: string;
+  total_months: number;
+  monthly_analyses: { [key: string]: GocharResponse };
+}
+
 export default function ReportDisplayPage() {
   const [reportData, setReportData] = useState<KundliData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [gocharRange, setGocharRange] = useState<'current' | '3months' | '6months' | '1year'>('current');
   const { language } = useLanguageStore(); // Get language from store
 
   useEffect(() => {
@@ -538,6 +651,9 @@ export default function ReportDisplayPage() {
           ashtakavarga_data: null,
           basic_details: basicResponse,
           kp_system: null, // Initialize KP System data as null
+          gochar_data: null, // Initialize Gochar data as null
+          gochar_date_range_data: null, // Initialize Gochar Date Range data as null
+          gochar_prev_date_range_data: null, // Initialize Gochar Previous Date Range data as null
           // Include request parameters for lazy loading dasha levels
           kundliRequestParams: {
             name: params.name || "Unknown",
@@ -607,9 +723,71 @@ export default function ReportDisplayPage() {
                 language: kundliRequestBody.language,
               }),
             }),
+            fetch(`${apiBaseUrl}/current`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept-Encoding': 'gzip, deflate, br'
+              },
+              body: JSON.stringify({
+                input: {
+                  name: kundliRequestBody.name,
+                  date_of_birth: params.date_of_birth,
+                  time_of_birth: params.time_of_birth,
+                  place_of_birth: params.place_of_birth || fallbackPlace,
+                },
+                language: kundliRequestBody.language || 'en',
+              }),
+            }),
+            // Fetch date range data (1 year for all range options)
+            fetch(`${apiBaseUrl}/date-range`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept-Encoding': 'gzip, deflate, br'
+              },
+              body: JSON.stringify({
+                input: {
+                  name: kundliRequestBody.name,
+                  date_of_birth: params.date_of_birth,
+                  time_of_birth: params.time_of_birth,
+                  place_of_birth: params.place_of_birth || fallbackPlace,
+                },
+                start_date: new Date().toISOString().split('T')[0], // Today's date YYYY-MM-DD
+                end_date: (() => {
+                  const endDate = new Date();
+                  endDate.setMonth(endDate.getMonth() + 12);
+                  return endDate.toISOString().split('T')[0];
+                })(), // 12 months from now
+                language: kundliRequestBody.language || 'en',
+              }),
+            }),
+            // Fetch previous date range data (1 year past data)
+            fetch(`${apiBaseUrl}/date-range`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept-Encoding': 'gzip, deflate, br'
+              },
+              body: JSON.stringify({
+                input: {
+                  name: kundliRequestBody.name,
+                  date_of_birth: params.date_of_birth,
+                  time_of_birth: params.time_of_birth,
+                  place_of_birth: params.place_of_birth || fallbackPlace,
+                },
+                start_date: (() => {
+                  const startDate = new Date();
+                  startDate.setMonth(startDate.getMonth() - 12);
+                  return startDate.toISOString().split('T')[0];
+                })(), // 12 months ago
+                end_date: new Date().toISOString().split('T')[0], // Today
+                language: kundliRequestBody.language || 'en',
+              }),
+            }),
           ]);
 
-          const [chartsRes, yogasRes, ashatakavargaRes, ashtakavargaDataRes, reportRes, kpSystemRes] = await additionalDataPromises;
+          const [chartsRes, yogasRes, ashatakavargaRes, ashtakavargaDataRes, reportRes, kpSystemRes, gocharRes, gocharDateRangeRes, gocharPrevDateRangeRes] = await additionalDataPromises;
 
           // Check additional API responses
           if (!chartsRes.ok) throw new Error(`Failed to fetch Charts details: ${chartsRes.status} - ${chartsRes.statusText}`);
@@ -636,6 +814,42 @@ export default function ReportDisplayPage() {
             console.warn(`KP System API returned status: ${kpSystemRes.status}`);
           }
 
+          // Fetch Gochar (Transit) data (non-blocking, optional)
+          let gocharResponse: GocharResponse | null = null;
+          if (gocharRes.ok) {
+            try {
+              gocharResponse = await gocharRes.json();
+            } catch (e) {
+              console.warn("Failed to parse Gochar response:", e);
+            }
+          } else {
+            console.warn(`Gochar API returned status: ${gocharRes.status}`);
+          }
+
+          // Fetch Gochar Date Range data (non-blocking, optional)
+          let gocharDateRangeResponse: GocharDateRangeResponse | null = null;
+          if (gocharDateRangeRes.ok) {
+            try {
+              gocharDateRangeResponse = await gocharDateRangeRes.json();
+            } catch (e) {
+              console.warn("Failed to parse Gochar Date Range response:", e);
+            }
+          } else {
+            console.warn(`Gochar Date Range API returned status: ${gocharDateRangeRes.status}`);
+          }
+
+          // Fetch Gochar Previous Date Range data (non-blocking, optional)
+          let gocharPrevDateRangeResponse: GocharDateRangeResponse | null = null;
+          if (gocharPrevDateRangeRes.ok) {
+            try {
+              gocharPrevDateRangeResponse = await gocharPrevDateRangeRes.json();
+            } catch (e) {
+              console.warn("Failed to parse Gochar Previous Date Range response:", e);
+            }
+          } else {
+            console.warn(`Gochar Previous Date Range API returned status: ${gocharPrevDateRangeRes.status}`);
+          }
+
           // Update with additional data
           const updatedData: KundliData = {
             ...initialData,
@@ -645,6 +859,9 @@ export default function ReportDisplayPage() {
             ashtakavarga_svg: ashatakavargaSvgText,
             ashtakavarga_data: ashtakavargaDataResponse.ashtakavarga,
             kp_system: kpSystemResponse,
+            gochar_data: gocharResponse,
+            gochar_date_range_data: gocharDateRangeResponse,
+            gochar_prev_date_range_data: gocharPrevDateRangeResponse,
           };
 
           setReportData(updatedData);

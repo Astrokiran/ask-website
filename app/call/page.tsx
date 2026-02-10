@@ -27,7 +27,7 @@ interface InjectedAppData {
   // customerImage?: string;
   guideName?: string;
   guideImage?: string;
-  serviceType?: string;
+  serviceType?: string;   
   language?: string;
   theme?: 'light' | 'dark';
   remainingSeconds?: number;

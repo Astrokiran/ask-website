@@ -11,6 +11,7 @@ import ReportDetails from './report-details';
 import DoshaDetails from './dosha-details';
 import AshtakavargaDetails from './Ashtakavarga';
 import KPSystemDetails from './kp-system-details';
+import GocharDetails from './gochar-details';
 // Import your enhanced PDF export function and S3 uploader
 import generateKundliPdf from './pdf-export';
 import { uploadPdfToS3 } from './report-pdf';
@@ -255,6 +256,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
         { key: 'Yogas', label: t('resultPage.tabs.yogas') },
         { key: 'KP-System', label: t('resultPage.tabs.kpSystem') || 'KP System' },
         { key: 'Ashtakvarga', label: t('resultPage.tabs.ashtakvarga') },
+        { key: 'Gochar', label: t('resultPage.tabs.gochar') || 'Gochar' },
         { key: 'Report', label: t('resultPage.tabs.report') }
     ];
     const renderContent = () => {
@@ -269,6 +271,8 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
                 return <div>{kundliData.kp_system && <KPSystemDetails kpSystemData={kundliData.kp_system} />}</div>;
             case 'Ashtakvarga':
                 return <div>{kundliData && <AshtakavargaDetails compositeSvgString={kundliData.ashtakavarga_svg} tableData={kundliData.ashtakavarga_data} />}</div>;
+            case 'Gochar':
+                return <div>{kundliData.gochar_data && <GocharDetails gocharData={kundliData.gochar_data} gocharDateRangeData={kundliData.gochar_date_range_data} gocharPreviousDateRangeData={kundliData.gochar_prev_date_range_data} />}</div>;
             // case 'Dosha':
             //     return <div>{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
             // case 'Summary': return <div><SummaryDetails kundliData={kundliData.summary} /></div>
