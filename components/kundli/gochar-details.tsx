@@ -113,6 +113,7 @@ interface GocharData {
   recommendations: GocharRecommendations;
   astrologer_notes: GocharAstrologerNotes;
   error?: string; // For date range API error responses
+  transit_chart_svg?: string; // SVG chart for transit
 }
 
 interface GocharDateRangeData {
@@ -131,6 +132,7 @@ interface GocharDetailsProps {
   gocharData: GocharData | null;
   gocharDateRangeData?: GocharDateRangeData | null;
   gocharPreviousDateRangeData?: GocharDateRangeData | null;
+  rasi_chart_svg?: string | null; // Birth chart SVG
 }
 
 // Helper Components
@@ -529,7 +531,7 @@ const DetailedMonthView: React.FC<{
   );
 };
 
-const GocharDetails: React.FC<GocharDetailsProps> = ({ gocharData, gocharDateRangeData, gocharPreviousDateRangeData }) => {
+const GocharDetails: React.FC<GocharDetailsProps> = ({ gocharData, gocharDateRangeData, gocharPreviousDateRangeData, rasi_chart_svg }) => {
   const { t } = useTranslation();
   const [selectedRange, setSelectedRange] = useState<'current' | '3months' | '6months' | '1year' | 'prev3months' | 'prev1year'>('current');
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
@@ -671,6 +673,37 @@ const GocharDetails: React.FC<GocharDetailsProps> = ({ gocharData, gocharDateRan
           </div>
         </div>
       </div>
+
+      {/* Charts Section - Only for current transit */}
+      {selectedRange === 'current' && (gocharData?.transit_chart_svg || rasi_chart_svg) && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Transit Chart */}
+          {gocharData?.transit_chart_svg && (
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                <Star className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                {t('gochar.transitChart') || 'Transit Chart'}
+              </h3>
+              <div className="flex justify-center">
+                <div dangerouslySetInnerHTML={{ __html: gocharData.transit_chart_svg }} />
+              </div>
+            </div>
+          )}
+
+          {/* Birth Chart */}
+          {rasi_chart_svg && (
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                <Star className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                {t('gochar.birthChart') || 'Birth Chart (Rasi)'}
+              </h3>
+              <div className="flex justify-center">
+                <div dangerouslySetInnerHTML={{ __html: rasi_chart_svg }} />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Time Range Tabs */}
       <div className="bg-white dark:bg-gray-800 p-2 rounded-xl border border-gray-200 dark:border-gray-700">

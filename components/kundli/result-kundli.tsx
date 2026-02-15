@@ -272,7 +272,7 @@ export default function KundliReportPage({ kundliData }: KundliReportPageProps) 
             case 'Ashtakvarga':
                 return <div>{kundliData && <AshtakavargaDetails compositeSvgString={kundliData.ashtakavarga_svg} tableData={kundliData.ashtakavarga_data} />}</div>;
             case 'Gochar':
-                return <div>{kundliData.gochar_data && <GocharDetails gocharData={kundliData.gochar_data} gocharDateRangeData={kundliData.gochar_date_range_data} gocharPreviousDateRangeData={kundliData.gochar_prev_date_range_data} />}</div>;
+                return <div>{kundliData.gochar_data && <GocharDetails gocharData={kundliData.gochar_data} gocharDateRangeData={kundliData.gochar_date_range_data} gocharPreviousDateRangeData={kundliData.gochar_prev_date_range_data} rasi_chart_svg={kundliData.rasi_chart_svg} />}</div>;
             // case 'Dosha':
             //     return <div>{kundliData.dosha && <DoshaDetails kundlidata={kundliData.dosha} />}</div>;
             // case 'Summary': return <div><SummaryDetails kundliData={kundliData.summary} /></div>

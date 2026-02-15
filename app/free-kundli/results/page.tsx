@@ -476,6 +476,7 @@ interface GocharResponse {
   upcoming_transits: any[];
   recommendations: GocharRecommendations;
   astrologer_notes: GocharAstrologerNotes;
+  transit_chart_svg?: string | null; // SVG chart for current transit
 }
 
 interface GocharDateRangeResponse {
@@ -739,6 +740,21 @@ export default function ReportDisplayPage() {
                 language: kundliRequestBody.language || 'en',
               }),
             }),
+            // Fetch Transit Chart SVG
+            fetch(`${apiBaseUrl}/chart?svg=true`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept-Encoding': 'gzip, deflate, br'
+              },  
+              body: JSON.stringify({
+                name: kundliRequestBody.name,
+                date_of_birth: params.date_of_birth,
+                time_of_birth: params.time_of_birth,
+                place_of_birth: params.place_of_birth || fallbackPlace,
+                language: kundliRequestBody.language || 'en',
+              }),
+            }),
             // Fetch date range data (1 year for all range options)
             fetch(`${apiBaseUrl}/date-range`, {
               method: 'POST',
@@ -787,7 +803,7 @@ export default function ReportDisplayPage() {
             }),
           ]);
 
-          const [chartsRes, yogasRes, ashatakavargaRes, ashtakavargaDataRes, reportRes, kpSystemRes, gocharRes, gocharDateRangeRes, gocharPrevDateRangeRes] = await additionalDataPromises;
+          const [chartsRes, yogasRes, ashatakavargaRes, ashtakavargaDataRes, reportRes, kpSystemRes, gocharRes, transitChartSvgRes, gocharDateRangeRes, gocharPrevDateRangeRes] = await additionalDataPromises;
 
           // Check additional API responses
           if (!chartsRes.ok) throw new Error(`Failed to fetch Charts details: ${chartsRes.status} - ${chartsRes.statusText}`);
@@ -826,6 +842,20 @@ export default function ReportDisplayPage() {
             console.warn(`Gochar API returned status: ${gocharRes.status}`);
           }
 
+          // Fetch Transit Chart SVG (non-blocking, optional)
+          let transitChartSvg: string | null = null;
+          if (transitChartSvgRes.ok) {
+            try {
+              // Parse as JSON to get the chart_svg field
+              const transitChartResponse = await transitChartSvgRes.json();
+              transitChartSvg = transitChartResponse.chart_svg || null;
+            } catch (e) {
+              console.warn("Failed to parse Transit Chart SVG response:", e);
+            }
+          } else {
+            console.warn(`Transit Chart SVG API returned status: ${transitChartSvgRes.status}`);
+          }
+
           // Fetch Gochar Date Range data (non-blocking, optional)
           let gocharDateRangeResponse: GocharDateRangeResponse | null = null;
           if (gocharDateRangeRes.ok) {
@@ -859,7 +889,7 @@ export default function ReportDisplayPage() {
             ashtakavarga_svg: ashatakavargaSvgText,
             ashtakavarga_data: ashtakavargaDataResponse.ashtakavarga,
             kp_system: kpSystemResponse,
-            gochar_data: gocharResponse,
+            gochar_data: gocharResponse ? { ...gocharResponse, transit_chart_svg: transitChartSvg } : null,
             gochar_date_range_data: gocharDateRangeResponse,
             gochar_prev_date_range_data: gocharPrevDateRangeResponse,
           };
